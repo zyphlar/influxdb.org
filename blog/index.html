@@ -1,15 +1,121 @@
-<!DOCTYPE html><html><head><meta charset="utf-8" /><!--Always force latest IE rendering engine or request Chrome Frame--><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><!--Use title if it's in the page YAML frontmatter--><title>InfluxDB</title><link href="/stylesheets/normalize.css" media="screen" rel="stylesheet" type="text/css" />
+<!DOCTYPE html><html><head><meta charset="utf-8" /><!--Always force latest IE rendering engine or request Chrome Frame--><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><!--Use title if it's in the page YAML frontmatter--><title>Visualizing Time Series Data With InfluxDB and Rickshaw</title><link href="/stylesheets/normalize.css" media="screen" rel="stylesheet" type="text/css" />
 <link href="/stylesheets/foundation.css" media="screen" rel="stylesheet" type="text/css" />
 <link href="/stylesheets/all.css" media="screen" rel="stylesheet" type="text/css" />
-<link href="/stylesheets/highlighting.css" media="screen" rel="stylesheet" type="text/css" /><script src="/javascripts/all.js" type="text/javascript"></script></head><body class="blog blog_index"><nav class="top-bar hide-for-small"><ul class="title-area"><li class="name"><h1><a href="/">InfluxDB</a></h1></li></ul><li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li><section class="top-bar-section"><ul class="right"><li class="divider"></li><li><a href="/overview">Overview</a></li><li class="divider"></li><li><a href="/docs">Docs</a></li><li class="divider"></li><li><a href="/community">Community</a></li><li class="divider"></li><li><a target="_" href="http://play.influxdb.org">Play</a></li><li class="divider"></li><li class="has-form"><a class="button" href="/download">Download</a></li></ul></section></nav><section id="main"><div class="row"><div class="large-12 columns"><h1 class="docs header">InfluxDB Blog</h1><hr /></div></div><div class="row padding-bottom-large"><div class="large-8 columns"><h2>Bloggity Blog Bloggoo</h2>
+<link href="/stylesheets/highlighting.css" media="screen" rel="stylesheet" type="text/css" /><script src="/javascripts/all.js" type="text/javascript"></script></head><body class="blog blog_index"><nav class="top-bar hide-for-small"><ul class="title-area"><li class="name"><h1><a href="/">InfluxDB</a></h1></li></ul><li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li><section class="top-bar-section"><ul class="right"><li class="divider"></li><li><a href="/overview">Overview</a></li><li class="divider"></li><li><a href="/docs">Docs</a></li><li class="divider"></li><li><a href="/community">Community</a></li><li class="divider"></li><li><a target="_" href="http://play.influxdb.org">Play</a></li><li class="divider"></li><li class="has-form"><a class="button" href="/download">Download</a></li></ul></section></nav><section id="blog"><div class="row"><div class="large-12 columns"><h1 class="docs header">InfluxDB Blog</h1><hr /></div></div><div class="row padding-bottom-large"><div class="large-8 columns"><h2>Visualizing Time Series Data With InfluxDB and Rickshaw</h2><div class="row"><div class="large-9 columns"><h4 class="subheader">November 18, 2013 by Todd Persen</h4></div><div class="large-3 columns"><p id="twitter"><a class="twitter-share-button" data-via="influxdb" href="https://twitter.com/share"></a></p><script type="text/javascript">!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></div></div><p>InfluxDB has a straightforward and snappy HTTP API that makes it easy to
+pull your time series data out in real-time for use in user interfaces and
+visualizations. This makes it a great pairing with <a href="http://d3js.org">D3</a>,
+a data visualization library written in JavaScript.</p>
 
-<p>Hashtag shabby chic single-origin coffee Cosby sweater four loko, deep v wayfarers ullamco pop-up umami farm-to-table narwhal. Occupy Brooklyn accusamus sapiente ugh. Brooklyn seitan tattooed, you probably haven&rsquo;t heard of them forage gentrify excepteur leggings ethical Terry Richardson Vice try-hard iPhone. Cardigan pour-over consequat, tote bag ethnic four loko PBR. Try-hard fugiat letterpress Carles id stumptown, butcher aliquip commodo kale chips roof party officia PBR sed master cleanse. Austin mlkshk meggings sint id. Ut fingerstache accusamus whatever cred, direct trade XOXO consequat salvia wolf.</p>
+<p>First, we need to supply InfluxDB with some seed data. In practice, you would
+probably have a much larger, less-accessible dataset, but for the sake of
+demonstration, let&rsquo;s use an open <a href="https://www.hnsearch.com/api">Hacker News API</a>
+to get a list of the last 1,000 posts containing the phrase <code>bitcoin</code> in the
+title. Here&rsquo;s a quick ruby script that also leverages the InfluxDB rubygem for
+the writing of data:</p>
+<pre class="highlight ruby"><span class="nb">require</span> <span class="s2">&quot;rubygems&quot;</span>
+<span class="nb">require</span> <span class="s2">&quot;net/http&quot;</span>
+<span class="nb">require</span> <span class="s2">&quot;net/https&quot;</span>
+<span class="nb">require</span> <span class="s2">&quot;uri&quot;</span>
+<span class="nb">require</span> <span class="s2">&quot;json&quot;</span>
+<span class="nb">require</span> <span class="s2">&quot;time&quot;</span>
+<span class="nb">require</span> <span class="s2">&quot;influxdb&quot;</span>
 
-<p>Neutra officia adipisicing ennui. Cred proident Marfa bitters Intelligentsia irure. Banksy Shoreditch ut semiotics put a bird on it Intelligentsia bitters. Nulla pour-over skateboard ethnic. Sed Thundercats consectetur roof party, mustache ex excepteur Odd Future bespoke mlkshk anim nisi. IPhone trust fund beard, fingerstache drinking vinegar brunch keytar fixie letterpress. Mollit plaid chia mustache narwhal, typewriter ethical tousled est tote bag.</p>
+<span class="no">QUERY</span> <span class="o">=</span> <span class="s2">&quot;bitcoin&quot;</span>
 
-<p>Letterpress mumblecore culpa McSweeney&rsquo;s authentic Pinterest, Austin ethnic seitan roof party actually raw denim dolore cardigan. Chambray salvia narwhal occupy. Voluptate salvia dreamcatcher vinyl do keffiyeh. Cliche sapiente skateboard pariatur cupidatat. Artisan twee church-key messenger bag semiotics farm-to-table. Pariatur umami ennui, you probably haven&rsquo;t heard of them direct trade dreamcatcher pickled seitan. Placeat Marfa proident, incididunt delectus messenger bag typewriter single-origin coffee reprehenderit stumptown yr nihil beard you probably haven&rsquo;t heard of them do.</p>
+<span class="n">http</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="nf">.new</span><span class="p">(</span><span class="s2">&quot;api.thriftdb.com&quot;</span><span class="p">,</span> <span class="mi">443</span><span class="p">)</span>
+<span class="n">http</span><span class="nf">.use_ssl</span> <span class="o">=</span> <span class="kp">true</span>
 
-<p>Kogi mlkshk Tonx, mumblecore selvage farm-to-table 8-bit pop-up et seitan meggings Schlitz cray put a bird on it nihil. Schlitz dolor direct trade, Shoreditch whatever bespoke et in skateboard tempor kitsch excepteur VHS id wolf. Non vegan cliche, actually XOXO iPhone artisan lomo Wes Anderson elit hella esse. Quis tattooed yr laboris narwhal Terry Richardson. Commodo VHS meggings scenester, gentrify 3 wolf moon Wes Anderson. Cred ugh mollit master cleanse id kitsch. Messenger bag occaecat selvage cillum banh mi ea.</p>
+<span class="n">influxdb</span> <span class="o">=</span> <span class="no">InfluxDB</span><span class="o">::</span><span class="no">Client</span><span class="nf">.new</span> <span class="s2">&quot;tp-tweets1&quot;</span><span class="p">,</span> <span class="p">{</span>
+  <span class="ss">:host</span> <span class="o">=&gt;</span> <span class="s2">&quot;sandbox.influxdb.org&quot;</span><span class="p">,</span>
+  <span class="ss">:port</span> <span class="o">=&gt;</span> <span class="mi">9061</span><span class="p">,</span>
+  <span class="ss">:username</span> <span class="o">=&gt;</span> <span class="s2">&quot;todd&quot;</span><span class="p">,</span>
+  <span class="ss">:password</span> <span class="o">=&gt;</span> <span class="s2">&quot;password&quot;</span>
+<span class="p">}</span>
+
+<span class="p">(</span><span class="mi">0</span><span class="nf">..</span><span class="mi">9</span><span class="p">)</span><span class="nf">.each</span> <span class="k">do</span> <span class="o">|</span><span class="n">count</span><span class="o">|</span>
+  <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;q&quot;</span> <span class="o">=&gt;</span> <span class="no">QUERY</span><span class="p">,</span>
+    <span class="s2">&quot;start&quot;</span> <span class="o">=&gt;</span> <span class="mi">100</span><span class="o">*</span><span class="n">count</span><span class="p">,</span>
+    <span class="s2">&quot;limit&quot;</span> <span class="o">=&gt;</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s2">&quot;sortby&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;create_ts desc&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;weights[title]&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;1.0&quot;</span><span class="p">,</span>
+  <span class="p">}</span>
+
+  <span class="n">request</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="o">::</span><span class="no">Get</span><span class="nf">.new</span> <span class="s2">&quot;/api.hnsearch.com/items/_search?&quot;</span> <span class="o">+</span>
+    <span class="no">URI</span><span class="nf">.encode_www_form</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+  <span class="n">response</span> <span class="o">=</span> <span class="n">http</span><span class="nf">.request</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+  <span class="n">data</span> <span class="o">=</span> <span class="no">JSON</span><span class="nf">.parse</span><span class="p">(</span><span class="n">response</span><span class="nf">.body</span><span class="p">)</span>
+
+  <span class="n">data</span><span class="o">[</span><span class="s2">&quot;results&quot;</span><span class="o">]</span><span class="nf">.each</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
+    <span class="n">influxdb</span><span class="nf">.write_point</span><span class="p">(</span><span class="s2">&quot;posts&quot;</span><span class="p">,</span> <span class="p">{</span>
+      <span class="ss">:message</span> <span class="o">=&gt;</span> <span class="n">result</span><span class="o">[</span><span class="s2">&quot;item&quot;</span><span class="o">][</span><span class="s2">&quot;title&quot;</span><span class="o">]</span><span class="p">,</span>
+      <span class="ss">:time</span> <span class="o">=&gt;</span> <span class="no">Time</span><span class="nf">.parse</span><span class="p">(</span><span class="n">result</span><span class="o">[</span><span class="s2">&quot;item&quot;</span><span class="o">][</span><span class="s2">&quot;create_ts&quot;</span><span class="o">]</span><span class="p">)</span><span class="nf">.to_i</span> <span class="o">*</span> <span class="mi">1000</span>
+    <span class="p">})</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre>
+<p>If you don&rsquo;t have a local installation of InfluxDB handy, head on over
+to our <a href="http://play.influxdb.org">InfluxDB Playground</a> and create a free
+database to experiment with. Once you&rsquo;ve got your username and password,
+you can replace the ones in this script.</p>
+
+<p>Once we have our data available, we can turn to the fun part - visualization.
+To make things even easier, we&rsquo;re going to use a wrapper for D3
+called <a href="http://code.shutterstock.com/rickshaw/">Rickshaw</a>, which was written
+by the gang over at Shutterstock.</p>
+
+<p>We&rsquo;ll just use the <a href="https://github.com/influxdb/influxdb-js">InfluxDB Javascript Library</a>
+to fetch the data, and then feed that right into Rickshaw a simple line chart.</p>
+<pre class="highlight javascript">  <span class="kd">var</span> <span class="nx">influxdb</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">InfluxDB</span><span class="p">(</span><span class="s2">&quot;sandbox.influxdb.org&quot;</span><span class="p">,</span> <span class="mi">9061</span><span class="p">,</span> <span class="s2">&quot;todd&quot;</span><span class="p">,</span> <span class="s2">&quot;password&quot;</span><span class="p">,</span> <span class="s2">&quot;tp-tweets1&quot;</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">response</span> <span class="o">=</span> <span class="nx">InfluxDB</span><span class="p">.</span><span class="nx">_readPoint</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM tweets;&quot;</span><span class="p">);</span>
+
+  <span class="kd">var</span> <span class="nx">points</span> <span class="o">=</span> <span class="nx">response</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">point</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span><span class="nx">point</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">point</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span>
+  <span class="p">}</span>
+
+  <span class="kd">var</span> <span class="nx">graph</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Rickshaw</span><span class="p">.</span><span class="nx">Graph</span><span class="p">({</span>
+          <span class="na">element</span><span class="p">:</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s2">&quot;#chart&quot;</span><span class="p">),</span>
+          <span class="na">renderer</span><span class="p">:</span> <span class="s1">&#39;line&#39;</span><span class="p">,</span>
+          <span class="na">series</span><span class="p">:</span> <span class="p">[{</span>
+                  <span class="na">data</span><span class="p">:</span> <span class="nx">points</span><span class="p">,</span>
+                  <span class="na">color</span><span class="p">:</span> <span class="s1">&#39;steelblue&#39;</span>
+          <span class="p">}]</span>
+  <span class="p">});</span>
+
+  <span class="kd">var</span> <span class="nx">xAxis</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Rickshaw</span><span class="p">.</span><span class="nx">Graph</span><span class="p">.</span><span class="nx">Axis</span><span class="p">.</span><span class="nx">Time</span><span class="p">({</span>
+      <span class="na">graph</span><span class="p">:</span> <span class="nx">graph</span>
+  <span class="p">});</span>
+
+  <span class="kd">var</span> <span class="nx">yAxis</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Rickshaw</span><span class="p">.</span><span class="nx">Graph</span><span class="p">.</span><span class="nx">Axis</span><span class="p">.</span><span class="nx">Y</span><span class="p">({</span>
+      <span class="na">graph</span><span class="p">:</span> <span class="nx">graph</span>
+  <span class="p">});</span>
+
+  <span class="nx">xAxis</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
+  <span class="nx">yAxis</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
+  <span class="nx">graph</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
+</pre>
+<p>Since InfluxDB lets us easily query the time series data, all we need is a simple
+transformation and then it&rsquo;s ready to feed directly into Rickshaw.</p>
+
+<p>You can view, run, and modify the entire thing on this Fiddle:</p>
+
+<iframe width="100%" height="300" src="http://jsfiddle.net/toddpersen/46ZRj/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+<hr style="margin-top:30px; margin-bottom:30px"/>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'errplane'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
 </div><div class="large-4 columns"><h4>Other Posts</h4><a href="#">A Post You Already Read</a><hr /><h4>About InfluxDB</h4><p>InfluxDB is a time series database.</p></div></div></section><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
