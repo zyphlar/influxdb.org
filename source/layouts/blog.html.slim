@@ -15,7 +15,7 @@ html
   body class="#{page_classes}"
     = partial "layouts/nav"
 
-    section#main
+    section#blog
       .row
         .large-12.columns
           h1.docs.header InfluxDB Blog
@@ -23,7 +23,17 @@ html
 
       .row.padding-bottom-large
         .large-8.columns
+          h2= current_page.data.title
+          .row
+            .large-9.columns
+              h4.subheader #{current_page.data.published_on} by #{current_page.data.author}
+            .large-3.columns
+              p#twitter
+                a.twitter-share-button data-via="influxdb" href="https://twitter.com/share"
+              javascript:
+                !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
           == yield
+          = partial "blog/disqus"
         .large-4.columns
           h4 Other Posts
           a href="#" A Post You Already Read
