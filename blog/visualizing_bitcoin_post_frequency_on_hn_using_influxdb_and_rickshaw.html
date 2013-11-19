@@ -71,25 +71,23 @@ to fetch the data, and then feed that right into a simple line chart in Rickshaw
   <span class="kd">var</span> <span class="nx">influxdb</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">InfluxDB</span><span class="p">(</span><span class="s2">&quot;sandbox.influxdb.org&quot;</span><span class="p">,</span> <span class="mi">9061</span><span class="p">,</span> <span class="s2">&quot;todd&quot;</span><span class="p">,</span> <span class="s2">&quot;password&quot;</span><span class="p">,</span> <span class="s2">&quot;bitcoin&quot;</span><span class="p">);</span>
 
   <span class="nx">influxdb</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span><span class="s2">&quot;SELECT COUNT(message) FROM posts WHERE time &gt; now() - 365d GROUP BY time(24h);&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">points</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">graph</span><span class="p">,</span> <span class="nx">xAxis</span><span class="p">,</span> <span class="nx">yAxis</span><span class="p">;</span>
-
-    <span class="nx">data</span> <span class="o">=</span> <span class="nx">points</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">point</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">points</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">point</span><span class="p">)</span> <span class="p">{</span>
       <span class="k">return</span> <span class="p">{</span>
         <span class="na">x</span><span class="p">:</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">point</span><span class="p">.</span><span class="nx">time</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">),</span>
         <span class="na">y</span><span class="p">:</span> <span class="nx">point</span><span class="p">.</span><span class="nx">count</span>
       <span class="p">};</span>
     <span class="p">}).</span><span class="nx">reverse</span><span class="p">();</span>
 
-    <span class="nx">graph</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Rickshaw</span><span class="p">.</span><span class="nx">Graph</span><span class="p">({</span>
+    <span class="kd">var</span> <span class="nx">graph</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Rickshaw</span><span class="p">.</span><span class="nx">Graph</span><span class="p">({</span>
       <span class="na">element</span><span class="p">:</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s2">&quot;#chart&quot;</span><span class="p">),</span>
-      <span class="na">width</span><span class="p">:</span> <span class="mi">720</span><span class="p">,</span>
+      <span class="na">width</span><span class="p">:</span> <span class="mi">640</span><span class="p">,</span>
       <span class="na">height</span><span class="p">:</span> <span class="mi">240</span><span class="p">,</span>
       <span class="na">renderer</span><span class="p">:</span> <span class="s1">&#39;line&#39;</span><span class="p">,</span>
       <span class="na">series</span><span class="p">:</span> <span class="p">[{</span> <span class="na">data</span><span class="p">:</span> <span class="nx">data</span><span class="p">,</span> <span class="na">color</span><span class="p">:</span> <span class="s1">&#39;steelblue&#39;</span> <span class="p">}]</span>
     <span class="p">});</span>
 
-    <span class="nx">xAxis</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Rickshaw</span><span class="p">.</span><span class="nx">Graph</span><span class="p">.</span><span class="nx">Axis</span><span class="p">.</span><span class="nx">Time</span><span class="p">({</span> <span class="na">graph</span><span class="p">:</span> <span class="nx">graph</span> <span class="p">});</span>
-    <span class="nx">yAxis</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Rickshaw</span><span class="p">.</span><span class="nx">Graph</span><span class="p">.</span><span class="nx">Axis</span><span class="p">.</span><span class="nx">Y</span><span class="p">({</span> <span class="na">graph</span><span class="p">:</span> <span class="nx">graph</span> <span class="p">});</span>
+    <span class="kd">var</span> <span class="nx">xAxis</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Rickshaw</span><span class="p">.</span><span class="nx">Graph</span><span class="p">.</span><span class="nx">Axis</span><span class="p">.</span><span class="nx">Time</span><span class="p">({</span> <span class="na">graph</span><span class="p">:</span> <span class="nx">graph</span> <span class="p">});</span>
+    <span class="kd">var</span> <span class="nx">yAxis</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Rickshaw</span><span class="p">.</span><span class="nx">Graph</span><span class="p">.</span><span class="nx">Axis</span><span class="p">.</span><span class="nx">Y</span><span class="p">({</span> <span class="na">graph</span><span class="p">:</span> <span class="nx">graph</span> <span class="p">});</span>
 
     <span class="nx">xAxis</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
     <span class="nx">yAxis</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
@@ -102,9 +100,9 @@ transformation and then it&rsquo;s ready to feed directly into Rickshaw.</p>
 
 <p>You can view, run, and modify the entire thing on this JSFiddle:</p>
 
-<iframe width="100%" height="270" style="margin-bottom: 20px;" src="http://jsfiddle.net/toddpersen/46ZRj/10/embedded/result,js,html,css" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+<iframe width="100%" height="270" style="margin-bottom: 20px;" src="http://jsfiddle.net/toddpersen/46ZRj/11/embedded/result,js,html,css" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
-<p>Looking at the frequency over time it definitely seems to be picking up along with bitcoin&rsquo;s price.</p>
+<p>Looking at the frequency over time it definitely seems to be picking up along with Bitcoin&rsquo;s price.</p>
 <hr style="margin-top:30px; margin-bottom:30px"/>
 <div id="disqus_thread"></div>
 <script type="text/javascript">
@@ -119,7 +117,22 @@ transformation and then it&rsquo;s ready to feed directly into Rickshaw.</p>
 </script>
 <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-</div><div class="large-4 columns"><h4>Other Posts</h4><a href="/blog/visualizing_bitcoin_post_frequency_using_influxdb_and_rickshaw.html">Visualizing Bitcoin Post Frequency Using InfluxDB And Rickshaw</a><hr /><h4>About InfluxDB</h4><p>InfluxDB is a time series database.</p></div></div></section><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+</div><div class="large-4 columns"><h4>Other Posts</h4><a href="/blog/visualizing_bitcoin_post_frequency_using_influxdb_and_rickshaw.html">Visualizing Bitcoin Post Frequency Using InfluxDB And Rickshaw</a><hr /><h4>About InfluxDB</h4><p>InfluxDB is a time series database.</p><hr /><h4>Sign Up For Our Newsletter</h4><!-- Begin MailChimp Signup Form -->
+<link href="//cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+  #mc_embed_signup{clear:left; font:14px Helvetica,Arial,sans-serif;  width:350px;}
+  /* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
+     We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+</style>
+<div id="mc_embed_signup">
+<form action="http://errplane.us5.list-manage.com/subscribe/post?u=4d17b6adac2728b1ea6e4926b&amp;id=08af34971b" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+  
+  <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
+  <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button radius"></div>
+</form>
+</div>
+
+<!--End mc_embed_signup--></div></div></section><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
