@@ -72,22 +72,23 @@ to fetch the data, and then feed that right into a simple line chart in Rickshaw
 
   <span class="nx">influxdb</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span><span class="s2">&quot;SELECT COUNT(message) FROM posts WHERE time &gt; now() - 365d GROUP BY time(24h);&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">points</span><span class="p">)</span> <span class="p">{</span>
     <span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">points</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">point</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="p">{</span>
-        <span class="na">x</span><span class="p">:</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">point</span><span class="p">.</span><span class="nx">time</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">),</span>
-        <span class="na">y</span><span class="p">:</span> <span class="nx">point</span><span class="p">.</span><span class="nx">count</span>
-      <span class="p">};</span>
+      <span class="k">return</span> <span class="p">{</span> <span class="na">x</span><span class="p">:</span> <span class="nx">point</span><span class="p">.</span><span class="nx">time</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">,</span> <span class="na">y</span><span class="p">:</span> <span class="nx">point</span><span class="p">.</span><span class="nx">count</span> <span class="p">};</span>
     <span class="p">}).</span><span class="nx">reverse</span><span class="p">();</span>
 
     <span class="kd">var</span> <span class="nx">graph</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Rickshaw</span><span class="p">.</span><span class="nx">Graph</span><span class="p">({</span>
       <span class="na">element</span><span class="p">:</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s2">&quot;#chart&quot;</span><span class="p">),</span>
       <span class="na">width</span><span class="p">:</span> <span class="mi">640</span><span class="p">,</span>
-      <span class="na">height</span><span class="p">:</span> <span class="mi">240</span><span class="p">,</span>
+      <span class="na">height</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
       <span class="na">renderer</span><span class="p">:</span> <span class="s1">&#39;line&#39;</span><span class="p">,</span>
       <span class="na">series</span><span class="p">:</span> <span class="p">[{</span> <span class="na">data</span><span class="p">:</span> <span class="nx">data</span><span class="p">,</span> <span class="na">color</span><span class="p">:</span> <span class="s1">&#39;steelblue&#39;</span> <span class="p">}]</span>
     <span class="p">});</span>
 
     <span class="kd">var</span> <span class="nx">xAxis</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Rickshaw</span><span class="p">.</span><span class="nx">Graph</span><span class="p">.</span><span class="nx">Axis</span><span class="p">.</span><span class="nx">Time</span><span class="p">({</span> <span class="na">graph</span><span class="p">:</span> <span class="nx">graph</span> <span class="p">});</span>
-    <span class="kd">var</span> <span class="nx">yAxis</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Rickshaw</span><span class="p">.</span><span class="nx">Graph</span><span class="p">.</span><span class="nx">Axis</span><span class="p">.</span><span class="nx">Y</span><span class="p">({</span> <span class="na">graph</span><span class="p">:</span> <span class="nx">graph</span> <span class="p">});</span>
+    <span class="kd">var</span> <span class="nx">yAxis</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Rickshaw</span><span class="p">.</span><span class="nx">Graph</span><span class="p">.</span><span class="nx">Axis</span><span class="p">.</span><span class="nx">Y</span><span class="p">({</span>
+      <span class="na">graph</span><span class="p">:</span> <span class="nx">graph</span><span class="p">,</span>
+      <span class="na">orientation</span><span class="p">:</span> <span class="s1">&#39;left&#39;</span><span class="p">,</span>
+      <span class="na">element</span><span class="p">:</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;y_axis&#39;</span><span class="p">)</span>
+    <span class="p">});</span>
 
     <span class="nx">xAxis</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
     <span class="nx">yAxis</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
@@ -100,7 +101,7 @@ transformation and then it&rsquo;s ready to feed directly into Rickshaw.</p>
 
 <p>You can view, run, and modify the entire thing on this JSFiddle:</p>
 
-<iframe width="100%" height="270" style="margin-bottom: 20px;" src="http://jsfiddle.net/toddpersen/46ZRj/11/embedded/result,js,html,css" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+<iframe width="100%" height="270" style="margin-bottom: 20px;" src="http://jsfiddle.net/toddpersen/46ZRj/15/embedded/result,js,html,css" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
 <p>Looking at the frequency over time it definitely seems to be picking up along with Bitcoin&rsquo;s price.</p>
 <hr style="margin-top:30px; margin-bottom:30px"/>
