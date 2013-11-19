@@ -79,25 +79,23 @@ $(function() {
   var influxdb = new InfluxDB("sandbox.influxdb.org", 9061, "todd", "password", "bitcoin");
 
   influxdb.query("SELECT COUNT(message) FROM posts WHERE time > now() - 365d GROUP BY time(24h);", function(points) {
-    var data, graph, xAxis, yAxis;
-
-    data = points.map(function(point) {
+    var data = points.map(function(point) {
       return {
         x: Math.floor(point.time / 1000),
         y: point.count
       };
     }).reverse();
 
-    graph = new Rickshaw.Graph({
+    var graph = new Rickshaw.Graph({
       element: document.querySelector("#chart"),
-      width: 720,
+      width: 640,
       height: 240,
       renderer: 'line',
       series: [{ data: data, color: 'steelblue' }]
     });
 
-    xAxis = new Rickshaw.Graph.Axis.Time({ graph: graph });
-    yAxis = new Rickshaw.Graph.Axis.Y({ graph: graph });
+    var xAxis = new Rickshaw.Graph.Axis.Time({ graph: graph });
+    var yAxis = new Rickshaw.Graph.Axis.Y({ graph: graph });
 
     xAxis.render();
     yAxis.render();
@@ -111,6 +109,6 @@ transformation and then it's ready to feed directly into Rickshaw.
 
 You can view, run, and modify the entire thing on this JSFiddle:
 
-<iframe width="100%" height="270" style="margin-bottom: 20px;" src="http://jsfiddle.net/toddpersen/46ZRj/10/embedded/result,js,html,css" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+<iframe width="100%" height="270" style="margin-bottom: 20px;" src="http://jsfiddle.net/toddpersen/46ZRj/11/embedded/result,js,html,css" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
-Looking at the frequency over time it definitely seems to be picking up along with bitcoin's price.
+Looking at the frequency over time it definitely seems to be picking up along with Bitcoin's price.

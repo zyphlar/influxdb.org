@@ -30,8 +30,8 @@ html
             .large-3.columns
 
           p
-            | InfluxDB has a straightforward and snappy HTTP API that makes it easy to pull your time series data out in real-time for use in user interfaces and visualizations. This makes it a great pairing with [D3](http://d3js.org), a data visualization library written in JavaScript.
-            a href="/blog/visualizing_bitcoin_post_frequency_using_influxdb_and_rickshaw.html" &nbsp; Read More &raquo;
+            | Based on casual observation, the crowd at HackerNews seems to be totally obsessed with bitcoin and it seems to be reaching a fever pitch. What better way to look at the HN bitcoin obsession than with a visualization? In this post we'll use InfluxDB and Rickshaw to create a visualization of the number of posts with bitcoin in the title on HN.
+            a href="/blog/visualizing_bitcoin_post_frequency_on_hn_using_influxdb_and_rickshaw.html" &nbsp; Read More &raquo;
 
         .large-4.columns
           h4 Other Posts
@@ -41,5 +41,10 @@ html
 
           h4 About InfluxDB
           p InfluxDB is a time series database.
+
+          hr
+
+          h4 Sign Up For Our Newsletter
+          = partial "layouts/signup"
 
     = partial "layouts/analytics"
