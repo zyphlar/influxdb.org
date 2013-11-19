@@ -1,7 +1,7 @@
 ---
 title: Visualizing Bitcoin post frequency on HN with InfluxDB and Rickshaw
 author: Todd Persen
-published_on: November 18, 2013
+published_on: November 19, 2013
 ---
 
 Based on casual observation, the crowd at HackerNews seems to be totally obsessed 
@@ -34,7 +34,7 @@ QUERY = "bitcoin"
 http = Net::HTTP.new("api.thriftdb.com", 443)
 http.use_ssl = true
 
-influxdb = InfluxDB::Client.new "tp-tweets1", {
+influxdb = InfluxDB::Client.new "bitcoin", {
   :host => "sandbox.influxdb.org",
   :port => 9061,
   :username => "todd",
@@ -75,48 +75,42 @@ We'll just use the [InfluxDB Javascript Library](https://github.com/influxdb/inf
 to fetch the data, and then feed that right into a simple line chart in Rickshaw.
 
 ```javascript
-var influxdb = new InfluxDB("sandbox.influxdb.org", 9061, "todd", "password", "bitcoin");
-var request = influxdb._readPoint("SELECT COUNT(message) FROM posts WHERE time > now() - 365d GROUP BY time(24h);");
+$(function() {
+  var influxdb = new InfluxDB("sandbox.influxdb.org", 9061, "todd", "password", "bitcoin");
 
-request.then(function(response) {
-  console.log(response);
-  var points = response[0].points.map(function(point) {
-    return {
-      x: Math.floor(point[0] / 1000),
-      y: point[2]
-    };
-  }).reverse();
+  influxdb.query("SELECT COUNT(message) FROM posts WHERE time > now() - 365d GROUP BY time(24h);", function(points) {
+    var data, graph, xAxis, yAxis;
 
-  var graph = new Rickshaw.Graph({
-    element: document.querySelector("#chart"),
-    width: 640,
-    height: 200,
-    renderer: 'line',
-    series: [{ data: points, color: 'steelblue' }]
+    data = points.map(function(point) {
+      return {
+        x: Math.floor(point.time / 1000),
+        y: point.count
+      };
+    }).reverse();
+
+    graph = new Rickshaw.Graph({
+      element: document.querySelector("#chart"),
+      width: 720,
+      height: 240,
+      renderer: 'line',
+      series: [{ data: data, color: 'steelblue' }]
+    });
+
+    xAxis = new Rickshaw.Graph.Axis.Time({ graph: graph });
+    yAxis = new Rickshaw.Graph.Axis.Y({ graph: graph });
+
+    xAxis.render();
+    yAxis.render();
+    graph.render();
   });
-
-  var xAxis = new Rickshaw.Graph.Axis.Time({
-    graph: graph
-  });
-
-  var yAxis = new Rickshaw.Graph.Axis.Y({
-    graph: graph,
-    orientation: 'left',
-    element: document.getElementById('y_axis'),
-    ticks: 5
-  });
-
-  xAxis.render();
-  yAxis.render();
-  graph.render();
 });
 ```
 
 Since InfluxDB lets us easily query the time series data, all we need is a simple
 transformation and then it's ready to feed directly into Rickshaw.
 
-You can view, run, and modify the entire thing on this Fiddle:
+You can view, run, and modify the entire thing on this JSFiddle:
 
-<iframe width="100%" height="270" style="margin-bottom: 20px;" src="http://jsfiddle.net/toddpersen/46ZRj/8/embedded/result,js,html,css" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+<iframe width="100%" height="270" style="margin-bottom: 20px;" src="http://jsfiddle.net/toddpersen/46ZRj/10/embedded/result,js,html,css" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
 Looking at the frequency over time it definitely seems to be picking up along with bitcoin's price.
