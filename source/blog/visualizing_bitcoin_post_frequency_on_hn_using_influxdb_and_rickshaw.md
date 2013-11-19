@@ -92,7 +92,11 @@ $(function() {
     });
 
     var xAxis = new Rickshaw.Graph.Axis.Time({ graph: graph });
-    var yAxis = new Rickshaw.Graph.Axis.Y({ graph: graph });
+    var yAxis = new Rickshaw.Graph.Axis.Y({
+      graph: graph,
+      orientation: 'left',
+      element: document.getElementById('y_axis')
+    });
 
     xAxis.render();
     yAxis.render();
@@ -106,6 +110,6 @@ transformation and then it's ready to feed directly into Rickshaw.
 
 You can view, run, and modify the entire thing on this JSFiddle:
 
-<iframe width="100%" height="270" style="margin-bottom: 20px;" src="http://jsfiddle.net/toddpersen/46ZRj/12/embedded/result,js,html,css" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+<iframe width="100%" height="270" style="margin-bottom: 20px;" src="http://jsfiddle.net/toddpersen/46ZRj/15/embedded/result,js,html,css" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
 Looking at the frequency over time it definitely seems to be picking up along with Bitcoin's price.
