@@ -20,3 +20,5 @@ gem "middleman-gh-pages"
 gem "middleman-syntax"
 gem "redcarpet"
 gem "therubyracer"
+
+gem "influxdb"

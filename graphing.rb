@@ -11,7 +11,7 @@ QUERY = "bitcoin"
 http = Net::HTTP.new("api.thriftdb.com", 443)
 http.use_ssl = true
 
-influxdb = InfluxDB::Client.new "tp-tweets1", {
+influxdb = InfluxDB::Client.new "bitcoin", {
   :host => "sandbox.influxdb.org",
   :port => 9061,
   :username => "todd",
