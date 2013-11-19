@@ -1,5 +1,5 @@
 ---
-title: Visualizing Time Series Data With InfluxDB and Rickshaw
+title: Visualizing Bitcoin Post Frequency Using InfluxDB And Rickshaw
 author: Todd Persen
 published_on: November 18, 2013
 ---
