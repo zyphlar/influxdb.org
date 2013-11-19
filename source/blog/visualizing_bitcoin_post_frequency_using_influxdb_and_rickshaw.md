@@ -1,20 +1,24 @@
 ---
-title: Visualizing Bitcoin Post Frequency Using InfluxDB And Rickshaw
+title: Visualizing Bitcoin post frequency on HN with InfluxDB and Rickshaw
 author: Todd Persen
 published_on: November 18, 2013
 ---
+
+Based on casual observation, the crowd at HackerNews seems to be totally obsessed 
+with bitcoin and it seems to be reaching a fever pitch. What better way to 
+look at the HN bitcoin obsession than with a visualization? In this post we'll 
+use InfluxDB and Rickshaw to create a visualization of the number of posts with 
+bitcoin in the title on HN.
 
 InfluxDB has a straightforward and snappy HTTP API that makes it easy to
 pull your time series data out in real-time for use in user interfaces and
 visualizations. This makes it a great pairing with [D3](http://d3js.org),
 a data visualization library written in JavaScript.
 
-First, we need to supply InfluxDB with some seed data. In practice, you would
-probably have a much larger, less-accessible dataset, but for the sake of
-demonstration, let's use an open [Hacker News API](https://www.hnsearch.com/api)
-to get a list of the last 1,000 posts containing the phrase `bitcoin` in the
-title. Here's a quick ruby script that also leverages the InfluxDB rubygem for
-the writing of data:
+First, we need to load InfluxDB with the data of bitcoin posts over time. We'll use an 
+open [Hacker News API](https://www.hnsearch.com/api) to get a list of the last 1,000 
+posts containing the phrase `bitcoin` in the title. Here's a quick ruby script that 
+also leverages the InfluxDB rubygem for writing data into the database:
 
 ```ruby
 require "rubygems"
@@ -62,16 +66,13 @@ end
 
 If you don't have a local installation of InfluxDB handy, head on over
 to our [InfluxDB Playground](http://play.influxdb.org) and create a free
-database to experiment with. Once you've got your username and password,
-you can replace the ones in this script.
-
-Once we have our data available, we can turn to the fun part - visualization.
-To make things even easier, we're going to use a wrapper for D3
+database to experiment with. Once we have our data available, we can turn to the fun part - visualization.
+To make things easier, we're going to use a wrapper for D3
 called [Rickshaw](http://code.shutterstock.com/rickshaw/), which was written
 by the gang over at Shutterstock.
 
 We'll just use the [InfluxDB Javascript Library](https://github.com/influxdb/influxdb-js)
-to fetch the data, and then feed that right into Rickshaw a simple line chart.
+to fetch the data, and then feed that right into a simple line chart in Rickshaw.
 
 ```javascript
 var influxdb = new InfluxDB("sandbox.influxdb.org", 9061, "todd", "password", "bitcoin");
@@ -116,4 +117,6 @@ transformation and then it's ready to feed directly into Rickshaw.
 
 You can view, run, and modify the entire thing on this Fiddle:
 
-<iframe width="100%" height="270" src="http://jsfiddle.net/toddpersen/46ZRj/8/embedded/result,js,html,css" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+<iframe width="100%" height="270" style="margin-bottom: 20px;" src="http://jsfiddle.net/toddpersen/46ZRj/8/embedded/result,js,html,css" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+Looking at the frequency over time it definitely seems to be picking up along with bitcoin's price.
