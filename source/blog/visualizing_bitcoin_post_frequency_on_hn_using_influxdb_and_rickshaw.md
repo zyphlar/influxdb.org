@@ -5,17 +5,17 @@ published_on: November 19, 2013
 ---
 
 Based on casual observation, the crowd at HackerNews seems to be totally obsessed 
-with bitcoin and it seems to be reaching a fever pitch. What better way to 
-look at the HN bitcoin obsession than with a visualization? In this post we'll 
+with Bitcoin and it seems to be reaching a fever pitch. What better way to 
+look at the HN Bitcoin obsession than with a visualization? In this post we'll 
 use InfluxDB and Rickshaw to create a visualization of the number of posts with 
-bitcoin in the title on HN.
+Bitcoin in the title on HN.
 
 InfluxDB has a straightforward and snappy HTTP API that makes it easy to
 pull your time series data out in real-time for use in user interfaces and
 visualizations. This makes it a great pairing with [D3](http://d3js.org),
 a data visualization library written in JavaScript.
 
-First, we need to load InfluxDB with the data of bitcoin posts over time. We'll use an 
+First, we need to load InfluxDB with the data of Bitcoin posts over time. We'll use an 
 open [Hacker News API](https://www.hnsearch.com/api) to get a list of the last 1,000 
 posts containing the phrase `bitcoin` in the title. Here's a quick ruby script that 
 also leverages the InfluxDB rubygem for writing data into the database:
