@@ -39,7 +39,7 @@ influxdb.writePoints("response_times", [
 ]);
 ```
 
-Note that `time` is a reserved column name. The only other reserved column name is `sequence_number`. Each datapoint is assigned a sequence number that helps to uniquely identify it. Time series names and column names should consist of only letters, numbers, hyphens, underscores, and periods.
+Note that `time` is a reserved column name. The only other reserved column name is `sequence_number`. Each datapoint is assigned a sequence number that helps to uniquely identify it. Time series names and column names should consist of only letters, numbers, hyphens, underscores, and periods. Time series and column names must start with either a number or letter.
 
 #### Example Queries
 

@@ -4,7 +4,7 @@ The primary interface to InfluxDB is through the HTTP API. Through it you can wr
 
 ### Writing Data
 
-InfluxDB is split into databases which have different time series. Each time series has data points that can have any number of columns. It's like a regular database, but the columns on tables (time series) don't have to be defined up front. So the rows look like a hashmap of key value pairs. Valid characters for time series and column names include letters, numbers, dashes, underscores, or periods.  Time series and column names cannot begin with an underscore
+InfluxDB is split into databases which have different time series. Each time series has data points that can have any number of columns. It's like a regular database, but the columns on tables (time series) don't have to be defined up front. So the rows look like a hashmap of key value pairs. Valid characters for time series and column names include letters, numbers, dashes, underscores, or periods.  Time series and column names must start with a number or letter.
 
 Assuming you have a database named `foo_production` you can write data by doing a `POST` to `/db/foo_production/series?u=some_user&p=some_password` with a JSON body of points. Notice that username and password are specified in the query string. Users can be restricted to having read or write access and can also be restricted by the time series name and the queries they can run, but we'll get to administration later. Here's what a sample JSON body looks like:
 
