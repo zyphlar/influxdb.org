@@ -32,7 +32,7 @@
   <span class="p">{</span><span class="na">time</span><span class="p">:</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(),</span> <span class="s2">&quot;value&quot;</span><span class="err">:</span> <span class="mi">232</span><span class="p">}</span>
 <span class="p">]);</span>
 </pre>
-<p>Note that <code>time</code> is a reserved column name. The only other reserved column name is <code>sequence_number</code>. Each datapoint is assigned a sequence number that helps to uniquely identify it. Time series names and column names should consist of only letters, numbers, hyphens, underscores, and periods.</p>
+<p>Note that <code>time</code> is a reserved column name. The only other reserved column name is <code>sequence_number</code>. Each datapoint is assigned a sequence number that helps to uniquely identify it. Time series names and column names should consist of only letters, numbers, hyphens, underscores, and periods. Time series and column names must start with either a number or letter.</p>
 
 <h4>Example Queries</h4>
 
@@ -67,7 +67,7 @@
 <span class="c1">// get events from new york
 </span><span class="nx">series</span> <span class="o">=</span> <span class="nx">influxdb</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span>
   <span class="s2">&quot;select * from events &quot;</span> <span class="o">+</span>
-  <span class="s2">&quot;where state = &#39;ny&#39;;&quot;</span><span class="p">);</span>
+  <span class="s2">&quot;where state = 'ny';&quot;</span><span class="p">);</span>
 
 <span class="c1">// get the number of unique users in 1 hour periods
 // for the last 48 hours
