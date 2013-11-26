@@ -79,15 +79,15 @@ to fetch the data, and then feed that right into a simple line chart in Rickshaw
       <span class="na">element</span><span class="p">:</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s2">&quot;#chart&quot;</span><span class="p">),</span>
       <span class="na">width</span><span class="p">:</span> <span class="mi">640</span><span class="p">,</span>
       <span class="na">height</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
-      <span class="na">renderer</span><span class="p">:</span> <span class="s1">'line'</span><span class="p">,</span>
-      <span class="na">series</span><span class="p">:</span> <span class="p">[{</span> <span class="na">data</span><span class="p">:</span> <span class="nx">data</span><span class="p">,</span> <span class="na">color</span><span class="p">:</span> <span class="s1">'steelblue'</span> <span class="p">}]</span>
+      <span class="na">renderer</span><span class="p">:</span> <span class="s1">&#39;line&#39;</span><span class="p">,</span>
+      <span class="na">series</span><span class="p">:</span> <span class="p">[{</span> <span class="na">data</span><span class="p">:</span> <span class="nx">data</span><span class="p">,</span> <span class="na">color</span><span class="p">:</span> <span class="s1">&#39;steelblue&#39;</span> <span class="p">}]</span>
     <span class="p">});</span>
 
     <span class="kd">var</span> <span class="nx">xAxis</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Rickshaw</span><span class="p">.</span><span class="nx">Graph</span><span class="p">.</span><span class="nx">Axis</span><span class="p">.</span><span class="nx">Time</span><span class="p">({</span> <span class="na">graph</span><span class="p">:</span> <span class="nx">graph</span> <span class="p">});</span>
     <span class="kd">var</span> <span class="nx">yAxis</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Rickshaw</span><span class="p">.</span><span class="nx">Graph</span><span class="p">.</span><span class="nx">Axis</span><span class="p">.</span><span class="nx">Y</span><span class="p">({</span>
       <span class="na">graph</span><span class="p">:</span> <span class="nx">graph</span><span class="p">,</span>
-      <span class="na">orientation</span><span class="p">:</span> <span class="s1">'left'</span><span class="p">,</span>
-      <span class="na">element</span><span class="p">:</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'y_axis'</span><span class="p">)</span>
+      <span class="na">orientation</span><span class="p">:</span> <span class="s1">&#39;left&#39;</span><span class="p">,</span>
+      <span class="na">element</span><span class="p">:</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;y_axis&#39;</span><span class="p">)</span>
     <span class="p">});</span>
 
     <span class="nx">xAxis</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
