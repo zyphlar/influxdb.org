@@ -8,7 +8,7 @@ InfluxDB has some new features, support for custom dashboards, and there are a b
 
 ### Breaking Release
 
-Next week we'll be releasing 0.4.0 of InfluxDB. It changes a few things about the underlying storage so anyone upgrading will need to blow away their old database. If you're already running InfluxDB in production and have data you don't want to lose, drop us a line by replying to this email or drop us a line at influxdb@errplane.com and let us know. We can work with you to create a migration so that you'll keep your old data. Actually, even if you don't care about the data, drop us a line to let us know you're running in production! We'd love to advertise which companies are using InfluxDB.
+Next week we'll be releasing v0.4.0 of InfluxDB. It changes a few things about the underlying storage so anyone upgrading will need to blow away their old database. If you're already running InfluxDB in production and have data you don't want to lose, drop us a line by replying to this email or drop us a line at influxdb@errplane.com and let us know. We can work with you to create a migration so that you'll keep your old data. Actually, even if you don't care about the data, drop us a line to let us know you're running in production! We'd love to advertise which companies are using InfluxDB.
 
 ### New Features
 
@@ -16,7 +16,7 @@ We've had  a ton of bug fixes and new features in the last few weeks. Most notab
 
 ### New Libraries
 
-People have jumped into contributing libraries and integrations to InfluxDB. Here's a list of some of them and let us know if you've written something you want to share!
+People have jumped into contributing libraries and integrations to InfluxDB. Here's a list of some of them (and let us know if you've written something you want to share!)
 
 * [A command line interface (CLI)](https://github.com/FGRibreau/influxdb-cli)
 * [Node.js](https://github.com/bencevans/node-influx), [Python](https://github.com/influxdb/influxdb-python), [PHP](https://github.com/crodas/InfluxPHP), and [Clojure](https://github.com/olauzon/capacitor) libraries
@@ -24,7 +24,6 @@ People have jumped into contributing libraries and integrations to InfluxDB. Her
 * [StatsD backend](https://github.com/bernd/statsd-influxdb-backend)
 * [CollectD proxy](https://github.com/bpaquet/collectd-influxdb-proxy)
 * Plenty of options for [deployment](http://influxdb.org/docs/deployment.html) including Chef, Puppet, and Docker
-
 
 ### Custom Interfaces & Dashboards
 
