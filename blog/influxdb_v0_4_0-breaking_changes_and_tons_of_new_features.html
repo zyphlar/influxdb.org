@@ -5,37 +5,34 @@
 
 <h3>Breaking Release</h3>
 
-<p>Next week we&rsquo;ll be releasing 0.4.0 of InfluxDB. It changes a few things about the underlying storage so anyone upgrading will need to blow away their old database. If you&rsquo;re already running InfluxDB in production and have data you don&rsquo;t want to lose, drop us a line by replying to this email or drop us a line at influxdb@errplane.com and let us know. We can work with you to create a migration so that you&rsquo;ll keep your old data. Actually, even if you don&rsquo;t care about the data, drop us a line to let us know you&rsquo;re running in production! We&rsquo;d love to advertise which companies are using InfluxDB.</p>
+<p>Next week we&rsquo;ll be releasing v0.4.0 of InfluxDB. It changes a few things about the underlying storage so anyone upgrading will need to blow away their old database. If you&rsquo;re already running InfluxDB in production and have data you don&rsquo;t want to lose, drop us a line by replying to this email or drop us a line at influxdb@errplane.com and let us know. We can work with you to create a migration so that you&rsquo;ll keep your old data. Actually, even if you don&rsquo;t care about the data, drop us a line to let us know you&rsquo;re running in production! We&rsquo;d love to advertise which companies are using InfluxDB.</p>
 
 <h3>New Features</h3>
 
-<p>We&rsquo;ve had  a ton of bug fixes and new features in the last few weeks. Most notably: first, last, and histogram aggregate functions, table aliases, regex = and ! operators on the where clause, and a functioning Homebrew recipe. Just brew update &amp;&amp; brew upgrade influxdb to get it running locally. More details on the changes can be found in the InfluxDB changelog (https://github.com/influxdb/influxdb/blob/master/CHANGELOG.md) .</p>
+<p>We&rsquo;ve had  a ton of bug fixes and new features in the last few weeks. Most notably: first, last, and histogram aggregate functions, table aliases, regex = and ! operators on the where clause, and a functioning Homebrew recipe. Just <code>brew update &amp;&amp; brew upgrade influxdb</code> to get it running locally. More details on the changes can be found in the <a href="https://github.com/influxdb/influxdb/blob/master/CHANGELOG.md">InfluxDB changelog</a>.</p>
 
 <h3>New Libraries</h3>
 
-<p>People have jumped into contributing libraries and integrations to InfluxDB. Here&rsquo;s a list of some of them and let us know if you&rsquo;ve written something you want to share!</p>
+<p>People have jumped into contributing libraries and integrations to InfluxDB. Here&rsquo;s a list of some of them (and let us know if you&rsquo;ve written something you want to share!)</p>
 
 <ul>
-<li>A command line interface (CLI) (https://github.com/FGRibreau/influxdb-cli)</li>
-<li>Node.js (https://github.com/bencevans/node-influx)</li>
-<li>Python (https://github.com/influxdb/influxdb-python)</li>
-<li>PHP (https://github.com/crodas/InfluxPHP)</li>
-<li>Clojure (https://github.com/olauzon/capacitor)</li>
-<li>Tasseo, a real-time dashboard has support for InfluxDB (https://github.com/obfuscurity/tasseo#influxdb) .</li>
-<li>StatsD backend (https://github.com/bernd/statsd-influxdb-backend)</li>
-<li>CollectD proxy (https://github.com/bpaquet/collectd-influxdb-proxy)</li>
-<li>Plenty of options for deployment (http://influxdb.org/docs/deployment.html) including Chef, Puppet, and Docker.</li>
+<li><a href="https://github.com/FGRibreau/influxdb-cli">A command line interface (CLI)</a></li>
+<li><a href="https://github.com/bencevans/node-influx">Node.js</a>, <a href="https://github.com/influxdb/influxdb-python">Python</a>, <a href="https://github.com/crodas/InfluxPHP">PHP</a>, and <a href="https://github.com/olauzon/capacitor">Clojure</a> libraries</li>
+<li><a href="https://github.com/obfuscurity/tasseo#influxdb">Tasseo</a>, a real-time dashboard, has support for InfluxDB</li>
+<li><a href="https://github.com/bernd/statsd-influxdb-backend">StatsD backend</a></li>
+<li><a href="https://github.com/bpaquet/collectd-influxdb-proxy">CollectD proxy</a></li>
+<li>Plenty of options for <a href="http://influxdb.org/docs/deployment.html">deployment</a> including Chef, Puppet, and Docker</li>
 </ul>
 
 <h3>Custom Interfaces &amp; Dashboards</h3>
 
-<p>We&rsquo;ve set up a structure for everyone to create their own custom dashboards and potentially share them with the community. Find out about about it on the InfluxDB docs for creating custom interfaces (http://influxdb.org/docs/interfaces/) .</p>
+<p>We&rsquo;ve set up a structure for everyone to create their own custom dashboards and potentially share them with the community. Find out about about it on the InfluxDB docs for creating <a href="http://influxdb.org/docs/interfaces/">custom interfaces</a>.</p>
 
 <h3>Hackfest</h3>
 
-<p>We&rsquo;ve started a Meetup for NYC users of InfluxDB (http://www.meetup.com/nyc-influxdb-user-group) . We&rsquo;ve also scheduled the first InfluxDB hackfest for Monday, December 2nd (http://www.meetup.com/NYC-InfluxDB-User-Group/events/150732352/) . If you&rsquo;re in the city, join the group and RSVP! We&rsquo;ll be there to answer any questions, and write sweet code. We&rsquo;re thinking we can write some data collection stuff (maybe framework integrations?), and maybe a new interface or two.</p>
+<p>We&rsquo;ve started a <a href="http://www.meetup.com/nyc-influxdb-user-group">Meetup for NYC users of InfluxDB</a>. We&rsquo;ve also scheduled the first InfluxDB hackfest for <a href="http://www.meetup.com/NYC-InfluxDB-User-Group/events/150732352/">Monday, December 2nd</a>. If you&rsquo;re in the city, join the group and RSVP! We&rsquo;ll be there to answer any questions, and write sweet code. We&rsquo;re thinking we can write some data collection stuff (maybe framework integrations?), and maybe a new interface or two.</p>
 
-<p>Thanks for reading this far. If you&rsquo;re a fan of what we&rsquo;re doing or just want to see this project continue to grow, tell you friends! Tweet, write blog posts, give lightning talks, and write sweet code to share with the world.</p>
+<p>Thanks for reading this far. If you&rsquo;re a fan of what we&rsquo;re doing or just want to see this project continue to grow, tell your friends! Tweet, write blog posts, give lightning talks, and write sweet code to share with the world.</p>
 <hr style="margin-top:30px; margin-bottom:30px"/>
 <div id="disqus_thread"></div>
 <script type="text/javascript">
