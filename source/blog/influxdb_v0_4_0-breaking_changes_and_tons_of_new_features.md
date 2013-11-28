@@ -8,7 +8,7 @@ InfluxDB has some new features, support for custom dashboards, and there are a b
 
 ### Breaking Release
 
-Next week we'll be releasing v0.4.0 of InfluxDB. It changes a few things about the underlying storage so anyone upgrading will need to blow away their old database. If you're already running InfluxDB in production and have data you don't want to lose, drop us a line at influxdb@errplane.com and let us know. We can work with you to create a migration so that you'll keep your old data. Actually, even if you don't care about the data, drop us a line to let us know you're running in production! We'd love to advertise which companies are using InfluxDB.
+Next week we'll be releasing v0.4.0 of InfluxDB. It changes a few things about the underlying storage so anyone upgrading will need to blow away their old database. If you're already running InfluxDB in production and have data you don't want to lose, drop us a line at [influxdb@errplane.com](mailto:influxdb@errplane.com) and let us know. We can work with you to create a migration so that you'll keep your old data. Actually, even if you don't care about the data, drop us a line to let us know you're running in production! We'd love to advertise which companies are using InfluxDB.
 
 ### New Features
 
