@@ -18,7 +18,7 @@ When you look at the InfluxDB configuration file, you'll see a variable called `
 
 ### Starting With Some HTML
 
-This example interface is going to pull in some data from an InfluxDB instance and graph it for us, just like we might want on a dashboard. Let's start by setting up an quick framework, which will be a basic HTML page with jQuery, D3, and Bootstrap. Notice that we don't need to include the InfluxDB library because it's already loaded in the parent container, which we'll leverage for free. We'll also add a simple div with an id of `chart`, so that we can insert a graph into it.
+This example interface is going to pull in some data from an InfluxDB instance and graph it for us, just like we might want on a dashboard. Let's start by setting up an quick framework, which will be a basic HTML page with jQuery, D3, Rickshaw, and Bootstrap. Notice that we don't need to include the InfluxDB library because it's already loaded in the parent container, which we'll leverage for free. We'll also add a simple div with an id of `chart`, so that we can insert a graph into it.
 
 ```html
 <html>
@@ -37,7 +37,11 @@ This example interface is going to pull in some data from an InfluxDB instance a
       <div class="row">
         <div class="col-md-12">
           <h1>Important Dashboard</h1>
-          <div id="chart"></div>
+          <div id="chart_container">
+            <div id="y_axis"></div>
+            <div id="x_axis"></div>
+            <div id="chart"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -59,7 +63,7 @@ admin/
 
 ### Connecting With Some JavaScript
 
-Now we just need to use the InfluxDB object from the parent window (remember, this is available as `parent.influxdb`).
+Next, we need to fetch data from the server and graph it on the page. To do this, we just need to use the InfluxDB object from the parent window (remember, this is available as `parent.influxdb`) and then hand the data off to Rickshaw and D3 for graphing.
 
 ```javascript
 $(function() {
@@ -71,7 +75,7 @@ $(function() {
 
       var graph = new Rickshaw.Graph({
         element: document.querySelector("#chart"),
-        width: 640,
+        width: 1100,
         height: 200,
         renderer: 'line',
         series: [{ data: data, color: 'steelblue' }]
@@ -91,3 +95,39 @@ $(function() {
   });
 });
 ```
+
+### Finish It Off With A Little Style
+
+To make the graph look nice, we can add a little bit of CSS to enhance the layout of the axes and labels. This is pretty standard, but should give you an idea how to get started.
+
+```css
+#chart_container {
+  position: relative;
+  font-family: Arial, Helvetica, sans-serif;
+  margin-top: 20px;
+}
+#chart {
+  position: absolute;
+  left: 30px;
+}
+#y_axis {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 30px;
+}
+#y_axis > svg {  
+  padding-bottom: 20px;
+}
+.x_tick {
+  bottom: -15px !important;
+}
+```
+
+### Seeing It All Come Together
+
+### Using The Asset Pipeline
+
+In building this example on your own, you could drop the JavaScript into a `<script>` tag and the CSS into a `<style>` tag embedded within the page. Alternatively, you could fork the [admin interface repo](https://github.com/influxdb/influxdb-admin), which is built with middleman, and use the asset pipeline to separate your components more cleanly. You can use the default interface as an example.
+
+If you end up building an interface that you want to share, send us a pull request!
