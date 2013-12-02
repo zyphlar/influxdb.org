@@ -18,6 +18,7 @@ end
 
 gem "middleman-gh-pages"
 gem "middleman-syntax"
+gem "nokogiri"
 gem "redcarpet"
 gem "therubyracer"
 

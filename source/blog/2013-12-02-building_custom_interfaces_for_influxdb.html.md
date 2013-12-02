@@ -63,7 +63,7 @@ admin/
 
 ### Connecting With Some JavaScript
 
-Next, we need to fetch data from the server and graph it on the page. To do this, we just need to use the InfluxDB object from the parent window (remember, this is available as `parent.influxdb`) and then hand the data off to Rickshaw and D3 for graphing.
+Next, we need to fetch data from the server and graph it on the page. To do this, we just need to use the InfluxDB object from the parent window (remember, this is available as `parent.influxdb`) and then hand the data off to Rickshaw and D3 for graphing. For this example, we'll assume that there is a table called `posts` from which we can query data grouped by day.
 
 ```javascript
 $(function() {
@@ -98,7 +98,7 @@ $(function() {
 
 ### Finish It Off With A Little Style
 
-To make the graph look nice, we can add a little bit of CSS to enhance the layout of the axes and labels. This is pretty standard, but should give you an idea how to get started.
+To make the graph look nice, we can add a little bit of CSS to enhance the layout of the axes and labels. This is pretty standard, but should give you an idea how to get started on your own styling.
 
 ```css
 #chart_container {
@@ -126,7 +126,11 @@ To make the graph look nice, we can add a little bit of CSS to enhance the layou
 
 ### Seeing It All Come Together
 
-### Using The Asset Pipeline
+If we put all of the pieces in the right place, we should see our interface appear under the Interfaces tab when logging in as a database user. Though it's an extremely simple case, the resulting output should look something like this:
+
+![Screenshot Of A Custom Interface](/images/custom_interface.png)
+
+### Making It Easier With The Asset Pipeline
 
 In building this example on your own, you could drop the JavaScript into a `<script>` tag and the CSS into a `<style>` tag embedded within the page. Alternatively, you could fork the [admin interface repo](https://github.com/influxdb/influxdb-admin), which is built with middleman, and use the asset pipeline to separate your components more cleanly. You can use the default interface as an example.
 

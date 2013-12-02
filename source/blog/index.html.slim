@@ -1,63 +1,30 @@
-doctype html
-html
-  head
-    meta charset="utf-8"
+.row
+  .large-12.columns
+    h1.docs.header InfluxDB Blog
+    hr
 
-    /! Always force latest IE rendering engine or request Chrome Frame
-    meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"
+.row.padding-bottom-large
+  .large-8.columns
+    - blog.articles[0...5].each do |article|
 
-    /! Use title if it's in the page YAML frontmatter
-    title == data.page.title || "InfluxDB"
-
-    == stylesheet_link_tag "normalize", "foundation", "all", "highlighting"
-    == javascript_include_tag  "all"
-
-  body class="#{page_classes}"
-    = partial "layouts/nav"
-
-    section#blog
+      h2= article.title
       .row
-        .large-12.columns
-          h1.docs.header InfluxDB Blog
-          hr
+        .large-9.columns
+          h5.subheader
+            = article.data.published_on
+            '  by
+            = article.data.author
+        .large-3.columns
 
-      .row.padding-bottom-large
-        .large-8.columns
-          h2 InfluxDB v0.4.0 &ndash; Breaking changes and tons of new features
-          .row
-            .large-9.columns
-              h5.subheader November 27, 2013 by Paul Dix
-            .large-3.columns
+      p
+        = article.summary
+        = link_to "Read More &raquo;", article
 
-          p
-            | InfluxDB has some new features, support for custom dashboards, and there are a bunch of new client libraries that have come out since we announced the project. Most importantly, we're planning a release next week that changes something on the underlying data storage. That means that without a migration, all your data will go away.
-            a href="/blog/influxdb_v0_4_0-breaking_changes_and_tons_of_new_features.html" &nbsp; Read More &raquo;
+  .large-4.columns
+    h4 About InfluxDB
+    p InfluxDB is an open source distributed time series, metrics, and events database.
 
-          h2 Visualizing Bitcoin Post Frequency On HN Using InfluxDB And Rickshaw
-          .row
-            .large-9.columns
-              h5.subheader November 18, 2013 by Todd Persen
-            .large-3.columns
+    hr
 
-          p
-            | Based on casual observation, the crowd at HackerNews seems to be totally obsessed with Bitcoin and it seems to be reaching a fever pitch. What better way to look at the HN Bitcoin obsession than with a visualization? In this post we'll use InfluxDB and Rickshaw to create a visualization of the number of posts with Bitcoin in the title on HN.
-            a href="/blog/visualizing_bitcoin_post_frequency_on_hn_using_influxdb_and_rickshaw.html" &nbsp; Read More &raquo;
-
-        .large-4.columns
-          h4 Posts
-          p
-            a href="/blog/influxdb_v0_4_0-breaking_changes_and_tons_of_new_features.html" InfluxDB v0.4.0 &ndash; Breaking changes and tons of new features
-          p
-            a href="/blog/visualizing_bitcoin_post_frequency_on_hn_using_influxdb_and_rickshaw.html" Visualizing Bitcoin Post Frequency Using InfluxDB And Rickshaw
-
-          hr
-
-          h4 About InfluxDB
-          p InfluxDB is an open source distributed time series, metrics, and events database.
-
-          hr
-
-          h4 Sign Up For Our Newsletter
-          = partial "layouts/signup"
-
-    = partial "layouts/analytics"
+    h4 Sign Up For Our Newsletter
+    = partial "layouts/signup"
