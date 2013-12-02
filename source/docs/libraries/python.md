@@ -4,11 +4,15 @@ The [InfluxDB Python library lives on GitHub](https://github.com/influxdb/influx
 
 ## Get and Install
 
+### Using pip
+
+    pip install influxdb
+
 ### Manual Installation
 
     git clone https://github.com/influxdb/influxdb-python.git
     cd influxdb-python
-    pip install -r requirements.txt 
+    pip install -r requirements.txt
     python setup.py install
 
 ### Initialization
@@ -40,6 +44,11 @@ Change your user-context.
 
 Write to multiple time series names.
 
+Example:
+
+    data = [{"points":[[1.1,4.3,2.1],[1.2,2.0,2.0]],"name":"web_devweb01_load","columns":["min1", "min5", "min15"]}]
+    db.write_points(data)
+
 #### write_points_with_precision(_data_, _time-precision_='s')
 
 Write to multiple time series names with defined precision.
@@ -47,3 +56,11 @@ Write to multiple time series names with defined precision.
 #### query(_query_, _time-precision_='s', _chunked_=False)
 
 Query for data
+
+Example:
+
+    result = db.query('select min5 from web_devweb01_load;')
+
+This will print the following (timestamps will be obviously different):
+
+    [{u'points': [[1386001532, 6, 2], [1386001532, 5, 4.3]], u'name': u'web_devweb01_load', u'columns': [u'time', u'sequence_number', u'min5']}]
