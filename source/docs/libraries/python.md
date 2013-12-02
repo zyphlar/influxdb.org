@@ -46,7 +46,12 @@ Write to multiple time series names.
 
 Example:
 
-    data = [{"points":[[1.1,4.3,2.1],[1.2,2.0,2.0]],"name":"web_devweb01_load","columns":["min1", "min5", "min15"]}]
+    data = [
+      {"points":[[1.1,4.3,2.1],[1.2,2.0,2.0]],
+       "name":"web_devweb01_load",
+       "columns":["min1", "min5", "min15"]
+      }
+    ]
     db.write_points(data)
 
 #### write_points_with_precision(_data_, _time-precision_='s')
@@ -63,4 +68,9 @@ Example:
 
 This will print the following (timestamps will be obviously different):
 
-    [{u'points': [[1386001532, 6, 2], [1386001532, 5, 4.3]], u'name': u'web_devweb01_load', u'columns': [u'time', u'sequence_number', u'min5']}]
+    [
+     {u'points': [[1386001532, 6, 2], [1386001532, 5, 4.3]],
+      u'name': u'web_devweb01_load',
+      u'columns': [u'time', u'sequence_number', u'min5']
+     }
+    ]
