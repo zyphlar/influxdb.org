@@ -6,23 +6,25 @@
       a href="http://play.influxdb.org" play.influxdb.org
       '  where you can create a database and start writing data and exploring it through the administrative interface in seconds. There's no signup required. It's an open sandbox for you to play in.
 
-    h2 OS X
-    p We should have a brew recipe ready in the next week or so.
-    / 'OSX users running 10.6 (Snow Leopard) or newer up to 10.9 (Mavericks) can install via 
-    / a href="http://brew.sh/" Homebrew
-    / '  by running 
-    / code brew install influxdb
-    / '  from the command line. Follow the post install instructions and InfluxDB will start up automatically for you.
+    markdown:
+      ## OS X
+
+      Automatic installation on OS X 10.6 and higher is supported through [Homebrew](http://brew.sh/).
+
+    pre
+      code
+        | brew update
+          brew install influxdb
 
     h2 Ubuntu & Debian
     p Debian users can install by downloading the package and installing it like this:
     pre
       code
-        | # for 64 bit systems
+        | # for 64-bit systems
           wget http://s3.amazonaws.com/influxdb/influxdb_latest_amd64.deb
           sudo dpkg -i influxdb_latest_amd64.deb
 
-          # for 32 bit systems
+          # for 32-bit systems
           wget http://s3.amazonaws.com/influxdb/influxdb_latest_i386.deb
           sudo dpkg -i influxdb_latest_i386.deb
 
@@ -30,11 +32,11 @@
     p RedHat and CentOS users can install by downloading and installing the rpm like this:
     pre
       code
-        | # for 64 bit systems
+        | # for 64-bit systems
           wget http://s3.amazonaws.com/influxdb/influxdb-latest-1.x86_64.rpm
           sudo rpm -ivh influxdb-latest-1.x86_64.rpm
 
-          # for 32 bit systems
+          # for 32-bit systems
           wget http://s3.amazonaws.com/influxdb/influxdb-latest-1.i686.rpm
           sudo rpm -ivh influxdb-latest-1.i686.rpm
 
