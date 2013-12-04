@@ -30,7 +30,11 @@ html
           #docs.section-container.accordion data-section="accordion"
             section
               p.title data-section-title=""
-                = link_to "Getting Started", "/docs/"
+                = link_to "Getting Started", "#"
+              .content
+                ul.side-nav
+                  li= link_to "Introduction", "/docs"
+                  li= link_to "Building From Source", "/docs/getting_started/building.html"
             section
               p.title data-section-title=""
                 = link_to "API", "/docs/api.html"

@@ -2,7 +2,7 @@
 title: InfluxDB Documentation
 ---
 
-## Getting Started
+## Introduction
 
 First, you'll need a running instance of InfluxDB to work with. You can either create a [free database in our open sandbox](http://play.influxdb.org) or install locally. [Check the download page for details](/download) on how to install.
 
@@ -95,4 +95,4 @@ series = influxdb.query(
 
 ### The Admin Interface
 
-You can also explore data through the administrative interface. If you created a database on [Play you can get to it here](http://sandbox.influxdb.org:9062), or on your [localhost here](http://localhost:8083). There you'll be able to issue queries, see basic visualizations, and tables of the raw results.
+You can also explore data through the administrative interface. If you created a database on Play, you can get to it [here](http://sandbox.influxdb.org:9062), or on your localhost [here](http://localhost:8083). There you'll be able to issue queries, see basic visualizations, and tables of the raw results.

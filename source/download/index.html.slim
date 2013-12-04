@@ -51,4 +51,3 @@ coffee:
     for tag in items
       fileName = tag.getElementsByTagName("Key")[0].textContent
       $("#file_list").append("<li><a href='http://s3.amazonaws.com/influxdb/" + fileName + "'>" + fileName + "</a></li>")
-      
