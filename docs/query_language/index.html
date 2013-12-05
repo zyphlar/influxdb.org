@@ -7,6 +7,12 @@
 
 <p>The <a href="/docs">getting started section</a> has some example queries. This section will cover all of the available functions and provide some examples.</p>
 
+<h3>Changes to the query lang in Version 0.4.0</h3>
+
+<p>Starting with version 0.4.0 the equality and inequality operators are
+changed to <code>=</code> and <code>&lt;&gt;</code> from <code>==</code> and <code>!=</code>, respectively. Examples in this doc
+will be changed once 0.4.0 is officially released.</p>
+
 <h3>Select and Time Ranges</h3>
 
 <p>By default, InfluxDB returns data in time descending order. The most efficient queries run over only a single column in a given time series.</p>
@@ -28,6 +34,8 @@
 <p>Points are uniquely identified by the time series they appear in, the time, and the sequence number. Here&rsquo;s a query that returns a specific point.</p>
 <pre class="highlight sql"><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">events</span> <span class="k">where</span> <span class="n">time</span> <span class="o">==</span> <span class="mi">1383154176</span> <span class="k">and</span> <span class="n">sequence_number</span> <span class="o">==</span> <span class="mi">2321</span><span class="p">;</span>
 </pre>
+<p><strong>Note</strong>: this feature isn&rsquo;t implemented yet, see <a href="https://github.com/influxdb/influxdb/issues/108">this issue</a> for current status.</p>
+
 <h4>Selecting Multiple Series</h4>
 
 <p>You can select from multiple series by name or by specifying a regex to match against. Here are a few examples.</p>

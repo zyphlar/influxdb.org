@@ -110,6 +110,85 @@ be the average of the two middle values.</p>
 
 <p>PERCENTILE() requires two values, the second of which can be either an integer
 or floating point number between 0 and 100.</p>
+
+<h2>Histogram</h2>
+
+<h4>Overview</h4>
+
+<p>HISTOGRAM() requires at least one argument and at most two
+arguments. The first argument is the column name and the second
+argument is the bucket size. Bucket size defaults to <code>1.0</code> if it
+wasn&rsquo;t specified.</p>
+
+<h4>Usage</h4>
+<pre class="highlight text">SELECT HISTOGRAM(column_name) FROM series_name ...
+
+SELECT HISTOGRAM(column_name, 10.0) FROM series_name ...
+</pre>
+<h4>Description</h4>
+
+<p>HISTOGRAM() output two columns <code>bucket_start</code> and
+<code>count</code>. <code>bucket_start</code> is the smallest value in the
+bucket. <code>bucket_start</code> along with the bucket size defines the current
+bucket. <code>count</code> is the number of points that falls in this bucket.</p>
+
+<h2>Derivative</h2>
+
+<h4>Overview</h4>
+
+<p>DERIVATIVE() requires exactly one argument, which is a column name</p>
+
+<h4>Usage</h4>
+<pre class="highlight text">SELECT DERIVATIVE(column_name) FROM series_name ...
+</pre>
+<h4>Description</h4>
+
+<p>DERIVATIVE() output a columns containing the value of <code>(v_last -
+v_first) / (t_last - t_first)</code> where <code>v_last</code> is the last value of the
+given column and <code>t_last</code> is the corresponding timestamp (and
+similarly for <code>v_first</code> and <code>t_first</code>). In other words, DERIVATIVE()
+calculates the rate of change of the given column.</p>
+
+<h2>Sum</h2>
+
+<h4>Overview</h4>
+
+<p>SUM() requires exactly one argument, which is a column name</p>
+
+<h4>Usage</h4>
+<pre class="highlight text">SELECT SUM(column_name) FROM series_name ...
+</pre>
+<h4>Description</h4>
+
+<p>SUM() output the sum of the all values for the given column.</p>
+
+<h2>Stddev</h2>
+
+<h4>Overview</h4>
+
+<p>STDDEV() requires exactly one argument, which is a column name</p>
+
+<h4>Usage</h4>
+<pre class="highlight text">SELECT STDDEV(column_name) FROM series_name ...
+</pre>
+<h4>Description</h4>
+
+<p>STDDEV() output the standard deviation of the given column.</p>
+
+<h2>First/Last</h2>
+
+<h4>Overview</h4>
+
+<p>FIRST() and LAST() require exactly one argument, which is a column name</p>
+
+<h4>Usage</h4>
+<pre class="highlight text">SELECT FIRST(column_name) FROM series_name ...
+
+SELECT LAST(column_name) FROM series_name ...
+</pre>
+<h4>Description</h4>
+
+<p>FIRST() and LAST() output the first (or last in case of LAST()) value of the given column.</p>
 </div></div></div><div class="large-3 pull-9 columns"><div class="section-container accordion" data-section="accordion" id="docs"><section><p class="title" data-section-title=""><a href="#">Getting Started</a></p><div class="content"><ul class="side-nav"><li><a href="/docs">Introduction</a></li><li><a href="/docs/getting_started/building.html">Building From Source</a></li></ul></div></section><section><p class="title" data-section-title=""><a href="/docs/api.html">API</a></p><div class="content"><ul class="side-nav"><li><a href="/docs/api/http.html">HTTP API</a></li><li><a href="/docs/api/protobuf.html">Protobuf API</a></li></ul></div></section><section><p class="title" data-section-title=""><a href="#">Query Language</a></p><div class="content"><ul class="side-nav"><li><a href="/docs/query_language/">Introduction</a></li><li><a href="/docs/query_language/functions.html">Functions</a></li><li><a href="/docs/query_language/continuous_queries.html">Continuous Queries</a></li></ul></div></section><section><p class="title" data-section-title=""><a href="#">Interfaces</a></p><div class="content"><ul class="side-nav"><li><a href="/docs/interfaces/">Overview</a></li><li><a href="/docs/interfaces/custom.html">Custom Interfaces</a></li></ul></div></section><section><p class="title" data-section-title=""><a href="#">Libraries</a></p><div class="content"><ul class="side-nav"><li><a href="/docs/libraries/javascript.html">JavaScript</a></li><li><a href="/docs/libraries/ruby.html">Ruby</a></li><li><a href="/docs/libraries/python.html">Python</a></li><li><a href="/docs/libraries/node.html">Node.js</a></li><li><a href="/docs/libraries/php.html">PHP</a></li><li><a href="https://github.com/olauzon/capacitor">Clojure</a></li></ul></div></section><section><p class="title" data-section-title=""><a href="https://github.com/FGRibreau/influxdb-cli">CLI</a></p></section><section><p class="title" data-second-title=""><a href="/docs/visualizations.html">Visualizations & Dashboards</a></p></section><section><p class="title" data-section-title=""><a href="https://github.com/bernd/statsd-influxdb-backend">StatsD Backend</a></p></section><section><p class="title" data-section-title=""><a href="https://github.com/bpaquet/collectd-influxdb-proxy">CollectD Proxy</a></p></section><section><p class="title" data-section-title=""><a href="/docs/deployment.html">Deployment</a></p></section><section><p class="title" data-section-title=""><a href="https://github.com/influxdb/influxdb.org">Contributing to Docs</a></p></section></div><p><a class="button expand" href="/download" style="margin-bottom: 0;">Download InfluxDB</a></p></div></div></section><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
