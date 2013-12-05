@@ -7,7 +7,7 @@ title: InfluxDB Documentation
 For all systems, the best way to get the source is to clone the repository from GitHub.
 
 ``` shell
-git clone git@github.com:influxdb/influxdb.git
+git clone https://github.com/influxdb/influxdb.git
 ```
 
 ### OS X
