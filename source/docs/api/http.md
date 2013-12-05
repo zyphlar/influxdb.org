@@ -186,20 +186,35 @@ curl -X POST 'http://localhost:8086/db?u=root&p=root' \
 curl -X DELETE 'http://localhost:8086/db/site_development?u=root&p=root'
 ```
 
-#### Security
+##### Replication factor (> v0.4.0)
 
-InfluxDB has three different kinds of users: cluster admins, database
-admins, and database users. Cluster admins are able to create and drop
-databases, and create and delete all kinds of users. Database admins
-can read and write data from all series, and create and delete
-database admins and users. Database users are able to either read or
-write data based on their permissions.
-
-Here are the endpoints for administration:
+Starting with version 0.4.0, influxdb support replicating time series
+data to multiple servers for high availability. Time series inherit
+the replication factor of the database to which it belongs. By default
+all new databases have replication factor of 1, meaning every point exist
+on one and only one server. In order to create a database with a higher
+replication factory you can do the following:
 
 ```bash
-# get list of cluster admins
-curl 'http://localhost:8086/cluster_admins?u=root&p=root'
+# create a database
+curl -X POST 'http://localhost:8086/db?u=root&p=root' \
+  -d '{"name": "site_development", "replicationFactor": 2}'
+```
+
+#### Security
+
+InfluxDB has three different kinds of users:
+
+##### cluster admin
+
+A cluster admin can add and drop databases. Add and remove database
+users and database admins to any database and change their read and
+write access. A cluster admin can't query a database though. Below are
+the endpoints specific to cluster admins:
+
+```bash
+# get list of cluster admins curl
+'http://localhost:8086/cluster_admins?u=root&p=root'
 
 # add cluster admin
 curl -X POST 'http://localhost:8086/cluster_admins?u=root&p=root' \
@@ -211,7 +226,24 @@ curl -X POST 'http://localhost:8086/cluster_admins/paul?u=root&p=root' \
 
 # delete cluster admin
 curl -X DELETE 'http://localhost:8086/cluster_admins/paul?u=root&p=root'
+```
 
+##### database admin
+
+A database admin can add and remove databases admins and database
+users and change their read and write permissions. It can't add
+or remove users from a different database.
+
+##### database user
+
+A database user can read and write data to the current database.
+The user can't add or remove users or admins or read/write data
+from/to time series that they don't have permissions for.
+
+Below are examples of adding/removing databases users and database
+admins:
+
+```bash
 # Database users, with a database name of site_dev
 
 # add database user
@@ -313,3 +345,7 @@ exposing their data to each other.
 InfluxDB decides which permission to apply by first looking for exact
 matches. If there is one then it is applied. Otherwise, it iterates
 through the regexes and uses the first matching one.
+
+**NOTE**: Enforcing user access rules isn't fully implemented see
+  [this issue](https://github.com/influxdb/influxdb/issues/109) for
+  more information on the current status.

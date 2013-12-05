@@ -4,6 +4,12 @@ InfluxDB features a SQL like query language, only used for querying data. The HT
 
 The [getting started section](/docs) has some example queries. This section will cover all of the available functions and provide some examples.
 
+### Changes to the query lang in Version 0.4.0
+
+Starting with version 0.4.0 the equality and inequality operators are
+changed to `=` and `<>` from `==` and `!=`, respectively. Examples in this doc
+will be changed once 0.4.0 is officially released.
+
 ### Select and Time Ranges
 
 By default, InfluxDB returns data in time descending order. The most efficient queries run over only a single column in a given time series.
@@ -36,6 +42,8 @@ Points are uniquely identified by the time series they appear in, the time, and 
 ```sql
 select * from events where time == 1383154176 and sequence_number == 2321;
 ```
+
+**Note**: this feature isn't implemented yet, see [this issue](https://github.com/influxdb/influxdb/issues/108) for current status.
 
 #### Selecting Multiple Series
 
