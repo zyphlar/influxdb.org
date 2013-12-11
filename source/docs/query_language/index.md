@@ -18,18 +18,26 @@ By default, InfluxDB returns data in time descending order. The most efficient q
 select value from response_times;
 ```
 
-This simple query pulls the values for the `value` column from the `reponse_times` series. By default, InfluxDB will apply limits to the number of points and the time range. Without those arguments specified, the previous query would actually get converted to:
+This simple query pulls the values for the `value` column from the `reponse_times` series.
+
+#### Older versions
+
+Prior to version 0.4.0, InfluxDB will apply some limits to the number of points and the time range. Without those arguments specified, the previous query would actually get converted to:
 
 ```sql
 select value from response_times where time > now() - 1h limit 1000;
 ```
 
-The default is to limit the time range to an hour or the last 1000 points, whichever comes first. That query also shows one of the methods for specifying the time range. The column `time` is built in for every time series in the database. The `now()` method has the server set the time. And the `- 1h` tells it to subtract an hour. Other options for how to specify time durations are `us` for microseconds, `ms` for milliseconds, `s` for seconds, `m` for minutes, and `d` for days.
+The default is to limit the time range to an hour or the last 1000 points, whichever comes first.
+
+#### How to set query start and end time
+
+That query also shows one of the methods for specifying the time range. The column `time` is built in for every time series in the database. The `now()` method has the server set the time. And the `- 1h` tells it to subtract an hour. Other options for how to specify time durations are `us` for microseconds, `ms` for milliseconds, `s` for seconds, `m` for minutes, and `d` for days.
 
 You can also give a specific time and date.
 
 ```sql
-select value from response_times 
+select value from response_times
 where time > '2013-08-12 23:32:01.232' and time < '2013-08-13';
 ```
 
