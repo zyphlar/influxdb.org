@@ -27,7 +27,11 @@ sudo rpm -ivh influxdb-latest-1.i686.rpm</code></pre><h2>All Versions</h2><p>Her
     for (_i = 0, _len = items.length; _i < _len; _i++) {
       tag = items[_i];
       fileName = tag.getElementsByTagName("Key")[0].textContent;
-      _results.push($("#file_list").append("<li><a href='http://s3.amazonaws.com/influxdb/" + fileName + "'>" + fileName + "</a></li>"));
+      if (fileName.indexOf("logs/") === -1) {
+        _results.push($("#file_list").append("<li><a href='http://s3.amazonaws.com/influxdb/" + fileName + "'>" + fileName + "</a></li>"));
+      } else {
+        _results.push(void 0);
+      }
     }
     return _results;
   });
