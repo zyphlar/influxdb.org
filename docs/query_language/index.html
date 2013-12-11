@@ -18,13 +18,21 @@ will be changed once 0.4.0 is officially released.</p>
 <p>By default, InfluxDB returns data in time descending order. The most efficient queries run over only a single column in a given time series.</p>
 <pre class="highlight sql"><span class="k">select</span> <span class="n">value</span> <span class="k">from</span> <span class="n">response_times</span><span class="p">;</span>
 </pre>
-<p>This simple query pulls the values for the <code>value</code> column from the <code>reponse_times</code> series. By default, InfluxDB will apply limits to the number of points and the time range. Without those arguments specified, the previous query would actually get converted to:</p>
+<p>This simple query pulls the values for the <code>value</code> column from the <code>reponse_times</code> series.</p>
+
+<h4>Older versions</h4>
+
+<p>Prior to version 0.4.0, InfluxDB will apply some limits to the number of points and the time range. Without those arguments specified, the previous query would actually get converted to:</p>
 <pre class="highlight sql"><span class="k">select</span> <span class="n">value</span> <span class="k">from</span> <span class="n">response_times</span> <span class="k">where</span> <span class="n">time</span> <span class="o">&gt;</span> <span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="n">h</span> <span class="k">limit</span> <span class="mi">1000</span><span class="p">;</span>
 </pre>
-<p>The default is to limit the time range to an hour or the last 1000 points, whichever comes first. That query also shows one of the methods for specifying the time range. The column <code>time</code> is built in for every time series in the database. The <code>now()</code> method has the server set the time. And the <code>- 1h</code> tells it to subtract an hour. Other options for how to specify time durations are <code>us</code> for microseconds, <code>ms</code> for milliseconds, <code>s</code> for seconds, <code>m</code> for minutes, and <code>d</code> for days.</p>
+<p>The default is to limit the time range to an hour or the last 1000 points, whichever comes first.</p>
+
+<h4>How to set query start and end time</h4>
+
+<p>That query also shows one of the methods for specifying the time range. The column <code>time</code> is built in for every time series in the database. The <code>now()</code> method has the server set the time. And the <code>- 1h</code> tells it to subtract an hour. Other options for how to specify time durations are <code>us</code> for microseconds, <code>ms</code> for milliseconds, <code>s</code> for seconds, <code>m</code> for minutes, and <code>d</code> for days.</p>
 
 <p>You can also give a specific time and date.</p>
-<pre class="highlight sql"><span class="k">select</span> <span class="n">value</span> <span class="k">from</span> <span class="n">response_times</span> 
+<pre class="highlight sql"><span class="k">select</span> <span class="n">value</span> <span class="k">from</span> <span class="n">response_times</span>
 <span class="k">where</span> <span class="n">time</span> <span class="o">&gt;</span> <span class="s1">'2013-08-12 23:32:01.232'</span> <span class="k">and</span> <span class="n">time</span> <span class="o">&lt;</span> <span class="s1">'2013-08-13'</span><span class="p">;</span>
 </pre>
 <p>The time and date should be wrapped in single quotes. If you only specify the date, the time will be set to <code>00:00:00</code>. The <code>.232</code> after the hours, minutes, and seconds is optional and specifies the milliseconds.</p>
