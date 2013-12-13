@@ -75,6 +75,23 @@ select * from /.*/ limit 1;
 
 Return the last point from every time series in the database.
 
+### Deleting data
+
+The delete query looks like the following:
+
+`delete from response_times where time > now() - 1h`
+
+With no time constraints this query will delete every point in the
+time series `response_times`. You have to be a db admin in order to be
+able to delete data from timeseries.
+
+Any conditions in the where clause that don't set the start and/or end
+time will be ignored, for example the following query:
+
+`delete from response_times where user = 'foo'`
+
+will return an error.
+
 ### The Where Clause
 
 We've already seen the where clause for selecting time ranges and a specific point. You can also use it to filter based on given values, comparators, or regexes. Here are some examples of different ways to use where.
