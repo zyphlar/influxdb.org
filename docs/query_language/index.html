@@ -57,6 +57,23 @@ will be changed once 0.4.0 is officially released.</p>
 </pre>
 <p>Return the last point from every time series in the database.</p>
 
+<h3>Deleting data</h3>
+
+<p>The delete query looks like the following:</p>
+
+<p><code>delete from response_times where time &gt; now() - 1h</code></p>
+
+<p>With no time constraints this query will delete every point in the
+time series <code>response_times</code>. You have to be a db admin in order to be
+able to delete data from timeseries.</p>
+
+<p>Any conditions in the where clause that don&rsquo;t set the start and/or end
+time will be ignored, for example the following query:</p>
+
+<p><code>delete from response_times where user = &#39;foo&#39;</code></p>
+
+<p>will return an error.</p>
+
 <h3>The Where Clause</h3>
 
 <p>We&rsquo;ve already seen the where clause for selecting time ranges and a specific point. You can also use it to filter based on given values, comparators, or regexes. Here are some examples of different ways to use where.</p>
