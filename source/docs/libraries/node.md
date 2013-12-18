@@ -1,4 +1,4 @@
-## Node.js
+# Node.js
 
 There's a [Node.js InfluxDB library on GitHub](https://github.com/bencevans/node-influx) thanks to [Ben Evans](https://twitter.com/bencevans).
 

@@ -1,4 +1,4 @@
-## Continuous Queries
+# Continuous Queries
 
 Continuous queries let you precompute expensive queries into another time series in real-time. This is useful for queries that are issued frequently on dashboards that should return very quickly. Comming soon, but here's an example:
 

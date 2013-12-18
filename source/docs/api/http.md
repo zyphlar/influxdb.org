@@ -1,4 +1,4 @@
-## HTTP API
+# HTTP API
 
 The primary interface to InfluxDB is through the HTTP API. Through it you can write data, run queries, and do cluster administration.
 

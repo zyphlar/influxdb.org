@@ -9,85 +9,66 @@ html
     /! Use title if it's in the page YAML frontmatter
     title == data.page.title || "InfluxDB"
 
-    == stylesheet_link_tag "normalize", "foundation", "all", "highlighting"
+    == stylesheet_link_tag "all"
     == javascript_include_tag  "all"
 
   body class="#{page_classes}"
     = partial "layouts/nav"
 
-    section#main
+    section role="main"
       .row
-        .large-12.columns
-          h1.docs.header Documentation
-          hr
+        .large-4.medium-4.columns
+          .sidebar
+            nav
+              ul.side-nav
+                li.heading Getting Started
+                li= link_to "Introduction", "/docs"
 
-      .row.padding-bottom-large
-        .large-9.push-3.columns
-          .row
-            .large-12.columns
-              == yield
-        .large-3.pull-9.columns
-          #docs.section-container.accordion data-section="accordion"
-            section
-              p.title data-section-title=""
-                = link_to "Getting Started", "#"
-              .content
-                ul.side-nav
-                  li= link_to "Introduction", "/docs"
-                  li= link_to "Building From Source", "/docs/getting_started/building.html"
-            section
-              p.title data-section-title=""
-                = link_to "API", "/docs/api.html"
-              .content
-                ul.side-nav
-                  li= link_to "HTTP API", "/docs/api/http.html"
-                  li= link_to "Protobuf API", "/docs/api/protobuf.html"
-            section
-              p.title data-section-title=""
-                = link_to "Query Language", "#"
-              .content
-                ul.side-nav
-                  li= link_to "Introduction", "/docs/query_language/"
-                  li= link_to "Functions", "/docs/query_language/functions.html"
-                  li= link_to "Continuous Queries", "/docs/query_language/continuous_queries.html"
-            section
-              p.title data-section-title=""
-                = link_to "User Interfaces", "#"
-              .content
-                ul.side-nav
-                  li= link_to "Overview", "/docs/interfaces/"
-                  li= link_to "Custom Interfaces", "/docs/interfaces/custom.html"
-                  / li= link_to "Examples", "/docs/interfaces/examples.html"
-            section
-              p.title data-section-title=""
-                = link_to "Libraries", "#"
-              .content
-                ul.side-nav
-                  li= link_to "JavaScript", "/docs/libraries/javascript.html"
-                  li= link_to "Ruby", "/docs/libraries/ruby.html"
-                  li= link_to "Python", "/docs/libraries/python.html"
-                  li= link_to "Node.js", "/docs/libraries/node.html"
-                  li= link_to "PHP", "/docs/libraries/php.html"
-                  li= link_to "Clojure", "https://github.com/olauzon/capacitor"
-            section
-              p.title data-section-title=""
-                = link_to "CLI", "https://github.com/FGRibreau/influxdb-cli"
-            section
-              p.title data-second-title=""
-                = link_to "Visualizations & Dashboards", "/docs/visualizations.html"
-            section
-              p.title data-section-title=""
-                = link_to "StatsD Backend", "https://github.com/bernd/statsd-influxdb-backend"
-            section
-              p.title data-section-title=""
-                = link_to "CollectD Proxy", "https://github.com/bpaquet/collectd-influxdb-proxy"
-            section
-              p.title data-section-title=""
-                = link_to "Deployment", "/docs/deployment.html"
-            section
-              p.title data-section-title=""
-                = link_to "Contributing to Docs", "https://github.com/influxdb/influxdb.org"
+                li.divider
 
-          p
-            a.button.expand href="/download" style="margin-bottom: 0;" Download InfluxDB
+                li.heading API
+                li= link_to "HTTP API", "/docs/api/http.html"
+                li= link_to "Protobuf API", "/docs/api/protobuf.html"
+
+                li.divider
+
+                li.heading Query Language
+                li= link_to "Introduction", "/docs/query_language/"
+                li= link_to "Functions", "/docs/query_language/functions.html"
+                li= link_to "Continuous Queries", "/docs/query_language/continuous_queries.html"
+
+                li.divider
+
+                li.heading User Interfaces
+                li= link_to "Overview", "/docs/interfaces/"
+                li= link_to "Custom Interfaces", "/docs/interfaces/custom.html"
+
+                li.divider
+
+                li.heading Libraries
+                li= link_to "JavaScript", "/docs/libraries/javascript.html"
+                li= link_to "Ruby", "/docs/libraries/ruby.html"
+                li= link_to "Python", "/docs/libraries/python.html"
+                li= link_to "Node.js", "/docs/libraries/node.html"
+                li= link_to "PHP", "/docs/libraries/php.html"
+                li= link_to "Clojure", "https://github.com/olauzon/capacitor"
+
+                li.divider
+
+                li.heading Contributing
+                li= link_to "Documentation", "https://github.com/influxdb/influxdb.org"
+                li= link_to "Building From Source", "/docs/getting_started/building.html"
+
+                li.divider
+
+                li.heading Other
+                li= link_to "CLI", "https://github.com/FGRibreau/influxdb-cli"
+                li= link_to "Visualizations & Dashboards", "/docs/visualizations.html"
+                li= link_to "CollectD Proxy", "https://github.com/bpaquet/collectd-influxdb-proxy"
+                li= link_to "Deployment", "/docs/deployment.html"
+
+            a.button.download.expand href="/download" style="margin-bottom: 0;" Download InfluxDB
+        .large-8.medium-8.columns
+          == yield
+
     = partial "layouts/analytics"

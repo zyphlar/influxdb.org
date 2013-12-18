@@ -1,4 +1,4 @@
-## Visualizations and Dashbaords
+# Visualizations and Dashbaords
 
 One of the goals with building InfluxDB with an HTTP API first was that it would be easy to build many different visualization tools and dashboards around a standard API. Other than the built in admin interface, here are links to other projects that build visualizations on top of InfluxDB.
 

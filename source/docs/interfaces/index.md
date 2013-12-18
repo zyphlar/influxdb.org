@@ -1,4 +1,4 @@
-## Overview
+# Overview
 
 InfluxDB ships with a default administration interface, which allows for management of users and databases, but also has a built-in structure for creating [custom interfaces](/docs/interfaces/custom.html) that can offer arbitrary data visualization and manipulation.
 

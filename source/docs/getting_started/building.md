@@ -2,7 +2,7 @@
 title: InfluxDB Documentation
 ---
 
-## Building InfluxDB From Source
+# Building InfluxDB From Source
 
 For all systems, the best way to get the source is to clone the repository from GitHub.
 

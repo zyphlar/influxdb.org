@@ -1,4 +1,4 @@
-## Custom Interfaces
+# Custom Interfaces
 
 The InfluxDB administration interface allows you to create modular interfaces that can be dropped in and used along with the pre-existing offering. This section will detail the methods available to you when creating your own interface.
 

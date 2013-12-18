@@ -2,7 +2,7 @@
 title: InfluxDB Documentation
 ---
 
-## Introduction
+# Introduction
 
 First, you'll need a running instance of InfluxDB to work with. You can either create a [free database in our open sandbox](http://play.influxdb.org) or install locally. [Check the download page for details](/download) on how to install.
 
