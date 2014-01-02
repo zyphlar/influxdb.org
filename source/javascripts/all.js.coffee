@@ -1,7 +1,6 @@
-#= require vendor/zepto
+#= require vendor/jquery
 #= require vendor/custom.modernizr
-#= require foundation/foundation
-#= require foundation/foundation.section
+#= require vendor/foundation.min
 #= require_self
 
 $ ->
