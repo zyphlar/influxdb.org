@@ -18,7 +18,7 @@ By default, InfluxDB returns data in time descending order. The most efficient q
 select value from response_times;
 ```
 
-This simple query pulls the values for the `value` column from the `reponse_times` series.
+This simple query pulls the values for the `value` column from the `response_times` series.
 
 #### Older versions
 
