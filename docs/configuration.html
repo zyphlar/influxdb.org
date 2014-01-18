@@ -1,0 +1,60 @@
+<!DOCTYPE html><html><head><meta charset="utf-8" /><!--Always force latest IE rendering engine or request Chrome Frame--><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><!--Use title if it's in the page YAML frontmatter--><title>InfluxDB</title><link href="/stylesheets/all.css" media="screen" rel="stylesheet" type="text/css" /><script src="/javascripts/all.js" type="text/javascript"></script></head><body class="docs docs_configuration"><nav class="top-bar hide-for-small"><ul class="title-area"><li class="name"><h1><a href="/">InfluxDB</a></h1></li></ul><li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li><section class="top-bar-section"><ul class="right"><li class="divider"></li><li><a href="/overview">Overview</a></li><li class="divider"></li><li><a href="/blog">Blog</a></li><li class="divider"></li><li><a href="/docs">Docs</a></li><li class="divider"></li><li><a href="/community">Community</a></li><li class="divider"></li><li><a target="_" href="http://play.influxdb.org">Play</a></li><li class="divider"></li><li class="has-form" style="width: 110px;"><iframe allowtransparency="true" frameborder="0" height="20" scrolling="0" src="http://ghbtns.com/github-btn.html?user=influxdb&repo=influxdb&type=watch&count=true" style="margin-top:12px;" width="110"></iframe></li><li class="has-form"><a class="button" href="/download">Download</a></li></ul></section></nav><section role="main"><div class="row"><div class="large-4 medium-4 columns"><div class="sidebar"><nav><ul class="side-nav"><li class="heading">Getting Started</li><li><a href="/docs">Introduction</a></li><li class="divider"></li><li class="heading">API</li><li><a href="/docs/api/http.html">HTTP API</a></li><li><a href="/docs/api/protobuf.html">Protobuf API</a></li><li class="divider"></li><li class="heading">Query Language</li><li><a href="/docs/query_language/">Introduction</a></li><li><a href="/docs/query_language/functions.html">Functions</a></li><li><a href="/docs/query_language/continuous_queries.html">Continuous Queries</a></li><li class="divider"></li><li class="heading">User Interfaces</li><li><a href="/docs/interfaces/">Overview</a></li><li><a href="/docs/interfaces/custom.html">Custom Interfaces</a></li><li class="divider"></li><li class="heading">Libraries</li><li><a href="/docs/libraries/javascript.html">JavaScript</a></li><li><a href="/docs/libraries/ruby.html">Ruby</a></li><li><a href="/docs/libraries/python.html">Python</a></li><li><a href="/docs/libraries/node.html">Node.js</a></li><li><a href="/docs/libraries/php.html">PHP</a></li><li><a href="https://github.com/olauzon/capacitor">Clojure</a></li><li><a href="https://github.com/influxdb/influxdb-go">Go</a></li><li><a href="https://github.com/influxdb/influxdb-scala">Scala</a></li><li><a href="https://github.com/influxdb/influxdb-r">R</a></li><li class="divider"></li><li class="heading">Operations</li><li><a href="/docs/hosting.html">Hosting</a></li><li><a href="/docs/configuration.html">Configuration</a></li><li><a href="/docs/deployment.html">Deployment</a></li><li class="divider"></li><li class="heading">Contributing</li><li><a href="https://github.com/influxdb/influxdb.org">Documentation</a></li><li><a href="https://github.com/influxdb/influxdb/blob/master/LICENSE">License (MIT)</a></li><li><a href="/docs/getting_started/building.html">Building From Source</a></li><li class="divider"></li><li class="heading">Other</li><li><a href="https://github.com/FGRibreau/influxdb-cli">CLI (Node)</a></li><li><a href="https://github.com/phstc/influxdb-cli">CLI (Ruby)</a></li><li><a href="/docs/visualizations.html">Visualizations & Dashboards</a></li><li><a href="https://github.com/bernd/statsd-influxdb-backend">StatsD Backend</a></li><li><a href="https://github.com/bpaquet/collectd-influxdb-proxy">CollectD Proxy</a></li><li><a href="https://github.com/fangli/fluent-plugin-influxdb">FluentD Plugin</a></li><li><a href="https://github.com/SimpleFinance/chef-handler-influxdb">Chef Handler/Reporter</a></li><li><a href="https://github.com/CargoSense/puppet-influxdb">Config Management via Boxen</a></li></ul></nav><a class="button download expand" href="/download" style="margin-bottom: 0;">Download InfluxDB</a></div></div><div class="large-8 medium-8 columns"><h1>Configuration</h1>
+
+<p>Here&rsquo;s a sample configuration file. Comments in the file explain the options.</p>
+<pre class="highlight toml"><span class="c"># Welcome to the InfluxDB configuration file.</span>
+
+<span class="c"># If hostname (on the OS) doesn&#39;t return a name that can be resolved by the other </span>
+<span class="c"># systems in the cluster, you&#39;ll have to set the hostname to an IP or something </span>
+<span class="c"># that can be resovled here.</span>
+<span class="c"># hostname = &quot;&quot;</span>
+
+<span class="nn">[logging]</span>
+<span class="c"># logging level can be one of &quot;debug&quot;, &quot;info&quot;, &quot;warn&quot; or &quot;error&quot;</span>
+<span class="py">level</span>  <span class="p">=</span> <span class="s">&quot;info&quot;</span>
+<span class="py">file</span>   <span class="p">=</span> <span class="s">&quot;influxdb.log&quot;</span>
+
+<span class="c"># Configure the admin server</span>
+<span class="nn">[admin]</span>
+<span class="py">port</span>   <span class="p">=</span> <span class="mi">8083</span>
+<span class="py">assets</span> <span class="p">=</span> <span class="s">&quot;./admin&quot;</span>
+
+<span class="c"># Configure the http api</span>
+<span class="nn">[api]</span>
+<span class="py">port</span> <span class="p">=</span> <span class="mi">8086</span>
+
+<span class="c"># Raft configuration</span>
+<span class="nn">[raft]</span>
+<span class="c"># The raft port should be open between all servers in a cluster.</span>
+<span class="c"># However, this port shouldn&#39;t be accessible from the internet.</span>
+
+<span class="py">port</span> <span class="p">=</span> <span class="mi">8090</span>
+
+<span class="c"># Where the raft logs are stored. The user running InfluxDB will need read/write access.</span>
+<span class="py">dir</span>  <span class="p">=</span> <span class="s">&quot;/tmp/influxdb/development/raft&quot;</span>
+
+<span class="nn">[storage]</span>
+<span class="py">dir</span> <span class="p">=</span> <span class="s">&quot;/tmp/influxdb/development/db&quot;</span>
+
+<span class="nn">[cluster]</span>
+<span class="c"># A comma separated list of servers to seed</span>
+<span class="c"># this server. this is only relevant when the</span>
+<span class="c"># server is joining a new cluster. Otherwise</span>
+<span class="c"># the server will use the list of known servers</span>
+<span class="c"># prior to shutting down. Any server can be pointed to</span>
+<span class="c"># as a seed. It will find the Raft leader automatically.</span>
+
+<span class="c"># Here&#39;s an example. Note that the port on the host is the same as the raft port.</span>
+<span class="py">seed-servers</span> <span class="p">=</span> <span class="p">[</span><span class="s">&quot;hosta:8090&quot;</span><span class="p">,</span> <span class="s">&quot;hostb:8090&quot;</span><span class="p">]</span>
+
+<span class="c"># Replication happens over a TCP connection with a Protobuf protocol.</span>
+<span class="c"># This port should be reachable between all servers in a cluster.</span>
+<span class="c"># However, this port shouldn&#39;t be accessible from the internet.</span>
+
+<span class="py">protobuf_port</span> <span class="p">=</span> <span class="mi">8099</span>
+</pre></div></div></section><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-45024174-1', 'influxdb.org');
+ga('send', 'pageview');</script></body></html>
