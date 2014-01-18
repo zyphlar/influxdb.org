@@ -7,7 +7,7 @@ Here's a sample configuration file. Comments in the file explain the options.
 
 # If hostname (on the OS) doesn't return a name that can be resolved by the other 
 # systems in the cluster, you'll have to set the hostname to an IP or something 
-# that can be resovled here.
+# that can be resolved here.
 # hostname = ""
 
 [logging]

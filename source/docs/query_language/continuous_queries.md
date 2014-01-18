@@ -1,6 +1,6 @@
 # Continuous Queries
 
-Continuous queries let you precompute expensive queries into another time series in real-time. This is useful for queries that are issued frequently on dashboards that should return very quickly. Comming soon, but here's an example:
+Continuous queries let you precompute expensive queries into another time series in real-time. This is useful for queries that are issued frequently on dashboards that should return very quickly. Coming soon, but here's an example:
 
 ```sql
 select percentile(value, 95) 

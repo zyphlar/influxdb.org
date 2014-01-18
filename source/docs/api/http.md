@@ -125,7 +125,7 @@ The response is a collection of objects where each object is a collection of poi
 
 The `sequence_number` will only show up on queries that return raw data points. Points can be uniquely identified by the series, time, and sequence number. When doing group by queries, sequence numbers will not be returned.
 
-The order of the points defaults to time desending. The only other option is to order by time ascending by adding `order=asc` to the query.
+The order of the points defaults to time descending. The only other option is to order by time ascending by adding `order=asc` to the query.
 
 #### Chunked Responses
 
