@@ -35,16 +35,57 @@ The default is to limit the time range to an hour or the last 1000 points, which
 If start and end times aren't set they will default to beginning of
 time until now, respectively.
 
-That query also shows one of the methods for specifying the time range. The column `time` is built in for every time series in the database. The `now()` method has the server set the time. And the `- 1h` tells it to subtract an hour. Other options for how to specify time durations are `us` for microseconds, `ms` for milliseconds, `s` for seconds, `m` for minutes, and `d` for days.
+The column `time` is built in for every time series in the
+database. You specify the start and end times by setting conditions on
+the `time` columns in the where clause.
 
-You can also give a specific time and date.
+Below are the different formats that can be used to specify start and
+end times.
+
+##### Date time strings
+
+Date time strings have the format `YYYY-MM-DD HH:MM:SS.mmm` where
+`mmm` are the milliseconds within the second. For example:
 
 ```sql
 select value from response_times
 where time > '2013-08-12 23:32:01.232' and time < '2013-08-13';
 ```
 
-The time and date should be wrapped in single quotes. If you only specify the date, the time will be set to `00:00:00`. The `.232` after the hours, minutes, and seconds is optional and specifies the milliseconds.
+The time and date should be wrapped in single quotes. If you only
+specify the date, the time will be set to `00:00:00`. The `.232` after
+the hours, minutes, and seconds is optional and specifies the
+milliseconds.
+
+##### Relative time
+
+You can use `now()` to calculate a timestamp relative to the server's
+current timestamp. For example:
+
+```sql
+select value from response_times where time > now() - 1h limit 1000;
+```
+
+will return all points starting an hour ago until now.
+
+Other options for how to specify time durations are `u` for
+microseconds, `s` for seconds, `m` for minutes, `h` for hours, ,`d`
+for days and `w` for weeks. If no suffix is given the value is
+interpreted as nanoseconds.
+
+##### Absolute time
+
+You can specify timestamp in epoch time, which is defined as the
+number of nanoseconds that have elapsed since 00:00:00 Coordinated
+Universal Time (UTC), Thursday, 1 January 1970. You can use the same
+suffixes from the previous section if you don't want to specify
+timestamp in nanoseconds. For example:
+
+```sql
+select value from response_times where time > 1388534400s
+```
+
+will return all points that were writtern after `2014-01-01 00:00:00`
 
 #### Selecting a Specific Point
 
