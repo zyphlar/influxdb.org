@@ -15,7 +15,7 @@ will be changed once 0.4.0 is officially released.</p>
 <p>By default, InfluxDB returns data in time descending order. The most efficient queries run over only a single column in a given time series.</p>
 <pre class="highlight sql"><span class="k">select</span> <span class="n">value</span> <span class="k">from</span> <span class="n">response_times</span><span class="p">;</span>
 </pre>
-<p>This simple query pulls the values for the <code>value</code> column from the <code>reponse_times</code> series.</p>
+<p>This simple query pulls the values for the <code>value</code> column from the <code>response_times</code> series.</p>
 
 <h4>Older versions</h4>
 
@@ -26,13 +26,51 @@ will be changed once 0.4.0 is officially released.</p>
 
 <h4>How to set query start and end time</h4>
 
-<p>That query also shows one of the methods for specifying the time range. The column <code>time</code> is built in for every time series in the database. The <code>now()</code> method has the server set the time. And the <code>- 1h</code> tells it to subtract an hour. Other options for how to specify time durations are <code>us</code> for microseconds, <code>ms</code> for milliseconds, <code>s</code> for seconds, <code>m</code> for minutes, and <code>d</code> for days.</p>
+<p>If start and end times aren&rsquo;t set they will default to beginning of
+time until now, respectively.</p>
 
-<p>You can also give a specific time and date.</p>
+<p>The column <code>time</code> is built in for every time series in the
+database. You specify the start and end times by setting conditions on
+the <code>time</code> columns in the where clause.</p>
+
+<p>Below are the different formats that can be used to specify start and
+end times.</p>
+
+<h5>Date time strings</h5>
+
+<p>Date time strings have the format <code>YYYY-MM-DD HH:MM:SS.mmm</code> where
+<code>mmm</code> are the milliseconds within the second. For example:</p>
 <pre class="highlight sql"><span class="k">select</span> <span class="n">value</span> <span class="k">from</span> <span class="n">response_times</span>
 <span class="k">where</span> <span class="n">time</span> <span class="o">&gt;</span> <span class="s1">&#39;2013-08-12 23:32:01.232&#39;</span> <span class="k">and</span> <span class="n">time</span> <span class="o">&lt;</span> <span class="s1">&#39;2013-08-13&#39;</span><span class="p">;</span>
 </pre>
-<p>The time and date should be wrapped in single quotes. If you only specify the date, the time will be set to <code>00:00:00</code>. The <code>.232</code> after the hours, minutes, and seconds is optional and specifies the milliseconds.</p>
+<p>The time and date should be wrapped in single quotes. If you only
+specify the date, the time will be set to <code>00:00:00</code>. The <code>.232</code> after
+the hours, minutes, and seconds is optional and specifies the
+milliseconds.</p>
+
+<h5>Relative time</h5>
+
+<p>You can use <code>now()</code> to calculate a timestamp relative to the server&rsquo;s
+current timestamp. For example:</p>
+<pre class="highlight sql"><span class="k">select</span> <span class="n">value</span> <span class="k">from</span> <span class="n">response_times</span> <span class="k">where</span> <span class="n">time</span> <span class="o">&gt;</span> <span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="n">h</span> <span class="k">limit</span> <span class="mi">1000</span><span class="p">;</span>
+</pre>
+<p>will return all points starting an hour ago until now.</p>
+
+<p>Other options for how to specify time durations are <code>u</code> for
+microseconds, <code>s</code> for seconds, <code>m</code> for minutes, <code>h</code> for hours, ,<code>d</code>
+for days and <code>w</code> for weeks. If no suffix is given the value is
+interpreted as nanoseconds.</p>
+
+<h5>Absolute time</h5>
+
+<p>You can specify timestamp in epoch time, which is defined as the
+number of nanoseconds that have elapsed since 00:00:00 Coordinated
+Universal Time (UTC), Thursday, 1 January 1970. You can use the same
+suffixes from the previous section if you don&rsquo;t want to specify
+timestamp in nanoseconds. For example:</p>
+<pre class="highlight sql"><span class="k">select</span> <span class="n">value</span> <span class="k">from</span> <span class="n">response_times</span> <span class="k">where</span> <span class="n">time</span> <span class="o">&gt;</span> <span class="mi">1388534400</span><span class="n">s</span>
+</pre>
+<p>will return all points that were writtern after <code>2014-01-01 00:00:00</code></p>
 
 <h4>Selecting a Specific Point</h4>
 
