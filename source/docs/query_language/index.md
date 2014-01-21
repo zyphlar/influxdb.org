@@ -32,6 +32,9 @@ The default is to limit the time range to an hour or the last 1000 points, which
 
 #### How to set query start and end time
 
+If start and end times aren't set they will default to beginning of
+time until now, respectively.
+
 That query also shows one of the methods for specifying the time range. The column `time` is built in for every time series in the database. The `now()` method has the server set the time. And the `- 1h` tells it to subtract an hour. Other options for how to specify time durations are `us` for microseconds, `ms` for milliseconds, `s` for seconds, `m` for minutes, and `d` for days.
 
 You can also give a specific time and date.
