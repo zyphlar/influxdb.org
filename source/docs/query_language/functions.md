@@ -1,4 +1,6 @@
-# Count
+# Functions
+
+## Count
 
 #### Overview
 
