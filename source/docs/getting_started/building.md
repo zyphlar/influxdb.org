@@ -18,7 +18,7 @@ First, install the build dependencies of the project (via Homebrew):
 brew install protobuf bison flex leveldb go hg bzr
 ```
 
-Then run `./test.sh`. This will build the server and run the tests.
+Then run `./configure && make`. This will build the server and run the tests.
 
 ### Linux
 
@@ -27,13 +27,13 @@ Then run `./test.sh`. This will build the server and run the tests.
 - If you're on a Red Hat-based distro:
 
 ``` bash
-sudo yum install hg bzr protobuf-compiler flex bison valgrind
+sudo yum install hg bzr protobuf-compiler flex bison valgrind g++ make
 ```
 
 - If you're on a Debian-based distro:
 
 ``` bash
-sudo apt-get install mercurial bzr protobuf-compiler flex bison valgrind
+sudo apt-get install mercurial bzr protobuf-compiler flex bison valgrind g++ make
 ```
 
-- Run `./test.sh`. This will build the server and run the tests.
+Then run `./configure && make`. This will build the server and run the tests.
