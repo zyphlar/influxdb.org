@@ -1,16 +1,16 @@
-# Introduction
+# Overview
 
 InfluxDB features a SQL like query language, only used for querying data. The HTTP API has endpoints for writing data and performing other database administration tasks. The only exception to this is [continuous queries](/docs/query_language/continuous_queries.html), which perpetually write their results into one or more time series.
 
 The [getting started section](/docs) has some example queries. This section will cover all of the available functions and provide some examples.
 
-### Changes to the query lang in Version 0.4.0
+## Changes to the query language in v0.4.0
 
 Starting with version 0.4.0 the equality and inequality operators are
 changed to `=` and `<>` from `==` and `!=`, respectively. Examples in this doc
 will be changed once 0.4.0 is officially released.
 
-### Select and Time Ranges
+## Select and Time Ranges
 
 By default, InfluxDB returns data in time descending order. The most efficient queries run over only a single column in a given time series.
 
@@ -20,7 +20,7 @@ select value from response_times;
 
 This simple query pulls the values for the `value` column from the `response_times` series.
 
-#### Older versions
+### Older versions
 
 Prior to version 0.4.0, InfluxDB will apply some limits to the number of points and the time range. Without those arguments specified, the previous query would actually get converted to:
 
@@ -30,7 +30,7 @@ select value from response_times where time > now() - 1h limit 1000;
 
 The default is to limit the time range to an hour or the last 1000 points, whichever comes first.
 
-#### How to set query start and end time
+### How to set query start and end time
 
 If start and end times aren't set they will default to beginning of
 time until now, respectively.
@@ -42,7 +42,7 @@ the `time` columns in the where clause.
 Below are the different formats that can be used to specify start and
 end times.
 
-##### Date time strings
+#### Date time strings
 
 Date time strings have the format `YYYY-MM-DD HH:MM:SS.mmm` where
 `mmm` are the milliseconds within the second. For example:
@@ -57,7 +57,7 @@ specify the date, the time will be set to `00:00:00`. The `.232` after
 the hours, minutes, and seconds is optional and specifies the
 milliseconds.
 
-##### Relative time
+#### Relative time
 
 You can use `now()` to calculate a timestamp relative to the server's
 current timestamp. For example:
@@ -73,7 +73,7 @@ microseconds, `s` for seconds, `m` for minutes, `h` for hours, ,`d`
 for days and `w` for weeks. If no suffix is given the value is
 interpreted as nanoseconds.
 
-##### Absolute time
+#### Absolute time
 
 You can specify timestamp in epoch time, which is defined as the
 number of nanoseconds that have elapsed since 00:00:00 Coordinated
@@ -87,7 +87,7 @@ select value from response_times where time > 1388534400s
 
 will return all points that were writtern after `2014-01-01 00:00:00`
 
-#### Selecting a Specific Point
+### Selecting a Specific Point
 
 Points are uniquely identified by the time series they appear in, the time, and the sequence number. Here's a query that returns a specific point.
 
@@ -97,7 +97,7 @@ select * from events where time == 1383154176 and sequence_number == 2321;
 
 **Note**: this feature isn't implemented yet, see [this issue](https://github.com/influxdb/influxdb/issues/108) for current status.
 
-#### Selecting Multiple Series
+### Selecting Multiple Series
 
 You can select from multiple series by name or by specifying a regex to match against. Here are a few examples.
 
@@ -119,7 +119,7 @@ select * from /.*/ limit 1;
 
 Return the last point from every time series in the database.
 
-### Deleting data
+## Deleting data
 
 The delete query looks like the following:
 
@@ -136,7 +136,7 @@ time will be ignored, for example the following query:
 
 will return an error.
 
-### The Where Clause
+## The Where Clause
 
 We've already seen the where clause for selecting time ranges and a specific point. You can also use it to filter based on given values, comparators, or regexes. Here are some examples of different ways to use where.
 
@@ -159,7 +159,7 @@ where (email =~ /.*gmail.* or email =~ /.*yahoo.*/) and state == 'ny';
 
 The where clause supports comparisons against regexes, strings, booleans, floats, integers, and the times listed before. Comparators include `==` equal to, `>` greater than, `<` less than, `!=` not equal to, `=~` matches against, `!~` doesn't match against. You can chain logic together using `and` and `or` and you can separate using `(` and `)`
 
-### Group By
+## Group By
 
 The group by clause in InfluxDB is used not only for grouping by given values, but also for grouping by given time buckets. You'll always be pairing this up with [a function](/docs/query_language/functions.html) in the `select` clause. Here are a few examples to illustrate how group by works.
 
@@ -174,7 +174,7 @@ select count(type) from events group by time(10m), type;
 select percentile(value, 95) from response_times group by time(30s);
 ```
 
-### Merging Series
+## Merging Series
 
 You can merge multiple time series into a single stream in the select clause. This is helpful when you want to run a function over one of the columns with an associated group by time clause.
 
@@ -190,7 +190,7 @@ select * from merge /stats.*/
 
 The above query would merge all of the stats time series into one.
 
-### Joining Series
+## Joining Series
 
 Joins will put two or more series together. Since timestamps may not match exactly, InfluxDB will make a best effort to put points together. Joins are used when you want to perform a transformation of one time series against another. Here are a few examples.
 

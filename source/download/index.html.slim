@@ -1,5 +1,5 @@
 .row
-  .large-7.columns
+  .large-9.columns
     h1 Download
     p 
       'The easiest way to get started using InfluxDB is to head over to 
@@ -11,14 +11,14 @@
 
       Automatic installation on OS X 10.6 and higher is supported through [Homebrew](http://brew.sh/).
 
-    pre
+    pre.highlight.bash
       code
         | brew update
           brew install influxdb
 
     h2 Ubuntu & Debian
     p Debian users can install by downloading the package and installing it like this:
-    pre
+    pre.highlight.bash
       code
         | # for 64-bit systems
           wget http://s3.amazonaws.com/influxdb/influxdb_latest_amd64.deb
@@ -30,7 +30,7 @@
 
     h2 RedHat & CentOS
     p RedHat and CentOS users can install by downloading and installing the rpm like this:
-    pre
+    pre.highlight.bash
       code
         | # for 64-bit systems
           wget http://s3.amazonaws.com/influxdb/influxdb-latest-1.x86_64.rpm

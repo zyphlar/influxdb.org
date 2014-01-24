@@ -12,12 +12,21 @@ h1, h2, h3, h4, h5, h6
   font-family: "Source Sans Pro", sans-serif
   font-weight: 400
   -webkit-font-smoothing: antialiased
-  color: #0090BA
 
 h1
+  color: #0090BA
   font-weight: 700
   margin-top: 20px
   text-shadow: 1px 1px #cccccc
+
+h2
+  font-size: 32px
+  font-weight: 700
+  color: #0090BA
+
+h2, h3, h4, h5, h6
+  color: #BA5C00
+
 
 h3
   font-weight: 600
@@ -25,7 +34,12 @@ h3
 ul.title-area
   li.name
     img
-      margin: 10px 0 0 10px
+      margin: 10px 0 0 20px
+
+section.nav
+  background-color: #333333
+  nav.top-bar
+    background-color: #333333
 
 header
   padding: 3rem 0
@@ -50,7 +64,7 @@ header
 
 main
   section
-    .block
+    .columns.block
       height: 333px
       padding: 20px
       text-align: center
@@ -133,6 +147,12 @@ body.hosting
   p
     &:last-child
       margin-bottom: 0
+
+
+body.index
+  h3
+    font-size: 26px
+
 
 body.blog
   section

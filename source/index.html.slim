@@ -8,68 +8,47 @@ header
       h1 The first open-source time series database with no dependencies.
       h2 InfluxDB is the new home for all of your metrics, events, and analytics.
 
-main
+main.padding-bottom-medium
   section
     .row.padding-bottom-medium.padding-top-medium
       .large-4.columns.block
         i.fa.fa-clock-o.bordered
-        h3
-          '  Time Series
+        h3 Time-Centric Functions
         p Everything in InfluxDB is a time series that you can perform standard functions on like min, max, sum, count, mean, median, percentiles, and more.
+        a.button.tiny href="/docs/query_language/functions.html" Learn more &raquo;
 
       .large-4.columns.block
         i.fa.fa-tachometer.bordered
-        h3
-          '  Metrics
-        p Scalable metrics that you can collect on any interval, computing rollups on the fly later. Track 100 metrics or 1 million, InfluxDB scales horizontally.
+        h3 Scalable Metrics
+        p Collect your data on any interval and compute rollups on the fly later. Track 100 metrics or 1 million &ndash; InfluxDB was built to scale horizontally.
+        a.button.tiny href="/docs" Learn more &raquo;
+
+      .large-4.columns.block
+        i.fa.fa-exclamation.bordered
+        h3 Events
+        p InfluxDB's data model supports arbitrary event data. Just write in a hash of associated data and count events, uniques, or grouped columns on the fly.
+        a.button.tiny href="/docs" Learn more &raquo;
+
+  hr.padding-bottom-small
+  section
+    .row.padding-bottom-medium.padding-top-medium
+      .large-4.columns.block
+        i.fa.fa-html5.bordered
+        h3 Native HTTP API
+        p Our built-in API makes it easy to read and write data from JavaScript. Build custom analytics frontends without writing a single line of server-side code.
+        a.button.tiny href="/docs/api/http.html" Learn more &raquo;
+
+      .large-4.columns.block
+        i.fa.fa-search.bordered
+        h3 Powerful Query Language
+        p A SQL-like query language designed for working with time series and analytics. Create and run queries without needing a programmer around.
+        a.button.tiny href="/docs/query_language" Learn more &raquo;
 
       .large-4.columns.block
         i.fa.fa-bar-chart-o.bordered
-        h3
-          '   Events
-        p InfluxDB's data model supports arbitrary event data. Just write in a hash of associated data and count events, uniques, or grouped columns on the fly later.
-
-hr.padding-bottom-medium
-.row
-  .large-10.columns.large-centered
-    .row
-      .large-2.columns.margin-top-medium
-        i.fa.fa-html5.fa-5x
-      .large-10.columns
-        h2 HTTP API
-        p InfluxDB's built in HTTP API makes it trivial to read and write data from javascript. Build custom analytics frontends for operations, product owners, and the business without writing a single line of server side code.
-        = partial "code_examples/javascript"
-
-hr.padding-bottom-medium
-.row
-  .large-10.columns.large-centered
-    .row
-      .large-2.columns
-        i.fa.fa-search.fa-5x
-      .large-10.columns
-        h2 Powerful Query Language
-        p A SQL-like query language designed for working with time series and analytics.
-        = partial "code_examples/query"
-
-hr.padding-bottom-medium
-.row
-  .large-10.columns.large-centered
-    .row
-      .large-2.columns
-          i.fa.fa-bar-chart-o.fa-5x
-      .large-10.columns
-        h2 Built-in Explorer
-        p A built-in interface for querying and visualizing your data.
-
-hr.padding-bottom-medium
-.row.padding-bottom-medium
-  .large-10.columns.large-centered
-    .row
-      .large-2.columns
-        i.fa.fa-wrench.fa-5x
-      .large-10.columns
-        h2 Designed for Custom Analytics
-        p Automatically downsample raw data as it comes in. Keep data around forever or clear out select time series automatically when older than a given number of days. InfluxDB is designed to bring user analytics, business metrics, and devops metrics into one accessible place.
+        h3 Built-in Explorer
+        p InfluxDB ships with a built-in interface for querying and visualizing your data. You can manage databases, users, and permissions, too.
+        a.button.tiny href="/docs/interfaces" Learn more &raquo;
 
 section.newsletter
   .row
