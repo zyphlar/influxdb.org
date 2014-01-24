@@ -1,7 +1,8 @@
 nav.top-bar.hide-for-small
   ul.title-area
-    a href="/"
-      li.name
+    li.name
+      a href="/"
+        img src="/images/influxdb-light-24px.png"
   li.toggle-topbar.menu-icon
     a href="#"
       span Menu
@@ -9,19 +10,29 @@ nav.top-bar.hide-for-small
   section.top-bar-section
     ul.right
       li.divider
+
       li= link_to "Overview", "/overview"
+
+      li.divider
+
+      li= link_to "Pricing", "/pricing"
+
       li.divider
 
       li= link_to "Blog", "/blog"
+
       li.divider
 
       li= link_to "Docs", "/docs"
+
       li.divider
 
       li= link_to "Community", "/community"
+
       li.divider
 
       li= link_to "Play", "http://play.influxdb.org", target: "_"
+
       li.divider
 
       li.has-form style="width: 110px;"

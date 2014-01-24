@@ -8,17 +8,16 @@
     - blog.articles[0...5].each do |article|
 
       h2= article.title
-      .row
-        .large-9.columns
-          h5.subheader
-            = article.data.published_on
-            '  by
-            = article.data.author
-        .large-3.columns
+      h5.subheader
+        = article.data.published_on
+        '  by
+        = article.data.author
 
       p
         = article.summary
         = link_to "Read More &raquo;", article
+
+      hr
 
   .large-4.columns
     h4 About InfluxDB
