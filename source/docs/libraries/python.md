@@ -24,23 +24,23 @@ First, create a new InfluxDB object by connecting to a running instance.
 
 ### Available Functions
 
-#### create_database(_database_)
+#### create\_database(_database_)
 
 Create database. Requires cluster-admin privileges.
 
-#### delete_database(_database_)
+#### delete\_database(_database_)
 
 Delete database. Requires cluster-admin privileges.
 
-#### switch_db(_databaseName_)
+#### switch\_db(_databaseName_)
 
 Switch to another database.
 
-#### switch_user(_username_, _password_)
+#### switch\_user(_username_, _password_)
 
 Change your user-context.
 
-#### write_points(_data_)
+#### write\_points(_data_)
 
 Write to multiple time series names.
 
@@ -54,7 +54,7 @@ Example:
     ]
     db.write_points(data)
 
-#### write_points_with_precision(_data_, _time-precision_='s')
+#### write\_points\_with\_precision(_data_, _time-precision_='s')
 
 Write to multiple time series names with defined precision.
 
