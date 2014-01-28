@@ -19,8 +19,7 @@ main
             script.stripe-button src="https://checkout.stripe.com/checkout.js" data-key="pk_live_YqkcDTFvohavPUkSV9ZtI7oO" data-image="/images/influx-128.png" data-name="InfluxDB" data-description="Hosting - Shared ($25/mo)" data-amount="2500" data-label="Sign up now!"
 
           p 1GB Storage
-          p 1 Node
-          p 1 Core
+          p Shared node
           p &ndash;
           hr
           p Email-Only Support
@@ -34,10 +33,9 @@ main
 
           p 20GB Storage
           p 2 Nodes
-          p 2 Cores
           p Fully Redundant
           hr
-          p 9am-5pm Phone Support
+          p Email and IM Support
 
 
         .large-3.columns.block
@@ -49,15 +47,14 @@ main
 
           p 120GB Storage
           p 6 Nodes
-          p 12 Cores
           p Fully Redundant
           hr
-          p 24/7 Phone Support
+          p 7-5 Pacific Time Phone Support
 
         .large-3.columns.block
           h3 Large Cluster
-          h4 Call Us!
-          h5 888-123-4567
+          h4 Contact
+          p= link_to "support@influxdb.com", "mailto:support@influxdb.com"
 
     .row
       .large-12.columns
@@ -65,7 +62,7 @@ main
           .large-8.push-2
             h3 Want us to host something even bigger?
             p
-              ' No sweat. InfluxDB can scale out to hundreds of nodes with ease, so drop us a line at
+              ' InfluxDB is designed to scale out to hundreds of nodes. Drop us a line at
               = link_to "support@influxdb.com", "mailto:support@influxdb.com"
               '  and let us know what you need.
 
