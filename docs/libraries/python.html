@@ -21,23 +21,23 @@ db = influxdb.InfluxDBClient(host, port, username, password, database)
 </pre>
 <h3>Available Functions</h3>
 
-<h4>create<em>database(</em>database_)</h4>
+<h4>create_database(<em>database</em>)</h4>
 
 <p>Create database. Requires cluster-admin privileges.</p>
 
-<h4>delete<em>database(</em>database_)</h4>
+<h4>delete_database(<em>database</em>)</h4>
 
 <p>Delete database. Requires cluster-admin privileges.</p>
 
-<h4>switch<em>db(</em>databaseName_)</h4>
+<h4>switch_db(<em>databaseName</em>)</h4>
 
 <p>Switch to another database.</p>
 
-<h4>switch<em>user(</em>username<em>, _password</em>)</h4>
+<h4>switch_user(<em>username</em>, <em>password</em>)</h4>
 
 <p>Change your user-context.</p>
 
-<h4>write<em>points(</em>data_)</h4>
+<h4>write_points(<em>data</em>)</h4>
 
 <p>Write to multiple time series names.</p>
 
@@ -50,7 +50,7 @@ db = influxdb.InfluxDBClient(host, port, username, password, database)
 ]
 db.write_points(data)
 </pre>
-<h4>write<em>points</em>with<em>precision(</em>data<em>, _time-precision</em>=&rsquo;s&#39;)</h4>
+<h4>write_points_with_precision(<em>data</em>, <em>time-precision</em>=&rsquo;s&#39;)</h4>
 
 <p>Write to multiple time series names with defined precision.</p>
 
