@@ -141,6 +141,10 @@ time will be ignored, for example the following query:</p>
 <span class="c1">-- 95th percentile of response times in 30 second intervals
 </span><span class="k">select</span> <span class="n">percentile</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="mi">95</span><span class="p">)</span> <span class="k">from</span> <span class="n">response_times</span> <span class="k">group</span> <span class="k">by</span> <span class="n">time</span><span class="p">(</span><span class="mi">30</span><span class="n">s</span><span class="p">);</span>
 </pre>
+<p>The time function takes the time interval which can be in
+microseconds, milliseconds, seconds, minutes or hours. To specify the
+units you can use the respective suffix <code>us</code>, <code>ms</code>, <code>s</code>, <code>m</code> and <code>h</code>.</p>
+
 <h2>Merging Series</h2>
 
 <p>You can merge multiple time series into a single stream in the select clause. This is helpful when you want to run a function over one of the columns with an associated group by time clause.</p>
