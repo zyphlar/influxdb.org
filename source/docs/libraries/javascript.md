@@ -4,7 +4,7 @@ The [InfluxDB javascript library lives on GitHub](https://github.com/influxdb/in
 
 You can get the most recent version here:
 
-    <script type="text/javascript" src="http://play.influxdb.org/javascripts/influxdb.js"
+    <script type="text/javascript" src="http://get.influxdb.org/influxdb-latest.js"
 
 ### Initialization
 
