@@ -52,15 +52,14 @@
 
 <h5>One Time Deletes</h5>
 
-<p>Send a <code>DELETE</code> request to the <code>/db/:name/series</code> endpoint with the following parameters:</p>
+<p>In order to delete an entire series you can send a <code>DELETE</code> request to
+the <code>/db/:db/series/:series</code> endpoint with the following parameters:</p>
 
 <ul>
 <li><code>u</code> - username</li>
 <li><code>p</code> - password</li>
-<li><code>name</code> - the name of the series to delete from</li>
-<li><code>regex</code> - a regex to delete from any series with a name that matches</li>
-<li><code>start</code> - epoch in seconds for the start of the range. Specify 0 to go to the beginning</li>
-<li><code>end</code> - epoch in seconds for the end of the range to delete</li>
+<li><code>:db</code> - the name of the database that contains the series</li>
+<li><code>:series</code> - the name of the series to be deleted</li>
 </ul>
 
 <h5>Regularly Scheduled Deletes</h5>
