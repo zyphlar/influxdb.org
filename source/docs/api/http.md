@@ -58,14 +58,13 @@ InfluxDB is designed to delete a range of data, not individual points. It's hand
 
 ##### One Time Deletes
 
-Send a `DELETE` request to the `/db/:name/series` endpoint with the following parameters:
+In order to delete an entire series you can send a `DELETE` request to
+the `/db/:db/series/:series` endpoint with the following parameters:
 
 * `u` - username
 * `p` - password
-* `name` - the name of the series to delete from
-* `regex` - a regex to delete from any series with a name that matches
-* `start` - epoch in seconds for the start of the range. Specify 0 to go to the beginning
-* `end` - epoch in seconds for the end of the range to delete
+* `:db` - the name of the database that contains the series
+* `:series` - the name of the series to be deleted
 
 ##### Regularly Scheduled Deletes
 
