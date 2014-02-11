@@ -1,5 +1,8 @@
 require 'slim'
 
+set :site_title, "InfluxDB - Open Source Time Series, Metrics, and Analytics Database"
+set :site_url, "http://influxdb.org"
+
 # Change Compass configuration
 # compass_config do |config|
 #   config.output_style = :compact
