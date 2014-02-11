@@ -14,6 +14,8 @@ require 'slim'
 # page "/path/to/file.html", :layout => :otherlayout
 #
 
+page "/feed.xml", :layout => false
+
 with_layout :docs do
   page "/docs/*"
 end
