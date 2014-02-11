@@ -7,7 +7,7 @@
   .large-8.columns
     - blog.articles[0...5].each do |article|
 
-      h2= article.title
+      h2= link_to article.title, article
       h5.subheader
         = article.data.published_on
         '  by
