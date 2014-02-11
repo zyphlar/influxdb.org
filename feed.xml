@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Blog Name</title>
+  <subtitle>Blog subtitle</subtitle>
+  <id>http://blog.url.com/blog</id>
+  <link href="http://blog.url.com/blog"/>
+  <link href="http://blog.url.com/feed.xml" rel="self"/>
+  <updated>2013-12-02T00:00:00Z</updated>
+  <author>
+    <name>Blog Author</name>
+  </author>
+  <entry>
+    <title>Building Custom Interfaces For InfluxDB</title>
+    <link rel="alternate" href="http://blog.url.com/blog/2013/12/02/building_custom_interfaces_for_influxdb.html"/>
+    <id>http://blog.url.com/blog/2013/12/02/building_custom_interfaces_for_influxdb.html</id>
+    <published>2013-12-02T00:00:00Z</published>
+    <updated>2013-12-04T10:03:01-05:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <content type="html">&lt;p&gt;In addition to shipping with a basic admin interface, InfluxDB also allows you to create &lt;a href="/docs/interfaces/custom.html"&gt;custom interfaces&lt;/a&gt; with a little bit of HTML and JavaScript and drop them into the admin interface as plugins. This makes it easy to build custom dashboards or reporting interfaces that you can share with others. In this post, we&amp;rsquo;ll walk through the basic concepts of building a plugin and put together a quick visualization example.&lt;/p&gt;
+
+&lt;h3&gt;Getting Started&lt;/h3&gt;
+
+&lt;p&gt;You&amp;rsquo;ll need to be running version 0.3.2 or greater of InfluxDB for this to work (&lt;code&gt;brew update &amp;amp;&amp;amp; brew upgrade influxdb&lt;/code&gt;). First, it helps to know how the admin interface is structured so that you get a better sense of the world in which your custom interface will live. The &lt;a href="https://github.com/influxdb/influxdb-admin"&gt;admin interface&lt;/a&gt; is built as a single-page application written in &lt;a href="http://angularjs.org/"&gt;AngularJS&lt;/a&gt;. Custom interfaces are loaded within an iframe, so that they are effectively isolated from the rest of the admin interface. This means that you will need to load your own JavaScript and CSS assets, but also means that you&amp;rsquo;re free to build the application as you wish. The only requirement is that you build it as a single-page application, so that it doesn&amp;rsquo;t navigate the browser away from the container.&lt;/p&gt;
+
+&lt;p&gt;Since the admin interface is responsible for authentication, it exposes an InfluxDB connection that can be accessed from within the iframe so that you aren&amp;rsquo;t required to re-authenticate your custom interface when it loads. You can access this as &lt;code&gt;window.parent.window.influxdb&lt;/code&gt; or just &lt;code&gt;parent.influxdb&lt;/code&gt;, and the interface will conform to that of the &lt;a href="/docs/libraries/javascript.html"&gt;InfluxDB JavaScript Library&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3&gt;How InfluxDB Organizes Custom Interfaces&lt;/h3&gt;
+
+&lt;p&gt;When you look at the InfluxDB configuration file, you&amp;rsquo;ll see a variable called &lt;code&gt;AdminAssetsDir&lt;/code&gt;. This is the path that admin interface assets are served from. The &lt;code&gt;index.html&lt;/code&gt; that ships with InfluxDB is the starting point for the admin interface. There is also a subfolder called &lt;code&gt;interfaces&lt;/code&gt; which is where the custom interfaces live. By default, InfluxDB comes with an interface called &lt;code&gt;default&lt;/code&gt;, but you can make your own by creating a subfolder with an appropriate name. These names should be lowercase and underscored, as they will be converted into human readable names automatically. Let&amp;rsquo;s call this one &lt;code&gt;example&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3&gt;Starting With Some HTML&lt;/h3&gt;
+
+&lt;p&gt;This example interface is going to pull in some data from an InfluxDB instance and graph it for us, just like we might want on a dashboard. Let&amp;rsquo;s start by setting up an quick framework, which will be a basic HTML page with jQuery, D3, Rickshaw, and Bootstrap. Notice that we don&amp;rsquo;t need to include the InfluxDB library because it&amp;rsquo;s already loaded in the parent container, which we&amp;rsquo;ll leverage. We&amp;rsquo;ll also add a div with an id of &lt;code&gt;chart&lt;/code&gt;, so that we can insert a graph into it.&lt;/p&gt;
+&lt;pre class="highlight html"&gt;&lt;span class="nt"&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;title&amp;gt;&lt;/span&gt;InfluxDB Custom Interface Example&lt;span class="nt"&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;script &lt;/span&gt;&lt;span class="na"&gt;src=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;http://code.jquery.com/jquery-2.0.3.min.js&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;script &lt;/span&gt;&lt;span class="na"&gt;src=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;http://d3js.org/d3.v3.min.js&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;script &lt;/span&gt;&lt;span class="na"&gt;src=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;http://influxdb.org/javascripts/vendor/rickshaw.js&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;script &lt;/span&gt;&lt;span class="na"&gt;src=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;/javascripts/interfaces/example.js&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+
+    &lt;span class="nt"&gt;&amp;lt;link&lt;/span&gt; &lt;span class="na"&gt;href=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;http://influxdb.org/stylesheets/vendor/rickshaw.css&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;media=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;screen&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;rel=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;stylesheet&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/css&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;link&lt;/span&gt; &lt;span class="na"&gt;href=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;media=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;screen&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;rel=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;stylesheet&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/css&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;container&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+      &lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;row&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;col-md-12&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;lt;h1&amp;gt;&lt;/span&gt;Important Dashboard&lt;span class="nt"&gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;id=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;chart_container&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;id=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;y_axis&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;id=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;x_axis&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;id=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;chart&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+      &lt;span class="nt"&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;Save this as &lt;code&gt;index.html&lt;/code&gt; inside the subfolder called &lt;code&gt;example&lt;/code&gt;, which should leave us with a structure like this:&lt;/p&gt;
+&lt;pre class="highlight shell"&gt;admin/
+  index.html
+  interfaces/
+    default/
+      index.html
+    example/
+      index.html
+&lt;/pre&gt;
+&lt;h3&gt;Connecting With Some JavaScript&lt;/h3&gt;
+
+&lt;p&gt;Next, we need to fetch data from the server and graph it on the page. To do this, we just need to use the InfluxDB object from the parent window (remember, this is available as &lt;code&gt;parent.influxdb&lt;/code&gt;) and then hand the data off to Rickshaw and D3 for graphing. For this example, we&amp;rsquo;ll assume that there is a table called &lt;code&gt;posts&lt;/code&gt; from which we can query data grouped by day.&lt;/p&gt;
+&lt;pre class="highlight javascript"&gt;&lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;input&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;click&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="nx"&gt;parent&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;influxdb&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;query&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;SELECT COUNT(message) FROM posts WHERE time &amp;gt; now() - 365d GROUP BY time(24h);&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;points&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;points&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;map&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;point&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="na"&gt;x&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;point&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;time&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="mi"&gt;1000&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="na"&gt;y&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;point&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;count&lt;/span&gt; &lt;span class="p"&gt;};&lt;/span&gt;
+      &lt;span class="p"&gt;}).&lt;/span&gt;&lt;span class="nx"&gt;reverse&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+
+      &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;graph&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;Rickshaw&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Graph&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
+        &lt;span class="na"&gt;element&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;querySelector&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;#chart&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+        &lt;span class="na"&gt;width&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;1100&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="na"&gt;height&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;200&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="na"&gt;renderer&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;line&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="na"&gt;series&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[{&lt;/span&gt; &lt;span class="na"&gt;data&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="na"&gt;color&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;steelblue&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;}]&lt;/span&gt;
+      &lt;span class="p"&gt;});&lt;/span&gt;
+
+      &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;xAxis&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;Rickshaw&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Graph&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Axis&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Time&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt; &lt;span class="na"&gt;graph&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;graph&lt;/span&gt; &lt;span class="p"&gt;});&lt;/span&gt;
+      &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;yAxis&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;Rickshaw&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Graph&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Axis&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Y&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
+        &lt;span class="na"&gt;graph&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;graph&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="na"&gt;orientation&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;left&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="na"&gt;element&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getElementById&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;y_axis&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;});&lt;/span&gt;
+
+      &lt;span class="nx"&gt;xAxis&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;render&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+      &lt;span class="nx"&gt;yAxis&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;render&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+      &lt;span class="nx"&gt;graph&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;render&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+    &lt;span class="p"&gt;});&lt;/span&gt;
+  &lt;span class="p"&gt;});&lt;/span&gt;
+&lt;span class="p"&gt;});&lt;/span&gt;
+&lt;/pre&gt;
+&lt;h3&gt;Finish It Off With A Little Style&lt;/h3&gt;
+
+&lt;p&gt;To make the graph look nice, we can add a little bit of CSS to enhance the layout of the axes and labels. This is pretty standard, but should give you an idea how to get started on your own styling.&lt;/p&gt;
+&lt;pre class="highlight css"&gt;&lt;span class="nf"&gt;#chart_container&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="nl"&gt;position&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;relative&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+  &lt;span class="nl"&gt;font-family&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Arial&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Helvetica&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;sans-serif&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+  &lt;span class="nl"&gt;margin-top&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="m"&gt;20px&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="nf"&gt;#chart&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="nl"&gt;position&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;absolute&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+  &lt;span class="nl"&gt;left&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="m"&gt;30px&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="nf"&gt;#y_axis&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="nl"&gt;position&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;absolute&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+  &lt;span class="nl"&gt;top&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+  &lt;span class="nl"&gt;bottom&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+  &lt;span class="nl"&gt;width&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="m"&gt;30px&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="nf"&gt;#y_axis&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nt"&gt;svg&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;  
+  &lt;span class="nl"&gt;padding-bottom&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="m"&gt;20px&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="nc"&gt;.x_tick&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="nl"&gt;bottom&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="m"&gt;-15px&lt;/span&gt; &lt;span class="cp"&gt;!important&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;
+&lt;h3&gt;Seeing It All Come Together&lt;/h3&gt;
+
+&lt;p&gt;If we put all of the pieces in the right place, we should see our interface appear under the Interfaces tab when logging in as a database user. Though it&amp;rsquo;s an extremely simple case, the resulting output should look something like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img alt="Screenshot Of A Custom Interface" src="/images/custom_interface.png" /&gt;&lt;/p&gt;
+
+&lt;h3&gt;Making It Easier With The Asset Pipeline&lt;/h3&gt;
+
+&lt;p&gt;In building this example on your own, you could drop the JavaScript into a &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt; tag and the CSS into a &lt;code&gt;&amp;lt;style&amp;gt;&lt;/code&gt; tag embedded within the page. Alternatively, you could fork the &lt;a href="https://github.com/influxdb/influxdb-admin"&gt;admin interface repo&lt;/a&gt;, which is built with middleman, and use the asset pipeline to separate your components more cleanly. You can use the default interface as an example.&lt;/p&gt;
+
+&lt;p&gt;If you end up building an interface that you want to share, send us a pull request!&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>InfluxDB v0.4.0 &amp;ndash; Breaking changes and tons of new features</title>
+    <link rel="alternate" href="http://blog.url.com/blog/2013/11/27/influxdb_v0_4_0-breaking_changes_and_tons_of_new_features.html"/>
+    <id>http://blog.url.com/blog/2013/11/27/influxdb_v0_4_0-breaking_changes_and_tons_of_new_features.html</id>
+    <published>2013-11-27T00:00:00Z</published>
+    <updated>2013-12-02T14:36:17-05:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <content type="html">&lt;p&gt;InfluxDB has some new features, support for custom dashboards, and there are a bunch of new client libraries that have come out since we announced the project. Most importantly, we&amp;rsquo;re planning a release next week that changes something on the underlying data storage. That means that without a migration, all your data will go away. Read on for more details and how to potentially avoid this fate.&lt;/p&gt;
+
+&lt;h3&gt;Breaking Release&lt;/h3&gt;
+
+&lt;p&gt;Next week we&amp;rsquo;ll be releasing v0.4.0 of InfluxDB. It changes a few things about the underlying storage so anyone upgrading will need to blow away their old database. If you&amp;rsquo;re already running InfluxDB in production and have data you don&amp;rsquo;t want to lose, drop us a line at &lt;a href="mailto:influxdb@errplane.com"&gt;influxdb@errplane.com&lt;/a&gt; and let us know. We can work with you to create a migration so that you&amp;rsquo;ll keep your old data. Actually, even if you don&amp;rsquo;t care about the data, drop us a line to let us know you&amp;rsquo;re running in production! We&amp;rsquo;d love to advertise which companies are using InfluxDB.&lt;/p&gt;
+
+&lt;h3&gt;New Features&lt;/h3&gt;
+
+&lt;p&gt;We&amp;rsquo;ve had  a ton of bug fixes and new features in the last few weeks. Most notably: first, last, and histogram aggregate functions, table aliases, regex = and ! operators on the where clause, and a functioning Homebrew recipe. Just &lt;code&gt;brew update &amp;amp;&amp;amp; brew upgrade influxdb&lt;/code&gt; to get it running locally. More details on the changes can be found in the &lt;a href="https://github.com/influxdb/influxdb/blob/master/CHANGELOG.md"&gt;InfluxDB changelog&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3&gt;New Libraries&lt;/h3&gt;
+
+&lt;p&gt;People have jumped into contributing libraries and integrations to InfluxDB. Here&amp;rsquo;s a list of some of them (and let us know if you&amp;rsquo;ve written something you want to share!)&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/FGRibreau/influxdb-cli"&gt;A command line interface (CLI)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/bencevans/node-influx"&gt;Node.js&lt;/a&gt;, &lt;a href="https://github.com/influxdb/influxdb-python"&gt;Python&lt;/a&gt;, &lt;a href="https://github.com/crodas/InfluxPHP"&gt;PHP&lt;/a&gt;, and &lt;a href="https://github.com/olauzon/capacitor"&gt;Clojure&lt;/a&gt; libraries&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/obfuscurity/tasseo#influxdb"&gt;Tasseo&lt;/a&gt;, a real-time dashboard, has support for InfluxDB&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/bernd/statsd-influxdb-backend"&gt;StatsD backend&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/bpaquet/collectd-influxdb-proxy"&gt;CollectD proxy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Plenty of options for &lt;a href="http://influxdb.org/docs/deployment.html"&gt;deployment&lt;/a&gt; including Chef, Puppet, and Docker&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3&gt;Custom Interfaces &amp;amp; Dashboards&lt;/h3&gt;
+
+&lt;p&gt;We&amp;rsquo;ve set up a structure for everyone to create their own custom dashboards and potentially share them with the community. Find out about about it on the InfluxDB docs for creating &lt;a href="http://influxdb.org/docs/interfaces/"&gt;custom interfaces&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3&gt;Hackfest&lt;/h3&gt;
+
+&lt;p&gt;We&amp;rsquo;ve started a &lt;a href="http://www.meetup.com/nyc-influxdb-user-group"&gt;Meetup for NYC users of InfluxDB&lt;/a&gt;. We&amp;rsquo;ve also scheduled the first InfluxDB hackfest for &lt;a href="http://www.meetup.com/NYC-InfluxDB-User-Group/events/150732352/"&gt;Monday, December 2nd&lt;/a&gt;. If you&amp;rsquo;re in the city, join the group and RSVP! We&amp;rsquo;ll be there to answer any questions, and write sweet code. We&amp;rsquo;re thinking we can write some data collection stuff (maybe framework integrations?), and maybe a new interface or two.&lt;/p&gt;
+
+&lt;p&gt;Thanks for reading this far. If you&amp;rsquo;re a fan of what we&amp;rsquo;re doing or just want to see this project continue to grow, tell your friends! Tweet, write blog posts, give lightning talks, and write sweet code to share with the world.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Visualizing Bitcoin post frequency on HN with InfluxDB and Rickshaw</title>
+    <link rel="alternate" href="http://blog.url.com/blog/2013/11/19/visualizing_bitcoin_post_frequency_on_hn_using_influxdb_and_rickshaw.html"/>
+    <id>http://blog.url.com/blog/2013/11/19/visualizing_bitcoin_post_frequency_on_hn_using_influxdb_and_rickshaw.html</id>
+    <published>2013-11-19T00:00:00Z</published>
+    <updated>2013-12-02T14:36:17-05:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <content type="html">&lt;p&gt;Based on casual observation, the crowd at HackerNews seems to be totally obsessed 
+with Bitcoin and it seems to be reaching a fever pitch. What better way to 
+look at the HN Bitcoin obsession than with a visualization? In this post we&amp;rsquo;ll 
+use InfluxDB and Rickshaw to create a visualization of the number of posts with 
+Bitcoin in the title on HN.&lt;/p&gt;
+
+&lt;p&gt;InfluxDB has a straightforward and snappy HTTP API that makes it easy to
+pull your time series data out in real-time for use in user interfaces and
+visualizations. This makes it a great pairing with &lt;a href="http://d3js.org"&gt;D3&lt;/a&gt;,
+a data visualization library written in JavaScript.&lt;/p&gt;
+
+&lt;p&gt;First, we need to load InfluxDB with the data of Bitcoin posts over time. We&amp;rsquo;ll use an 
+open &lt;a href="https://www.hnsearch.com/api"&gt;Hacker News API&lt;/a&gt; to get a list of the last 1,000 
+posts containing the phrase &lt;code&gt;bitcoin&lt;/code&gt; in the title. Here&amp;rsquo;s a quick ruby script that 
+also leverages the InfluxDB rubygem for writing data into the database:&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="nb"&gt;require&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;rubygems&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;require&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;net/http&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;require&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;net/https&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;require&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;uri&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;require&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;json&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;require&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;time&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;require&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;influxdb&amp;quot;&lt;/span&gt;
+
+&lt;span class="no"&gt;QUERY&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;bitcoin&amp;quot;&lt;/span&gt;
+
+&lt;span class="n"&gt;http&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;Net&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;HTTP&lt;/span&gt;&lt;span class="nf"&gt;.new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;api.thriftdb.com&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;443&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;http&lt;/span&gt;&lt;span class="nf"&gt;.use_ssl&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kp"&gt;true&lt;/span&gt;
+
+&lt;span class="n"&gt;influxdb&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;InfluxDB&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Client&lt;/span&gt;&lt;span class="nf"&gt;.new&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;bitcoin&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="ss"&gt;:host&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;sandbox.influxdb.org&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  &lt;span class="ss"&gt;:port&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;9061&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  &lt;span class="ss"&gt;:username&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;todd&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  &lt;span class="ss"&gt;:password&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;password&amp;quot;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="nf"&gt;..&lt;/span&gt;&lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nf"&gt;.each&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+  &lt;span class="n"&gt;params&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="s2"&gt;&amp;quot;q&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="no"&gt;QUERY&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s2"&gt;&amp;quot;start&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s2"&gt;&amp;quot;limit&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s2"&gt;&amp;quot;sortby&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;create_ts desc&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s2"&gt;&amp;quot;weights[title]&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;1.0&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+
+  &lt;span class="n"&gt;request&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;Net&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;HTTP&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Get&lt;/span&gt;&lt;span class="nf"&gt;.new&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;/api.hnsearch.com/items/_search?&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+    &lt;span class="no"&gt;URI&lt;/span&gt;&lt;span class="nf"&gt;.encode_www_form&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;params&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="n"&gt;response&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;http&lt;/span&gt;&lt;span class="nf"&gt;.request&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;request&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;JSON&lt;/span&gt;&lt;span class="nf"&gt;.parse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="nf"&gt;.body&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+  &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;results&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="nf"&gt;.each&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+    &lt;span class="n"&gt;influxdb&lt;/span&gt;&lt;span class="nf"&gt;.write_point&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;posts&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="ss"&gt;:message&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;item&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;][&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;title&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+      &lt;span class="ss"&gt;:time&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="no"&gt;Time&lt;/span&gt;&lt;span class="nf"&gt;.parse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;item&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;][&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;create_ts&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nf"&gt;.to_i&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;1000&lt;/span&gt;
+    &lt;span class="p"&gt;})&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;If you don&amp;rsquo;t have a local installation of InfluxDB handy, head on over
+to our &lt;a href="http://play.influxdb.org"&gt;InfluxDB Playground&lt;/a&gt; and create a free
+database to experiment with. Once we have our data available, we can turn to the fun part - visualization.
+To make things easier, we&amp;rsquo;re going to use a wrapper for D3
+called &lt;a href="http://code.shutterstock.com/rickshaw/"&gt;Rickshaw&lt;/a&gt;, which was written
+by the gang over at Shutterstock.&lt;/p&gt;
+
+&lt;p&gt;We&amp;rsquo;ll just use the &lt;a href="https://github.com/influxdb/influxdb-js"&gt;InfluxDB Javascript Library&lt;/a&gt;
+to fetch the data, and then feed that right into a simple line chart in Rickshaw.&lt;/p&gt;
+&lt;pre class="highlight javascript"&gt;&lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;influxdb&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;InfluxDB&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;sandbox.influxdb.org&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;9061&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;todd&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;password&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;bitcoin&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+  &lt;span class="nx"&gt;influxdb&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;query&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;SELECT COUNT(message) FROM posts WHERE time &amp;gt; now() - 365d GROUP BY time(24h);&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;points&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;points&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;map&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;point&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="na"&gt;x&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;point&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;time&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="mi"&gt;1000&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="na"&gt;y&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;point&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;count&lt;/span&gt; &lt;span class="p"&gt;};&lt;/span&gt;
+    &lt;span class="p"&gt;}).&lt;/span&gt;&lt;span class="nx"&gt;reverse&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+
+    &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;graph&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;Rickshaw&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Graph&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
+      &lt;span class="na"&gt;element&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;querySelector&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;#chart&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+      &lt;span class="na"&gt;width&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;640&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+      &lt;span class="na"&gt;height&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;200&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+      &lt;span class="na"&gt;renderer&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;line&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+      &lt;span class="na"&gt;series&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[{&lt;/span&gt; &lt;span class="na"&gt;data&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="na"&gt;color&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;steelblue&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;}]&lt;/span&gt;
+    &lt;span class="p"&gt;});&lt;/span&gt;
+
+    &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;xAxis&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;Rickshaw&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Graph&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Axis&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Time&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt; &lt;span class="na"&gt;graph&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;graph&lt;/span&gt; &lt;span class="p"&gt;});&lt;/span&gt;
+    &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;yAxis&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;Rickshaw&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Graph&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Axis&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Y&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
+      &lt;span class="na"&gt;graph&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;graph&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+      &lt;span class="na"&gt;orientation&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;left&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+      &lt;span class="na"&gt;element&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getElementById&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;y_axis&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;});&lt;/span&gt;
+
+    &lt;span class="nx"&gt;xAxis&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;render&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+    &lt;span class="nx"&gt;yAxis&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;render&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+    &lt;span class="nx"&gt;graph&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;render&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+  &lt;span class="p"&gt;});&lt;/span&gt;
+&lt;span class="p"&gt;});&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;Since InfluxDB lets us easily query the time series data, all we need is a simple
+transformation and then it&amp;rsquo;s ready to feed directly into Rickshaw.&lt;/p&gt;
+
+&lt;p&gt;You can view, run, and modify the entire thing on this JSFiddle:&lt;/p&gt;
+
+&lt;iframe width="100%" height="270" style="margin-bottom: 20px;" src="http://jsfiddle.net/toddpersen/46ZRj/15/embedded/result,js,html,css" allowfullscreen="allowfullscreen" frameborder="0"&gt;&lt;/iframe&gt;
+
+&lt;p&gt;Looking at the frequency over time it definitely seems to be picking up along with Bitcoin&amp;rsquo;s price.&lt;/p&gt;
+</content>
+  </entry>
+</feed>
