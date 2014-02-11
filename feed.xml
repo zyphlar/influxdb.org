@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Blog Name</title>
-  <subtitle>Blog subtitle</subtitle>
-  <id>http://blog.url.com/blog</id>
-  <link href="http://blog.url.com/blog"/>
-  <link href="http://blog.url.com/feed.xml" rel="self"/>
+  <title>InfluxDB Blog</title>
+  <subtitle>Blog posts from the team at InfluxDB</subtitle>
+  <id>http://influxdb.org/blog</id>
+  <link href="http://influxdb.org/blog"/>
+  <link href="http://influxdb.org/feed.xml" rel="self"/>
   <updated>2013-12-02T00:00:00Z</updated>
   <author>
-    <name>Blog Author</name>
+    <name>InfluxDB</name>
   </author>
   <entry>
     <title>Building Custom Interfaces For InfluxDB</title>
-    <link rel="alternate" href="http://blog.url.com/blog/2013/12/02/building_custom_interfaces_for_influxdb.html"/>
-    <id>http://blog.url.com/blog/2013/12/02/building_custom_interfaces_for_influxdb.html</id>
+    <link rel="alternate" href="http://influxdb.org/blog/2013/12/02/building_custom_interfaces_for_influxdb.html"/>
+    <id>http://influxdb.org/blog/2013/12/02/building_custom_interfaces_for_influxdb.html</id>
     <published>2013-12-02T00:00:00Z</published>
     <updated>2013-12-04T10:03:01-05:00</updated>
     <author>
-      <name>Article Author</name>
+      <name>Todd Persen</name>
     </author>
     <content type="html">&lt;p&gt;In addition to shipping with a basic admin interface, InfluxDB also allows you to create &lt;a href="/docs/interfaces/custom.html"&gt;custom interfaces&lt;/a&gt; with a little bit of HTML and JavaScript and drop them into the admin interface as plugins. This makes it easy to build custom dashboards or reporting interfaces that you can share with others. In this post, we&amp;rsquo;ll walk through the basic concepts of building a plugin and put together a quick visualization example.&lt;/p&gt;
 
@@ -141,12 +141,12 @@
   </entry>
   <entry>
     <title>InfluxDB v0.4.0 &amp;ndash; Breaking changes and tons of new features</title>
-    <link rel="alternate" href="http://blog.url.com/blog/2013/11/27/influxdb_v0_4_0-breaking_changes_and_tons_of_new_features.html"/>
-    <id>http://blog.url.com/blog/2013/11/27/influxdb_v0_4_0-breaking_changes_and_tons_of_new_features.html</id>
+    <link rel="alternate" href="http://influxdb.org/blog/2013/11/27/influxdb_v0_4_0-breaking_changes_and_tons_of_new_features.html"/>
+    <id>http://influxdb.org/blog/2013/11/27/influxdb_v0_4_0-breaking_changes_and_tons_of_new_features.html</id>
     <published>2013-11-27T00:00:00Z</published>
     <updated>2013-12-02T14:36:17-05:00</updated>
     <author>
-      <name>Article Author</name>
+      <name>Paul Dix</name>
     </author>
     <content type="html">&lt;p&gt;InfluxDB has some new features, support for custom dashboards, and there are a bunch of new client libraries that have come out since we announced the project. Most importantly, we&amp;rsquo;re planning a release next week that changes something on the underlying data storage. That means that without a migration, all your data will go away. Read on for more details and how to potentially avoid this fate.&lt;/p&gt;
 
@@ -184,12 +184,12 @@
   </entry>
   <entry>
     <title>Visualizing Bitcoin post frequency on HN with InfluxDB and Rickshaw</title>
-    <link rel="alternate" href="http://blog.url.com/blog/2013/11/19/visualizing_bitcoin_post_frequency_on_hn_using_influxdb_and_rickshaw.html"/>
-    <id>http://blog.url.com/blog/2013/11/19/visualizing_bitcoin_post_frequency_on_hn_using_influxdb_and_rickshaw.html</id>
+    <link rel="alternate" href="http://influxdb.org/blog/2013/11/19/visualizing_bitcoin_post_frequency_on_hn_using_influxdb_and_rickshaw.html"/>
+    <id>http://influxdb.org/blog/2013/11/19/visualizing_bitcoin_post_frequency_on_hn_using_influxdb_and_rickshaw.html</id>
     <published>2013-11-19T00:00:00Z</published>
     <updated>2013-12-02T14:36:17-05:00</updated>
     <author>
-      <name>Article Author</name>
+      <name>Todd Persen</name>
     </author>
     <content type="html">&lt;p&gt;Based on casual observation, the crowd at HackerNews seems to be totally obsessed 
 with Bitcoin and it seems to be reaching a fever pitch. What better way to 
