@@ -40,10 +40,10 @@ In order to see what continuous queries you have defined, just issue `list conti
 
 ## Deleting Continuous Queries
 
-Continuous queries are referred to by their internal id, which can be retrieved through the `list continuous queries` command. The delete query takes the following form:
+Continuous queries are referred to by their internal id, which can be retrieved through the `list continuous queries` command. The drop query takes the following form:
 
 ```sql
-delete continuous query <id>
+drop continuous_query <id>
 ```
 
 ## Backfilling Data
