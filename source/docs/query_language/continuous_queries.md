@@ -43,7 +43,7 @@ In order to see what continuous queries you have defined, just issue `list conti
 Continuous queries are referred to by their internal id, which can be retrieved through the `list continuous queries` command. The drop query takes the following form:
 
 ```sql
-drop continuous_query <id>
+drop continuous query <id>
 ```
 
 ## Backfilling Data
