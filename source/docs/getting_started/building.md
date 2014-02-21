@@ -18,7 +18,7 @@ First, install the build dependencies of the project (via Homebrew):
 brew install protobuf bison flex leveldb go hg bzr
 ```
 
-Then run `./configure && make`. This will build the server and run the tests.
+Then run `./configure --with-flex=/usr/local/Cellar/flex/2.5.37/bin/flex --with-bison=/usr/local/Cellar/bison/3.0.2/bin/bison && make`. This will build the server and run the tests.
 
 ### Linux
 
