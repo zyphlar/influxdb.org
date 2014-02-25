@@ -1,0 +1,85 @@
+<!DOCTYPE html><html><head><meta charset="utf-8" /><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><title>InfluxDB v0.5.0-rc1 released with all new clustering and features.</title><link href="/stylesheets/normalize.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="/stylesheets/foundation.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="/stylesheets/all.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="/stylesheets/highlighting.css" media="screen" rel="stylesheet" type="text/css" /><link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700" media="screen" rel="stylesheet" type="text/css" /><link href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" media="screen" rel="stylesheet" type="text/css" /><script src="/javascripts/all.js" type="text/javascript"></script></head><body class="blog blog_2014 blog_2014_02 blog_2014_02_25 blog_2014_02_25_influxdb_v0_5_0-rc_1-released_with_new_clustering_and_features"><section class="nav"><div class="row"><nav class="top-bar hide-for-small"><ul class="title-area"><li class="name"><a href="/"><img src="/images/influxdb-light-24px.png" /></a></li></ul><li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li><section class="top-bar-section"><ul class="right"><li class="divider"></li><li><a href="/overview">Overview</a></li><li class="divider"></li><li><a href="/hosting">Hosting</a></li><li class="divider"></li><li><a href="/blog">Blog</a></li><li class="divider"></li><li><a href="/docs">Docs</a></li><li class="divider"></li><li><a href="/community">Community</a></li><li class="divider"></li><li><a target="_" href="http://play.influxdb.org">Play</a></li><li class="divider"></li><li class="has-form"><a class="button" href="/download">Download</a></li></ul></section></nav></div></section><section class="main"><div class="row"><div class="large-12 columns"><h1 class="docs header">InfluxDB Blog</h1><hr /></div></div><div class="row padding-bottom-large"><div class="large-8 columns"><h2>InfluxDB v0.5.0-rc1 released with all new clustering and features.</h2><div class="row"><div class="large-9 columns"><h5 class="subheader">February 25, 2014 by Paul Dix</h5></div><div class="large-3 columns"><p id="twitter"><a class="twitter-share-button" data-via="influxdb" href="https://twitter.com/share"></a></p><script type="text/javascript">!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></div></div><p>InfluxDB version 0.5.0-rc1 is out! This release adds significant improvements to clustering, eviction of old data, and 99.99th percentile write performance. We&rsquo;ve also added a cool new feature to continuous queries and given the admin interface some love. The goal of this RC is to put it through serious testing with different loads and failure scenarios. We&rsquo;d like the 0.5.0 line to be ready for production use with a few caveats. Read on for all the details on this big new release.</p>
+
+<h3>Breaking release</h3>
+
+<p>All the changes to clustering and the distribution of data break formats between previous releases and this one. If you&rsquo;re upgrading you&rsquo;ll have to blow away your old Raft and DB directories and re-import all of your data. We anticipate that this will be the last breaking change we make for a while. Future breaking changes after the 0.5.0 release will come with a migration tool so that databases can be upgraded without having to re-import everything.</p>
+
+<h3>New clustering and data distribution</h3>
+
+<p>The previous version used a consistent hashing algorithm to distribute data across a cluster. This version changes that completely to a sharding style that distributes data based on time. Data is now distributed into shards, which are contiguous blocks of time. There are two levels of storage: long term and short term. You&rsquo;re able to simply drop entire shards for either level whenever you&rsquo;d like. This is a very efficient operation as it just deletes the entire LevelDB instance backing the shard. For more see <a href="https://groups.google.com/forum/#!msg/influxdb/3jQQMXmXd6Q/cGcmFjM-f8YJ">this detailed writeup of how sharding and clustering work in InfluxDB</a> going forward.</p>
+
+<p>This new style enables things like writing in high precision short term data, then automatically writing down-sampled data into longer term storage, and dropping the high precision data after some arbitrary amount of time. The down-sampling can be done automatically with continuous queries. This also makes it simple to expand clusters for new data. Simply add a server, and create upcoming shards on the new server. As the new data is written in it will go to the new servers while the old ones are still available for read queries.</p>
+
+<h3>Write buffering</h3>
+
+<p>We&rsquo;ve added a write ahead log (or WAL) to this version. It fills two purposes: buffering writes to the local datastore, and keeping a short term log of writes for any server that goes down that will later need that data replayed. The write buffering to the local datastore should solve the issue with writes that take too long because of LevelDB compactions. The buffer size is configurable and will need to be larger for high volume situations.</p>
+
+<h3>Denormalizing into many series with continuous queries</h3>
+
+<p>Continuous queries received an upgrade that give them the ability to create new series from column values. For example, if you&rsquo;re writing in a series called <code>events</code> that has data like this:</p>
+<pre class="highlight json"><span class="p">{</span><span class="w">
+  </span><span class="s2">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;click&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="s2">&quot;user&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">23</span><span class="p">,</span><span class="w">
+  </span><span class="s2">&quot;location&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/foo.html&quot;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></pre>
+<p>You can now denormalize that data into streams for each user or event type with continuous queries like this:</p>
+<pre class="highlight sql"><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">events</span> <span class="k">into</span> <span class="n">events</span><span class="p">.[</span><span class="k">user</span><span class="p">]</span>
+
+<span class="c1">-- or this
+</span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">events</span> <span class="k">into</span> <span class="n">events</span><span class="p">.[</span><span class="k">user</span><span class="p">].[</span><span class="k">type</span><span class="p">]</span>
+</pre>
+<p>Since not all characters make valid series names, the values will be cleaned. <code>/</code> turns into <code>.</code> while spaces turn into <code>_</code> and other invalid characters are removed. Once we enable continuous queries to start from a given timestamp, you&rsquo;ll be able to backfill these indexes with old data.</p>
+
+<h3>We want to hear from you!</h3>
+
+<p>We&rsquo;ll be testing this release extensively in both single server and clustered modes under different write loads and failure scenarios. If you see anything in your testing like high memory or CPU usage, crashes, or other odd behavior, let us know on the <a href="https://groups.google.com/forum/#!forum/influxdb">InfluxDB mailing list</a> or at <a href="mailto:support@influxdb.com">support@influxdb.com</a>.</p>
+
+<p>We&rsquo;re also looking for case studies of InfluxDB in use. If you&rsquo;re using InfluxDB we&rsquo;d love to hear about it. We&rsquo;ll send you a shirt, answer questions and give support, or generally sing your praises.</p>
+
+<h3>Caveats on production use</h3>
+
+<p>I mentioned there would be some caveats to production use. In addition to more general testing and live use, there are a few features that we consider fairly important for using InfluxDB in production. The first is the ability to move shards between servers, which enables the replacement of downed nodes in a cluster. Version 0.6.0 will add this feature, but you could certainly run in production before this. The second is the ability to backup a database, which is also slated for the next release.</p>
+
+<p>That being said, if you&rsquo;re comfortable using early software, we&rsquo;d love to help you out. Let us know if there&rsquo;s anything you need.</p>
+
+<h3>Getting the release</h3>
+
+<p>The latest releases have been updated for Ubuntu, Debian, RedHat, CentOS, and the source tarballs. Head to the <a href="http://influxdb.org/download/">InfluxDB download page</a> to grab them. If you&rsquo;re on OSX, watch <a href="https://github.com/Homebrew/homebrew/pull/27012">this Homebrew pull request</a>. Once it&rsquo;s merged in do:</p>
+<pre class="highlight shell">brew update <span class="o">&amp;&amp;</span> brew install influxdb --devel
+</pre>
+<p>If you&rsquo;re upgrading from a previous version you&rsquo;ll need to delete your Raft and DB directories.</p>
+<hr style="margin-top:30px; margin-bottom:30px"/>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'influxdb';
+
+  /* * * DON'T EDIT BELOW THIS LINE * * */
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div><div class="large-4 columns"><h4>Posts</h4><p><a href="/blog/2014/02/25/influxdb_v0_5_0-rc_1-released_with_new_clustering_and_features.html">InfluxDB v0.5.0-rc1 released with all new clustering and features.</a></p><p><a href="/blog/2013/12/02/building_custom_interfaces_for_influxdb.html">Building Custom Interfaces For InfluxDB</a></p><p><a href="/blog/2013/11/27/influxdb_v0_4_0-breaking_changes_and_tons_of_new_features.html">InfluxDB v0.4.0 &ndash; Breaking changes and tons of new features</a></p><hr /><h4>About InfluxDB</h4><p>InfluxDB is an open source distributed time series, metrics, and events database.</p><hr /><h4>Sign Up For Our Newsletter</h4><!-- Begin MailChimp Signup Form -->
+<div id="newsletter-signup">
+<form action="http://errplane.us5.list-manage.com/subscribe/post?u=4d17b6adac2728b1ea6e4926b&amp;id=08af34971b" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+
+  <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
+  <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button radius"></div>
+</form>
+</div>
+
+<!--End mc_embed_signup-->
+</div></div></section><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-45024174-1', 'influxdb.org');
+ga('send', 'pageview');</script><a href="https://github.com/influxdb/influxdb"><img alt="Fork me on GitHub" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" style="position: absolute; top: 0; right: 0; border: 0;" /></a></body></html>

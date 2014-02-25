@@ -5,10 +5,72 @@
   <id>http://influxdb.org/blog</id>
   <link href="http://influxdb.org/blog"/>
   <link href="http://influxdb.org/feed.xml" rel="self"/>
-  <updated>2013-12-02T00:00:00Z</updated>
+  <updated>2014-02-25T00:00:00Z</updated>
   <author>
     <name>InfluxDB</name>
   </author>
+  <entry>
+    <title>InfluxDB v0.5.0-rc1 released with all new clustering and features.</title>
+    <link rel="alternate" href="http://influxdb.org/blog/2014/02/25/influxdb_v0_5_0-rc_1-released_with_new_clustering_and_features.html"/>
+    <id>http://influxdb.org/blog/2014/02/25/influxdb_v0_5_0-rc_1-released_with_new_clustering_and_features.html</id>
+    <published>2014-02-25T00:00:00Z</published>
+    <updated>2014-02-25T18:14:18-05:00</updated>
+    <author>
+      <name>Paul Dix</name>
+    </author>
+    <content type="html">&lt;p&gt;InfluxDB version 0.5.0-rc1 is out! This release adds significant improvements to clustering, eviction of old data, and 99.99th percentile write performance. We&amp;rsquo;ve also added a cool new feature to continuous queries and given the admin interface some love. The goal of this RC is to put it through serious testing with different loads and failure scenarios. We&amp;rsquo;d like the 0.5.0 line to be ready for production use with a few caveats. Read on for all the details on this big new release.&lt;/p&gt;
+
+&lt;h3&gt;Breaking release&lt;/h3&gt;
+
+&lt;p&gt;All the changes to clustering and the distribution of data break formats between previous releases and this one. If you&amp;rsquo;re upgrading you&amp;rsquo;ll have to blow away your old Raft and DB directories and re-import all of your data. We anticipate that this will be the last breaking change we make for a while. Future breaking changes after the 0.5.0 release will come with a migration tool so that databases can be upgraded without having to re-import everything.&lt;/p&gt;
+
+&lt;h3&gt;New clustering and data distribution&lt;/h3&gt;
+
+&lt;p&gt;The previous version used a consistent hashing algorithm to distribute data across a cluster. This version changes that completely to a sharding style that distributes data based on time. Data is now distributed into shards, which are contiguous blocks of time. There are two levels of storage: long term and short term. You&amp;rsquo;re able to simply drop entire shards for either level whenever you&amp;rsquo;d like. This is a very efficient operation as it just deletes the entire LevelDB instance backing the shard. For more see &lt;a href="https://groups.google.com/forum/#!msg/influxdb/3jQQMXmXd6Q/cGcmFjM-f8YJ"&gt;this detailed writeup of how sharding and clustering work in InfluxDB&lt;/a&gt; going forward.&lt;/p&gt;
+
+&lt;p&gt;This new style enables things like writing in high precision short term data, then automatically writing down-sampled data into longer term storage, and dropping the high precision data after some arbitrary amount of time. The down-sampling can be done automatically with continuous queries. This also makes it simple to expand clusters for new data. Simply add a server, and create upcoming shards on the new server. As the new data is written in it will go to the new servers while the old ones are still available for read queries.&lt;/p&gt;
+
+&lt;h3&gt;Write buffering&lt;/h3&gt;
+
+&lt;p&gt;We&amp;rsquo;ve added a write ahead log (or WAL) to this version. It fills two purposes: buffering writes to the local datastore, and keeping a short term log of writes for any server that goes down that will later need that data replayed. The write buffering to the local datastore should solve the issue with writes that take too long because of LevelDB compactions. The buffer size is configurable and will need to be larger for high volume situations.&lt;/p&gt;
+
+&lt;h3&gt;Denormalizing into many series with continuous queries&lt;/h3&gt;
+
+&lt;p&gt;Continuous queries received an upgrade that give them the ability to create new series from column values. For example, if you&amp;rsquo;re writing in a series called &lt;code&gt;events&lt;/code&gt; that has data like this:&lt;/p&gt;
+&lt;pre class="highlight json"&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;
+  &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;type&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;click&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+  &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;user&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;23&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+  &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;location&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/foo.html&amp;quot;&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/pre&gt;
+&lt;p&gt;You can now denormalize that data into streams for each user or event type with continuous queries like this:&lt;/p&gt;
+&lt;pre class="highlight sql"&gt;&lt;span class="k"&gt;select&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;events&lt;/span&gt; &lt;span class="k"&gt;into&lt;/span&gt; &lt;span class="n"&gt;events&lt;/span&gt;&lt;span class="p"&gt;.[&lt;/span&gt;&lt;span class="k"&gt;user&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+
+&lt;span class="c1"&gt;-- or this
+&lt;/span&gt;&lt;span class="k"&gt;select&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;events&lt;/span&gt; &lt;span class="k"&gt;into&lt;/span&gt; &lt;span class="n"&gt;events&lt;/span&gt;&lt;span class="p"&gt;.[&lt;/span&gt;&lt;span class="k"&gt;user&lt;/span&gt;&lt;span class="p"&gt;].[&lt;/span&gt;&lt;span class="k"&gt;type&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;Since not all characters make valid series names, the values will be cleaned. &lt;code&gt;/&lt;/code&gt; turns into &lt;code&gt;.&lt;/code&gt; while spaces turn into &lt;code&gt;_&lt;/code&gt; and other invalid characters are removed. Once we enable continuous queries to start from a given timestamp, you&amp;rsquo;ll be able to backfill these indexes with old data.&lt;/p&gt;
+
+&lt;h3&gt;We want to hear from you!&lt;/h3&gt;
+
+&lt;p&gt;We&amp;rsquo;ll be testing this release extensively in both single server and clustered modes under different write loads and failure scenarios. If you see anything in your testing like high memory or CPU usage, crashes, or other odd behavior, let us know on the &lt;a href="https://groups.google.com/forum/#!forum/influxdb"&gt;InfluxDB mailing list&lt;/a&gt; or at &lt;a href="mailto:support@influxdb.com"&gt;support@influxdb.com&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;We&amp;rsquo;re also looking for case studies of InfluxDB in use. If you&amp;rsquo;re using InfluxDB we&amp;rsquo;d love to hear about it. We&amp;rsquo;ll send you a shirt, answer questions and give support, or generally sing your praises.&lt;/p&gt;
+
+&lt;h3&gt;Caveats on production use&lt;/h3&gt;
+
+&lt;p&gt;I mentioned there would be some caveats to production use. In addition to more general testing and live use, there are a few features that we consider fairly important for using InfluxDB in production. The first is the ability to move shards between servers, which enables the replacement of downed nodes in a cluster. Version 0.6.0 will add this feature, but you could certainly run in production before this. The second is the ability to backup a database, which is also slated for the next release.&lt;/p&gt;
+
+&lt;p&gt;That being said, if you&amp;rsquo;re comfortable using early software, we&amp;rsquo;d love to help you out. Let us know if there&amp;rsquo;s anything you need.&lt;/p&gt;
+
+&lt;h3&gt;Getting the release&lt;/h3&gt;
+
+&lt;p&gt;The latest releases have been updated for Ubuntu, Debian, RedHat, CentOS, and the source tarballs. Head to the &lt;a href="http://influxdb.org/download/"&gt;InfluxDB download page&lt;/a&gt; to grab them. If you&amp;rsquo;re on OSX, watch &lt;a href="https://github.com/Homebrew/homebrew/pull/27012"&gt;this Homebrew pull request&lt;/a&gt;. Once it&amp;rsquo;s merged in do:&lt;/p&gt;
+&lt;pre class="highlight shell"&gt;brew update &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; brew install influxdb --devel
+&lt;/pre&gt;
+&lt;p&gt;If you&amp;rsquo;re upgrading from a previous version you&amp;rsquo;ll need to delete your Raft and DB directories.&lt;/p&gt;
+</content>
+  </entry>
   <entry>
     <title>Building Custom Interfaces For InfluxDB</title>
     <link rel="alternate" href="http://influxdb.org/blog/2013/12/02/building_custom_interfaces_for_influxdb.html"/>
