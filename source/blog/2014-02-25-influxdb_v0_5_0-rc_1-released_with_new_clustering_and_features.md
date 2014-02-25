@@ -1,10 +1,10 @@
 ---
-title: InfluxDB v0.5.0.rc0 released with all new clustering and features.
+title: InfluxDB v0.5.0-rc1 released with all new clustering and features.
 author: Paul Dix
 published_on: February 25, 2014
 ---
 
-InfluxDB version 0.5.0.rc0 is out! This release adds significant improvements to clustering, eviction of old data, and 99.99th percentile write performance. We've also added a cool new feature to continuous queries and given the admin interface some love. The goal of this RC is to put it through serious testing with different loads and failure scenarios. We'd like the 0.5.0 line to be ready for production use with a few caveats. Read on for all the details on this big new release.
+InfluxDB version 0.5.0-rc1 is out! This release adds significant improvements to clustering, eviction of old data, and 99.99th percentile write performance. We've also added a cool new feature to continuous queries and given the admin interface some love. The goal of this RC is to put it through serious testing with different loads and failure scenarios. We'd like the 0.5.0 line to be ready for production use with a few caveats. Read on for all the details on this big new release.
 
 ### Breaking release
 
@@ -54,3 +54,13 @@ We're also looking for case studies of InfluxDB in use. If you're using InfluxDB
 I mentioned there would be some caveats to production use. In addition to more general testing and live use, there are a few features that we consider fairly important for using InfluxDB in production. The first is the ability to move shards between servers, which enables the replacement of downed nodes in a cluster. Version 0.6.0 will add this feature, but you could certainly run in production before this. The second is the ability to backup a database, which is also slated for the next release.
 
 That being said, if you're comfortable using early software, we'd love to help you out. Let us know if there's anything you need.
+
+### Getting the release
+
+The latest releases have been updated for Ubuntu, Debian, RedHat, CentOS, and the source tarballs. Head to the [InfluxDB download page](http://influxdb.org/download/) to grab them. If you're on OSX, watch [this Homebrew pull request](https://github.com/Homebrew/homebrew/pull/27012). Once it's merged in do:
+
+```shell
+brew update && brew install influxdb --devel
+````
+
+If you're upgrading from a previous version you'll need to delete your Raft and DB directories.
