@@ -14,7 +14,7 @@
     <link rel="alternate" href="http://influxdb.org/blog/2014/02/25/influxdb_v0_5_0-rc_1-released_with_new_clustering_and_features.html"/>
     <id>http://influxdb.org/blog/2014/02/25/influxdb_v0_5_0-rc_1-released_with_new_clustering_and_features.html</id>
     <published>2014-02-25T00:00:00Z</published>
-    <updated>2014-02-25T18:14:18-05:00</updated>
+    <updated>2014-03-03T11:11:08-05:00</updated>
     <author>
       <name>Paul Dix</name>
     </author>
@@ -76,7 +76,7 @@
     <link rel="alternate" href="http://influxdb.org/blog/2013/12/02/building_custom_interfaces_for_influxdb.html"/>
     <id>http://influxdb.org/blog/2013/12/02/building_custom_interfaces_for_influxdb.html</id>
     <published>2013-12-02T00:00:00Z</published>
-    <updated>2013-12-04T09:55:59-05:00</updated>
+    <updated>2013-12-05T11:22:36-05:00</updated>
     <author>
       <name>Todd Persen</name>
     </author>
@@ -206,7 +206,7 @@
     <link rel="alternate" href="http://influxdb.org/blog/2013/11/27/influxdb_v0_4_0-breaking_changes_and_tons_of_new_features.html"/>
     <id>http://influxdb.org/blog/2013/11/27/influxdb_v0_4_0-breaking_changes_and_tons_of_new_features.html</id>
     <published>2013-11-27T00:00:00Z</published>
-    <updated>2013-12-02T15:04:09-05:00</updated>
+    <updated>2013-12-05T11:22:36-05:00</updated>
     <author>
       <name>Paul Dix</name>
     </author>
@@ -249,7 +249,7 @@
     <link rel="alternate" href="http://influxdb.org/blog/2013/11/19/visualizing_bitcoin_post_frequency_on_hn_using_influxdb_and_rickshaw.html"/>
     <id>http://influxdb.org/blog/2013/11/19/visualizing_bitcoin_post_frequency_on_hn_using_influxdb_and_rickshaw.html</id>
     <published>2013-11-19T00:00:00Z</published>
-    <updated>2013-12-02T15:04:09-05:00</updated>
+    <updated>2013-12-05T11:22:36-05:00</updated>
     <author>
       <name>Todd Persen</name>
     </author>
