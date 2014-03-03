@@ -141,6 +141,9 @@ time will be ignored, for example the following query:</p>
 <span class="c1">-- 95th percentile of response times in 30 second intervals
 </span><span class="k">select</span> <span class="n">percentile</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="mi">95</span><span class="p">)</span> <span class="k">from</span> <span class="n">response_times</span> <span class="k">group</span> <span class="k">by</span> <span class="n">time</span><span class="p">(</span><span class="mi">30</span><span class="n">s</span><span class="p">);</span>
 </pre>
+<p>By default functions will output a column that have the same name as the function, e.g. <code>count</code> will output a column with the name <code>count</code> in order to change the name of the column an <code>AS</code> clause is required. Here is an example to illustrate how aliasing work:</p>
+<pre class="highlight sql"><span class="k">select</span> <span class="k">count</span><span class="p">(</span><span class="k">type</span><span class="p">)</span> <span class="k">as</span> <span class="n">number_of_types</span> <span class="k">group</span> <span class="k">by</span> <span class="n">time</span><span class="p">(</span><span class="mi">10</span><span class="n">m</span><span class="p">);</span>
+</pre>
 <p>The time function takes the time interval which can be in
 microseconds, milliseconds, seconds, minutes or hours. To specify the
 units you can use the respective suffix <code>us</code>, <code>ms</code>, <code>s</code>, <code>m</code> and <code>h</code>.</p>
