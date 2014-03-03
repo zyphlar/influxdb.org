@@ -174,6 +174,12 @@ select count(type) from events group by time(10m), type;
 select percentile(value, 95) from response_times group by time(30s);
 ```
 
+By default functions will output a column that have the same name as the function, e.g. `count` will output a column with the name `count` in order to change the name of the column an `AS` clause is required. Here is an example to illustrate how aliasing work:
+
+```sql
+select count(type) as number_of_types group by time(10m);
+```
+
 The time function takes the time interval which can be in
 microseconds, milliseconds, seconds, minutes or hours. To specify the
 units you can use the respective suffix `us`, `ms`, `s`, `m` and `h`.
