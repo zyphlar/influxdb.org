@@ -11,49 +11,36 @@ main
   section.plans
     .row.padding-bottom-large.padding-top-medium
       .large-12.columns
-        .large-3.columns.block
-          h3 Shared
-          h4 $25
-          h5 per month
-          form action="/charge" method="POST"
-            script.stripe-button src="https://checkout.stripe.com/checkout.js" data-key="pk_live_YqkcDTFvohavPUkSV9ZtI7oO" data-image="/images/influx-128.png" data-name="InfluxDB" data-description="Hosting - Shared ($25/mo)" data-amount="2500" data-label="Sign up now!"
-
-          p 1GB Storage
-          p Shared node
-          p &ndash;
-          hr
-          p Email-Only Support
-
-        .large-3.columns.block
+        .large-4.columns.block
           h3 Small Cluster
-          h4 $200
+          h4 $250
           h5 per month
           form action="/charge" method="POST"
-            script.stripe-button src="https://checkout.stripe.com/checkout.js" data-key="pk_live_YqkcDTFvohavPUkSV9ZtI7oO" data-image="/images/influx-128.png" data-name="InfluxDB" data-description="Hosting - Small Cluster ($200/mo)" data-amount="20000" data-label="Sign up now!"
+            script.stripe-button src="https://checkout.stripe.com/checkout.js" data-key="pk_live_YqkcDTFvohavPUkSV9ZtI7oO" data-image="/images/influx-128.png" data-name="InfluxDB" data-description="Hosting - Small Cluster ($250/mo)" data-amount="25000" data-label="Sign up now!"
 
-          p 20GB Storage
+          p 30GB Storage
           p 2 Nodes
+          p Fully Redundant
+          hr
+          p Email Support
+
+
+        .large-4.columns.block
+          h3 Medium Cluster
+          h4 $800
+          h5 per month
+          form action="/charge" method="POST"
+            script.stripe-button src="https://checkout.stripe.com/checkout.js" data-key="pk_live_YqkcDTFvohavPUkSV9ZtI7oO" data-image="/images/influx-128.png" data-name="InfluxDB" data-description="Hosting - Medium Cluster ($800/mo)" data-amount="80000" data-label="Sign up now!"
+
+          p 100GB Storage
+          p 6 Nodes
           p Fully Redundant
           hr
           p Email and IM Support
 
-
-        .large-3.columns.block
-          h3 Medium Cluster
-          h4 $500
-          h5 per month
-          form action="/charge" method="POST"
-            script.stripe-button src="https://checkout.stripe.com/checkout.js" data-key="pk_live_YqkcDTFvohavPUkSV9ZtI7oO" data-image="/images/influx-128.png" data-name="InfluxDB" data-description="Hosting - Medium Cluster ($500/mo)" data-amount="50000" data-label="Sign up now!"
-
-          p 120GB Storage
-          p 6 Nodes
-          p Fully Redundant
-          hr
-          p 7-5 Pacific Time Phone Support
-
-        .large-3.columns.block
+        .large-4.columns.block
           h3 Large Cluster
-          h4 Contact
+          h4 Contact Us
           p= link_to "support@influxdb.com", "mailto:support@influxdb.com"
 
     .row
