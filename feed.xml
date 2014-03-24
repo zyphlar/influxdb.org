@@ -5,16 +5,51 @@
   <id>http://influxdb.org/blog</id>
   <link href="http://influxdb.org/blog"/>
   <link href="http://influxdb.org/feed.xml" rel="self"/>
-  <updated>2014-02-25T00:00:00Z</updated>
+  <updated>2014-03-24T00:00:00Z</updated>
   <author>
     <name>InfluxDB</name>
   </author>
+  <entry>
+    <title>InfluxDB v0.5.0 ready for production</title>
+    <link rel="alternate" href="http://influxdb.org/blog/2014/03/24/influxdb_v0_5_0_ready_for_production.html"/>
+    <id>http://influxdb.org/blog/2014/03/24/influxdb_v0_5_0_ready_for_production.html</id>
+    <published>2014-03-24T00:00:00Z</published>
+    <updated>2014-03-24T15:47:34-04:00</updated>
+    <author>
+      <name>Paul Dix</name>
+    </author>
+    <content type="html">&lt;p&gt;InfluxDB version 0.5.0 has been released and is ready for production! Well, ready for production depending on your comfort level. There are &lt;a href="https://github.com/influxdb/influxdb/issues?state=open"&gt;still issues and features we want to address&lt;/a&gt;. However, there are no known bugs that cause a crash or a memory leak. This is the first release that we&amp;rsquo;re deeming production worthy. Here&amp;rsquo;s the lowdown on what we&amp;rsquo;ve added, what&amp;rsquo;s coming, and what promises we&amp;rsquo;re making for releases going forward.&lt;/p&gt;
+
+&lt;p&gt;This release adds support for clustering. That means you can have your data split out across multiple servers for either high availability or scalability. This release also had a few big contributions from the community, which is really exciting for us. There&amp;rsquo;s support for &lt;a href="https://github.com/influxdb/influxdb/blob/master/src/configuration/config.toml#L26-L29"&gt;ingesting data via the Graphite protocol&lt;/a&gt; thanks to &lt;a href="https://github.com/Dieterbe"&gt;@Dieterbe&lt;/a&gt;. There&amp;rsquo;s a new &lt;a href="https://github.com/influxdb/influxdb/commit/e2adcf1c581dc5b6074901d11656887ffca2cdb1#diff-dcba2e0e9a976baee1338925df6ffe93R42"&gt;EXPLAIN query&lt;/a&gt; thanks to &lt;a href="https://github.com/elcct"&gt;@elcct&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Continuous queries are now supported. One great new feature with them is the ability to &lt;a href="https://github.com/influxdb/influxdb/blob/master/src/integration/server_test.go#L1311-L1368"&gt;interpolate column values into resulting series names&lt;/a&gt;. That makes it easy to denormalize series into many resulting series that are very fast to query against.&lt;/p&gt;
+
+&lt;p&gt;Full details can be seen in the &lt;a href="https://github.com/influxdb/influxdb/blob/master/CHANGELOG.md#v050-rc1-2014-02-25"&gt;changelog from the first 0.5.0 RC forward&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Does all this mean that you can run InfluxDB in production? Well yes, if you&amp;rsquo;re comfortable running early software. We&amp;rsquo;re running it in production in a 2-node HA setup for a few customers. However, there are still a few key features that we think are quite important:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Move a shard from one node to another (for downed node replacement)&lt;/li&gt;
+&lt;li&gt;Backup the database (instead of just copying all the files in /data)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Note that the current release will handle a node in a cluster going down. Reads and writes should continue, but the assumption is that you&amp;rsquo;ll be able to bring the node back up. When it comes back up it will receieve all the data from the other nodes in the cluster that it missed while it was down. If the node is totally lost, there&amp;rsquo;s currently no way to spin up a new node and have it take the place of the downed one.&lt;/p&gt;
+
+&lt;p&gt;Our priority for the next few point releases is to fix some of the remaining issues and add those two key features. You can expect a point release every week or two for the next few months. Future releases should not break the underlying storage format. If they do, we&amp;rsquo;ll give you a migration path. If you&amp;rsquo;re running a two node cluster, you should be able to upgrade the cluster one node at a time to avoid downtime. However, the client you&amp;rsquo;re using must support failover. We have this in the &lt;a href="https://github.com/influxdb/influxdb-ruby"&gt;InfluxDB Ruby gem&lt;/a&gt; and library authors should update their libraries to support multiple hosts.&lt;/p&gt;
+
+&lt;p&gt;You also may have noticed that all the links in this post pointed to source code and not documentation. We&amp;rsquo;ll be going through and doing a complete update on the docs to make them easier to understand and to guide you through setting up a cluster.&lt;/p&gt;
+
+&lt;p&gt;If you need any help drop us a line at &lt;a href="mailto:support@influxdb.com"&gt;support@influxdb.com&lt;/a&gt;, or talk to us on the &lt;a href="https://groups.google.com/forum/#!newtopic/influxdb"&gt;InfluxDB mailing list&lt;/a&gt;, or chat at us in #influxdb on freenode. If you want to start using InfluxDB, but are nervous about hosting it yourself, get in touch. We&amp;rsquo;re running production clusters for some customers already and we&amp;rsquo;re here to help you out.&lt;/p&gt;
+
+&lt;p&gt;Go to the &lt;a href="http://influxdb.org/download/"&gt;download page&lt;/a&gt; to get the latest. Or watch this &lt;a href="https://github.com/Homebrew/homebrew/pull/27832"&gt;Homebrew PR for InfluxDB&lt;/a&gt; to see when it&amp;rsquo;s available.&lt;/p&gt;
+</content>
+  </entry>
   <entry>
     <title>InfluxDB v0.5.0-rc1 released with all new clustering and features.</title>
     <link rel="alternate" href="http://influxdb.org/blog/2014/02/25/influxdb_v0_5_0-rc_1-released_with_new_clustering_and_features.html"/>
     <id>http://influxdb.org/blog/2014/02/25/influxdb_v0_5_0-rc_1-released_with_new_clustering_and_features.html</id>
     <published>2014-02-25T00:00:00Z</published>
-    <updated>2014-03-04T13:49:47-05:00</updated>
+    <updated>2014-02-25T18:14:18-05:00</updated>
     <author>
       <name>Paul Dix</name>
     </author>
@@ -76,7 +111,7 @@
     <link rel="alternate" href="http://influxdb.org/blog/2013/12/02/building_custom_interfaces_for_influxdb.html"/>
     <id>http://influxdb.org/blog/2013/12/02/building_custom_interfaces_for_influxdb.html</id>
     <published>2013-12-02T00:00:00Z</published>
-    <updated>2013-12-04T10:03:01-05:00</updated>
+    <updated>2013-12-04T09:55:59-05:00</updated>
     <author>
       <name>Todd Persen</name>
     </author>
@@ -206,7 +241,7 @@
     <link rel="alternate" href="http://influxdb.org/blog/2013/11/27/influxdb_v0_4_0-breaking_changes_and_tons_of_new_features.html"/>
     <id>http://influxdb.org/blog/2013/11/27/influxdb_v0_4_0-breaking_changes_and_tons_of_new_features.html</id>
     <published>2013-11-27T00:00:00Z</published>
-    <updated>2013-12-02T14:36:17-05:00</updated>
+    <updated>2013-12-02T15:04:09-05:00</updated>
     <author>
       <name>Paul Dix</name>
     </author>
@@ -249,7 +284,7 @@
     <link rel="alternate" href="http://influxdb.org/blog/2013/11/19/visualizing_bitcoin_post_frequency_on_hn_using_influxdb_and_rickshaw.html"/>
     <id>http://influxdb.org/blog/2013/11/19/visualizing_bitcoin_post_frequency_on_hn_using_influxdb_and_rickshaw.html</id>
     <published>2013-11-19T00:00:00Z</published>
-    <updated>2013-12-02T14:36:17-05:00</updated>
+    <updated>2013-12-02T15:04:09-05:00</updated>
     <author>
       <name>Todd Persen</name>
     </author>

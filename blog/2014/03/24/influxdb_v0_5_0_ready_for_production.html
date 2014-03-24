@@ -1,0 +1,58 @@
+<!DOCTYPE html><html><head><meta charset="utf-8" /><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><title>InfluxDB v0.5.0 ready for production</title><link href="/stylesheets/normalize.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="/stylesheets/foundation.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="/stylesheets/all.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="/stylesheets/highlighting.css" media="screen" rel="stylesheet" type="text/css" /><link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700" media="screen" rel="stylesheet" type="text/css" /><link href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" media="screen" rel="stylesheet" type="text/css" /><script src="/javascripts/all.js" type="text/javascript"></script></head><body class="blog blog_2014 blog_2014_03 blog_2014_03_24 blog_2014_03_24_influxdb_v0_5_0_ready_for_production"><section class="nav"><div class="row"><nav class="top-bar hide-for-small"><ul class="title-area"><li class="name"><a href="/"><img src="/images/influxdb-light-24px.png" /></a></li></ul><li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li><section class="top-bar-section"><ul class="right"><li class="divider"></li><li><a href="/overview">Overview</a></li><li class="divider"></li><li><a href="/hosting">Support & Hosting</a></li><li class="divider"></li><li><a href="/blog">Blog</a></li><li class="divider"></li><li><a href="/docs">Docs</a></li><li class="divider"></li><li><a href="/community">Community</a></li><li class="divider"></li><li><a target="_" href="http://play.influxdb.org">Play</a></li><li class="divider"></li><li class="has-form"><a class="button" href="/download">Download</a></li></ul></section></nav></div></section><section class="main"><div class="row"><div class="large-12 columns"><h1 class="docs header">InfluxDB Blog</h1><hr /></div></div><div class="row padding-bottom-large"><div class="large-8 columns"><h2>InfluxDB v0.5.0 ready for production</h2><div class="row"><div class="large-9 columns"><h5 class="subheader">March 24, 2014 by Paul Dix</h5></div><div class="large-3 columns"><p id="twitter"><a class="twitter-share-button" data-via="influxdb" href="https://twitter.com/share"></a></p><script type="text/javascript">!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></div></div><p>InfluxDB version 0.5.0 has been released and is ready for production! Well, ready for production depending on your comfort level. There are <a href="https://github.com/influxdb/influxdb/issues?state=open">still issues and features we want to address</a>. However, there are no known bugs that cause a crash or a memory leak. This is the first release that we&rsquo;re deeming production worthy. Here&rsquo;s the lowdown on what we&rsquo;ve added, what&rsquo;s coming, and what promises we&rsquo;re making for releases going forward.</p>
+
+<p>This release adds support for clustering. That means you can have your data split out across multiple servers for either high availability or scalability. This release also had a few big contributions from the community, which is really exciting for us. There&rsquo;s support for <a href="https://github.com/influxdb/influxdb/blob/master/src/configuration/config.toml#L26-L29">ingesting data via the Graphite protocol</a> thanks to <a href="https://github.com/Dieterbe">@Dieterbe</a>. There&rsquo;s a new <a href="https://github.com/influxdb/influxdb/commit/e2adcf1c581dc5b6074901d11656887ffca2cdb1#diff-dcba2e0e9a976baee1338925df6ffe93R42">EXPLAIN query</a> thanks to <a href="https://github.com/elcct">@elcct</a>.</p>
+
+<p>Continuous queries are now supported. One great new feature with them is the ability to <a href="https://github.com/influxdb/influxdb/blob/master/src/integration/server_test.go#L1311-L1368">interpolate column values into resulting series names</a>. That makes it easy to denormalize series into many resulting series that are very fast to query against.</p>
+
+<p>Full details can be seen in the <a href="https://github.com/influxdb/influxdb/blob/master/CHANGELOG.md#v050-rc1-2014-02-25">changelog from the first 0.5.0 RC forward</a>.</p>
+
+<p>Does all this mean that you can run InfluxDB in production? Well yes, if you&rsquo;re comfortable running early software. We&rsquo;re running it in production in a 2-node HA setup for a few customers. However, there are still a few key features that we think are quite important:</p>
+
+<ul>
+<li>Move a shard from one node to another (for downed node replacement)</li>
+<li>Backup the database (instead of just copying all the files in /data)</li>
+</ul>
+
+<p>Note that the current release will handle a node in a cluster going down. Reads and writes should continue, but the assumption is that you&rsquo;ll be able to bring the node back up. When it comes back up it will receieve all the data from the other nodes in the cluster that it missed while it was down. If the node is totally lost, there&rsquo;s currently no way to spin up a new node and have it take the place of the downed one.</p>
+
+<p>Our priority for the next few point releases is to fix some of the remaining issues and add those two key features. You can expect a point release every week or two for the next few months. Future releases should not break the underlying storage format. If they do, we&rsquo;ll give you a migration path. If you&rsquo;re running a two node cluster, you should be able to upgrade the cluster one node at a time to avoid downtime. However, the client you&rsquo;re using must support failover. We have this in the <a href="https://github.com/influxdb/influxdb-ruby">InfluxDB Ruby gem</a> and library authors should update their libraries to support multiple hosts.</p>
+
+<p>You also may have noticed that all the links in this post pointed to source code and not documentation. We&rsquo;ll be going through and doing a complete update on the docs to make them easier to understand and to guide you through setting up a cluster.</p>
+
+<p>If you need any help drop us a line at <a href="mailto:support@influxdb.com">support@influxdb.com</a>, or talk to us on the <a href="https://groups.google.com/forum/#!newtopic/influxdb">InfluxDB mailing list</a>, or chat at us in #influxdb on freenode. If you want to start using InfluxDB, but are nervous about hosting it yourself, get in touch. We&rsquo;re running production clusters for some customers already and we&rsquo;re here to help you out.</p>
+
+<p>Go to the <a href="http://influxdb.org/download/">download page</a> to get the latest. Or watch this <a href="https://github.com/Homebrew/homebrew/pull/27832">Homebrew PR for InfluxDB</a> to see when it&rsquo;s available.</p>
+<hr style="margin-top:30px; margin-bottom:30px"/>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'influxdb';
+
+  /* * * DON'T EDIT BELOW THIS LINE * * */
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div><div class="large-4 columns"><h4>Posts</h4><p><a href="/blog/2014/03/24/influxdb_v0_5_0_ready_for_production.html">InfluxDB v0.5.0 ready for production</a></p><p><a href="/blog/2014/02/25/influxdb_v0_5_0-rc_1-released_with_new_clustering_and_features.html">InfluxDB v0.5.0-rc1 released with all new clustering and features.</a></p><p><a href="/blog/2013/12/02/building_custom_interfaces_for_influxdb.html">Building Custom Interfaces For InfluxDB</a></p><hr /><h4>About InfluxDB</h4><p>InfluxDB is an open source distributed time series, metrics, and events database.</p><hr /><h4>Sign Up For Our Newsletter</h4><!-- Begin MailChimp Signup Form -->
+<div id="newsletter-signup">
+<form action="http://errplane.us5.list-manage.com/subscribe/post?u=4d17b6adac2728b1ea6e4926b&amp;id=08af34971b" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+
+  <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
+  <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button radius"></div>
+</form>
+</div>
+
+<!--End mc_embed_signup-->
+</div></div></section><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-45024174-1', 'influxdb.org');
+ga('send', 'pageview');</script><a href="https://github.com/influxdb/influxdb"><img alt="Fork me on GitHub" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" style="position: absolute; top: 0; right: 0; border: 0;" /></a></body></html>
