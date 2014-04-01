@@ -6,9 +6,8 @@
 
 <h2>Changes to the query language in v0.4.0</h2>
 
-<p>Starting with version 0.4.0 the equality and inequality operators are
-changed to <code>=</code> and <code>&lt;&gt;</code> from <code>==</code> and <code>!=</code>, respectively. Examples in this doc
-will be changed once 0.4.0 is officially released.</p>
+<p>Starting with version 0.4.0 the equality and inequality operators was
+changed to <code>=</code> and <code>&lt;&gt;</code> from <code>==</code> and <code>!=</code>, respectively.</p>
 
 <h2>Select and Time Ranges</h2>
 
@@ -75,9 +74,9 @@ timestamp in nanoseconds. For example:</p>
 <h3>Selecting a Specific Point</h3>
 
 <p>Points are uniquely identified by the time series they appear in, the time, and the sequence number. Here&rsquo;s a query that returns a specific point.</p>
-<pre class="highlight sql"><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">events</span> <span class="k">where</span> <span class="n">time</span> <span class="o">==</span> <span class="mi">1383154176</span> <span class="k">and</span> <span class="n">sequence_number</span> <span class="o">==</span> <span class="mi">2321</span><span class="p">;</span>
+<pre class="highlight sql"><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">events</span> <span class="k">where</span> <span class="n">time</span> <span class="o">=</span> <span class="mi">1383154176</span> <span class="k">and</span> <span class="n">sequence_number</span> <span class="o">=</span> <span class="mi">2321</span><span class="p">;</span>
 </pre>
-<p><strong>Note</strong>: this feature isn&rsquo;t implemented yet, see <a href="https://github.com/influxdb/influxdb/issues/108">this issue</a> for current status.</p>
+<p>This was implemented in v0.4.0.</p>
 
 <h3>Selecting Multiple Series</h3>
 
@@ -111,23 +110,27 @@ time will be ignored, for example the following query:</p>
 
 <h2>The Where Clause</h2>
 
-<p>We&rsquo;ve already seen the where clause for selecting time ranges and a specific point. You can also use it to filter based on given values, comparators, or regexes. Here are some examples of different ways to use where.</p>
-<pre class="highlight sql"><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">events</span> <span class="k">where</span> <span class="k">state</span> <span class="o">==</span> <span class="s1">&#39;NY&#39;</span><span class="p">;</span>
+<p>We&rsquo;ve already seen the where clause for selecting time ranges and a specific point. You can also use it to filter based on given values, comparators, or regexes. Here are some examples of different ways to use <em>where</em>.</p>
+<pre class="highlight sql"><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">events</span> <span class="k">where</span> <span class="k">state</span> <span class="o">=</span> <span class="s1">&#39;NY&#39;</span><span class="p">;</span>
 
 <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">log_lines</span> <span class="k">where</span> <span class="n">line</span> <span class="o">=~</span> <span class="o">/</span><span class="n">error</span><span class="o">/</span><span class="n">i</span><span class="p">;</span>
 
-<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">events</span> <span class="k">where</span> <span class="n">customer_id</span> <span class="o">==</span> <span class="mi">23</span> <span class="k">and</span> <span class="k">type</span> <span class="o">==</span> <span class="s1">&#39;click&#39;</span><span class="p">;</span>
+<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">events</span> <span class="k">where</span> <span class="n">customer_id</span> <span class="o">=</span> <span class="mi">23</span> <span class="k">and</span> <span class="k">type</span> <span class="o">=</span> <span class="s1">&#39;click&#39;</span><span class="p">;</span>
 
 <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">response_times</span> <span class="k">where</span> <span class="n">value</span> <span class="o">&gt;</span> <span class="mi">500</span><span class="p">;</span>
 
 <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">events</span> <span class="k">where</span> <span class="n">email</span> <span class="o">!~</span> <span class="o">/</span><span class="p">.</span><span class="o">*</span><span class="n">gmail</span><span class="p">.</span><span class="o">*/</span><span class="p">;</span>
 
-<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">nagios_checks</span> <span class="k">where</span> <span class="n">status</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">nagios_checks</span> <span class="k">where</span> <span class="n">status</span> <span class="o">&lt;&gt;</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">events</span> <span class="k">where</span> <span class="n">signed_in</span> <span class="o">=</span> <span class="k">false</span><span class="p">;</span>
 
 <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">events</span> 
-<span class="k">where</span> <span class="p">(</span><span class="n">email</span> <span class="o">=~</span> <span class="o">/</span><span class="p">.</span><span class="o">*</span><span class="n">gmail</span><span class="p">.</span><span class="o">*</span> <span class="k">or</span> <span class="n">email</span> <span class="o">=~</span> <span class="o">/</span><span class="p">.</span><span class="o">*</span><span class="n">yahoo</span><span class="p">.</span><span class="o">*/</span><span class="p">)</span> <span class="k">and</span> <span class="k">state</span> <span class="o">==</span> <span class="s1">&#39;ny&#39;</span><span class="p">;</span>
+<span class="k">where</span> <span class="p">(</span><span class="n">email</span> <span class="o">=~</span> <span class="o">/</span><span class="p">.</span><span class="o">*</span><span class="n">gmail</span><span class="p">.</span><span class="o">*</span> <span class="k">or</span> <span class="n">email</span> <span class="o">=~</span> <span class="o">/</span><span class="p">.</span><span class="o">*</span><span class="n">yahoo</span><span class="p">.</span><span class="o">*/</span><span class="p">)</span> <span class="k">and</span> <span class="k">state</span> <span class="o">=</span> <span class="s1">&#39;ny&#39;</span><span class="p">;</span>
 </pre>
-<p>The where clause supports comparisons against regexes, strings, booleans, floats, integers, and the times listed before. Comparators include <code>==</code> equal to, <code>&gt;</code> greater than, <code>&lt;</code> less than, <code>!=</code> not equal to, <code>=~</code> matches against, <code>!~</code> doesn&rsquo;t match against. You can chain logic together using <code>and</code> and <code>or</code> and you can separate using <code>(</code> and <code>)</code></p>
+<p>The where clause supports comparisons against regexes, strings, booleans, floats, integers, and the times listed before. Comparators include <code>=</code> equal to, <code>&gt;</code> greater than, <code>&lt;</code> less than, <code>&lt;&gt;</code> not equal to, <code>=~</code> matches against, <code>!~</code> doesn&rsquo;t match against. You can chain logic together using <code>and</code> and <code>or</code> and you can separate using <code>(</code> and <code>)</code></p>
+
+<p><strong>Note:</strong> Boolean matching was introduced in version 0.5.3.</p>
 
 <h2>Group By</h2>
 
