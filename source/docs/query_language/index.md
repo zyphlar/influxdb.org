@@ -6,9 +6,8 @@ The [getting started section](/docs) has some example queries. This section will
 
 ## Changes to the query language in v0.4.0
 
-Starting with version 0.4.0 the equality and inequality operators are
-changed to `=` and `<>` from `==` and `!=`, respectively. Examples in this doc
-will be changed once 0.4.0 is officially released.
+Starting with version 0.4.0 the equality and inequality operators was
+changed to `=` and `<>` from `==` and `!=`, respectively.
 
 ## Select and Time Ranges
 
@@ -92,10 +91,10 @@ will return all points that were writtern after `2014-01-01 00:00:00`
 Points are uniquely identified by the time series they appear in, the time, and the sequence number. Here's a query that returns a specific point.
 
 ```sql
-select * from events where time == 1383154176 and sequence_number == 2321;
+select * from events where time = 1383154176 and sequence_number = 2321;
 ```
 
-**Note**: this feature isn't implemented yet, see [this issue](https://github.com/influxdb/influxdb/issues/108) for current status.
+This was implemented in v0.4.0.
 
 ### Selecting Multiple Series
 
@@ -138,26 +137,30 @@ will return an error.
 
 ## The Where Clause
 
-We've already seen the where clause for selecting time ranges and a specific point. You can also use it to filter based on given values, comparators, or regexes. Here are some examples of different ways to use where.
+We've already seen the where clause for selecting time ranges and a specific point. You can also use it to filter based on given values, comparators, or regexes. Here are some examples of different ways to use *where*.
 
 ```sql
-select * from events where state == 'NY';
+select * from events where state = 'NY';
 
 select * from log_lines where line =~ /error/i;
 
-select * from events where customer_id == 23 and type == 'click';
+select * from events where customer_id = 23 and type = 'click';
 
 select * from response_times where value > 500;
 
 select * from events where email !~ /.*gmail.*/;
 
-select * from nagios_checks where status != 0;
+select * from nagios_checks where status <> 0;
+
+select * from events where signed_in = false;
 
 select * from events 
-where (email =~ /.*gmail.* or email =~ /.*yahoo.*/) and state == 'ny';
+where (email =~ /.*gmail.* or email =~ /.*yahoo.*/) and state = 'ny';
 ```
 
-The where clause supports comparisons against regexes, strings, booleans, floats, integers, and the times listed before. Comparators include `==` equal to, `>` greater than, `<` less than, `!=` not equal to, `=~` matches against, `!~` doesn't match against. You can chain logic together using `and` and `or` and you can separate using `(` and `)`
+The where clause supports comparisons against regexes, strings, booleans, floats, integers, and the times listed before. Comparators include `=` equal to, `>` greater than, `<` less than, `<>` not equal to, `=~` matches against, `!~` doesn't match against. You can chain logic together using `and` and `or` and you can separate using `(` and `)`
+
+**Note:** Boolean matching was introduced in version 0.5.3.
 
 ## Group By
 
