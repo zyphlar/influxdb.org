@@ -184,8 +184,8 @@ select count(type) as number_of_types group by time(10m);
 ```
 
 The time function takes the time interval which can be in
-microseconds, milliseconds, seconds, minutes or hours. To specify the
-units you can use the respective suffix `us`, `ms`, `s`, `m` and `h`.
+microseconds, seconds, minutes, hours, days or weeks. To specify the
+units you can use the respective suffix `u`, `s`, `m`, `h`, `d` and `w`.
 
 ## Merging Series
 
