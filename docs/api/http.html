@@ -40,7 +40,7 @@
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></pre>
-<p>When you include a time you need to specify the precision of the value in the call like <code>/db/foo_production/series?u=some_user&amp;p=some_password&amp;time_precision=m</code>. You can specify either second (s), millisecond (m), or microsecond (u) from epoch (1, Jan 1970). The underlying datastore keeps everything at microsecond precision, but you can specify what you&rsquo;d like when writing or querying data.</p>
+<p>When you include a time, InfluxDB will interpret it in milliseconds. You can specify the precision of the value in the call like <code>/db/foo_production/series?u=some_user&amp;p=some_password&amp;time_precision=m</code>. You can specify either second (s), millisecond (m), or microsecond (u) from epoch (1, Jan 1970). The underlying datastore keeps everything at microsecond precision.</p>
 
 <h4>Updating Points</h4>
 
