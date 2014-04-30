@@ -17,10 +17,17 @@ set :site_url, "http://influxdb.org"
 # page "/path/to/file.html", :layout => :otherlayout
 #
 
+helpers do
+  def heading_link(h, id, text)
+    "<#{h} id=\"#{id}\"><a href=\"##{id}\">#{text}</a></#{h}>"
+  end
+end
+
 page "/feed.xml", :layout => false
 
-with_layout :docs do
-  page "/docs/*"
+set :docs_version, "v0.5"
+with_layout "docs.v0.5.index" do
+  page "/docs/v0.5/*"
 end
 
 page "/graphing.html", :layout => false
@@ -36,7 +43,7 @@ activate :livereload
 activate :syntax
 
 set :markdown_engine, :redcarpet
-set :markdown, :fenced_code_blocks => true, :smartypants => true
+set :markdown, :fenced_code_blocks => true, :smartypants => true, :with_toc_data => true
 
 set :css_dir, 'stylesheets'
 set :js_dir, 'javascripts'
