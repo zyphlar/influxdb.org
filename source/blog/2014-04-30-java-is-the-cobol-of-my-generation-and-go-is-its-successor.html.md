@@ -18,9 +18,9 @@ Why do I even care about popularity? Because popularity means more jobs, more po
 
 Let's take a look at Go's popularity in isolation.
 
-<script type="text/javascript" src="//www.google.com/trends/embed.js?hl=en-US&q=/m/09gbxjr&cmpt=q&content=1&cid=TIMESERIES_GRAPH_0&export=5&w=575&h=300"></script>
+<script type="text/javascript" src="//www.google.com/trends/embed.js?hl=en-US&q=golang&cmpt=q&content=1&cid=TIMESERIES_GRAPH_0&export=5&w=575&h=300"></script>
 
-The initial spike is the announcement from Google, but on the right is the beginning of a curve that's starting to look interesting. There were other graphs in talks at the conference that showed Go's uptake in a significantly more vertical climb for the last few months.
+The initial spike is the announcement from Google, but on the right is the beginning of a curve that's starting to look interesting. There were more graphs in talks at the conference that showed Go's uptake in a practically vertical climb for the last few months.
 
 If I were a VC and I could buy options on Go as a language, I'd be seriously looking into it. Since Go is just a language they'll have to look elsewhere: companies that are betting their tech on Go, open source projects written in Go, developer tools, and infrastructure and hosting. There were plenty of those and more at the conference. Some of the more interesting ones I met and talked to include [Cloudflare](http://blog.cloudflare.com/go-at-cloudflare), [Hashicorp](http://www.hashicorp.com/), [CoreOS](https://coreos.com/), [VividCortex](https://vividcortex.com/), [Apcera](http://www.apcera.com/), [Digital Ocean](http://digitalocean.com), and even Mozilla is building [Heka](https://github.com/mozilla-services/heka) in Go despite Rust being their "in house" language under development. Then of course there's us, [InfluxDB](http://influxdb.org), but I'm biased.
 
