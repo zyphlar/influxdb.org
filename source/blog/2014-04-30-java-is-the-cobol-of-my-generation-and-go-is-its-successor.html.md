@@ -10,9 +10,9 @@ My prediction is much stronger than saying Go will be as popular as Ruby, Python
 
 However, to say that Go will be as big as Java is quite a stretch from saying Go will reach the popularity of the dynamic languages. Take this chart from Google Trends:
 
-<script type="text/javascript" src="//www.google.com/trends/embed.js?hl=en-US&q=/m/09gbxjr,+java,+ruby&cmpt=q&content=1&cid=TIMESERIES_GRAPH_0&export=5&w=575&h=300"></script>
+<script type="text/javascript" src="//www.google.com/trends/embed.js?hl=en-US&q=golang,+/m/07sbkfb,+/m/06ff5&cmpt=q&content=1&cid=TIMESERIES_GRAPH_0&export=5&w=575&h=300"></script>
 
-Java may be downward trending, but Go doesn't even register on the Y axis, while Ruby is still significantly smaller than Java. Go would have to be an order of magnitude more popular than Ruby to even get close to Java's popularity.
+Java may be downward trending, but Go doesn't even register on the Y axis, while is barely Ruby there. Go would have to be an order of magnitude more popular than Ruby to even get close to Java's popularity.
 
 Why do I even care about popularity? Because popularity means more jobs, more potential hires, and more tools and libraries. Any developer that cares about their demand in the market (and salary potential) and any employer wishing to hire should factor language life-cycle into their language choice. I'm sure there are still COBOL programmers out there, but I wouldn't want to be one of them if I was looking for a job and I wouldn't want to be an employer trying to find a competent COBOL programmer or anyone that wanted to learn.
 
