@@ -1,7 +1,7 @@
 ---
 title: Java is the COBOL of my generation and Go is its successor (and other reflections after GopherCon)
 author: Paul Dix
-published_on: April 30, 2014
+published_on: May 2, 2014
 ---
 
 Last week I attended [GopherCon](http://www.gophercon.com/) in Denver, the first ever Golang conference. There were [fantastic talks on Go and various projects](https://github.com/gophercon/2014-talks), but for me the most exciting thing about the conference was meeting enthusiastic people in this nascent developer community. I came away from the event with the feeling that we're at the beginning of a major groundswell. A massive shift in developer language use that I don't think we've seen since Java came on the scene. Go's simplicity, performance, concurrency primitives, robust implementation, and easy deployment make it ideal for server side code, web APIs, and potentially much more, which is why I think it has the potential to ultimately supplant Java.
