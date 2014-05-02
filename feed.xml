@@ -14,7 +14,7 @@
     <link rel="alternate" href="http://influxdb.org/blog/2014/04/30/java-is-the-cobol-of-my-generation-and-go-is-its-successor.html"/>
     <id>http://influxdb.org/blog/2014/04/30/java-is-the-cobol-of-my-generation-and-go-is-its-successor.html</id>
     <published>2014-04-30T00:00:00Z</published>
-    <updated>2014-05-02T11:17:29-04:00</updated>
+    <updated>2014-05-02T13:35:12-04:00</updated>
     <author>
       <name>Paul Dix</name>
     </author>
@@ -24,17 +24,17 @@
 
 &lt;p&gt;However, to say that Go will be as big as Java is quite a stretch from saying Go will reach the popularity of the dynamic languages. Take this chart from Google Trends:&lt;/p&gt;
 
-&lt;script type="text/javascript" src="//www.google.com/trends/embed.js?hl=en-US&amp;q=/m/09gbxjr,+java,+ruby&amp;cmpt=q&amp;content=1&amp;cid=TIMESERIES_GRAPH_0&amp;export=5&amp;w=575&amp;h=300"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="//www.google.com/trends/embed.js?hl=en-US&amp;q=golang,+/m/07sbkfb,+/m/06ff5&amp;cmpt=q&amp;content=1&amp;cid=TIMESERIES_GRAPH_0&amp;export=5&amp;w=575&amp;h=300"&gt;&lt;/script&gt;
 
-&lt;p&gt;Java may be downward trending, but Go doesn&amp;rsquo;t even register on the Y axis, while Ruby is still significantly smaller than Java. Go would have to be an order of magnitude more popular than Ruby to even get close to Java&amp;rsquo;s popularity.&lt;/p&gt;
+&lt;p&gt;Java may be downward trending, but Go doesn&amp;rsquo;t even register on the Y axis, while is barely Ruby there. Go would have to be an order of magnitude more popular than Ruby to even get close to Java&amp;rsquo;s popularity.&lt;/p&gt;
 
 &lt;p&gt;Why do I even care about popularity? Because popularity means more jobs, more potential hires, and more tools and libraries. Any developer that cares about their demand in the market (and salary potential) and any employer wishing to hire should factor language life-cycle into their language choice. I&amp;rsquo;m sure there are still COBOL programmers out there, but I wouldn&amp;rsquo;t want to be one of them if I was looking for a job and I wouldn&amp;rsquo;t want to be an employer trying to find a competent COBOL programmer or anyone that wanted to learn.&lt;/p&gt;
 
 &lt;p&gt;Let&amp;rsquo;s take a look at Go&amp;rsquo;s popularity in isolation.&lt;/p&gt;
 
-&lt;script type="text/javascript" src="//www.google.com/trends/embed.js?hl=en-US&amp;q=/m/09gbxjr&amp;cmpt=q&amp;content=1&amp;cid=TIMESERIES_GRAPH_0&amp;export=5&amp;w=575&amp;h=300"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="//www.google.com/trends/embed.js?hl=en-US&amp;q=golang&amp;cmpt=q&amp;content=1&amp;cid=TIMESERIES_GRAPH_0&amp;export=5&amp;w=575&amp;h=300"&gt;&lt;/script&gt;
 
-&lt;p&gt;The initial spike is the announcement from Google, but on the right is the beginning of a curve that&amp;rsquo;s starting to look interesting. There were other graphs in talks at the conference that showed Go&amp;rsquo;s uptake in a significantly more vertical climb for the last few months.&lt;/p&gt;
+&lt;p&gt;The initial spike is the announcement from Google, but on the right is the beginning of a curve that&amp;rsquo;s starting to look interesting. There were more graphs in talks at the conference that showed Go&amp;rsquo;s uptake in a practically vertical climb for the last few months.&lt;/p&gt;
 
 &lt;p&gt;If I were a VC and I could buy options on Go as a language, I&amp;rsquo;d be seriously looking into it. Since Go is just a language they&amp;rsquo;ll have to look elsewhere: companies that are betting their tech on Go, open source projects written in Go, developer tools, and infrastructure and hosting. There were plenty of those and more at the conference. Some of the more interesting ones I met and talked to include &lt;a href="http://blog.cloudflare.com/go-at-cloudflare"&gt;Cloudflare&lt;/a&gt;, &lt;a href="http://www.hashicorp.com/"&gt;Hashicorp&lt;/a&gt;, &lt;a href="https://coreos.com/"&gt;CoreOS&lt;/a&gt;, &lt;a href="https://vividcortex.com/"&gt;VividCortex&lt;/a&gt;, &lt;a href="http://www.apcera.com/"&gt;Apcera&lt;/a&gt;, &lt;a href="http://digitalocean.com"&gt;Digital Ocean&lt;/a&gt;, and even Mozilla is building &lt;a href="https://github.com/mozilla-services/heka"&gt;Heka&lt;/a&gt; in Go despite Rust being their &amp;ldquo;in house&amp;rdquo; language under development. Then of course there&amp;rsquo;s us, &lt;a href="http://influxdb.org"&gt;InfluxDB&lt;/a&gt;, but I&amp;rsquo;m biased.&lt;/p&gt;
 
