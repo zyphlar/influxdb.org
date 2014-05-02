@@ -14,7 +14,7 @@
     <link rel="alternate" href="http://influxdb.org/blog/2014/04/30/java-is-the-cobol-of-my-generation-and-go-is-its-successor.html"/>
     <id>http://influxdb.org/blog/2014/04/30/java-is-the-cobol-of-my-generation-and-go-is-its-successor.html</id>
     <published>2014-04-30T00:00:00Z</published>
-    <updated>2014-05-02T09:51:29-04:00</updated>
+    <updated>2014-05-02T11:17:29-04:00</updated>
     <author>
       <name>Paul Dix</name>
     </author>
@@ -58,9 +58,9 @@
 
 &lt;p&gt;The one complaint that gives me greatest concern is the lack of generics. I personally haven&amp;rsquo;t found it to be that big of a deal, but it can be slightly annoying when it comes to things like sorting collections. I love the simplicity of the language without generics, but it&amp;rsquo;s hard to deny that they make some things easier. But, for better or worse, the Go team has made it clear that generics aren&amp;rsquo;t coming anytime soon, if at all. So I wonder if this will limit the audience of the language or not. My gut feeling is it won&amp;rsquo;t, but in order to get to Java&amp;rsquo;s current popularity level, Go will need to attract some of those developers over to its camp.&lt;/p&gt;
 
-&lt;p&gt;Does Java even need to be replaced? Is Go enough of a leap forward to warrant it replacing Java? I don&amp;rsquo;t think it&amp;rsquo;s a 10x increase in productivity, but it&amp;rsquo;s almost certainly an improvement. But more importantly, it IS a 10x increase in happiness for me when compared to developing in Java. And that might be enough, even if the mass of current Java developers never make the change. New developers picking Go instead of Java will be enough to shift the mass of gravity over time. The shift will take decades, but if Google and the core Golang team continue to be such fantastic stewards of the language, I can imagine a future in which Go is dominant.&lt;/p&gt;
+&lt;p&gt;Does Java even need to be replaced? Is Go enough of a leap forward to warrant it replacing Java? I don&amp;rsquo;t think it&amp;rsquo;s a 10x increase in productivity, but it&amp;rsquo;s almost certainly an improvement. But more importantly, it IS a 10x increase in happiness for me when compared to developing in Java. And that might be enough, even if the mass of current Java developers never make the change. New developers picking Go instead of Java will be enough to shift the center of gravity over time. The shift will take decades, but if Google and the core Golang team continue to be such fantastic stewards of the language, I can imagine a future in which Go is dominant.&lt;/p&gt;
 
-&lt;p&gt;In the meantime, I found the attendees at GopherCan and the Go community in general to be excited, intelligent, and pragmatic developers. And those are exactly the kind of developers that I want to work with, which is why I&amp;rsquo;m excited to be part of the Go community and to be building open source in the language.&lt;/p&gt;
+&lt;p&gt;In the meantime, I found the attendees at GopherCon and the Go community in general to be excited, intelligent, and pragmatic developers. And those are exactly the kind of developers that I want to work with, which is why I&amp;rsquo;m excited to be part of the Go community and to be building open source in the language.&lt;/p&gt;
 </content>
   </entry>
   <entry>
