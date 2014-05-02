@@ -5,16 +5,70 @@
   <id>http://influxdb.org/blog</id>
   <link href="http://influxdb.org/blog"/>
   <link href="http://influxdb.org/feed.xml" rel="self"/>
-  <updated>2014-03-24T00:00:00Z</updated>
+  <updated>2014-04-30T00:00:00Z</updated>
   <author>
     <name>InfluxDB</name>
   </author>
+  <entry>
+    <title>Java is the COBOL of my generation and Go is its successor (and other reflections after GopherCon)</title>
+    <link rel="alternate" href="http://influxdb.org/blog/2014/04/30/java-is-the-cobol-of-my-generation-and-go-is-its-successor.html"/>
+    <id>http://influxdb.org/blog/2014/04/30/java-is-the-cobol-of-my-generation-and-go-is-its-successor.html</id>
+    <published>2014-04-30T00:00:00Z</published>
+    <updated>2014-05-02T09:42:01-04:00</updated>
+    <author>
+      <name>Paul Dix</name>
+    </author>
+    <content type="html">&lt;p&gt;Last week I attended &lt;a href="http://www.gophercon.com/"&gt;GopherCon&lt;/a&gt; in Denver, the first ever Golang conference. There were &lt;a href="https://github.com/gophercon/2014-talks"&gt;fantastic talks on Go and various projects&lt;/a&gt;, but for me the most exciting thing about the conference was meeting enthusiastic people in this nascent developer community. I came away from the event with the feeling that we&amp;rsquo;re at the beginning of a major groundswell. A massive shift in developer language use that I don&amp;rsquo;t think we&amp;rsquo;ve seen since Java came on the scene. Go&amp;rsquo;s simplicity, performance, concurrency primitives, robust implementation, and easy deployment make it ideal for server side code, web APIs, and potentially much more, which is why I think it has the potential to ultimately supplant Java.&lt;/p&gt;
+
+&lt;p&gt;My prediction is much stronger than saying Go will be as popular as Ruby, Python, or Node. I think it&amp;rsquo;s very likely that will come to pass within a few years. While it may not be as expressive as the dynamic languages, I think its strengths will encourage a migration of many programmers from dynamic languages to Go. Anecdotally, I met and knew many Ruby developers at the conference. The dynamic language refugees are the first wave of adopters.&lt;/p&gt;
+
+&lt;p&gt;However, to say that Go will be as big as Java is quite a stretch from saying Go will reach the popularity of the dynamic languages. Take this chart from Google Trends:&lt;/p&gt;
+
+&lt;script type="text/javascript" src="//www.google.com/trends/embed.js?hl=en-US&amp;q=/m/09gbxjr,+java,+ruby&amp;cmpt=q&amp;content=1&amp;cid=TIMESERIES_GRAPH_0&amp;export=5&amp;w=575&amp;h=300"&gt;&lt;/script&gt;
+
+&lt;p&gt;Java may be downward trending, but Go doesn&amp;rsquo;t even register on the Y axis, while Ruby is still significantly smaller than Java. Go would have to be an order of magnitude more popular than Ruby to even get close to Java&amp;rsquo;s popularity.&lt;/p&gt;
+
+&lt;p&gt;Why do I even care about popularity? Because popularity means more jobs, more potential hires, and more tools and libraries. Any developer that cares about their demand in the market (and salary potential) and any employer wishing to hire should factor language life-cycle into their language choice. I&amp;rsquo;m sure there are still COBOL programmers out there, but I wouldn&amp;rsquo;t want to be one of them if I was looking for a job and I wouldn&amp;rsquo;t want to be an employer trying to find a competent COBOL programmer or anyone that wanted to learn.&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s take a look at Go&amp;rsquo;s popularity in isolation.&lt;/p&gt;
+
+&lt;script type="text/javascript" src="//www.google.com/trends/embed.js?hl=en-US&amp;q=/m/09gbxjr&amp;cmpt=q&amp;content=1&amp;cid=TIMESERIES_GRAPH_0&amp;export=5&amp;w=575&amp;h=300"&gt;&lt;/script&gt;
+
+&lt;p&gt;The initial spike is the announcement from Google, but on the right is the beginning of a curve that&amp;rsquo;s starting to look interesting. There were other graphs in talks at the conference that showed Go&amp;rsquo;s uptake in a significantly more vertical climb for the last few months.&lt;/p&gt;
+
+&lt;p&gt;If I were a VC and I could buy options on Go as a language, I&amp;rsquo;d be seriously looking into it. Since Go is just a language they&amp;rsquo;ll have to look elsewhere: companies that are betting their tech on Go, open source projects written in Go, developer tools, and infrastructure and hosting. There were plenty of those and more at the conference. Some of the more interesting ones I met and talked to include &lt;a href="http://blog.cloudflare.com/go-at-cloudflare"&gt;Cloudflare&lt;/a&gt;, &lt;a href="http://www.hashicorp.com/"&gt;Hashicorp&lt;/a&gt;, &lt;a href="https://coreos.com/"&gt;CoreOS&lt;/a&gt;, &lt;a href="https://vividcortex.com/"&gt;VividCortex&lt;/a&gt;, &lt;a href="http://www.apcera.com/"&gt;Apcera&lt;/a&gt;, &lt;a href="http://digitalocean.com"&gt;Digital Ocean&lt;/a&gt;, and even Mozilla is building &lt;a href="https://github.com/mozilla-services/heka"&gt;Heka&lt;/a&gt; in Go despite Rust being their &amp;ldquo;in house&amp;rdquo; language under development. Then of course there&amp;rsquo;s us, &lt;a href="http://influxdb.org"&gt;InfluxDB&lt;/a&gt;, but I&amp;rsquo;m biased.&lt;/p&gt;
+
+&lt;p&gt;I remember going to the first RailsConf in Chicago in 2006. In the months leading up to GopherCon I repeatedly told people that I felt like this first Go conference would be very similar: filled with excited technologists working with new stuff on the cusp of something great. I found it to be that, but amplified by a factor of 10. Maybe Go is just farther along than Rails was at that first conference, but I felt as though this thing will easily be bigger than Rails. People are enthusiastic about the language and things built with it. That excitement will feed into a virtuous cycle of more open source, more libraries, more books, more blog posts, and more closed source bringing more demand for Go developers.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;If I were a developer getting started today, I&amp;rsquo;d make a career bet on Go.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;m a developer and an entrepreneur today and I&amp;rsquo;m making a major bet on Go. But, there have been other potential contenders to the Java throne in the last 10 years. Why should this one be any different? For the same reasons I listed at the top of this post: simplicity, performance, concurrency, robustness, and deployment. There are potential pitfalls for adoption that I&amp;rsquo;ll close out with, but let&amp;rsquo;s look at each of the pros in turn.&lt;/p&gt;
+
+&lt;p&gt;First, let&amp;rsquo;s talk about simplicity. Go is a simple language by design. You can read &lt;a href="http://golang.org/ref/spec"&gt;the spec&lt;/a&gt; and other materials on the Golang website and start being productive in a single day. This is a huge strength in terms of adoption. Simple languages are easier to learn. The fantastic side effect of this is that they&amp;rsquo;re also easier to understand and read. The Go team made it very clear that they optimize for readability. This is a massive win for both newbies and for anyone working in a team or on a long lived project. Readable code is easier to maintain. Scala, a language that at one time I thought would be Java&amp;rsquo;s successor, is notoriously complex. My own experience working with it for over a year confirmed that at least for me. Simplicity is a massive win for experienced and novice developers alike and I think it&amp;rsquo;s Go&amp;rsquo;s greatest strength.&lt;/p&gt;
+
+&lt;p&gt;Go&amp;rsquo;s performance isn&amp;rsquo;t a big win for Java developers since they&amp;rsquo;re already doing pretty well. But for us dynamic language refugees, Go&amp;rsquo;s performance is liberating. No dealing with reverse proxies to send things to multiple processes. Real threading and the ability to take advantage of every core. Async IO, but without all the callbacks. As a developer I don&amp;rsquo;t even have to try to get thousands of requests per second out of a single Go process. And if you stretch, you&amp;rsquo;ll get &lt;a href="https://cdn.rawgit.com/gophercon/2014-talks/master/derekcollison/HighPerformanceSystemsInGo.pdf"&gt;millions per second like Apcera&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Go&amp;rsquo;s concurrency primitives, namely &lt;a href="http://golang.org/ref/spec#Channel_types"&gt;channels&lt;/a&gt; and &lt;a href="http://golang.org/ref/spec#Select_statements"&gt;selects&lt;/a&gt;, make it a joy to write code that executes concurrently. Go&amp;rsquo;s design makes it easier to take advantage of every core and do IO without blocking the entire process. Both of which are big wins for anyone writing server infrastructure code.&lt;/p&gt;
+
+&lt;p&gt;The robustness of the Go implementation is truly remarkable given its relative youth. I&amp;rsquo;ve run production Go code for over a year and any failure I&amp;rsquo;ve had so far has been entirely due to my own bugs. The language runtime itself has been rock solid. Java can make a claim to this as well, but for those of us in the dynamic community, that has not always been the case. The fact that it&amp;rsquo;s so reliable now bodes well for future improvements to the runtime.&lt;/p&gt;
+
+&lt;p&gt;Then there&amp;rsquo;s deployment, which is fantastic with Go. Deploying Go code to production is as simple as copying a single binary file up to a server and running it. No reverse proxies, no dependencies to install on the target server, no class paths. Just copy the binary and run. For our work on InfluxDB it&amp;rsquo;s a big win when compared to what other open source time series databases require to get set up. Simple installs are great when you&amp;rsquo;re working with open source and that&amp;rsquo;ll drive many new open source projects to chose Go. We&amp;rsquo;ve already seen this in the last year with projects like &lt;a href="http://www.consul.io/"&gt;Consul&lt;/a&gt;, &lt;a href="https://github.com/coreos/etcd"&gt;etcd&lt;/a&gt;, Docker, and even CloudFoundry moving to Go.&lt;/p&gt;
+
+&lt;p&gt;The real question is, what are the things that can impede Go&amp;rsquo;s march to dominance? Some developers have noted Go&amp;rsquo;s lack of features or a few other things: no exceptions, nils instead of options, inability to specify dependency versions, mark and sweep GC, no macros, no generics. My feeling is that almost none of these complaints will be that big of a problem. Go&amp;rsquo;s idiom for error handling pushes you in the right direction of actually handling errors instead of just bubbling them up to the top of the stack. Nils haven&amp;rsquo;t stopped plenty of other languages from gaining popularity. &lt;a href="https://github.com/tools/godep"&gt;Dependency versioning can be handled&lt;/a&gt; by tools from the OSS community. Go&amp;rsquo;s GC will get better over time unless the Go team just decides to hang up their keyboards and go live in the woods.&lt;/p&gt;
+
+&lt;p&gt;The one complaint that gives me greatest concern is the lack of generics. I personally haven&amp;rsquo;t found it to be that big of a deal, but it can be slightly annoying when it comes to things like sorting collections. I love the simplicity of the language without generics, but it&amp;rsquo;s hard to deny that they make some things easier. But, for better or worse, the Go team has made it clear that generics aren&amp;rsquo;t coming anytime soon, if at all. So I wonder if this will limit the audience of the language or not. My gut feeling is it won&amp;rsquo;t, but in order to get to Java&amp;rsquo;s current popularity level, Go will need to attract some of those developers over to its camp.&lt;/p&gt;
+
+&lt;p&gt;Does Java even need to be replaced? Is Go enough of a leap forward to warrant it replacing Java? I don&amp;rsquo;t think it&amp;rsquo;s a 10x increase in productivity, but it&amp;rsquo;s almost certainly an improvement. But more importantly, it IS a 10x increase in happiness for me when compared to developing in Java. And that might be enough, even if the mass of current Java developers never make the change. New developers picking Go instead of Java will be enough to shift the mass of gravity over time. The shift will take decades, but if Google and the core Golang team continue to be such fantastic stewards of the language, I can imagine a future in which Go is dominant.&lt;/p&gt;
+
+&lt;p&gt;In the meantime, I found the attendees at GopherCan and the Go community in general to be excited, intelligent, and pragmatic developers. And those are exactly the kind of developers that I want to work with, which is why I&amp;rsquo;m excited to be part of the Go community and to be building open source in the language.&lt;/p&gt;
+</content>
+  </entry>
   <entry>
     <title>InfluxDB v0.5.0 ready for production</title>
     <link rel="alternate" href="http://influxdb.org/blog/2014/03/24/influxdb_v0_5_0_ready_for_production.html"/>
     <id>http://influxdb.org/blog/2014/03/24/influxdb_v0_5_0_ready_for_production.html</id>
     <published>2014-03-24T00:00:00Z</published>
-    <updated>2014-03-25T14:51:58-04:00</updated>
+    <updated>2014-03-24T15:47:34-04:00</updated>
     <author>
       <name>Paul Dix</name>
     </author>
@@ -49,7 +103,7 @@
     <link rel="alternate" href="http://influxdb.org/blog/2014/02/25/influxdb_v0_5_0-rc_1-released_with_new_clustering_and_features.html"/>
     <id>http://influxdb.org/blog/2014/02/25/influxdb_v0_5_0-rc_1-released_with_new_clustering_and_features.html</id>
     <published>2014-02-25T00:00:00Z</published>
-    <updated>2014-03-03T11:11:08-05:00</updated>
+    <updated>2014-02-25T18:14:18-05:00</updated>
     <author>
       <name>Paul Dix</name>
     </author>
@@ -111,7 +165,7 @@
     <link rel="alternate" href="http://influxdb.org/blog/2013/12/02/building_custom_interfaces_for_influxdb.html"/>
     <id>http://influxdb.org/blog/2013/12/02/building_custom_interfaces_for_influxdb.html</id>
     <published>2013-12-02T00:00:00Z</published>
-    <updated>2013-12-05T11:22:36-05:00</updated>
+    <updated>2013-12-04T09:55:59-05:00</updated>
     <author>
       <name>Todd Persen</name>
     </author>
@@ -241,7 +295,7 @@
     <link rel="alternate" href="http://influxdb.org/blog/2013/11/27/influxdb_v0_4_0-breaking_changes_and_tons_of_new_features.html"/>
     <id>http://influxdb.org/blog/2013/11/27/influxdb_v0_4_0-breaking_changes_and_tons_of_new_features.html</id>
     <published>2013-11-27T00:00:00Z</published>
-    <updated>2013-12-05T11:22:36-05:00</updated>
+    <updated>2013-12-02T15:04:09-05:00</updated>
     <author>
       <name>Paul Dix</name>
     </author>
@@ -284,7 +338,7 @@
     <link rel="alternate" href="http://influxdb.org/blog/2013/11/19/visualizing_bitcoin_post_frequency_on_hn_using_influxdb_and_rickshaw.html"/>
     <id>http://influxdb.org/blog/2013/11/19/visualizing_bitcoin_post_frequency_on_hn_using_influxdb_and_rickshaw.html</id>
     <published>2013-11-19T00:00:00Z</published>
-    <updated>2013-12-05T11:22:36-05:00</updated>
+    <updated>2013-12-02T15:04:09-05:00</updated>
     <author>
       <name>Todd Persen</name>
     </author>
