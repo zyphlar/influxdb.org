@@ -240,74 +240,24 @@ curl -X POST <span class="s1">&#39;http://localhost:8086/db/site_dev/users/paul?
 <h5>Limiting User Access</h5>
 
 <p>Database users have two additional arguments when creating or updating
-their objects: <code>readPermissions</code> and <code>writePermissions</code>. Here&rsquo;s what a
+their objects: <code>readFrom</code> and <code>writeTo</code>. Here&rsquo;s what a
 default database user looks like when those arguments aren&rsquo;t specified
 on create.</p>
 <pre class="highlight json"><span class="p">{</span><span class="w">
   </span><span class="s2">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;paul&quot;</span><span class="p">,</span><span class="w">
-  </span><span class="s2">&quot;readPermissions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="s2">&quot;matcher&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;.*&quot;</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">],</span><span class="w">
-  </span><span class="s2">&quot;writePermissions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="s2">&quot;matcher&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;.*&quot;</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">]</span><span class="w">
+  </span><span class="s2">&quot;readFrom&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;.*&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="s2">&quot;writeTo&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;.*&quot;</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></pre>
 <p>This example user has the ability to read and write from any time
 series. If you want to restrict the user to only being able to write
 data, update the user by <code>POST</code>ing to <code>db/site_dev/users/paul</code>.</p>
 <pre class="highlight json"><span class="p">{</span><span class="w">
-  </span><span class="s2">&quot;readPermissions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
-  </span><span class="s2">&quot;writePermissions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="s2">&quot;matcher&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;.*&quot;</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">]</span><span class="w">
+  </span><span class="s2">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;paul&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="s2">&quot;readFrom&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^$&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="s2">&quot;writeTo&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;.*&quot;</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></pre>
-<p>It&rsquo;s also possible to limit a user&rsquo;s permissions for reads and writes
-so they can only write specific values for a given column or request a
-subset of series data.</p>
-<pre class="highlight json"><span class="p">{</span><span class="w">
-  </span><span class="s2">&quot;readPermissions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="s2">&quot;matcher&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;.*&quot;</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="s2">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;customer_events&quot;</span><span class="p">,</span><span class="w">
-      </span><span class="s2">&quot;whereClause&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;where customer_id = 3&quot;</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">],</span><span class="w">
-  </span><span class="s2">&quot;writePermissions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="s2">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;customer_events&quot;</span><span class="p">,</span><span class="w">
-      </span><span class="s2">&quot;valueRestrictions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="s2">&quot;customer_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="w">
-      </span><span class="p">}</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></pre>
-<p>In this example we have a user that is allowed to read from any time
-series, but when reading from <code>customer_events</code>, they will only be
-able to see events that have a <code>customer_id</code> of <code>3</code>. The user is only
-able to write to the <code>customer_events</code> time series, but the only value
-they can write to the <code>customer_id</code> column is <code>3</code>. This would let you
-have multiple users writing into the same analytics series without
-exposing their data to each other.</p>
-
-<p>InfluxDB decides which permission to apply by first looking for exact
-matches. If there is one then it is applied. Otherwise, it iterates
-through the regexes and uses the first matching one.</p>
-
-<p><strong>NOTE</strong>: Enforcing user access rules isn&rsquo;t fully implemented see
-  <a href="https://github.com/influxdb/influxdb/issues/109">this issue</a> for
-  more information on the current status.</p>
-</div></div></section><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+</span></pre></div></div></section><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
