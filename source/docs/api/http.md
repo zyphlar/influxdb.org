@@ -272,23 +272,15 @@ curl -X POST 'http://localhost:8086/db/site_dev/users/paul?u=root&p=root' \
 ##### Limiting User Access
 
 Database users have two additional arguments when creating or updating
-their objects: `readPermissions` and `writePermissions`. Here's what a
+their objects: `readFrom` and `writeTo`. Here's what a
 default database user looks like when those arguments aren't specified
 on create.
 
 ```json
 {
   "name": "paul",
-  "readPermissions": [
-    {
-      "matcher": ".*"
-    }
-  ],
-  "writePermissions": [
-    {
-      "matcher": ".*"
-    }
-  ]
+  "readFrom": ".*",
+  "writeTo": ".*"
 }
 ```
 
@@ -298,53 +290,8 @@ data, update the user by `POST`ing to `db/site_dev/users/paul`.
 
 ```json
 {
-  "readPermissions": [],
-  "writePermissions": [
-    {
-      "matcher": ".*"
-    }
-  ]
+  "name": "paul",
+  "readFrom": "^$",
+  "writeTo": ".*"
 }
 ```
-
-It's also possible to limit a user's permissions for reads and writes
-so they can only write specific values for a given column or request a
-subset of series data.
-
-```json
-{
-  "readPermissions": [
-    {
-      "matcher": ".*"
-    },
-    {
-      "name": "customer_events",
-      "whereClause": "where customer_id = 3"
-    }
-  ],
-  "writePermissions": [
-    {
-      "name": "customer_events",
-      "valueRestrictions": {
-        "customer_id": 3
-      }
-    }
-  ]
-}
-```
-
-In this example we have a user that is allowed to read from any time
-series, but when reading from `customer_events`, they will only be
-able to see events that have a `customer_id` of `3`. The user is only
-able to write to the `customer_events` time series, but the only value
-they can write to the `customer_id` column is `3`. This would let you
-have multiple users writing into the same analytics series without
-exposing their data to each other.
-
-InfluxDB decides which permission to apply by first looking for exact
-matches. If there is one then it is applied. Otherwise, it iterates
-through the regexes and uses the first matching one.
-
-**NOTE**: Enforcing user access rules isn't fully implemented see
-  [this issue](https://github.com/influxdb/influxdb/issues/109) for
-  more information on the current status.
