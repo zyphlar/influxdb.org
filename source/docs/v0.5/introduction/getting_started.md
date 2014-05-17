@@ -1,6 +1,6 @@
 # Getting Started
 
-Now that you've [InfluxDB installed](installation.html) you're ready to start doing awesome things. There are many client libraries available for InfluxDB, but in this section we're going to use the built in user interface to get started quickly.
+Now that you've [installed InfluxDB](installation.html) you're ready to start doing awesome things. There are many client libraries available for InfluxDB, but in this section we're going to use the built in user interface to get started quickly.
 
 ## Logging in and creating your first database
 If you've installed locally, point your browser to <a href="http://localhost:8083" target="_blank">localhost:8083</a>. The built in user interface runs on port `8083` by default. You should see a screen like this:
@@ -11,7 +11,7 @@ The default options for hostname of `localhost` and port of `8086` should work. 
 
 ![Logged in with no databases](/images/docs/logged_in_no_databases.png)
 
-Enter in a database name and click Create. Database names should contain only letters, numbers, or underscores. Once you're created a database you should see it on the screen:
+Enter in a database name and click Create. Database names should contain only letters, numbers, or underscores and start with a letter. Once you've created a database you should see it on the screen:
 
 ![Database list screen](/images/docs/database_created.png)
 
@@ -20,7 +20,7 @@ Go ahead and click the "Explore" link to get here:
 
 ![Explore data interface](/images/docs/explore_screen.png)
 
-From this screen you can write some test data. More importantly, you'll be able to issue ad-hoc queries and see basic visualizations. Let's write a little data in to see how things work. Data in InfluxDB is organized by "time series" which then have "points" which have a `time`, `sequence_number`, and `columns`. Think of it kind of like SQL tables, and rows where the primary index is always time. The difference is that with InfluxDB you can have hundreds of thousands of series, you don't have to define schemas up front, and null values aren't stored.
+From this screen you can write some test data. More importantly, you'll be able to issue ad-hoc queries and see basic visualizations. Let's write a little data in to see how things work. Data in InfluxDB is organized by "time series" which then have "points" which have a `time`, `sequence_number`, and `columns`. Think of it kind of like SQL tables, and rows where the primary index is always time. The difference is that with InfluxDB you can have millions of series, you don't have to define schemas up front, and null values aren't stored.
 
 Let's write some data. Here are a couple of examples of things we'd want to write. We'll show the screenshot and what the JSON data looks like right after.
 
@@ -80,6 +80,20 @@ Let's write some data. Here are a couple of examples of things we'd want to writ
 ]
 ```
 
+Or a classic example from DevOps:
+
+```json
+[
+  {
+    "name" : "cpu_idle",
+    "columns" : ["value", "host"],
+    "points" : [
+      [88.2, "serverA"]
+    ]
+  }
+]
+```
+
 Now that we've written a few points. Let's take a look at them. Issue this query
 
 ```sql
@@ -88,4 +102,81 @@ select * from log_lines
 
 ![Selecting all log lines](/images/docs/select_log_lines.png)
 
-We can see there that the point we wrote in earlier is there. We also notice two columns that we didn't explicitly write in: `time` and `sequence_number`. Those are automatically assigned by InfluxDB when you write data in if they're not specified. In the UI time is represented as an epoch in seconds, but the underlying storage keeps them as microsecond epochs. 
+We can see there that the point we wrote in earlier is there. We also notice two columns that we didn't explicitly write in: `time` and `sequence_number`. Those are automatically assigned by InfluxDB when you write data in if they're not specified. In the UI time is represented as an epoch in seconds, but the underlying storage keeps them as microsecond epochs.
+
+## Writing Data Through JavaScript
+
+Let's drop into the javascript console to write some test data. That'll help us try some queries that show more of what InfluxDB can do. While in the explore data interface, bring up the conole. Copy and paste this code in and execute it.
+
+```javascript
+// start time of 24 hours ago
+var backMilliseconds = 86000 * 1000;
+var startTime = new Date() - backMilliseconds;
+var timeInterval = 60 * 1000;
+var eventTypes = ["click", "view", "post", "comment"];
+
+var cpuSeries = {
+  name:    "cpu_idle",
+  columns: ["time", "value", "hostName"],
+  points:  []
+};
+
+var eventSeries = {
+  name:    "customer_events",
+  columns: ["time", "customerId", "type"],
+  points:  []
+};
+
+for (i = 0; i < backMilliseconds; i += timeInterval) {
+  // generate fake cpu idle host values
+  var hostName = "server" + Math.floor(Math.random() * 100);
+  var value = Math.random() * 100;
+  var pointValues = [startTime + i, value, hostName];
+  cpuSeries.points.push(pointValues);
+
+  // generate some fake customer events
+  for (j = 0; j < Math.random() * 10; j += 1) {
+    var customerId = Math.floor(Math.random() * 1000);
+    var eventTypeIndex = Math.floor(Math.random() * 1000 % 4);
+    var eventValues = [startTime + i, customerId, eventTypes[eventTypeIndex]];
+    eventSeries.points.push(eventValues);
+  }
+}
+
+influxdb.writeSeries([cpuSeries, eventSeries]);
+```
+
+Then execute some queries:
+
+```sql
+select mean(value) from cpu_idle 
+group by time(30m) where time > now() - 1d
+```
+
+![Cpu idle time in 30 minute windows](/images/docs/cpu_idle_mean_group_by.png)
+
+```sql
+select mean(value) from cpu_idle 
+group by time(30m) 
+where time > now() - 1d and hostName = 'server1'
+```
+
+![Cpu idle time for server1 in 30 minute windows](/images/docs/cpu_idle_mean_group_by_where_server.png)
+
+```sql
+select count(value) from cpu_idle where time > now() - 1h
+```
+
+```sql
+select count(customerId) from customer_events 
+where time > now() - 1d group by time(10m)
+```
+
+![Customer events in 10 minute increments](/images/docs/customer_events_count_10m.png)
+
+```sql
+select distinct(customerId) as cusomerId from customer_events 
+where time > now() - 1h
+```
+
+![Customer events in 10 minute increments](/images/docs/customer_events_distinct.png)
