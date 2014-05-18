@@ -94,19 +94,30 @@ Or a classic example from DevOps:
 ]
 ```
 
-Now that we've written a few points. Let's take a look at them. Issue this query
+Now that we've written a few points. Let's take a look at them. Try some of the following queries:
 
 ```sql
-select * from log_lines
+select * from /.*/ limit 1
+--
+select * from cpu_idle
+--
+select * from response_times where value > 200
+--
+select * from user_events where url_base = 'friends#show'
+--
+select line from log_lines where line =~ /paul@influx.com/
 ```
 
-![Selecting all log lines](/images/docs/select_log_lines.png)
+![Selecting log lines on regex match](/images/docs/select_log_lines.png)
 
-We can see there that the point we wrote in earlier is there. We also notice two columns that we didn't explicitly write in: `time` and `sequence_number`. Those are automatically assigned by InfluxDB when you write data in if they're not specified. In the UI time is represented as an epoch in seconds, but the underlying storage keeps them as microsecond epochs.
+In the results of those queries we notice two columns that we didn't explicitly write in: `time` and `sequence_number`. Those are automatically assigned by InfluxDB when you write data in if they're not specified. In the UI time is represented as an epoch in seconds, but the underlying storage keeps them as microsecond epochs.
+
+There's a lot more you can do with the query language. Let's get to writing some test data to try things out.
+
 
 ## Writing Data Through JavaScript
 
-Let's drop into the javascript console to write some test data. That'll help us try some queries that show more of what InfluxDB can do. While in the explore data interface, bring up the conole. Copy and paste this code in and execute it.
+Let's drop into the javascript console to write some test data. That'll help us try some queries that show more of what InfluxDB can do. While in the explore data interface, bring up the javascript console. Copy and paste this code in and execute it.
 
 ```javascript
 // start time of 24 hours ago
@@ -146,7 +157,9 @@ for (i = 0; i < backMilliseconds; i += timeInterval) {
 influxdb.writeSeries([cpuSeries, eventSeries]);
 ```
 
-Then execute some queries:
+`influxdb` is the javascript library that is available in that window. Go [here for more info on using the InfluxDB javascript library](client_libraries/javascript.html). But for now, let's run some queries:
+
+Get the average of `cpu_idle` in 30 minute windows for the last day:
 
 ```sql
 select mean(value) from cpu_idle 
@@ -154,6 +167,8 @@ group by time(30m) where time > now() - 1d
 ```
 
 ![Cpu idle time in 30 minute windows](/images/docs/cpu_idle_mean_group_by.png)
+
+Get the average of `cpu_idle` for `server1` in 30 minute windows for the last day:
 
 ```sql
 select mean(value) from cpu_idle 
@@ -163,9 +178,13 @@ where time > now() - 1d and hostName = 'server1'
 
 ![Cpu idle time for server1 in 30 minute windows](/images/docs/cpu_idle_mean_group_by_where_server.png)
 
+Get the number of data points from the `cpu_idle` series for the last hour:
+
 ```sql
 select count(value) from cpu_idle where time > now() - 1h
 ```
+
+Get the number of `cusomter_events` in 10 minute windows for the last day:
 
 ```sql
 select count(customerId) from customer_events 
@@ -174,9 +193,23 @@ where time > now() - 1d group by time(10m)
 
 ![Customer events in 10 minute increments](/images/docs/customer_events_count_10m.png)
 
+Find the unique customer ids from `customer_events` for the last hour:
+
 ```sql
 select distinct(customerId) as cusomerId from customer_events 
 where time > now() - 1h
 ```
 
 ![Customer events in 10 minute increments](/images/docs/customer_events_distinct.png)
+
+Count the number of `customer_events` per customer in 10 minute windows for the last 4 hours:
+
+```sql
+select count(customerId), customerId from customer_events
+group by time(10m), customerId
+where time > now() - 4h
+```
+
+The visualization for this one is off, but you can see the data returned in the table.
+
+Now that you've gone through a quick intro to some of the things InfluxDB can do, you may want to pick up one of your favorite client libraries or take a look at the [InfluxDB query language guide](../api/query_language.html).
