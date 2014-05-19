@@ -121,18 +121,25 @@ Return the last point from every time series in the database.
 
 The delete query looks like the following:
 
-`delete from response_times where time > now() - 1h`
+```sql
+delete from response_times where time < now() - 1h
+```
 
 With no time constraints this query will delete every point in the
-time series `response_times`. You have to be a db admin in order to be
-able to delete data from timeseries.
+time series `response_times`. You must be a cluster or database admin to run delete queries.
+
+You can also delete from any series that matches a regex:
+
+```sql
+delete from /^stats.*/ where time < now() - 7d
+```
 
 Any conditions in the where clause that don't set the start and/or end
-time will be ignored, for example the following query:
+time will be ignored, for example the following query returns an error:
 
-`delete from response_times where user = 'foo'`
-
-will return an error.
+```sql
+delete from response_times where user = 'foo'
+```
 
 Deleting all data for a series will only remove the points. It will still remain in the index. If you want to remove all data from a series and remove it from the list of series in a database use the `drop` query:
 
