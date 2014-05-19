@@ -1,3 +1,7 @@
+---
+title: Getting Started with InfluxDB
+---
+
 # Getting Started
 
 Now that you've [installed InfluxDB](installation.html) you're ready to start doing awesome things. There are many client libraries available for InfluxDB, but in this section we're going to use the built in user interface to get started quickly.
@@ -213,3 +217,5 @@ where time > now() - 4h
 The visualization for this one is off, but you can see the data returned in the table.
 
 Now that you've gone through a quick intro to some of the things InfluxDB can do, you may want to pick up one of your favorite client libraries or take a look at the [InfluxDB query language guide](../api/query_language.html).
+
+Or take a look at builidng some [beautiful InfluxDB dashboards with Grafana](../ui/grafana.html).
