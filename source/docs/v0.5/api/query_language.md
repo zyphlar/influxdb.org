@@ -194,6 +194,22 @@ The time function takes the time interval which can be in
 microseconds, seconds, minutes, hours, days or weeks. To specify the
 units you can use the respective suffix `u`, `s`, `m`, `h`, `d` and `w`.
 
+### Filling intervals with no data
+
+By default, group by intervals that have no data will not have associated datapoints. For instance, say you have the following query:
+
+```sql
+select count(type) from events 
+group by time(1h) where time > now() - 3h
+```
+
+If the events series had data for this hour and two hours ago only, you'd only get two points in the result. If you want to ensure that you get back points for intervals that don't have data, you can use the `fill` function like this:
+
+```sql
+select count(type) from events 
+group by time(1h) fill(0) where time > now() - 3h
+```
+
 ## Merging Series
 
 You can merge multiple time series into a single stream in the select clause. This is helpful when you want to run a function over one of the columns with an associated group by time clause.
