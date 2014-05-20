@@ -25,9 +25,9 @@ end
 
 page "/feed.xml", :layout => false
 
-set :docs_version, "v0.5"
-with_layout "docs.v0.5.index" do
-  page "/docs/v0.5/*"
+set :docs_version, "v0.6"
+with_layout "docs.v0.6.index" do
+  page "/docs/v0.6/*"
 end
 
 page "/graphing.html", :layout => false
