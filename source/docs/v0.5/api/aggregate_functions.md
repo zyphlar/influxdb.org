@@ -124,3 +124,21 @@ SELECT FIRST(column_name) FROM series_name ...
 
 SELECT LAST(column_name) FROM series_name ...
 ```
+
+## Difference
+
+DIFFERENCE() requires one argument, which is a column name. It will output the difference in the first and last value for each group by interval.
+
+```sql
+SELECT DIFFERENCE(column_name) FROM series_name ...
+```
+
+## Top / Bottom
+
+TOP() and BOTTOM require two arguments, the column name and the number of top results to return. It will output the top or bottom values for each group by interval.
+
+```sql
+SELECT TOP(column_name, N) FROM series_name ...
+
+SELECT BOTTOM(column_name, N) FROM series_name ...
+```
