@@ -1,0 +1,105 @@
+<!DOCTYPE html><html><head><meta charset="utf-8" /><!--Always force latest IE rendering engine or request Chrome Frame--><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><!--Use title if it's in the page YAML frontmatter--><title>InfluxDB Aggregate Functions</title><link href="/stylesheets/all.css" media="screen" rel="stylesheet" type="text/css" /><script src="/javascripts/all.js" type="text/javascript"></script></head><body class="docs docs_v0"><section class="nav"><div class="row"><nav class="top-bar hide-for-small"><ul class="title-area"><li class="name"><a href="/"><img src="/images/influxdb-light-24px.png" /></a></li></ul><li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li><section class="top-bar-section"><ul class="right"><li class="divider"></li><li><a href="/docs/v0.6/introduction/overview.html">Overview</a></li><li class="divider"></li><li><a href="https://customers.influxdb.com">Support & Hosting</a></li><li class="divider"></li><li><a href="/blog">Blog</a></li><li class="divider"></li><li><a href="/docs/v0.6/introduction/getting_started.html">Docs</a></li><li class="divider"></li><li><a href="/community">Community</a></li><li class="divider"></li><li><a target="_" href="http://play.influxdb.org">Play</a></li><li class="divider"></li><li class="has-form"><a class="button" href="/download">Download</a></li></ul></section></nav></div></section><section role="main"><div class="row"><div class="large-4 medium-4 columns"><div class="sidebar"><nav><ul class="side-nav"><li class="heading">Introduction</li><li><a href="/docs/v0.6/introduction/overview.html">Overview</a></li><li><a href="/docs/v0.6/introduction/installation.html">Installation</a></li><li><a href="/docs/v0.6/introduction/getting_started.html">Getting Started</a></li><li class="divider"></li><li class="heading">API</li><li><a href="/docs/v0.6/api/reading_and_writing_data.html">Reading & Writing Data</a></li><li><a href="/docs/v0.6/api/query_language.html">Query Language</a></li><li><a href="/docs/v0.6/api/aggregate_functions.html">Aggregate Functions</a></li><li><a href="/docs/v0.6/api/continuous_queries.html">Continuous Queries</a></li><li><a href="/docs/v0.6/api/chunked_responses.html">Chunked HTTP Responses</a></li><li><a href="/docs/v0.6/api/administration.html">Administration</a></li><li class="divider"></li><li class="heading">UI</li><li><a href="/docs/v0.6/ui/built_in_admin_and_explorer.html">Built-in Admin and Explorer Interface</a></li><li><a href="/docs/v0.6/ui/grafana.html">Grafana Dashboards</a></li><li><a href="https://github.com/hakobera/influga">Influga Dashboards</a></li><li class="divider"></li><li class="heading">Advanced Topics</li><li><a href="/docs/v0.6/advanced_topics/sharding_and_storage.html">Underylying Storage and Shards</a></li><li><a href="/docs/v0.6/advanced_topics/configuration_options.html">Configuration Options</a></li><li><a href="/docs/v0.6/advanced_topics/schema_design.html">Schema Design</a></li><li><a href="/docs/v0.6/advanced_topics/performance_considerations.html">Performance Considerations</a></li><li><a href="/docs/v0.6/advanced_topics/security.html">Security</a></li><li class="divider"></li><li class="heading">Clustering</li><li><a href="/docs/v0.6/clustering/design.html">Design</a></li><li><a href="/docs/v0.6/clustering/setup.html">Setup</a></li><li class="divider"></li><li class="heading">Future Features</li><li><a href="/docs/v0.6/future/binary_protocol.html">Binary Protocol</a></li><li><a href="/docs/v0.6/future/pubsub.html">Pubsub</a></li><li><a href="/docs/v0.6/future/column_indexes.html">Column Indexes and Tags</a></li><li><a href="/docs/v0.6/future/shard_spaces.html">Shard Spaces and Retention Policies</a></li><li><a href="/docs/v0.6/future/custom_functions.html">Custom Functions</a></li><li><a href="/docs/v0.6/future/security.html">Security Enhancements</a></li><li class="divider"></li><li class="heading">Client Libraries</li><li><a href="/docs/v0.6/client_libraries/javascript.html">JavaScript</a></li><li><a href="https://github.com/influxdb/influxdb-ruby">Ruby</a></li><li><a href="https://github.com/influxdb/influxdb-rails">Rails</a></li><li><a href="/docs/v0.6/client_libraries/python.html">Python</a></li><li><a href="/docs/v0.6/client_libraries/node.html">Node.js</a></li><li><a href="/docs/v0.6/client_libraries/php.html">PHP</a></li><li><a href="https://github.com/majst01/influxdb-java">Java</a></li><li><a href="https://github.com/olauzon/capacitor">Clojure</a></li><li><a href="https://github.com/mmaul/cl-influxdb">Common Lisp</a></li><li><a href="https://github.com/novaquark/metrics-influxdb">Java Metrics</a></li><li><a href="https://github.com/influxdb/influxdb-go">Go</a></li><li><a href="https://github.com/rcrowley/go-metrics">Go Metrics</a></li><li><a href="https://github.com/influxdb/influxdb-scala">Scala</a></li><li><a href="https://github.com/influxdb/influxdb-r">R</a></li><li><a href="https://metacpan.org/pod/InfluxDB">Perl</a></li><li><a href="https://github.com/maoe/influxdb-haskell">Haskell</a></li><li class="divider"></li><li class="heading">Contributing</li><li><a href="/community/cla.html">CLA</a></li><li><a href="https://github.com/influxdb/influxdb.org">To this Documentation</a></li><li><a href="https://github.com/influxdb/influxdb/blob/master/LICENSE">License (MIT)</a></li><li><a href="/docs/v0.6/contributing/building.html">Building From Source</a></li><li class="divider"></li><li class="heading">Other Libraries and Tools</li><li><a href="https://github.com/FGRibreau/influxdb-cli">CLI (Node)</a></li><li><a href="https://github.com/FGRibreau/influxdb-cli">CLI (Node)</a></li><li><a href="http://grafana.org/">Grafana (dashboards)</a></li><li><a href="https://github.com/obfuscurity/tasseo">Tasseo (realtime dashboard)</a></li><li><a href="https://github.com/bernd/statsd-influxdb-backend">StatsD Backend</a></li><li><a href="https://github.com/bpaquet/collectd-influxdb-proxy">CollectD Proxy</a></li><li><a href="https://github.com/fangli/fluent-plugin-influxdb">FluentD Plugin</a></li><li><a href="https://github.com/lusis/sensu_influxdb_handler">Sensu Handler</a></li><li><a href="https://github.com/SimpleFinance/chef-handler-influxdb">Chef Handler/Reporter</a></li><li><a href="https://github.com/CargoSense/puppet-influxdb">Config Management via Boxen</a></li><li class="divider"></li><li class="heading">Docs Versions</li><li><a href="/docs/v0.6/introduction/overview.html">v0.6</a></li></ul></nav><a class="button download expand" href="/download" style="margin-bottom: 0;">Download InfluxDB</a></div></div><div class="large-8 medium-8 columns"><h1 id="toc_0">Aggregate Functions</h1>
+
+<p>InfluxDB contains a number of functions that you can use for computing aggregates, rollups, or doing downsampling on the fly. These are always used in conjunction with a <code>group by time(...)</code> clause. If no group by clause is given, then a default will be applied from the start of the series to <code>now()</code>.</p>
+
+<h2 id="toc_1">Count</h2>
+
+<p>COUNT() takes a single column name, and counts the number of points
+that contains a non NULL value for the given column name in the group by interval.</p>
+<pre class="highlight sql"><span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="k">column_name</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">series_name</span> <span class="k">group</span> <span class="k">by</span> <span class="n">time</span><span class="p">(</span><span class="mi">10</span><span class="n">m</span><span class="p">)</span> <span class="p">...</span>
+</pre>
+<h2 id="toc_2">Min</h2>
+
+<p>MIN() returns the lowest value from the specified column over a given interval. The column must contain int64 or float64 values.</p>
+<pre class="highlight sql"><span class="k">SELECT</span> <span class="k">MIN</span><span class="p">(</span><span class="k">column_name</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">series_name</span> <span class="k">group</span> <span class="k">by</span> <span class="n">time</span><span class="p">(</span><span class="mi">10</span><span class="n">m</span><span class="p">)</span> <span class="p">...</span>
+</pre>
+<h2 id="toc_3">Max</h2>
+
+<p>MAX() returns the highest value from the specified column over a given interval. The column must be of type int64 or float64.</p>
+<pre class="highlight sql"><span class="k">SELECT</span> <span class="k">MAX</span><span class="p">(</span><span class="k">column_name</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">series_name</span> <span class="k">group</span> <span class="k">by</span> <span class="n">time</span><span class="p">(</span><span class="mi">10</span><span class="n">m</span><span class="p">)</span> <span class="p">...</span>
+</pre>
+<h2 id="toc_4">Mean</h2>
+
+<p>MEAN() returns the arithmetic mean (average) of the specified column over a given interval. The column must be of type int64 or float64.</p>
+<pre class="highlight sql"><span class="k">SELECT</span> <span class="n">MEAN</span><span class="p">(</span><span class="k">column_name</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">series_name</span> <span class="k">group</span> <span class="k">by</span> <span class="n">time</span><span class="p">(</span><span class="mi">10</span><span class="n">m</span><span class="p">)</span> <span class="p">...</span>
+</pre>
+<h2 id="toc_5">Mode</h2>
+
+<p>MODE() returns the most frequent value(s) of the specified column over a given interval. The column must be of type int64 or float64. Since a timeseries can be multimodal (contain multiple values that occur
+the same number of times), this can potentially return multiple rows.</p>
+<pre class="highlight sql"><span class="k">SELECT</span> <span class="k">MODE</span><span class="p">(</span><span class="k">column_name</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">series_name</span> <span class="k">group</span> <span class="k">by</span> <span class="n">time</span><span class="p">(</span><span class="mi">10</span><span class="n">m</span><span class="p">)</span> <span class="p">...</span>
+</pre>
+<h2 id="toc_6">Median</h2>
+
+<p>MEDIAN() returns the middle value from a sorted set of values for the specified column over a given interval. This is nearly equivalent to PERCENTILE(column_name, 50), except that in the event a dataset contains an even number of points, the median will be the average of the two middle values.</p>
+<pre class="highlight sql"><span class="k">SELECT</span> <span class="n">MEDIAN</span><span class="p">(</span><span class="k">column_name</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">series_name</span> <span class="k">group</span> <span class="k">by</span> <span class="n">time</span><span class="p">(</span><span class="mi">10</span><span class="n">m</span><span class="p">)</span> <span class="p">...</span>
+</pre>
+<h2 id="toc_7">Distinct</h2>
+
+<p>DISTINCT() returns unique values for the given column.</p>
+<pre class="highlight sql"><span class="k">SELECT</span> <span class="k">DISTINCT</span><span class="p">(</span><span class="k">column_name</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">series_name</span> <span class="k">group</span> <span class="k">by</span> <span class="n">time</span><span class="p">(</span><span class="mi">10</span><span class="n">m</span><span class="p">)</span> <span class="p">...</span>
+</pre>
+<p>You can nest distinct in count to get the counts of unique values over windows of time:</p>
+<pre class="highlight sql"><span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span><span class="p">(</span><span class="k">column_name</span><span class="p">))</span> <span class="k">from</span> <span class="n">series_name</span>
+<span class="k">group</span> <span class="k">by</span> <span class="n">time</span><span class="p">(</span><span class="mi">10</span><span class="n">m</span><span class="p">)</span> <span class="p">...</span>
+</pre>
+<h2 id="toc_8">Percentile</h2>
+
+<p>PERCENTILE() returns the Nth percentile of a sorted set of values for the specified column over a given interval. PERCENTILE() requires two values, the second of which can be either an integer or floating point number between 0 and 100.</p>
+<pre class="highlight sql"><span class="k">SELECT</span> <span class="n">PERCENTILE</span><span class="p">(</span><span class="k">column_name</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">series_name</span> <span class="k">group</span> <span class="k">by</span> <span class="n">time</span><span class="p">(</span><span class="mi">10</span><span class="n">m</span><span class="p">)</span> <span class="p">...</span>
+</pre>
+<h2 id="toc_9">Histogram</h2>
+
+<p>HISTOGRAM() requires at least one argument and at most two arguments. The first argument is the column name and the second
+argument is the bucket size. Bucket size defaults to <code>1.0</code> if it wasn&rsquo;t specified. HISTOGRAM() outputs two columns <code>bucket_start</code> and <code>count</code>. <code>bucket_start</code> is the smallest value in the bucket. <code>bucket_start</code> along with the bucket size defines the current bucket. <code>count</code> is the number of points that falls in this bucket.</p>
+<pre class="highlight sql"><span class="k">SELECT</span> <span class="n">HISTOGRAM</span><span class="p">(</span><span class="k">column_name</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">series_name</span> <span class="p">...</span>
+
+<span class="k">SELECT</span> <span class="n">HISTOGRAM</span><span class="p">(</span><span class="k">column_name</span><span class="p">,</span> <span class="mi">10</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">series_name</span> <span class="p">...</span>
+</pre>
+<h2 id="toc_10">Derivative</h2>
+
+<p>DERIVATIVE() requires exactly one argument, which is a column name. The out is a column containing the value of <code>(v_last -
+v_first) / (t_last - t_first)</code> where <code>v_last</code> is the last value of the given column and <code>t_last</code> is the corresponding timestamp (and similarly for <code>v_first</code> and <code>t_first</code>). In other words, DERIVATIVE() calculates the <strong>rate of change</strong> of the given column.</p>
+<pre class="highlight sql"><span class="k">SELECT</span> <span class="n">DERIVATIVE</span><span class="p">(</span><span class="k">column_name</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">series_name</span> <span class="p">...</span>
+</pre>
+<h2 id="toc_11">Sum</h2>
+
+<p>SUM() requires exactly one argument, which is a column name. It outputs the sum of the all values for the given column.</p>
+<pre class="highlight sql"><span class="k">SELECT</span> <span class="k">SUM</span><span class="p">(</span><span class="k">column_name</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">series_name</span> <span class="p">...</span>
+</pre>
+<h2 id="toc_12">Stddev</h2>
+
+<p>STDDEV() requires exactly one argument, which is a column name. It outputs the standard deviation of the given column.</p>
+<pre class="highlight sql"><span class="k">SELECT</span> <span class="n">STDDEV</span><span class="p">(</span><span class="k">column_name</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">series_name</span> <span class="p">...</span>
+</pre>
+<h2 id="toc_13">First/Last</h2>
+
+<p>FIRST() and LAST() require exactly one argument, which is a column name. It will output the first or last point for each group by interval.</p>
+<pre class="highlight sql"><span class="k">SELECT</span> <span class="k">FIRST</span><span class="p">(</span><span class="k">column_name</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">series_name</span> <span class="p">...</span>
+
+<span class="k">SELECT</span> <span class="k">LAST</span><span class="p">(</span><span class="k">column_name</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">series_name</span> <span class="p">...</span>
+</pre>
+<h2 id="toc_14">Difference</h2>
+
+<p>DIFFERENCE() requires one argument, which is a column name. It will output the difference in the first and last value for each group by interval.</p>
+<pre class="highlight sql"><span class="k">SELECT</span> <span class="n">DIFFERENCE</span><span class="p">(</span><span class="k">column_name</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">series_name</span> <span class="p">...</span>
+</pre>
+<h2 id="toc_15">Top / Bottom</h2>
+
+<p>TOP() and BOTTOM require two arguments, the column name and the number of top results to return. It will output the top or bottom values for each group by interval.</p>
+<pre class="highlight sql"><span class="k">SELECT</span> <span class="n">TOP</span><span class="p">(</span><span class="k">column_name</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">series_name</span> <span class="p">...</span>
+
+<span class="k">SELECT</span> <span class="n">BOTTOM</span><span class="p">(</span><span class="k">column_name</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">series_name</span> <span class="p">...</span>
+</pre></div></div></section><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-45024174-1', 'influxdb.org');
+ga('send', 'pageview');</script><script type="text/javascript">$("h1,h2,h3,h4").each(function(i, el) {
+    id = el.id;
+    if (id.match("^toc_.*")) {
+        text = $(el).text();
+        $(el).html('<a href="#' + id + '">' + text + '</a>');
+    }
+});</script></body></html>

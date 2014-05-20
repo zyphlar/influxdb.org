@@ -1,146 +1,149 @@
-<!DOCTYPE html><html><head><meta charset="utf-8" /><!--Always force latest IE rendering engine or request Chrome Frame--><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><!--Use title if it's in the page YAML frontmatter--><title>InfluxDB Documentation</title><link href="/stylesheets/all.css" media="screen" rel="stylesheet" type="text/css" /><script src="/javascripts/all.js" type="text/javascript"></script></head><body class="docs docs_query_language docs_query_language_functions"><section class="nav"><div class="row"><nav class="top-bar hide-for-small"><ul class="title-area"><li class="name"><a href="/"><img src="/images/influxdb-light-24px.png" /></a></li></ul><li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li><section class="top-bar-section"><ul class="right"><li class="divider"></li><li><a href="/overview">Overview</a></li><li class="divider"></li><li><a href="/hosting">Support & Hosting</a></li><li class="divider"></li><li><a href="/blog">Blog</a></li><li class="divider"></li><li><a href="/docs">Docs</a></li><li class="divider"></li><li><a href="/community">Community</a></li><li class="divider"></li><li><a target="_" href="http://play.influxdb.org">Play</a></li><li class="divider"></li><li class="has-form"><a class="button" href="/download">Download</a></li></ul></section></nav></div></section><section role="main"><div class="row"><div class="large-4 medium-4 columns"><div class="sidebar"><nav><ul class="side-nav"><li class="heading">Getting Started</li><li><a href="/docs">Introduction</a></li><li class="divider"></li><li class="heading">API</li><li><a href="/docs/api/http.html">HTTP API</a></li><li><a href="/docs/api/protobuf.html">Protobuf API</a></li><li class="divider"></li><li class="heading">Query Language</li><li><a href="/docs/query_language/">Overview</a></li><li><a href="/docs/query_language/functions.html">Functions</a></li><li><a href="/docs/query_language/continuous_queries.html">Continuous Queries</a></li><li class="divider"></li><li class="heading">User Interfaces</li><li><a href="/docs/interfaces/">Overview</a></li><li><a href="/docs/interfaces/custom.html">Custom Interfaces</a></li><li><a href="http://grafana.org/">Grafana (dashboards)</a></li><li class="divider"></li><li class="heading">Libraries</li><li><a href="/docs/libraries/javascript.html">JavaScript</a></li><li><a href="/docs/libraries/ruby.html">Ruby</a></li><li><a href="https://github.com/influxdb/influxdb-rails">Rails</a></li><li><a href="/docs/libraries/python.html">Python</a></li><li><a href="/docs/libraries/node.html">Node.js</a></li><li><a href="/docs/libraries/php.html">PHP</a></li><li><a href="https://github.com/olauzon/capacitor">Clojure</a></li><li><a href="https://github.com/mmaul/cl-influxdb">Common Lisp</a></li><li><a href="https://github.com/novaquark/metrics-influxdb">Java Metrics</a></li><li><a href="https://github.com/influxdb/influxdb-go">Go</a></li><li><a href="https://github.com/rcrowley/go-metrics">Go Metrics</a></li><li><a href="https://github.com/influxdb/influxdb-scala">Scala</a></li><li><a href="https://github.com/influxdb/influxdb-r">R</a></li><li><a href="https://metacpan.org/pod/InfluxDB">Perl</a></li><li><a href="https://github.com/maoe/influxdb-haskell">Haskell</a></li><li class="divider"></li><li class="heading">Operations</li><li><a href="/hosting">Hosting</a></li><li><a href="/docs/configuration.html">Configuration</a></li><li><a href="/docs/deployment.html">Deployment</a></li><li class="divider"></li><li class="heading">Contributing</li><li><a href="/community/cla.html">CLA</a></li><li><a href="https://github.com/influxdb/influxdb.org">Documentation</a></li><li><a href="https://github.com/influxdb/influxdb/blob/master/LICENSE">License (MIT)</a></li><li><a href="/docs/getting_started/building.html">Building From Source</a></li><li class="divider"></li><li class="heading">Other</li><li><a href="https://github.com/FGRibreau/influxdb-cli">CLI (Node)</a></li><li><a href="https://github.com/phstc/influxdb-cli">CLI (Ruby)</a></li><li><a href="/docs/visualizations.html">Visualizations & Dashboards</a></li><li><a href="https://github.com/bernd/statsd-influxdb-backend">StatsD Backend</a></li><li><a href="https://github.com/bpaquet/collectd-influxdb-proxy">CollectD Proxy</a></li><li><a href="https://github.com/fangli/fluent-plugin-influxdb">FluentD Plugin</a></li><li><a href="https://github.com/lusis/sensu_influxdb_handler">Sensu Handler</a></li><li><a href="https://github.com/SimpleFinance/chef-handler-influxdb">Chef Handler/Reporter</a></li><li><a href="https://github.com/CargoSense/puppet-influxdb">Config Management via Boxen</a></li></ul></nav><a class="button download expand" href="/download" style="margin-bottom: 0;">Download InfluxDB</a></div></div><div class="large-8 medium-8 columns"><h1>Functions</h1>
+<!DOCTYPE html><html><head><meta charset="utf-8" /><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><title>InfluxDB - Open Source Time Series, Metrics, and Analytics Database</title><link href="/stylesheets/normalize.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="/stylesheets/foundation.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="/stylesheets/all.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="/stylesheets/highlighting.css" media="screen" rel="stylesheet" type="text/css" /><link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700" media="screen" rel="stylesheet" type="text/css" /><link href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" media="screen" rel="stylesheet" type="text/css" /><script src="/javascripts/all.js" type="text/javascript"></script></head><body class="docs docs_query_language docs_query_language_functions"><section class="nav"><div class="row"><nav class="top-bar hide-for-small"><ul class="title-area"><li class="name"><a href="/"><img src="/images/influxdb-light-24px.png" /></a></li></ul><li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li><section class="top-bar-section"><ul class="right"><li class="divider"></li><li><a href="/docs/v0.6/introduction/overview.html">Overview</a></li><li class="divider"></li><li><a href="https://customers.influxdb.com">Support & Hosting</a></li><li class="divider"></li><li><a href="/blog">Blog</a></li><li class="divider"></li><li><a href="/docs/v0.6/introduction/getting_started.html">Docs</a></li><li class="divider"></li><li><a href="/community">Community</a></li><li class="divider"></li><li><a target="_" href="http://play.influxdb.org">Play</a></li><li class="divider"></li><li class="has-form"><a class="button" href="/download">Download</a></li></ul></section></nav></div></section><section class="main"><h1 id="toc_0">Functions</h1>
 
-<h2>Count</h2>
+<h2 id="toc_1">Count</h2>
 
-<h4>Overview</h4>
+<h4 id="toc_2">Overview</h4>
 
 <p>COUNT() returns the number of points</p>
 
-<h4>Usage</h4>
+<h4 id="toc_3">Usage</h4>
 <pre class="highlight text">SELECT COUNT(column_name) FROM series_name ...
 </pre>
-<h4>Description</h4>
+<h4 id="toc_4">Description</h4>
 
 <p>COUNT() takes a single column name, and count the number of points
 that contains a non NULL value for the given column name.</p>
 
-<h2>Min</h2>
+<h2 id="toc_5">Min</h2>
 
-<h4>Overview</h4>
+<h4 id="toc_6">Overview</h4>
 
 <p>MIN() returns the lowest value from the specified column over a given interval.</p>
 
-<h4>Usage</h4>
+<h4 id="toc_7">Usage</h4>
 <pre class="highlight text">SELECT MIN(column_name) FROM series_name ...
 </pre>
-<h4>Description</h4>
+<h4 id="toc_8">Description</h4>
 
 <p>MIN() takes a single column name, which must be of type int64 or float64.</p>
 
-<h2>Max</h2>
+<h2 id="toc_9">Max</h2>
 
-<h4>Overview</h4>
+<h4 id="toc_10">Overview</h4>
 
 <p>MAX() returns the highest value from the specified column over a given interval.</p>
 
-<h4>Usage</h4>
+<h4 id="toc_11">Usage</h4>
 <pre class="highlight text">SELECT MAX(column_name) FROM series_name ...
 </pre>
-<h4>Description</h4>
+<h4 id="toc_12">Description</h4>
 
 <p>MAX() takes a single column name, which must be of type int64 or float64.</p>
 
-<h2>Mean</h2>
+<h2 id="toc_13">Mean</h2>
 
-<h4>Overview</h4>
+<h4 id="toc_14">Overview</h4>
 
 <p>MEAN() returns the arithmetic mean (average) of the specified column over a given interval.</p>
 
-<h4>Usage</h4>
+<h4 id="toc_15">Usage</h4>
 <pre class="highlight text">SELECT MEAN(column_name) FROM series_name ...
 </pre>
-<h4>Description</h4>
+<h4 id="toc_16">Description</h4>
 
 <p>MEAN() takes a single column name, which must be of type int64 or float64.</p>
 
-<h2>Mode</h2>
+<h2 id="toc_17">Mode</h2>
 
-<h4>Overview</h4>
+<h4 id="toc_18">Overview</h4>
 
 <p>MODE() returns the most frequent value(s) of the specified column over a given interval.</p>
 
-<h4>Usage</h4>
+<h4 id="toc_19">Usage</h4>
 <pre class="highlight text">SELECT MODE(column_name) FROM series_name ...
 </pre>
-<h4>Description</h4>
+<h4 id="toc_20">Description</h4>
 
 <p>MODE() takes a single column name, which must be of type int64 or float64.
 Since a timeseries can be multimodal (contain multiple values that occur
 the same number of times), this can potentially return multiple rows.</p>
 
-<h2>Median</h2>
+<h2 id="toc_21">Median</h2>
 
-<h4>Overview</h4>
+<h4 id="toc_22">Overview</h4>
 
 <p>MEDIAN() returns the middle value from a sorted set of values for the specified column over a given interval.</p>
 
-<h4>Usage</h4>
+<h4 id="toc_23">Usage</h4>
 <pre class="highlight text">SELECT MEDIAN(column_name) FROM series_name ...
 </pre>
-<h4>Description</h4>
+<h4 id="toc_24">Description</h4>
 
 <p>MEDIAN() is nearly equivalent to PERCENTILE(column_name, 50), except that
 in the event a dataset contains an even number of points, the median will
 be the average of the two middle values.</p>
 
-<h2>Distinct</h2>
+<h2 id="toc_25">Distinct</h2>
 
-<h4>Overview</h4>
+<h4 id="toc_26">Overview</h4>
 
 <p>DISTINCT() returns distinct values for the given column.</p>
 
-<h4>Usage</h4>
+<h4 id="toc_27">Usage</h4>
 <pre class="highlight text">SELECT DISTINCT(column_name) FROM series_name ...
 </pre>
-<h4>Description</h4>
+<h4 id="toc_28">Description</h4>
 
 <p>DISTINCT() takes a single column name which could be of any type.</p>
 
-<h2>Percentile</h2>
+<h2 id="toc_29">Percentile</h2>
 
-<h4>Overview</h4>
+<h4 id="toc_30">Overview</h4>
 
 <p>PERCENTILE() returns the Nth percentile of a sorted set of values for the specified column over a given interval.</p>
 
-<h4>Usage</h4>
+<h4 id="toc_31">Usage</h4>
 <pre class="highlight text">SELECT PERCENTILE(column_name, N) FROM series_name ...
 </pre>
-<h4>Description</h4>
+<h4 id="toc_32">Description</h4>
 
 <p>PERCENTILE() requires two values, the second of which can be either an integer
 or floating point number between 0 and 100.</p>
 
-<h2>Histogram</h2>
+<h2 id="toc_33">Histogram</h2>
 
-<h4>Overview</h4>
+<h4 id="toc_34">Overview</h4>
 
 <p>HISTOGRAM() requires at least one argument and at most two
 arguments. The first argument is the column name and the second
 argument is the bucket size. Bucket size defaults to <code>1.0</code> if it
 wasn&rsquo;t specified.</p>
 
-<h4>Usage</h4>
+<h4 id="toc_35">Usage</h4>
 <pre class="highlight text">SELECT HISTOGRAM(column_name) FROM series_name ...
 
 SELECT HISTOGRAM(column_name, 10.0) FROM series_name ...
 </pre>
-<h4>Description</h4>
+<h4 id="toc_36">Description</h4>
 
 <p>HISTOGRAM() output two columns <code>bucket_start</code> and
 <code>count</code>. <code>bucket_start</code> is the smallest value in the
 bucket. <code>bucket_start</code> along with the bucket size defines the current
 bucket. <code>count</code> is the number of points that falls in this bucket.</p>
 
-<h2>Derivative</h2>
+<h2 id="toc_37">Derivative</h2>
 
-<h4>Overview</h4>
+<h4 id="toc_38">Overview</h4>
 
 <p>DERIVATIVE() requires exactly one argument, which is a column name</p>
 
-<h4>Usage</h4>
+<h4 id="toc_39">Usage</h4>
 <pre class="highlight text">SELECT DERIVATIVE(column_name) FROM series_name ...
 </pre>
-<h4>Description</h4>
+<h4 id="toc_40">Description</h4>
 
 <p>DERIVATIVE() output a columns containing the value of <code>(v_last -
 v_first) / (t_last - t_first)</code> where <code>v_last</code> is the last value of the
@@ -148,50 +151,50 @@ given column and <code>t_last</code> is the corresponding timestamp (and
 similarly for <code>v_first</code> and <code>t_first</code>). In other words, DERIVATIVE()
 calculates the rate of change of the given column.</p>
 
-<h2>Sum</h2>
+<h2 id="toc_41">Sum</h2>
 
-<h4>Overview</h4>
+<h4 id="toc_42">Overview</h4>
 
 <p>SUM() requires exactly one argument, which is a column name</p>
 
-<h4>Usage</h4>
+<h4 id="toc_43">Usage</h4>
 <pre class="highlight text">SELECT SUM(column_name) FROM series_name ...
 </pre>
-<h4>Description</h4>
+<h4 id="toc_44">Description</h4>
 
 <p>SUM() output the sum of the all values for the given column.</p>
 
-<h2>Stddev</h2>
+<h2 id="toc_45">Stddev</h2>
 
-<h4>Overview</h4>
+<h4 id="toc_46">Overview</h4>
 
 <p>STDDEV() requires exactly one argument, which is a column name</p>
 
-<h4>Usage</h4>
+<h4 id="toc_47">Usage</h4>
 <pre class="highlight text">SELECT STDDEV(column_name) FROM series_name ...
 </pre>
-<h4>Description</h4>
+<h4 id="toc_48">Description</h4>
 
 <p>STDDEV() output the standard deviation of the given column.</p>
 
-<h2>First/Last</h2>
+<h2 id="toc_49">First/Last</h2>
 
-<h4>Overview</h4>
+<h4 id="toc_50">Overview</h4>
 
 <p>FIRST() and LAST() require exactly one argument, which is a column name</p>
 
-<h4>Usage</h4>
+<h4 id="toc_51">Usage</h4>
 <pre class="highlight text">SELECT FIRST(column_name) FROM series_name ...
 
 SELECT LAST(column_name) FROM series_name ...
 </pre>
-<h4>Description</h4>
+<h4 id="toc_52">Description</h4>
 
 <p>FIRST() and LAST() output the first (or last in case of LAST()) value of the given column.</p>
-</div></div></section><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+</section><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
 ga('create', 'UA-45024174-1', 'influxdb.org');
-ga('send', 'pageview');</script></body></html>
+ga('send', 'pageview');</script><a href="https://github.com/influxdb/influxdb"><img alt="Fork me on GitHub" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" style="position: absolute; top: 0; right: 0; border: 0;" /></a></body></html>
