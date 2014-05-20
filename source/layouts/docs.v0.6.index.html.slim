@@ -1,0 +1,131 @@
+doctype html
+html
+  head
+    meta charset="utf-8"
+
+    /! Always force latest IE rendering engine or request Chrome Frame
+    meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"
+
+    /! Use title if it's in the page YAML frontmatter
+    title == data.page.title || "InfluxDB Documentation"
+
+    == stylesheet_link_tag "all"
+    == javascript_include_tag  "all"
+
+    - @version = "v0.6"
+
+  body class="#{page_classes}"
+    = partial "layouts/nav"
+
+    section role="main"
+      .row
+        .large-4.medium-4.columns
+          .sidebar
+            nav
+              ul.side-nav
+                li.heading Introduction
+                li= link_to "Overview", "/docs/#{@version}/introduction/overview.html"
+                li= link_to "Installation", "/docs/#{@version}/introduction/installation.html"
+                li= link_to "Getting Started", "/docs/#{@version}/introduction/getting_started.html"
+
+                li.divider
+
+                li.heading API
+                li= link_to "Reading & Writing Data", "/docs/#{@version}/api/reading_and_writing_data.html"
+                li= link_to "Query Language", "/docs/#{@version}/api/query_language.html"
+                li= link_to "Aggregate Functions", "/docs/#{@version}/api/aggregate_functions.html"
+                li= link_to "Continuous Queries", "/docs/#{@version}/api/continuous_queries.html"
+                li= link_to "Chunked HTTP Responses", "/docs/#{@version}/api/chunked_responses.html"
+                li= link_to "Administration", "/docs/#{@version}/api/administration.html"
+
+                li.divider
+
+                li.heading UI
+                li= link_to "Built-in Admin and Explorer Interface", "/docs/#{@version}/ui/built_in_admin_and_explorer.html"
+                li= link_to "Grafana Dashboards", "/docs/#{@version}/ui/grafana.html"
+                li= link_to "Influga Dashboards", "https://github.com/hakobera/influga"
+
+                li.divider
+
+                li.heading Advanced Topics
+                li= link_to "Underylying Storage and Shards", "/docs/#{@version}/advanced_topics/sharding_and_storage.html"
+                li= link_to "Configuration Options", "/docs/#{@version}/advanced_topics/configuration_options.html"
+                li= link_to "Schema Design", "/docs/#{@version}/advanced_topics/schema_design.html"
+                li= link_to "Performance Considerations", "/docs/#{@version}/advanced_topics/performance_considerations.html"
+                li= link_to "Security", "/docs/#{@version}/advanced_topics/security.html"
+
+                li.divider
+
+                li.heading Clustering
+                li= link_to "Design", "/docs/#{@version}/clustering/design.html"
+                li= link_to "Setup", "/docs/#{@version}/clustering/setup.html"
+
+                li.divider
+
+                li.heading Future Features
+                li= link_to "Binary Protocol", "/docs/#{@version}/future/binary_protocol.html"
+                li= link_to "Pubsub", "/docs/#{@version}/future/pubsub.html"
+                li= link_to "Column Indexes and Tags", "/docs/#{@version}/future/column_indexes.html"
+                li= link_to "Shard Spaces and Retention Policies", "/docs/#{@version}/future/shard_spaces.html"
+                li= link_to "Custom Functions", "/docs/#{@version}/future/custom_functions.html"
+                li= link_to "Security Enhancements", "/docs/#{@version}/future/security.html"
+
+                li.divider
+
+                li.heading Client Libraries
+                li= link_to "JavaScript", "/docs/#{@version}/client_libraries/javascript.html"
+                li= link_to "Ruby", "https://github.com/influxdb/influxdb-ruby"
+                li= link_to "Rails", "https://github.com/influxdb/influxdb-rails"
+                li= link_to "Python", "/docs/#{@version}/client_libraries/python.html"
+                li= link_to "Node.js", "/docs/#{@version}/client_libraries/node.html"
+                li= link_to "PHP", "/docs/#{@version}/client_libraries/php.html"
+                li= link_to "Java", "https://github.com/majst01/influxdb-java"
+                li= link_to "Clojure", "https://github.com/olauzon/capacitor"
+                li= link_to "Common Lisp", "https://github.com/mmaul/cl-influxdb"
+                li= link_to "Java Metrics", "https://github.com/novaquark/metrics-influxdb"
+                li= link_to "Go", "https://github.com/influxdb/influxdb-go"
+                li= link_to "Go Metrics", "https://github.com/rcrowley/go-metrics"
+                li= link_to "Scala", "https://github.com/influxdb/influxdb-scala"
+                li= link_to "R", "https://github.com/influxdb/influxdb-r"
+                li= link_to "Perl", "https://metacpan.org/pod/InfluxDB"
+                li= link_to "Haskell", "https://github.com/maoe/influxdb-haskell"
+
+
+                li.divider
+
+                li.heading Contributing
+                li= link_to "CLA", "/community/cla.html"
+                li= link_to "To this Documentation", "https://github.com/influxdb/influxdb.org"
+                li= link_to "License (MIT)", "https://github.com/influxdb/influxdb/blob/master/LICENSE"
+                li= link_to "Building From Source", "/docs/#{@version}/contributing/building.html"
+
+                li.divider
+
+                li.heading Other Libraries and Tools
+                li= link_to "CLI (Node)", "https://github.com/FGRibreau/influxdb-cli"
+                li= link_to "CLI (Node)", "https://github.com/FGRibreau/influxdb-cli"
+                li= link_to "Grafana (dashboards)", "http://grafana.org/"
+                li= link_to "Tasseo (realtime dashboard)", "https://github.com/obfuscurity/tasseo"
+                li= link_to "StatsD Backend", "https://github.com/bernd/statsd-influxdb-backend"
+                li= link_to "CollectD Proxy", "https://github.com/bpaquet/collectd-influxdb-proxy"
+                li= link_to "FluentD Plugin", "https://github.com/fangli/fluent-plugin-influxdb"
+                li= link_to "Sensu Handler", "https://github.com/lusis/sensu_influxdb_handler"
+                li= link_to "Chef Handler/Reporter", "https://github.com/SimpleFinance/chef-handler-influxdb"
+                li= link_to "Config Management via Boxen", "https://github.com/CargoSense/puppet-influxdb"
+
+                = partial "/layouts/versions"
+
+            a.button.download.expand href="/download" style="margin-bottom: 0;" Download InfluxDB
+        .large-8.medium-8.columns
+          == yield
+
+    = partial "layouts/analytics"
+
+    javascript:
+        $("h1,h2,h3,h4").each(function(i, el) {
+            id = el.id;
+            if (id.match("^toc_.*")) {
+                text = $(el).text();
+                $(el).html('<a href="#' + id + '">' + text + '</a>');
+            }
+        });

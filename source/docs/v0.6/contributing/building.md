@@ -37,3 +37,7 @@ sudo apt-get install mercurial bzr protobuf-compiler flex bison valgrind g++ mak
 ```
 
 Then run `./configure && make`. This will build the server and run the tests.
+
+### Debian 6
+
+@chobie has put up a nice Gist with step by step instructions for [building InfluxDB on Debian 6](https://gist.github.com/chobie/cb22c504223c3e929a00).
