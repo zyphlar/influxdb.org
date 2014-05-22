@@ -23,6 +23,12 @@ helpers do
   end
 end
 
+activate :s3_sync do |s3_sync|
+  s3_sync.bucket                     = 'influxdb.com' # The name of the S3 bucket you are targetting. This is globally unique.
+  s3_sync.region                     = 'us-east-1'     # The AWS region for your bucket.
+  s3_sync.after_build                = true
+end
+
 page "/feed.xml", :layout => false
 
 set :docs_version, "v0.6"

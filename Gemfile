@@ -13,7 +13,7 @@ platforms :mri_18 do
   gem "ruby18_source_location"
 end
 
-gem "middleman-gh-pages"
+gem "middleman-s3_sync"
 gem "middleman-syntax"
 gem "nokogiri"
 gem "redcarpet"
