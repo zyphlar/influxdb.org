@@ -31,9 +31,11 @@ end
 
 page "/feed.xml", :layout => false
 
-set :docs_version, "v0.6"
-with_layout "docs.v0.6.index" do
-  page "/docs/v0.6/*"
+['0.6', '0.7'].each do |version|
+  set :docs_version, "v#{version}"
+  with_layout "docs.v#{version}.index" do
+    page "/docs/v#{version}/*"
+  end
 end
 
 page "/graphing.html", :layout => false
