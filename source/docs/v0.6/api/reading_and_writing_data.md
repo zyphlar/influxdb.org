@@ -8,7 +8,7 @@ There are many ways to write data into InfluxDB. Client libraries, data collecto
 
 ## Writing data through HTTP
 
-The easiest way to write data is through the HTTP API. Most of the client libraries use this API. Simply send a `POST` to `/db/<databsae>/series?u=<user>&p=<pass>`. Replacing the things in angle brackets with their associated values. You can use HTTP Basic auth instead of putting the user credentials in the query parameters if you prefer.
+The easiest way to write data is through the HTTP API. Most of the client libraries use this API. Simply send a `POST` to `/db/<database>/series?u=<user>&p=<pass>`. Replacing the things in angle brackets with their associated values. You can use HTTP Basic auth instead of putting the user credentials in the query parameters if you prefer.
 
 The body of the POST should look something like this:
 
