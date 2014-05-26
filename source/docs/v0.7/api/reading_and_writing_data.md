@@ -90,7 +90,7 @@ Querying data in InfluxDB happens via the built in admin interface, client libra
 For example, if querying a locally running InfluxDB with a database of `mydb` you can do this:
 
 ```
-curl 'http://localhost:8086?u=root&p=root&q=select * from log_lines limit 1'
+curl -G http://localhost:8086/db/mydb/series?u=root&p=root --data-urlencode "q=select * from log_lines limit 1"
 ```
 
 Which return data that looks like this:
