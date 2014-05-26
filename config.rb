@@ -17,9 +17,17 @@ set :site_url, "http://influxdb.org"
 # page "/path/to/file.html", :layout => :otherlayout
 #
 
+DOCS_VERSIONS = ['0.6', '0.7']
+
 helpers do
   def heading_link(h, id, text)
     "<#{h} id=\"#{id}\"><a href=\"##{id}\">#{text}</a></#{h}>"
+  end
+
+  def doc_version_links()
+    DOCS_VERSIONS.map do |v|
+      link_to "v#{v}", "/docs/v#{v}/introduction/overview.html"
+    end.join("<br />")
   end
 end
 
@@ -31,12 +39,14 @@ end
 
 page "/feed.xml", :layout => false
 
-['0.6', '0.7'].each do |version|
+DOCS_VERSIONS.each do |version|
   set :docs_version, "v#{version}"
   with_layout "docs.v#{version}.index" do
     page "/docs/v#{version}/*"
   end
 end
+
+page "/docs", :layout => "docs.v#{DOCS_VERSIONS.last}.index"
 
 page "/graphing.html", :layout => false
 
