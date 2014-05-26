@@ -62,6 +62,12 @@ html
 
                 li.divider
 
+                li.heading Guides
+                li= link_to "Introduction", "/docs/#{@version}/guides/intro.html"
+                li= link_to "Replacing Graphite", "/docs/#{@version}/guides/replacing_graphite.html"
+
+                li.divider
+
                 li.heading Future Features
                 li= link_to "Binary Protocol", "/docs/#{@version}/future/binary_protocol.html"
                 li= link_to "Pubsub", "/docs/#{@version}/future/pubsub.html"
