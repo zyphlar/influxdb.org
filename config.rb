@@ -57,6 +57,7 @@ activate :blog do |blog|
   blog.prefix = "blog"
 end
 
+activate :alias
 activate :livereload
 activate :syntax
 
