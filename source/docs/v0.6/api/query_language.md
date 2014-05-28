@@ -164,7 +164,7 @@ select * from nagios_checks where status <> 0;
 
 select * from events where signed_in = false;
 
-select * from events 
+select * from events
 where (email =~ /.*gmail.* or email =~ /.*yahoo.*/) and state = 'ny';
 ```
 
@@ -200,14 +200,14 @@ units you can use the respective suffix `u`, `s`, `m`, `h`, `d` and `w`.
 By default, group by intervals that have no data will not have associated datapoints. For instance, say you have the following query:
 
 ```sql
-select count(type) from events 
+select count(type) from events
 group by time(1h) where time > now() - 3h
 ```
 
 If the events series had data for this hour and two hours ago only, you'd only get two points in the result. If you want to ensure that you get back points for intervals that don't have data, you can use the `fill` function like this:
 
 ```sql
-select count(type) from events 
+select count(type) from events
 group by time(1h) fill(0) where time > now() - 3h
 ```
 
@@ -239,18 +239,18 @@ The above query would merge all of the stats time series into one.
 Joins will put two or more series together. Since timestamps may not match exactly, InfluxDB will make a best effort to put points together. Joins are used when you want to perform a transformation of one time series against another. Here are a few examples.
 
 ```sql
-select hosta.value + hostb.value 
-from cpu_load as hosta 
-inner join cpu_load as hostb 
+select hosta.value + hostb.value
+from cpu_load as hosta
+inner join cpu_load as hostb
 where hosta.host = 'hosta.influxdb.orb' and hostb.host = 'hostb.influxdb.org';
 ```
 
 The above query will return a time series of the combined cpu load for hosts a and b. The individual points will be coerced into the closest time frames to match up.
 
 ```sql
-select errors_per_minute.value / page_views_per_minute.value 
-from errors_per_minute 
-inner join page_views_per_minute 
+select errors_per_minute.value / page_views_per_minute.value
+from errors_per_minute
+inner join page_views_per_minute
 ```
 
 The above query will return the error rate per minute.
