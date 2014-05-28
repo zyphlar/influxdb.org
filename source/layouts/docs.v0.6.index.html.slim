@@ -15,7 +15,7 @@ html
     - @version = "v0.6"
 
   body class="#{page_classes}"
-    = partial "layouts/nav"
+    = partial "layouts/navigation"
 
     section role="main"
       .row
@@ -121,11 +121,8 @@ html
 
     = partial "layouts/analytics"
 
-    javascript:
-        $("h1,h2,h3,h4").each(function(i, el) {
-            id = el.id;
-            if (id.match("^toc_.*")) {
-                text = $(el).text();
-                $(el).html('<a href="#' + id + '">' + text + '</a>');
-            }
-        });
+    coffee:
+      $("#docs h1, #docs h2, #docs h3, #docs h4").each (i, el) ->
+        id = el.id
+        text = $(el).text()
+        $(el).html('<a href="#' + id + '">' + text + '</a>')

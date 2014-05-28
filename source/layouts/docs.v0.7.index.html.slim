@@ -15,7 +15,7 @@ html
     - @version = "v0.7"
 
   body class="#{page_classes}"
-    = partial "layouts/nav"
+    = partial "layouts/navigation"
 
     section role="main"
       .row
@@ -123,16 +123,13 @@ html
                 = partial "/layouts/versions"
 
             a.button.download.expand href="/download" style="margin-bottom: 0;" Download InfluxDB
-        .large-8.medium-8.columns
+        .large-8.medium-8.columns#docs
           == yield
 
     = partial "layouts/analytics"
 
-    javascript:
-        $("h1,h2,h3,h4").each(function(i, el) {
-            id = el.id;
-            if (id.match("^toc_.*")) {
-                text = $(el).text();
-                $(el).html('<a href="#' + id + '">' + text + '</a>');
-            }
-        });
+    coffee:
+      $("#docs h1, #docs h2, #docs h3, #docs h4").each (i, el) ->
+        id = el.id
+        text = $(el).text()
+        $(el).html('<a href="#' + id + '">' + text + '</a>')
