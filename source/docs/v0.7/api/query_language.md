@@ -1,5 +1,6 @@
 ---
 title: InfluxDB Query Language
+alias: docs/query_language/
 ---
 
 # Query Language

@@ -1,5 +1,6 @@
 ---
 title: InfluxDB API - Reading and Writing Data
+alias: /docs/api/http.html
 ---
 
 # Reading and Writing Data

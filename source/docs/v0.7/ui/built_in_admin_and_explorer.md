@@ -1,5 +1,6 @@
 ---
 title: InfluxDB Admin and Explorer Interface
+alias: docs/interfaces/
 ---
 
 # Admin and Explorer Interface
