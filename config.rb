@@ -3,20 +3,6 @@ require 'slim'
 set :site_title, "InfluxDB - Open Source Time Series, Metrics, and Analytics Database"
 set :site_url, "http://influxdb.org"
 
-# Change Compass configuration
-# compass_config do |config|
-#   config.output_style = :compact
-# end
-
-# Per-page layout changes:
-#
-# With no layout
-# page "/path/to/file.html", :layout => false
-#
-# With alternative layout
-# page "/path/to/file.html", :layout => :otherlayout
-#
-
 DOCS_VERSIONS = ['0.6', '0.7']
 
 helpers do
@@ -24,7 +10,7 @@ helpers do
     "<#{h} id=\"#{id}\"><a href=\"##{id}\">#{text}</a></#{h}>"
   end
 
-  def doc_version_links()
+  def doc_version_links
     DOCS_VERSIONS.map do |v|
       link_to "v#{v}", "/docs/v#{v}/introduction/overview.html"
     end.join("<br />")
@@ -71,13 +57,4 @@ set :images_dir, 'images'
 configure :build do
   activate :minify_css
   activate :minify_javascript
-
-  # Enable cache buster
-  # activate :asset_hash
-
-  # Use relative URLs
-  # activate :relative_assets
-
-  # Or use a different image path
-  # set :http_path, "/Content/images/"
 end
