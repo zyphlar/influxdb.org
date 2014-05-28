@@ -9,5 +9,3 @@ $ ->
       item = $(el)
       item.parents("section").addClass("active")
       item.addClass("active")
-
-  $(document).foundation()
