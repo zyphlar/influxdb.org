@@ -218,6 +218,13 @@ select count(type) from events
 group by time(1h) fill(0) where time > now() - 3h
 ```
 
+Note that `fill` must go at the end of the group by clause if there are other arguments:
+
+```sql 
+select count(type) from events
+group by time(1h), type fill(0) where time > now() - 3h
+```
+
 ## Merging Series
 
 You can merge multiple time series into a single stream in the select clause. This is helpful when you want to run a function over one of the columns with an associated group by time clause.
