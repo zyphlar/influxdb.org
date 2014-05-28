@@ -1,5 +1,6 @@
 ---
 title: InfluxDB Aggregate Functions
+alias: docs/query_language/functions.html
 ---
 
 # Aggregate Functions
