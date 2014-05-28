@@ -6,6 +6,8 @@ html
 
     title == data.page.title || "InfluxDB - Open Source Time Series, Metrics, and Analytics Database"
 
+    == javascript_include_tag "//fast.fonts.net/jsapi/2de9def5-2dd1-4d89-b4bb-cd7e5f821645.js"
+
     == stylesheet_link_tag "normalize", "foundation", "all", "highlighting"
     == stylesheet_link_tag "http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700"
     == stylesheet_link_tag "//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css"
@@ -13,12 +15,9 @@ html
     == javascript_include_tag  "all"
 
   body class="#{page_classes}"
-    = partial "layouts/nav"
+    = partial "layouts/navigation"
 
     section.main
       == yield
 
     = partial "layouts/analytics"
-
-    a href="https://github.com/influxdb/influxdb"
-      img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"

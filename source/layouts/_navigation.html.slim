@@ -1,0 +1,23 @@
+header.navigation
+  .menu-wrapper
+    a.logo href="/"
+      = image_tag "influxdb-light400.png"
+    p#js-mobile-menu.navigation-menu-button
+      | MENU
+    .nav
+      ul#navigation-menu
+        li.nav-link= link_to "Overview", "/docs/#{docs_version}/introduction/overview.html"
+
+        li.nav-link= link_to "Support & Hosting", "https://customers.influxdb.com", target: :blank
+
+        li.nav-link= link_to "Blog", "/blog"
+
+        li.nav-link= link_to "Docs", "/docs/#{docs_version}/introduction/getting_started.html"
+
+        li.nav-link= link_to "Community", "/community"
+
+        li.nav-link= link_to "Play", "http://play.influxdb.org", target: :blank
+
+    .navigation-tools
+      a.sign-up href="/download"
+        | Download

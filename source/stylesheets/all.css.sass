@@ -5,8 +5,15 @@
 @import "vendor/normalize"
 @import "vendor/foundation"
 
+@import "bourbon/bourbon"
+@import "neat/neat"
+@import "bitters/bitters"
+
+@import "modules/variables"
 @import "modules/docs"
 @import "modules/highlighting"
+@import "modules/navigation"
+@import "modules/hero"
 
 h1, h2, h3, h4, h5, h6
   font-family: "Source Sans Pro", sans-serif
@@ -42,25 +49,14 @@ section.nav
   nav.top-bar
     background-color: #333333
 
-header
-  padding: 3rem 0
-  margin-bottom: 20px
+section#social
+  height: 64px
+  background-color: $white-blue
   text-align: center
-
-  background-image: url(/images/square_bg.png), linear-gradient(30deg, #0090BA, #004374)
-  background-color: #004374
-
-  h1
-    font-family: "PT Sans", sans-serif
-    line-height: 1.0
-    font-size: 32px
-    color: white
-    font-weight: 700
-  h2
-    font-family: "PT Sans", sans-serif
-    font-size: 20px
-    color: white
-    font-weight: 100
+  padding-top: 16px
+  iframe#twitter-widget-0
+    position: relative
+    top: -1px
 
 main
   section
