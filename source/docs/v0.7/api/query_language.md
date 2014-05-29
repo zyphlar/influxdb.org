@@ -235,12 +235,6 @@ select count(type) from user_events merge admin_events group by time(10m)
 
 You'd get a single time series with the count of events from the two combined in 10 minute intervals.
 
-```sql
-select * from merge /stats.*/
-```
-
-The above query would merge all of the stats time series into one.
-
 ## Joining Series
 
 Joins will put two or more series together. Since timestamps may not match exactly, InfluxDB will make a best effort to put points together. Joins are used when you want to perform a transformation of one time series against another. Here are a few examples.
