@@ -125,3 +125,14 @@ data, update the user by `POST`ing to `db/site_dev/users/paul`.
 InfluxDB decides which permission to apply by first looking for exact
 matches. If there is one then it is applied. Otherwise, it iterates
 through the regexes and uses the first matching one.
+
+## Forcefully removing a server from the cluster
+
+You can forcefully remove a server from a running cluster with an API call. This will take it out of Raft and tell the rest of the servers that it is gone. No data will be copied from the server if it happens to still be up. This also doesn't require Raft consensus. **Use with caution!**
+
+```
+curl -X DELETE \
+  'http://localhost:8086/cluster/servers/23?u=root&p=root'
+```
+
+Removes server with ID 23 from the cluster.
