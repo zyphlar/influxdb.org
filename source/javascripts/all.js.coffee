@@ -1,6 +1,5 @@
 #= require vendor/jquery
 #= require vendor/custom.modernizr
-#= require vendor/foundation.min
 #= require_self
 
 $ ->
