@@ -3,7 +3,7 @@ require 'slim'
 set :site_title, "InfluxDB - Open Source Time Series, Metrics, and Analytics Database"
 set :site_url, "http://influxdb.org"
 
-DOCS_VERSIONS = ['0.6', '0.7', '0.7.2']
+DOCS_VERSIONS = ['0.6', '0.7']
 
 helpers do
   def heading_link(h, id, text)
