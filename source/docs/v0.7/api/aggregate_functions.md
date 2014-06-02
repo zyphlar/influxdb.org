@@ -42,8 +42,12 @@ SELECT MEAN(column_name) FROM series_name group by time(10m) ...
 
 ## Mode
 
-MODE() returns the most frequent value(s) of the specified column over a given interval. The column must be of type int64 or float64. Since a timeseries can be multimodal (contain multiple values that occur
-the same number of times), this can potentially return multiple rows.
+MODE() returns the most frequent value(s) of the specified column over
+a given interval. The column must be of type int64 or float64. Since
+version 0.7.2 MODE can be used with any column type, e.g. strings,
+nulls and integral data types.  Since a timeseries can be multimodal
+(contain multiple values that occur the same number of times), this
+can potentially return multiple rows.
 
 ```sql
 SELECT MODE(column_name) FROM series_name group by time(10m) ...
