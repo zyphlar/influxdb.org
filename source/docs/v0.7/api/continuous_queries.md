@@ -52,6 +52,18 @@ select count(name) from clicks group by time(1h) into clicks.count.1h
 
 Each hour, this query will count the number of points written into the time series called `clicks` and write a single point into the target time series called `clicks.count.1h`. It's important to note that this happens as soon as the hour has elapsed. So if you have delayed data collection, this number may be off. Watch [this issue for when that will change](https://github.com/influxdb/influxdb/issues/479).
 
+### Continuous Downsampling of Many Series
+
+If you have many series that you want downsampled, it's best to create a convention with a single continuous query that downsamples many series. Here's an example:
+
+```sql
+select mean(value), percentile(90, value) as percentile.90, percentile(99, value) as percentile.99 
+from /^stats.*/ group by time(10m) into 10m.:series_name
+```
+
+The `:series_name` will get interpolated into the series that is selected from. Note that you should specify in the regex that the query must begin with a given name. Otherwise you can end up in a loop where new series get generated and selected from in the next run.
+
+
 ## Listing Continuous Queries
 
 To see the continuous queries you have defined, query `list continuous queries` and InfluxDB will return the id and query for each continuous query in the database.
