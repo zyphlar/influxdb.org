@@ -84,26 +84,19 @@ curl -X POST 'http://localhost:8086/db/site_dev/users/paul?u=root&p=root' \
 
 ```
 
+
 ### Limiting User Access
 
 Database users have two additional arguments when creating or updating
-their objects: `readPermissions` and `writePermissions`. Here's what a
+their objects: `readFrom` and `writeTo`. Here's what a
 default database user looks like when those arguments aren't specified
 on create.
 
 ```json
 {
   "name": "paul",
-  "readPermissions": [
-    {
-      "matcher": ".*"
-    }
-  ],
-  "writePermissions": [
-    {
-      "matcher": ".*"
-    }
-  ]
+  "readFrom": ".*",
+  "writeTo": ".*"
 }
 ```
 
@@ -113,15 +106,11 @@ data, update the user by `POST`ing to `db/site_dev/users/paul`.
 
 ```json
 {
-  "readPermissions": [],
-  "writePermissions": [
-    {
-      "matcher": ".*"
-    }
-  ]
+  "readFrom": "^$",
+  "writeTo": ".*"
 }
 ```
 
-InfluxDB decides which permission to apply by first looking for exact
-matches. If there is one then it is applied. Otherwise, it iterates
-through the regexes and uses the first matching one.
+You have to specify both `readFrom` and `writeTo` when you update the
+permissions of a user. Both are a regex that determine which time
+series the user has permission to read from or write to.
