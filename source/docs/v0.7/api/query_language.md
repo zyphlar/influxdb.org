@@ -142,7 +142,13 @@ time will be ignored, for example the following query returns an error:
 delete from response_times where user = 'foo'
 ```
 
-Deleting all data for a series will only remove the points. It will still remain in the index. If you want to remove all data from a series and remove it from the list of series in a database use the `drop` query:
+Delete time conditions only support ranges, an equals condition (=) is
+currently not supported.
+
+Deleting all data for a series will only remove the points. It will
+still remain in the index. If you want to remove all data from a
+series and remove it from the list of series in a database use the
+`drop` query:
 
 ```sql
 drop series response_times
