@@ -5,7 +5,7 @@
   <id>http://influxdb.org/blog</id>
   <link href="http://influxdb.org/blog"/>
   <link href="http://influxdb.org/feed.xml" rel="self"/>
-  <updated>2014-05-21T00:00:00Z</updated>
+  <updated>2014-05-20T20:00:00-04:00</updated>
   <author>
     <name>InfluxDB</name>
   </author>
@@ -13,8 +13,8 @@
     <title>Free trial for InfluxDB hosting and updated documentation</title>
     <link rel="alternate" href="http://influxdb.org/blog/2014/05/21/free_trial_for_influxdb_hosting_and_updated_docs.html"/>
     <id>http://influxdb.org/blog/2014/05/21/free_trial_for_influxdb_hosting_and_updated_docs.html</id>
-    <published>2014-05-21T00:00:00Z</published>
-    <updated>2014-05-21T15:45:00-04:00</updated>
+    <published>2014-05-20T20:00:00-04:00</published>
+    <updated>2014-05-23T19:02:10-04:00</updated>
     <author>
       <name>Paul Dix</name>
     </author>
@@ -31,8 +31,8 @@
     <title>Java is the COBOL of my generation and Go is its successor (and other reflections after GopherCon)</title>
     <link rel="alternate" href="http://influxdb.org/blog/2014/04/30/java-is-the-cobol-of-my-generation-and-go-is-its-successor.html"/>
     <id>http://influxdb.org/blog/2014/04/30/java-is-the-cobol-of-my-generation-and-go-is-its-successor.html</id>
-    <published>2014-04-30T00:00:00Z</published>
-    <updated>2014-05-20T17:27:30-04:00</updated>
+    <published>2014-04-29T20:00:00-04:00</published>
+    <updated>2014-05-02T15:37:36-04:00</updated>
     <author>
       <name>Paul Dix</name>
     </author>
@@ -85,8 +85,8 @@
     <title>InfluxDB v0.5.0 ready for production</title>
     <link rel="alternate" href="http://influxdb.org/blog/2014/03/24/influxdb_v0_5_0_ready_for_production.html"/>
     <id>http://influxdb.org/blog/2014/03/24/influxdb_v0_5_0_ready_for_production.html</id>
-    <published>2014-03-24T00:00:00Z</published>
-    <updated>2014-03-24T15:47:34-04:00</updated>
+    <published>2014-03-23T20:00:00-04:00</published>
+    <updated>2014-03-25T14:51:58-04:00</updated>
     <author>
       <name>Paul Dix</name>
     </author>
@@ -120,61 +120,64 @@
     <title>InfluxDB v0.5.0-rc1 released with all new clustering and features.</title>
     <link rel="alternate" href="http://influxdb.org/blog/2014/02/25/influxdb_v0_5_0-rc_1-released_with_new_clustering_and_features.html"/>
     <id>http://influxdb.org/blog/2014/02/25/influxdb_v0_5_0-rc_1-released_with_new_clustering_and_features.html</id>
-    <published>2014-02-25T00:00:00Z</published>
-    <updated>2014-02-25T18:14:18-05:00</updated>
+    <published>2014-02-24T19:00:00-05:00</published>
+    <updated>2014-03-03T11:11:08-05:00</updated>
     <author>
       <name>Paul Dix</name>
     </author>
     <content type="html">&lt;p&gt;InfluxDB version 0.5.0-rc1 is out! This release adds significant improvements to clustering, eviction of old data, and 99.99th percentile write performance. We&amp;rsquo;ve also added a cool new feature to continuous queries and given the admin interface some love. The goal of this RC is to put it through serious testing with different loads and failure scenarios. We&amp;rsquo;d like the 0.5.0 line to be ready for production use with a few caveats. Read on for all the details on this big new release.&lt;/p&gt;
 
-&lt;h3 id="toc_0"&gt;Breaking release&lt;/h3&gt;
+&lt;h3 id="breaking-release"&gt;Breaking release&lt;/h3&gt;
 
 &lt;p&gt;All the changes to clustering and the distribution of data break formats between previous releases and this one. If you&amp;rsquo;re upgrading you&amp;rsquo;ll have to blow away your old Raft and DB directories and re-import all of your data. We anticipate that this will be the last breaking change we make for a while. Future breaking changes after the 0.5.0 release will come with a migration tool so that databases can be upgraded without having to re-import everything.&lt;/p&gt;
 
-&lt;h3 id="toc_1"&gt;New clustering and data distribution&lt;/h3&gt;
+&lt;h3 id="new-clustering-and-data-distribution"&gt;New clustering and data distribution&lt;/h3&gt;
 
 &lt;p&gt;The previous version used a consistent hashing algorithm to distribute data across a cluster. This version changes that completely to a sharding style that distributes data based on time. Data is now distributed into shards, which are contiguous blocks of time. There are two levels of storage: long term and short term. You&amp;rsquo;re able to simply drop entire shards for either level whenever you&amp;rsquo;d like. This is a very efficient operation as it just deletes the entire LevelDB instance backing the shard. For more see &lt;a href="https://groups.google.com/forum/#!msg/influxdb/3jQQMXmXd6Q/cGcmFjM-f8YJ"&gt;this detailed writeup of how sharding and clustering work in InfluxDB&lt;/a&gt; going forward.&lt;/p&gt;
 
 &lt;p&gt;This new style enables things like writing in high precision short term data, then automatically writing down-sampled data into longer term storage, and dropping the high precision data after some arbitrary amount of time. The down-sampling can be done automatically with continuous queries. This also makes it simple to expand clusters for new data. Simply add a server, and create upcoming shards on the new server. As the new data is written in it will go to the new servers while the old ones are still available for read queries.&lt;/p&gt;
 
-&lt;h3 id="toc_2"&gt;Write buffering&lt;/h3&gt;
+&lt;h3 id="write-buffering"&gt;Write buffering&lt;/h3&gt;
 
 &lt;p&gt;We&amp;rsquo;ve added a write ahead log (or WAL) to this version. It fills two purposes: buffering writes to the local datastore, and keeping a short term log of writes for any server that goes down that will later need that data replayed. The write buffering to the local datastore should solve the issue with writes that take too long because of LevelDB compactions. The buffer size is configurable and will need to be larger for high volume situations.&lt;/p&gt;
 
-&lt;h3 id="toc_3"&gt;Denormalizing into many series with continuous queries&lt;/h3&gt;
+&lt;h3 id="denormalizing-into-many-series-with-continuous-queries"&gt;Denormalizing into many series with continuous queries&lt;/h3&gt;
 
 &lt;p&gt;Continuous queries received an upgrade that give them the ability to create new series from column values. For example, if you&amp;rsquo;re writing in a series called &lt;code&gt;events&lt;/code&gt; that has data like this:&lt;/p&gt;
 &lt;pre class="highlight json"&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;
-  &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;type&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;click&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
-  &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;user&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;23&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
-  &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;location&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/foo.html&amp;quot;&lt;/span&gt;&lt;span class="w"&gt;
+  &lt;/span&gt;&lt;span class="s2"&gt;"type"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"click"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+  &lt;/span&gt;&lt;span class="s2"&gt;"user"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;23&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+  &lt;/span&gt;&lt;span class="s2"&gt;"location"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"/foo.html"&lt;/span&gt;&lt;span class="w"&gt;
 &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="w"&gt;
 &lt;/span&gt;&lt;/pre&gt;
+
 &lt;p&gt;You can now denormalize that data into streams for each user or event type with continuous queries like this:&lt;/p&gt;
 &lt;pre class="highlight sql"&gt;&lt;span class="k"&gt;select&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;events&lt;/span&gt; &lt;span class="k"&gt;into&lt;/span&gt; &lt;span class="n"&gt;events&lt;/span&gt;&lt;span class="p"&gt;.[&lt;/span&gt;&lt;span class="k"&gt;user&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
 
 &lt;span class="c1"&gt;-- or this
 &lt;/span&gt;&lt;span class="k"&gt;select&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;events&lt;/span&gt; &lt;span class="k"&gt;into&lt;/span&gt; &lt;span class="n"&gt;events&lt;/span&gt;&lt;span class="p"&gt;.[&lt;/span&gt;&lt;span class="k"&gt;user&lt;/span&gt;&lt;span class="p"&gt;].[&lt;/span&gt;&lt;span class="k"&gt;type&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
 &lt;/pre&gt;
+
 &lt;p&gt;Since not all characters make valid series names, the values will be cleaned. &lt;code&gt;/&lt;/code&gt; turns into &lt;code&gt;.&lt;/code&gt; while spaces turn into &lt;code&gt;_&lt;/code&gt; and other invalid characters are removed. Once we enable continuous queries to start from a given timestamp, you&amp;rsquo;ll be able to backfill these indexes with old data.&lt;/p&gt;
 
-&lt;h3 id="toc_4"&gt;We want to hear from you!&lt;/h3&gt;
+&lt;h3 id="we-want-to-hear-from-you!"&gt;We want to hear from you!&lt;/h3&gt;
 
 &lt;p&gt;We&amp;rsquo;ll be testing this release extensively in both single server and clustered modes under different write loads and failure scenarios. If you see anything in your testing like high memory or CPU usage, crashes, or other odd behavior, let us know on the &lt;a href="https://groups.google.com/forum/#!forum/influxdb"&gt;InfluxDB mailing list&lt;/a&gt; or at &lt;a href="mailto:support@influxdb.com"&gt;support@influxdb.com&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;We&amp;rsquo;re also looking for case studies of InfluxDB in use. If you&amp;rsquo;re using InfluxDB we&amp;rsquo;d love to hear about it. We&amp;rsquo;ll send you a shirt, answer questions and give support, or generally sing your praises.&lt;/p&gt;
 
-&lt;h3 id="toc_5"&gt;Caveats on production use&lt;/h3&gt;
+&lt;h3 id="caveats-on-production-use"&gt;Caveats on production use&lt;/h3&gt;
 
 &lt;p&gt;I mentioned there would be some caveats to production use. In addition to more general testing and live use, there are a few features that we consider fairly important for using InfluxDB in production. The first is the ability to move shards between servers, which enables the replacement of downed nodes in a cluster. Version 0.6.0 will add this feature, but you could certainly run in production before this. The second is the ability to backup a database, which is also slated for the next release.&lt;/p&gt;
 
 &lt;p&gt;That being said, if you&amp;rsquo;re comfortable using early software, we&amp;rsquo;d love to help you out. Let us know if there&amp;rsquo;s anything you need.&lt;/p&gt;
 
-&lt;h3 id="toc_6"&gt;Getting the release&lt;/h3&gt;
+&lt;h3 id="getting-the-release"&gt;Getting the release&lt;/h3&gt;
 
 &lt;p&gt;The latest releases have been updated for Ubuntu, Debian, RedHat, CentOS, and the source tarballs. Head to the &lt;a href="http://influxdb.org/download/"&gt;InfluxDB download page&lt;/a&gt; to grab them. If you&amp;rsquo;re on OSX, watch &lt;a href="https://github.com/Homebrew/homebrew/pull/27012"&gt;this Homebrew pull request&lt;/a&gt;. Once it&amp;rsquo;s merged in do:&lt;/p&gt;
 &lt;pre class="highlight shell"&gt;brew update &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; brew install influxdb --devel
 &lt;/pre&gt;
+
 &lt;p&gt;If you&amp;rsquo;re upgrading from a previous version you&amp;rsquo;ll need to delete your Raft and DB directories.&lt;/p&gt;
 </content>
   </entry>
@@ -182,46 +185,46 @@
     <title>Building Custom Interfaces For InfluxDB</title>
     <link rel="alternate" href="http://influxdb.org/blog/2013/12/02/building_custom_interfaces_for_influxdb.html"/>
     <id>http://influxdb.org/blog/2013/12/02/building_custom_interfaces_for_influxdb.html</id>
-    <published>2013-12-02T00:00:00Z</published>
-    <updated>2013-12-04T09:55:59-05:00</updated>
+    <published>2013-12-01T19:00:00-05:00</published>
+    <updated>2013-12-05T11:22:36-05:00</updated>
     <author>
       <name>Todd Persen</name>
     </author>
     <content type="html">&lt;p&gt;In addition to shipping with a basic admin interface, InfluxDB also allows you to create &lt;a href="/docs/interfaces/custom.html"&gt;custom interfaces&lt;/a&gt; with a little bit of HTML and JavaScript and drop them into the admin interface as plugins. This makes it easy to build custom dashboards or reporting interfaces that you can share with others. In this post, we&amp;rsquo;ll walk through the basic concepts of building a plugin and put together a quick visualization example.&lt;/p&gt;
 
-&lt;h3 id="toc_0"&gt;Getting Started&lt;/h3&gt;
+&lt;h3 id="getting-started"&gt;Getting Started&lt;/h3&gt;
 
 &lt;p&gt;You&amp;rsquo;ll need to be running version 0.3.2 or greater of InfluxDB for this to work (&lt;code&gt;brew update &amp;amp;&amp;amp; brew upgrade influxdb&lt;/code&gt;). First, it helps to know how the admin interface is structured so that you get a better sense of the world in which your custom interface will live. The &lt;a href="https://github.com/influxdb/influxdb-admin"&gt;admin interface&lt;/a&gt; is built as a single-page application written in &lt;a href="http://angularjs.org/"&gt;AngularJS&lt;/a&gt;. Custom interfaces are loaded within an iframe, so that they are effectively isolated from the rest of the admin interface. This means that you will need to load your own JavaScript and CSS assets, but also means that you&amp;rsquo;re free to build the application as you wish. The only requirement is that you build it as a single-page application, so that it doesn&amp;rsquo;t navigate the browser away from the container.&lt;/p&gt;
 
 &lt;p&gt;Since the admin interface is responsible for authentication, it exposes an InfluxDB connection that can be accessed from within the iframe so that you aren&amp;rsquo;t required to re-authenticate your custom interface when it loads. You can access this as &lt;code&gt;window.parent.window.influxdb&lt;/code&gt; or just &lt;code&gt;parent.influxdb&lt;/code&gt;, and the interface will conform to that of the &lt;a href="/docs/libraries/javascript.html"&gt;InfluxDB JavaScript Library&lt;/a&gt;.&lt;/p&gt;
 
-&lt;h3 id="toc_1"&gt;How InfluxDB Organizes Custom Interfaces&lt;/h3&gt;
+&lt;h3 id="how-influxdb-organizes-custom-interfaces"&gt;How InfluxDB Organizes Custom Interfaces&lt;/h3&gt;
 
 &lt;p&gt;When you look at the InfluxDB configuration file, you&amp;rsquo;ll see a variable called &lt;code&gt;AdminAssetsDir&lt;/code&gt;. This is the path that admin interface assets are served from. The &lt;code&gt;index.html&lt;/code&gt; that ships with InfluxDB is the starting point for the admin interface. There is also a subfolder called &lt;code&gt;interfaces&lt;/code&gt; which is where the custom interfaces live. By default, InfluxDB comes with an interface called &lt;code&gt;default&lt;/code&gt;, but you can make your own by creating a subfolder with an appropriate name. These names should be lowercase and underscored, as they will be converted into human readable names automatically. Let&amp;rsquo;s call this one &lt;code&gt;example&lt;/code&gt;.&lt;/p&gt;
 
-&lt;h3 id="toc_2"&gt;Starting With Some HTML&lt;/h3&gt;
+&lt;h3 id="starting-with-some-html"&gt;Starting With Some HTML&lt;/h3&gt;
 
 &lt;p&gt;This example interface is going to pull in some data from an InfluxDB instance and graph it for us, just like we might want on a dashboard. Let&amp;rsquo;s start by setting up an quick framework, which will be a basic HTML page with jQuery, D3, Rickshaw, and Bootstrap. Notice that we don&amp;rsquo;t need to include the InfluxDB library because it&amp;rsquo;s already loaded in the parent container, which we&amp;rsquo;ll leverage. We&amp;rsquo;ll also add a div with an id of &lt;code&gt;chart&lt;/code&gt;, so that we can insert a graph into it.&lt;/p&gt;
 &lt;pre class="highlight html"&gt;&lt;span class="nt"&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
   &lt;span class="nt"&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
     &lt;span class="nt"&gt;&amp;lt;title&amp;gt;&lt;/span&gt;InfluxDB Custom Interface Example&lt;span class="nt"&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
-    &lt;span class="nt"&gt;&amp;lt;script &lt;/span&gt;&lt;span class="na"&gt;src=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;http://code.jquery.com/jquery-2.0.3.min.js&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
-    &lt;span class="nt"&gt;&amp;lt;script &lt;/span&gt;&lt;span class="na"&gt;src=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;http://d3js.org/d3.v3.min.js&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
-    &lt;span class="nt"&gt;&amp;lt;script &lt;/span&gt;&lt;span class="na"&gt;src=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;http://influxdb.org/javascripts/vendor/rickshaw.js&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
-    &lt;span class="nt"&gt;&amp;lt;script &lt;/span&gt;&lt;span class="na"&gt;src=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;/javascripts/interfaces/example.js&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;script &lt;/span&gt;&lt;span class="na"&gt;src=&lt;/span&gt;&lt;span class="s"&gt;"http://code.jquery.com/jquery-2.0.3.min.js"&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;"text/javascript"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;script &lt;/span&gt;&lt;span class="na"&gt;src=&lt;/span&gt;&lt;span class="s"&gt;"http://d3js.org/d3.v3.min.js"&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;"text/javascript"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;script &lt;/span&gt;&lt;span class="na"&gt;src=&lt;/span&gt;&lt;span class="s"&gt;"http://influxdb.org/javascripts/vendor/rickshaw.js"&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;"text/javascript"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;script &lt;/span&gt;&lt;span class="na"&gt;src=&lt;/span&gt;&lt;span class="s"&gt;"/javascripts/interfaces/example.js"&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;"text/javascript"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
 
-    &lt;span class="nt"&gt;&amp;lt;link&lt;/span&gt; &lt;span class="na"&gt;href=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;http://influxdb.org/stylesheets/vendor/rickshaw.css&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;media=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;screen&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;rel=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;stylesheet&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/css&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class="nt"&gt;&amp;lt;link&lt;/span&gt; &lt;span class="na"&gt;href=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;media=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;screen&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;rel=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;stylesheet&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/css&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;link&lt;/span&gt; &lt;span class="na"&gt;href=&lt;/span&gt;&lt;span class="s"&gt;"http://influxdb.org/stylesheets/vendor/rickshaw.css"&lt;/span&gt; &lt;span class="na"&gt;media=&lt;/span&gt;&lt;span class="s"&gt;"screen"&lt;/span&gt; &lt;span class="na"&gt;rel=&lt;/span&gt;&lt;span class="s"&gt;"stylesheet"&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;"text/css"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;link&lt;/span&gt; &lt;span class="na"&gt;href=&lt;/span&gt;&lt;span class="s"&gt;"//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"&lt;/span&gt; &lt;span class="na"&gt;media=&lt;/span&gt;&lt;span class="s"&gt;"screen"&lt;/span&gt; &lt;span class="na"&gt;rel=&lt;/span&gt;&lt;span class="s"&gt;"stylesheet"&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;"text/css"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
   &lt;span class="nt"&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
   &lt;span class="nt"&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
-    &lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;container&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
-      &lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;row&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
-        &lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;col-md-12&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;"container"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+      &lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;"row"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;"col-md-12"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
           &lt;span class="nt"&gt;&amp;lt;h1&amp;gt;&lt;/span&gt;Important Dashboard&lt;span class="nt"&gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;
-          &lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;id=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;chart_container&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
-            &lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;id=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;y_axis&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-            &lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;id=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;x_axis&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-            &lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;id=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;chart&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;id=&lt;/span&gt;&lt;span class="s"&gt;"chart_container"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;id=&lt;/span&gt;&lt;span class="s"&gt;"y_axis"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;id=&lt;/span&gt;&lt;span class="s"&gt;"x_axis"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;id=&lt;/span&gt;&lt;span class="s"&gt;"chart"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
           &lt;span class="nt"&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
         &lt;span class="nt"&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
       &lt;span class="nt"&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
@@ -229,6 +232,7 @@
   &lt;span class="nt"&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
 &lt;span class="nt"&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
 &lt;/pre&gt;
+
 &lt;p&gt;Save this as &lt;code&gt;index.html&lt;/code&gt; inside the subfolder called &lt;code&gt;example&lt;/code&gt;, which should leave us with a structure like this:&lt;/p&gt;
 &lt;pre class="highlight shell"&gt;admin/
   index.html
@@ -238,29 +242,30 @@
     example/
       index.html
 &lt;/pre&gt;
-&lt;h3 id="toc_3"&gt;Connecting With Some JavaScript&lt;/h3&gt;
+
+&lt;h3 id="connecting-with-some-javascript"&gt;Connecting With Some JavaScript&lt;/h3&gt;
 
 &lt;p&gt;Next, we need to fetch data from the server and graph it on the page. To do this, we just need to use the InfluxDB object from the parent window (remember, this is available as &lt;code&gt;parent.influxdb&lt;/code&gt;) and then hand the data off to Rickshaw and D3 for graphing. For this example, we&amp;rsquo;ll assume that there is a table called &lt;code&gt;posts&lt;/code&gt; from which we can query data grouped by day.&lt;/p&gt;
 &lt;pre class="highlight javascript"&gt;&lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-  &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;input&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;click&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-    &lt;span class="nx"&gt;parent&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;influxdb&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;query&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;SELECT COUNT(message) FROM posts WHERE time &amp;gt; now() - 365d GROUP BY time(24h);&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;points&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"input"&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;click&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="nx"&gt;parent&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;influxdb&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;query&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"SELECT COUNT(message) FROM posts WHERE time &amp;gt; now() - 365d GROUP BY time(24h);"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;points&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
       &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;points&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;map&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;point&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
         &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="na"&gt;x&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;point&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;time&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="mi"&gt;1000&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="na"&gt;y&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;point&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;count&lt;/span&gt; &lt;span class="p"&gt;};&lt;/span&gt;
       &lt;span class="p"&gt;}).&lt;/span&gt;&lt;span class="nx"&gt;reverse&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
 
       &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;graph&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;Rickshaw&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Graph&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
-        &lt;span class="na"&gt;element&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;querySelector&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;#chart&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+        &lt;span class="na"&gt;element&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;querySelector&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"#chart"&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
         &lt;span class="na"&gt;width&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;1100&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
         &lt;span class="na"&gt;height&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;200&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="na"&gt;renderer&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;line&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="na"&gt;series&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[{&lt;/span&gt; &lt;span class="na"&gt;data&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="na"&gt;color&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;steelblue&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;}]&lt;/span&gt;
+        &lt;span class="na"&gt;renderer&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;'line'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="na"&gt;series&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[{&lt;/span&gt; &lt;span class="na"&gt;data&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="na"&gt;color&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;'steelblue'&lt;/span&gt; &lt;span class="p"&gt;}]&lt;/span&gt;
       &lt;span class="p"&gt;});&lt;/span&gt;
 
       &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;xAxis&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;Rickshaw&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Graph&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Axis&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Time&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt; &lt;span class="na"&gt;graph&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;graph&lt;/span&gt; &lt;span class="p"&gt;});&lt;/span&gt;
       &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;yAxis&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;Rickshaw&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Graph&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Axis&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Y&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
         &lt;span class="na"&gt;graph&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;graph&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="na"&gt;orientation&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;left&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="na"&gt;element&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getElementById&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;y_axis&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="na"&gt;orientation&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;'left'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="na"&gt;element&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getElementById&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'y_axis'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
       &lt;span class="p"&gt;});&lt;/span&gt;
 
       &lt;span class="nx"&gt;xAxis&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;render&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
@@ -270,7 +275,8 @@
   &lt;span class="p"&gt;});&lt;/span&gt;
 &lt;span class="p"&gt;});&lt;/span&gt;
 &lt;/pre&gt;
-&lt;h3 id="toc_4"&gt;Finish It Off With A Little Style&lt;/h3&gt;
+
+&lt;h3 id="finish-it-off-with-a-little-style"&gt;Finish It Off With A Little Style&lt;/h3&gt;
 
 &lt;p&gt;To make the graph look nice, we can add a little bit of CSS to enhance the layout of the axes and labels. This is pretty standard, but should give you an idea how to get started on your own styling.&lt;/p&gt;
 &lt;pre class="highlight css"&gt;&lt;span class="nf"&gt;#chart_container&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
@@ -295,13 +301,14 @@
   &lt;span class="nl"&gt;bottom&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="m"&gt;-15px&lt;/span&gt; &lt;span class="cp"&gt;!important&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;
-&lt;h3 id="toc_5"&gt;Seeing It All Come Together&lt;/h3&gt;
+
+&lt;h3 id="seeing-it-all-come-together"&gt;Seeing It All Come Together&lt;/h3&gt;
 
 &lt;p&gt;If we put all of the pieces in the right place, we should see our interface appear under the Interfaces tab when logging in as a database user. Though it&amp;rsquo;s an extremely simple case, the resulting output should look something like this:&lt;/p&gt;
 
 &lt;p&gt;&lt;img alt="Screenshot Of A Custom Interface" src="/images/custom_interface.png" /&gt;&lt;/p&gt;
 
-&lt;h3 id="toc_6"&gt;Making It Easier With The Asset Pipeline&lt;/h3&gt;
+&lt;h3 id="making-it-easier-with-the-asset-pipeline"&gt;Making It Easier With The Asset Pipeline&lt;/h3&gt;
 
 &lt;p&gt;In building this example on your own, you could drop the JavaScript into a &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt; tag and the CSS into a &lt;code&gt;&amp;lt;style&amp;gt;&lt;/code&gt; tag embedded within the page. Alternatively, you could fork the &lt;a href="https://github.com/influxdb/influxdb-admin"&gt;admin interface repo&lt;/a&gt;, which is built with middleman, and use the asset pipeline to separate your components more cleanly. You can use the default interface as an example.&lt;/p&gt;
 
@@ -312,22 +319,22 @@
     <title>InfluxDB v0.4.0 &amp;ndash; Breaking changes and tons of new features</title>
     <link rel="alternate" href="http://influxdb.org/blog/2013/11/27/influxdb_v0_4_0-breaking_changes_and_tons_of_new_features.html"/>
     <id>http://influxdb.org/blog/2013/11/27/influxdb_v0_4_0-breaking_changes_and_tons_of_new_features.html</id>
-    <published>2013-11-27T00:00:00Z</published>
-    <updated>2013-12-02T15:04:09-05:00</updated>
+    <published>2013-11-26T19:00:00-05:00</published>
+    <updated>2013-12-05T11:22:36-05:00</updated>
     <author>
       <name>Paul Dix</name>
     </author>
     <content type="html">&lt;p&gt;InfluxDB has some new features, support for custom dashboards, and there are a bunch of new client libraries that have come out since we announced the project. Most importantly, we&amp;rsquo;re planning a release next week that changes something on the underlying data storage. That means that without a migration, all your data will go away. Read on for more details and how to potentially avoid this fate.&lt;/p&gt;
 
-&lt;h3 id="toc_0"&gt;Breaking Release&lt;/h3&gt;
+&lt;h3 id="breaking-release"&gt;Breaking Release&lt;/h3&gt;
 
 &lt;p&gt;Next week we&amp;rsquo;ll be releasing v0.4.0 of InfluxDB. It changes a few things about the underlying storage so anyone upgrading will need to blow away their old database. If you&amp;rsquo;re already running InfluxDB in production and have data you don&amp;rsquo;t want to lose, drop us a line at &lt;a href="mailto:influxdb@errplane.com"&gt;influxdb@errplane.com&lt;/a&gt; and let us know. We can work with you to create a migration so that you&amp;rsquo;ll keep your old data. Actually, even if you don&amp;rsquo;t care about the data, drop us a line to let us know you&amp;rsquo;re running in production! We&amp;rsquo;d love to advertise which companies are using InfluxDB.&lt;/p&gt;
 
-&lt;h3 id="toc_1"&gt;New Features&lt;/h3&gt;
+&lt;h3 id="new-features"&gt;New Features&lt;/h3&gt;
 
 &lt;p&gt;We&amp;rsquo;ve had  a ton of bug fixes and new features in the last few weeks. Most notably: first, last, and histogram aggregate functions, table aliases, regex = and ! operators on the where clause, and a functioning Homebrew recipe. Just &lt;code&gt;brew update &amp;amp;&amp;amp; brew upgrade influxdb&lt;/code&gt; to get it running locally. More details on the changes can be found in the &lt;a href="https://github.com/influxdb/influxdb/blob/master/CHANGELOG.md"&gt;InfluxDB changelog&lt;/a&gt;.&lt;/p&gt;
 
-&lt;h3 id="toc_2"&gt;New Libraries&lt;/h3&gt;
+&lt;h3 id="new-libraries"&gt;New Libraries&lt;/h3&gt;
 
 &lt;p&gt;People have jumped into contributing libraries and integrations to InfluxDB. Here&amp;rsquo;s a list of some of them (and let us know if you&amp;rsquo;ve written something you want to share!)&lt;/p&gt;
 
@@ -340,11 +347,11 @@
 &lt;li&gt;Plenty of options for &lt;a href="http://influxdb.org/docs/deployment.html"&gt;deployment&lt;/a&gt; including Chef, Puppet, and Docker&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id="toc_3"&gt;Custom Interfaces &amp;amp; Dashboards&lt;/h3&gt;
+&lt;h3 id="custom-interfaces-&amp;amp;-dashboards"&gt;Custom Interfaces &amp;amp; Dashboards&lt;/h3&gt;
 
 &lt;p&gt;We&amp;rsquo;ve set up a structure for everyone to create their own custom dashboards and potentially share them with the community. Find out about about it on the InfluxDB docs for creating &lt;a href="http://influxdb.org/docs/interfaces/"&gt;custom interfaces&lt;/a&gt;.&lt;/p&gt;
 
-&lt;h3 id="toc_4"&gt;Hackfest&lt;/h3&gt;
+&lt;h3 id="hackfest"&gt;Hackfest&lt;/h3&gt;
 
 &lt;p&gt;We&amp;rsquo;ve started a &lt;a href="http://www.meetup.com/nyc-influxdb-user-group"&gt;Meetup for NYC users of InfluxDB&lt;/a&gt;. We&amp;rsquo;ve also scheduled the first InfluxDB hackfest for &lt;a href="http://www.meetup.com/NYC-InfluxDB-User-Group/events/150732352/"&gt;Monday, December 2nd&lt;/a&gt;. If you&amp;rsquo;re in the city, join the group and RSVP! We&amp;rsquo;ll be there to answer any questions, and write sweet code. We&amp;rsquo;re thinking we can write some data collection stuff (maybe framework integrations?), and maybe a new interface or two.&lt;/p&gt;
 

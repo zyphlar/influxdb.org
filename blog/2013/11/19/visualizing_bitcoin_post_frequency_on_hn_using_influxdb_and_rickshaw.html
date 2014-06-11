@@ -1,7 +1,4 @@
-<!DOCTYPE html><html><head><meta charset="utf-8" /><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><title>Visualizing Bitcoin post frequency on HN with InfluxDB and Rickshaw</title><link href="/stylesheets/normalize.css" media="screen" rel="stylesheet" type="text/css" />
-<link href="/stylesheets/foundation.css" media="screen" rel="stylesheet" type="text/css" />
-<link href="/stylesheets/all.css" media="screen" rel="stylesheet" type="text/css" />
-<link href="/stylesheets/highlighting.css" media="screen" rel="stylesheet" type="text/css" /><link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700" media="screen" rel="stylesheet" type="text/css" /><link href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" media="screen" rel="stylesheet" type="text/css" /><script src="/javascripts/all.js" type="text/javascript"></script></head><body class="blog blog_2013 blog_2013_11 blog_2013_11_19 blog_2013_11_19_visualizing_bitcoin_post_frequency_on_hn_using_influxdb_and_rickshaw"><section class="nav"><div class="row"><nav class="top-bar hide-for-small"><ul class="title-area"><li class="name"><a href="/"><img src="/images/influxdb-light-24px.png" /></a></li></ul><li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li><section class="top-bar-section"><ul class="right"><li class="divider"></li><li><a href="/docs/v0.6/introduction/overview.html">Overview</a></li><li class="divider"></li><li><a href="https://customers.influxdb.com">Support & Hosting</a></li><li class="divider"></li><li><a href="/blog">Blog</a></li><li class="divider"></li><li><a href="/docs/v0.6/introduction/getting_started.html">Docs</a></li><li class="divider"></li><li><a href="/community">Community</a></li><li class="divider"></li><li><a target="_" href="http://play.influxdb.org">Play</a></li><li class="divider"></li><li class="has-form"><a class="button" href="/download">Download</a></li></ul></section></nav></div></section><section class="main"><div class="row"><div class="large-12 columns"><h1 class="docs header">InfluxDB Blog</h1><hr /></div></div><div class="row padding-bottom-large"><div class="large-8 columns"><h2>Visualizing Bitcoin post frequency on HN with InfluxDB and Rickshaw</h2><div class="row"><div class="large-9 columns"><h5 class="subheader">November 19, 2013 by Todd Persen</h5></div><div class="large-3 columns"><p id="twitter"><a class="twitter-share-button" data-via="influxdb" href="https://twitter.com/share"></a></p><script type="text/javascript">!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></div></div><p>Based on casual observation, the crowd at HackerNews seems to be totally obsessed 
+<!DOCTYPE html><html><head><meta charset="utf-8" /><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><title>Visualizing Bitcoin post frequency on HN with InfluxDB and Rickshaw</title><script src="//fast.fonts.net/jsapi/2de9def5-2dd1-4d89-b4bb-cd7e5f821645.js" type="text/javascript"></script><link href="/stylesheets/normalize.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/foundation.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/all.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/highlighting.css" rel="stylesheet" type="text/css" /><link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700" rel="stylesheet" type="text/css" /><link href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" rel="stylesheet" type="text/css" /><script src="/javascripts/all.js" type="text/javascript"></script></head><body class="blog blog_2013 blog_2013_11 blog_2013_11_19 blog_2013_11_19_visualizing_bitcoin_post_frequency_on_hn_using_influxdb_and_rickshaw"><header class="navigation"><div class="menu-wrapper"><a class="logo" href="/"><img src="/images/influxdb-light400.png" /></a><p class="navigation-menu-button" id="js-mobile-menu">MENU</p><div class="nav"><ul id="navigation-menu"><li class="nav-link"><a href="/docs/v0.7/introduction/overview.html">Overview</a></li><li class="nav-link"><a target="blank" href="https://customers.influxdb.com">Support & Hosting</a></li><li class="nav-link"><a href="/blog">Blog</a></li><li class="nav-link"><a href="/docs/v0.7/introduction/getting_started.html">Docs</a></li><li class="nav-link"><a href="/community">Community</a></li><li class="nav-link"><a target="blank" href="http://play.influxdb.org">Play</a></li></ul></div><div class="navigation-tools"><a class="sign-up" href="/download">Download</a></div></div></header><section class="main"><div class="row"><div class="large-12 columns"><h1 class="docs header">InfluxDB Blog</h1><hr /></div></div><div class="row padding-bottom-large"><div class="large-8 columns"><h2>Visualizing Bitcoin post frequency on HN with InfluxDB and Rickshaw</h2><div class="row"><div class="large-9 columns"><h5 class="subheader">November 19, 2013 by Todd Persen</h5></div><div class="large-3 columns"><p id="twitter"><a class="twitter-share-button" data-via="influxdb" href="https://twitter.com/share"></a></p><script type="text/javascript">!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></div></div><p>Based on casual observation, the crowd at HackerNews seems to be totally obsessed 
 with Bitcoin and it seems to be reaching a fever pitch. What better way to 
 look at the HN Bitcoin obsession than with a visualization? In this post we&rsquo;ll 
 use InfluxDB and Rickshaw to create a visualization of the number of posts with 
@@ -16,48 +13,49 @@ a data visualization library written in JavaScript.</p>
 open <a href="https://www.hnsearch.com/api">Hacker News API</a> to get a list of the last 1,000 
 posts containing the phrase <code>bitcoin</code> in the title. Here&rsquo;s a quick ruby script that 
 also leverages the InfluxDB rubygem for writing data into the database:</p>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s2">&quot;rubygems&quot;</span>
-<span class="nb">require</span> <span class="s2">&quot;net/http&quot;</span>
-<span class="nb">require</span> <span class="s2">&quot;net/https&quot;</span>
-<span class="nb">require</span> <span class="s2">&quot;uri&quot;</span>
-<span class="nb">require</span> <span class="s2">&quot;json&quot;</span>
-<span class="nb">require</span> <span class="s2">&quot;time&quot;</span>
-<span class="nb">require</span> <span class="s2">&quot;influxdb&quot;</span>
+<pre class="highlight ruby"><span class="nb">require</span> <span class="s2">"rubygems"</span>
+<span class="nb">require</span> <span class="s2">"net/http"</span>
+<span class="nb">require</span> <span class="s2">"net/https"</span>
+<span class="nb">require</span> <span class="s2">"uri"</span>
+<span class="nb">require</span> <span class="s2">"json"</span>
+<span class="nb">require</span> <span class="s2">"time"</span>
+<span class="nb">require</span> <span class="s2">"influxdb"</span>
 
-<span class="no">QUERY</span> <span class="o">=</span> <span class="s2">&quot;bitcoin&quot;</span>
+<span class="no">QUERY</span> <span class="o">=</span> <span class="s2">"bitcoin"</span>
 
-<span class="n">http</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="nf">.new</span><span class="p">(</span><span class="s2">&quot;api.thriftdb.com&quot;</span><span class="p">,</span> <span class="mi">443</span><span class="p">)</span>
-<span class="n">http</span><span class="nf">.use_ssl</span> <span class="o">=</span> <span class="kp">true</span>
+<span class="n">http</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"api.thriftdb.com"</span><span class="p">,</span> <span class="mi">443</span><span class="p">)</span>
+<span class="n">http</span><span class="p">.</span><span class="nf">use_ssl</span> <span class="o">=</span> <span class="kp">true</span>
 
-<span class="n">influxdb</span> <span class="o">=</span> <span class="no">InfluxDB</span><span class="o">::</span><span class="no">Client</span><span class="nf">.new</span> <span class="s2">&quot;bitcoin&quot;</span><span class="p">,</span> <span class="p">{</span>
-  <span class="ss">:host</span> <span class="o">=&gt;</span> <span class="s2">&quot;sandbox.influxdb.org&quot;</span><span class="p">,</span>
+<span class="n">influxdb</span> <span class="o">=</span> <span class="no">InfluxDB</span><span class="o">::</span><span class="no">Client</span><span class="p">.</span><span class="nf">new</span> <span class="s2">"bitcoin"</span><span class="p">,</span> <span class="p">{</span>
+  <span class="ss">:host</span> <span class="o">=&gt;</span> <span class="s2">"sandbox.influxdb.org"</span><span class="p">,</span>
   <span class="ss">:port</span> <span class="o">=&gt;</span> <span class="mi">9061</span><span class="p">,</span>
-  <span class="ss">:username</span> <span class="o">=&gt;</span> <span class="s2">&quot;todd&quot;</span><span class="p">,</span>
-  <span class="ss">:password</span> <span class="o">=&gt;</span> <span class="s2">&quot;password&quot;</span>
+  <span class="ss">:username</span> <span class="o">=&gt;</span> <span class="s2">"todd"</span><span class="p">,</span>
+  <span class="ss">:password</span> <span class="o">=&gt;</span> <span class="s2">"password"</span>
 <span class="p">}</span>
 
-<span class="p">(</span><span class="mi">0</span><span class="nf">..</span><span class="mi">9</span><span class="p">)</span><span class="nf">.each</span> <span class="k">do</span> <span class="o">|</span><span class="n">count</span><span class="o">|</span>
+<span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="nf">.</span><span class="mi">9</span><span class="p">).</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">count</span><span class="o">|</span>
   <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;q&quot;</span> <span class="o">=&gt;</span> <span class="no">QUERY</span><span class="p">,</span>
-    <span class="s2">&quot;start&quot;</span> <span class="o">=&gt;</span> <span class="mi">100</span><span class="o">*</span><span class="n">count</span><span class="p">,</span>
-    <span class="s2">&quot;limit&quot;</span> <span class="o">=&gt;</span> <span class="mi">100</span><span class="p">,</span>
-    <span class="s2">&quot;sortby&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;create_ts desc&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;weights[title]&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;1.0&quot;</span><span class="p">,</span>
+    <span class="s2">"q"</span> <span class="o">=&gt;</span> <span class="no">QUERY</span><span class="p">,</span>
+    <span class="s2">"start"</span> <span class="o">=&gt;</span> <span class="mi">100</span><span class="o">*</span><span class="n">count</span><span class="p">,</span>
+    <span class="s2">"limit"</span> <span class="o">=&gt;</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s2">"sortby"</span> <span class="o">=&gt;</span> <span class="s2">"create_ts desc"</span><span class="p">,</span>
+    <span class="s2">"weights[title]"</span> <span class="o">=&gt;</span> <span class="s2">"1.0"</span><span class="p">,</span>
   <span class="p">}</span>
 
-  <span class="n">request</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="o">::</span><span class="no">Get</span><span class="nf">.new</span> <span class="s2">&quot;/api.hnsearch.com/items/_search?&quot;</span> <span class="o">+</span>
-    <span class="no">URI</span><span class="nf">.encode_www_form</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
-  <span class="n">response</span> <span class="o">=</span> <span class="n">http</span><span class="nf">.request</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
-  <span class="n">data</span> <span class="o">=</span> <span class="no">JSON</span><span class="nf">.parse</span><span class="p">(</span><span class="n">response</span><span class="nf">.body</span><span class="p">)</span>
+  <span class="n">request</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="o">::</span><span class="no">Get</span><span class="p">.</span><span class="nf">new</span> <span class="s2">"/api.hnsearch.com/items/_search?"</span> <span class="o">+</span>
+    <span class="no">URI</span><span class="p">.</span><span class="nf">encode_www_form</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+  <span class="n">response</span> <span class="o">=</span> <span class="n">http</span><span class="p">.</span><span class="nf">request</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+  <span class="n">data</span> <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="nf">body</span><span class="p">)</span>
 
-  <span class="n">data</span><span class="o">[</span><span class="s2">&quot;results&quot;</span><span class="o">]</span><span class="nf">.each</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
-    <span class="n">influxdb</span><span class="nf">.write_point</span><span class="p">(</span><span class="s2">&quot;posts&quot;</span><span class="p">,</span> <span class="p">{</span>
-      <span class="ss">:message</span> <span class="o">=&gt;</span> <span class="n">result</span><span class="o">[</span><span class="s2">&quot;item&quot;</span><span class="o">][</span><span class="s2">&quot;title&quot;</span><span class="o">]</span><span class="p">,</span>
-      <span class="ss">:time</span> <span class="o">=&gt;</span> <span class="no">Time</span><span class="nf">.parse</span><span class="p">(</span><span class="n">result</span><span class="o">[</span><span class="s2">&quot;item&quot;</span><span class="o">][</span><span class="s2">&quot;create_ts&quot;</span><span class="o">]</span><span class="p">)</span><span class="nf">.to_i</span> <span class="o">*</span> <span class="mi">1000</span>
+  <span class="n">data</span><span class="o">[</span><span class="s2">"results"</span><span class="o">]</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
+    <span class="n">influxdb</span><span class="p">.</span><span class="nf">write_point</span><span class="p">(</span><span class="s2">"posts"</span><span class="p">,</span> <span class="p">{</span>
+      <span class="ss">:message</span> <span class="o">=&gt;</span> <span class="n">result</span><span class="o">[</span><span class="s2">"item"</span><span class="o">][</span><span class="s2">"title"</span><span class="o">]</span><span class="p">,</span>
+      <span class="ss">:time</span> <span class="o">=&gt;</span> <span class="no">Time</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">result</span><span class="o">[</span><span class="s2">"item"</span><span class="o">][</span><span class="s2">"create_ts"</span><span class="o">]</span><span class="p">).</span><span class="nf">to_i</span> <span class="o">*</span> <span class="mi">1000</span>
     <span class="p">})</span>
   <span class="k">end</span>
 <span class="k">end</span>
 </pre>
+
 <p>If you don&rsquo;t have a local installation of InfluxDB handy, head on over
 to our <a href="http://play.influxdb.org">InfluxDB Playground</a> and create a free
 database to experiment with. Once we have our data available, we can turn to the fun part - visualization.
@@ -68,26 +66,26 @@ by the gang over at Shutterstock.</p>
 <p>We&rsquo;ll just use the <a href="https://github.com/influxdb/influxdb-js">InfluxDB Javascript Library</a>
 to fetch the data, and then feed that right into a simple line chart in Rickshaw.</p>
 <pre class="highlight javascript"><span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">influxdb</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">InfluxDB</span><span class="p">(</span><span class="s2">&quot;sandbox.influxdb.org&quot;</span><span class="p">,</span> <span class="mi">9061</span><span class="p">,</span> <span class="s2">&quot;todd&quot;</span><span class="p">,</span> <span class="s2">&quot;password&quot;</span><span class="p">,</span> <span class="s2">&quot;bitcoin&quot;</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">influxdb</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">InfluxDB</span><span class="p">(</span><span class="s2">"sandbox.influxdb.org"</span><span class="p">,</span> <span class="mi">9061</span><span class="p">,</span> <span class="s2">"todd"</span><span class="p">,</span> <span class="s2">"password"</span><span class="p">,</span> <span class="s2">"bitcoin"</span><span class="p">);</span>
 
-  <span class="nx">influxdb</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span><span class="s2">&quot;SELECT COUNT(message) FROM posts WHERE time &gt; now() - 365d GROUP BY time(24h);&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">points</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">influxdb</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span><span class="s2">"SELECT COUNT(message) FROM posts WHERE time &gt; now() - 365d GROUP BY time(24h);"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">points</span><span class="p">)</span> <span class="p">{</span>
     <span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">points</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">point</span><span class="p">)</span> <span class="p">{</span>
       <span class="k">return</span> <span class="p">{</span> <span class="na">x</span><span class="p">:</span> <span class="nx">point</span><span class="p">.</span><span class="nx">time</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">,</span> <span class="na">y</span><span class="p">:</span> <span class="nx">point</span><span class="p">.</span><span class="nx">count</span> <span class="p">};</span>
     <span class="p">}).</span><span class="nx">reverse</span><span class="p">();</span>
 
     <span class="kd">var</span> <span class="nx">graph</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Rickshaw</span><span class="p">.</span><span class="nx">Graph</span><span class="p">({</span>
-      <span class="na">element</span><span class="p">:</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s2">&quot;#chart&quot;</span><span class="p">),</span>
+      <span class="na">element</span><span class="p">:</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s2">"#chart"</span><span class="p">),</span>
       <span class="na">width</span><span class="p">:</span> <span class="mi">640</span><span class="p">,</span>
       <span class="na">height</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
-      <span class="na">renderer</span><span class="p">:</span> <span class="s1">&#39;line&#39;</span><span class="p">,</span>
-      <span class="na">series</span><span class="p">:</span> <span class="p">[{</span> <span class="na">data</span><span class="p">:</span> <span class="nx">data</span><span class="p">,</span> <span class="na">color</span><span class="p">:</span> <span class="s1">&#39;steelblue&#39;</span> <span class="p">}]</span>
+      <span class="na">renderer</span><span class="p">:</span> <span class="s1">'line'</span><span class="p">,</span>
+      <span class="na">series</span><span class="p">:</span> <span class="p">[{</span> <span class="na">data</span><span class="p">:</span> <span class="nx">data</span><span class="p">,</span> <span class="na">color</span><span class="p">:</span> <span class="s1">'steelblue'</span> <span class="p">}]</span>
     <span class="p">});</span>
 
     <span class="kd">var</span> <span class="nx">xAxis</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Rickshaw</span><span class="p">.</span><span class="nx">Graph</span><span class="p">.</span><span class="nx">Axis</span><span class="p">.</span><span class="nx">Time</span><span class="p">({</span> <span class="na">graph</span><span class="p">:</span> <span class="nx">graph</span> <span class="p">});</span>
     <span class="kd">var</span> <span class="nx">yAxis</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Rickshaw</span><span class="p">.</span><span class="nx">Graph</span><span class="p">.</span><span class="nx">Axis</span><span class="p">.</span><span class="nx">Y</span><span class="p">({</span>
       <span class="na">graph</span><span class="p">:</span> <span class="nx">graph</span><span class="p">,</span>
-      <span class="na">orientation</span><span class="p">:</span> <span class="s1">&#39;left&#39;</span><span class="p">,</span>
-      <span class="na">element</span><span class="p">:</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;y_axis&#39;</span><span class="p">)</span>
+      <span class="na">orientation</span><span class="p">:</span> <span class="s1">'left'</span><span class="p">,</span>
+      <span class="na">element</span><span class="p">:</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'y_axis'</span><span class="p">)</span>
     <span class="p">});</span>
 
     <span class="nx">xAxis</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
@@ -96,6 +94,7 @@ to fetch the data, and then feed that right into a simple line chart in Rickshaw
   <span class="p">});</span>
 <span class="p">});</span>
 </pre>
+
 <p>Since InfluxDB lets us easily query the time series data, all we need is a simple
 transformation and then it&rsquo;s ready to feed directly into Rickshaw.</p>
 
@@ -134,4 +133,4 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
 ga('create', 'UA-45024174-1', 'influxdb.org');
-ga('send', 'pageview');</script><a href="https://github.com/influxdb/influxdb"><img alt="Fork me on GitHub" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" style="position: absolute; top: 0; right: 0; border: 0;" /></a></body></html>
+ga('send', 'pageview');</script></body></html>

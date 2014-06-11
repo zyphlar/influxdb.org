@@ -1,41 +1,38 @@
-<!DOCTYPE html><html><head><meta charset="utf-8" /><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><title>Building Custom Interfaces For InfluxDB</title><link href="/stylesheets/normalize.css" media="screen" rel="stylesheet" type="text/css" />
-<link href="/stylesheets/foundation.css" media="screen" rel="stylesheet" type="text/css" />
-<link href="/stylesheets/all.css" media="screen" rel="stylesheet" type="text/css" />
-<link href="/stylesheets/highlighting.css" media="screen" rel="stylesheet" type="text/css" /><link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700" media="screen" rel="stylesheet" type="text/css" /><link href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" media="screen" rel="stylesheet" type="text/css" /><script src="/javascripts/all.js" type="text/javascript"></script></head><body class="blog blog_2013 blog_2013_12 blog_2013_12_02 blog_2013_12_02_building_custom_interfaces_for_influxdb"><section class="nav"><div class="row"><nav class="top-bar hide-for-small"><ul class="title-area"><li class="name"><a href="/"><img src="/images/influxdb-light-24px.png" /></a></li></ul><li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li><section class="top-bar-section"><ul class="right"><li class="divider"></li><li><a href="/docs/v0.6/introduction/overview.html">Overview</a></li><li class="divider"></li><li><a href="https://customers.influxdb.com">Support & Hosting</a></li><li class="divider"></li><li><a href="/blog">Blog</a></li><li class="divider"></li><li><a href="/docs/v0.6/introduction/getting_started.html">Docs</a></li><li class="divider"></li><li><a href="/community">Community</a></li><li class="divider"></li><li><a target="_" href="http://play.influxdb.org">Play</a></li><li class="divider"></li><li class="has-form"><a class="button" href="/download">Download</a></li></ul></section></nav></div></section><section class="main"><div class="row"><div class="large-12 columns"><h1 class="docs header">InfluxDB Blog</h1><hr /></div></div><div class="row padding-bottom-large"><div class="large-8 columns"><h2>Building Custom Interfaces For InfluxDB</h2><div class="row"><div class="large-9 columns"><h5 class="subheader">December 2, 2013 by Todd Persen</h5></div><div class="large-3 columns"><p id="twitter"><a class="twitter-share-button" data-via="influxdb" href="https://twitter.com/share"></a></p><script type="text/javascript">!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></div></div><p>In addition to shipping with a basic admin interface, InfluxDB also allows you to create <a href="/docs/interfaces/custom.html">custom interfaces</a> with a little bit of HTML and JavaScript and drop them into the admin interface as plugins. This makes it easy to build custom dashboards or reporting interfaces that you can share with others. In this post, we&rsquo;ll walk through the basic concepts of building a plugin and put together a quick visualization example.</p>
+<!DOCTYPE html><html><head><meta charset="utf-8" /><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><title>Building Custom Interfaces For InfluxDB</title><script src="//fast.fonts.net/jsapi/2de9def5-2dd1-4d89-b4bb-cd7e5f821645.js" type="text/javascript"></script><link href="/stylesheets/normalize.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/foundation.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/all.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/highlighting.css" rel="stylesheet" type="text/css" /><link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700" rel="stylesheet" type="text/css" /><link href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" rel="stylesheet" type="text/css" /><script src="/javascripts/all.js" type="text/javascript"></script></head><body class="blog blog_2013 blog_2013_12 blog_2013_12_02 blog_2013_12_02_building_custom_interfaces_for_influxdb"><header class="navigation"><div class="menu-wrapper"><a class="logo" href="/"><img src="/images/influxdb-light400.png" /></a><p class="navigation-menu-button" id="js-mobile-menu">MENU</p><div class="nav"><ul id="navigation-menu"><li class="nav-link"><a href="/docs/v0.7/introduction/overview.html">Overview</a></li><li class="nav-link"><a target="blank" href="https://customers.influxdb.com">Support & Hosting</a></li><li class="nav-link"><a href="/blog">Blog</a></li><li class="nav-link"><a href="/docs/v0.7/introduction/getting_started.html">Docs</a></li><li class="nav-link"><a href="/community">Community</a></li><li class="nav-link"><a target="blank" href="http://play.influxdb.org">Play</a></li></ul></div><div class="navigation-tools"><a class="sign-up" href="/download">Download</a></div></div></header><section class="main"><div class="row"><div class="large-12 columns"><h1 class="docs header">InfluxDB Blog</h1><hr /></div></div><div class="row padding-bottom-large"><div class="large-8 columns"><h2>Building Custom Interfaces For InfluxDB</h2><div class="row"><div class="large-9 columns"><h5 class="subheader">December 2, 2013 by Todd Persen</h5></div><div class="large-3 columns"><p id="twitter"><a class="twitter-share-button" data-via="influxdb" href="https://twitter.com/share"></a></p><script type="text/javascript">!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></div></div><p>In addition to shipping with a basic admin interface, InfluxDB also allows you to create <a href="/docs/interfaces/custom.html">custom interfaces</a> with a little bit of HTML and JavaScript and drop them into the admin interface as plugins. This makes it easy to build custom dashboards or reporting interfaces that you can share with others. In this post, we&rsquo;ll walk through the basic concepts of building a plugin and put together a quick visualization example.</p>
 
-<h3 id="toc_0">Getting Started</h3>
+<h3 id="getting-started">Getting Started</h3>
 
 <p>You&rsquo;ll need to be running version 0.3.2 or greater of InfluxDB for this to work (<code>brew update &amp;&amp; brew upgrade influxdb</code>). First, it helps to know how the admin interface is structured so that you get a better sense of the world in which your custom interface will live. The <a href="https://github.com/influxdb/influxdb-admin">admin interface</a> is built as a single-page application written in <a href="http://angularjs.org/">AngularJS</a>. Custom interfaces are loaded within an iframe, so that they are effectively isolated from the rest of the admin interface. This means that you will need to load your own JavaScript and CSS assets, but also means that you&rsquo;re free to build the application as you wish. The only requirement is that you build it as a single-page application, so that it doesn&rsquo;t navigate the browser away from the container.</p>
 
 <p>Since the admin interface is responsible for authentication, it exposes an InfluxDB connection that can be accessed from within the iframe so that you aren&rsquo;t required to re-authenticate your custom interface when it loads. You can access this as <code>window.parent.window.influxdb</code> or just <code>parent.influxdb</code>, and the interface will conform to that of the <a href="/docs/libraries/javascript.html">InfluxDB JavaScript Library</a>.</p>
 
-<h3 id="toc_1">How InfluxDB Organizes Custom Interfaces</h3>
+<h3 id="how-influxdb-organizes-custom-interfaces">How InfluxDB Organizes Custom Interfaces</h3>
 
 <p>When you look at the InfluxDB configuration file, you&rsquo;ll see a variable called <code>AdminAssetsDir</code>. This is the path that admin interface assets are served from. The <code>index.html</code> that ships with InfluxDB is the starting point for the admin interface. There is also a subfolder called <code>interfaces</code> which is where the custom interfaces live. By default, InfluxDB comes with an interface called <code>default</code>, but you can make your own by creating a subfolder with an appropriate name. These names should be lowercase and underscored, as they will be converted into human readable names automatically. Let&rsquo;s call this one <code>example</code>.</p>
 
-<h3 id="toc_2">Starting With Some HTML</h3>
+<h3 id="starting-with-some-html">Starting With Some HTML</h3>
 
 <p>This example interface is going to pull in some data from an InfluxDB instance and graph it for us, just like we might want on a dashboard. Let&rsquo;s start by setting up an quick framework, which will be a basic HTML page with jQuery, D3, Rickshaw, and Bootstrap. Notice that we don&rsquo;t need to include the InfluxDB library because it&rsquo;s already loaded in the parent container, which we&rsquo;ll leverage. We&rsquo;ll also add a div with an id of <code>chart</code>, so that we can insert a graph into it.</p>
 <pre class="highlight html"><span class="nt">&lt;html&gt;</span>
   <span class="nt">&lt;head&gt;</span>
     <span class="nt">&lt;title&gt;</span>InfluxDB Custom Interface Example<span class="nt">&lt;/title&gt;</span>
-    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;http://code.jquery.com/jquery-2.0.3.min.js&quot;</span> <span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;http://d3js.org/d3.v3.min.js&quot;</span> <span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;http://influxdb.org/javascripts/vendor/rickshaw.js&quot;</span> <span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;/javascripts/interfaces/example.js&quot;</span> <span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"http://code.jquery.com/jquery-2.0.3.min.js"</span> <span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"http://d3js.org/d3.v3.min.js"</span> <span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"http://influxdb.org/javascripts/vendor/rickshaw.js"</span> <span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"/javascripts/interfaces/example.js"</span> <span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;&lt;/script&gt;</span>
 
-    <span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">&quot;http://influxdb.org/stylesheets/vendor/rickshaw.css&quot;</span> <span class="na">media=</span><span class="s">&quot;screen&quot;</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">&quot;//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css&quot;</span> <span class="na">media=</span><span class="s">&quot;screen&quot;</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">"http://influxdb.org/stylesheets/vendor/rickshaw.css"</span> <span class="na">media=</span><span class="s">"screen"</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">"//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"</span> <span class="na">media=</span><span class="s">"screen"</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;/head&gt;</span>
   <span class="nt">&lt;body&gt;</span>
-    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;container&quot;</span><span class="nt">&gt;</span>
-      <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;row&quot;</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;col-md-12&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"container"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"row"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"col-md-12"</span><span class="nt">&gt;</span>
           <span class="nt">&lt;h1&gt;</span>Important Dashboard<span class="nt">&lt;/h1&gt;</span>
-          <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;chart_container&quot;</span><span class="nt">&gt;</span>
-            <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;y_axis&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
-            <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;x_axis&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
-            <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;chart&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+          <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"chart_container"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"y_axis"</span><span class="nt">&gt;&lt;/div&gt;</span>
+            <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"x_axis"</span><span class="nt">&gt;&lt;/div&gt;</span>
+            <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"chart"</span><span class="nt">&gt;&lt;/div&gt;</span>
           <span class="nt">&lt;/div&gt;</span>
         <span class="nt">&lt;/div&gt;</span>
       <span class="nt">&lt;/div&gt;</span>
@@ -43,6 +40,7 @@
   <span class="nt">&lt;/body&gt;</span>
 <span class="nt">&lt;/html&gt;</span>
 </pre>
+
 <p>Save this as <code>index.html</code> inside the subfolder called <code>example</code>, which should leave us with a structure like this:</p>
 <pre class="highlight shell">admin/
   index.html
@@ -52,29 +50,30 @@
     example/
       index.html
 </pre>
-<h3 id="toc_3">Connecting With Some JavaScript</h3>
+
+<h3 id="connecting-with-some-javascript">Connecting With Some JavaScript</h3>
 
 <p>Next, we need to fetch data from the server and graph it on the page. To do this, we just need to use the InfluxDB object from the parent window (remember, this is available as <code>parent.influxdb</code>) and then hand the data off to Rickshaw and D3 for graphing. For this example, we&rsquo;ll assume that there is a table called <code>posts</code> from which we can query data grouped by day.</p>
 <pre class="highlight javascript"><span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;input&quot;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">parent</span><span class="p">.</span><span class="nx">influxdb</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span><span class="s2">&quot;SELECT COUNT(message) FROM posts WHERE time &gt; now() - 365d GROUP BY time(24h);&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">points</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s2">"input"</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">parent</span><span class="p">.</span><span class="nx">influxdb</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span><span class="s2">"SELECT COUNT(message) FROM posts WHERE time &gt; now() - 365d GROUP BY time(24h);"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">points</span><span class="p">)</span> <span class="p">{</span>
       <span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">points</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">point</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">return</span> <span class="p">{</span> <span class="na">x</span><span class="p">:</span> <span class="nx">point</span><span class="p">.</span><span class="nx">time</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">,</span> <span class="na">y</span><span class="p">:</span> <span class="nx">point</span><span class="p">.</span><span class="nx">count</span> <span class="p">};</span>
       <span class="p">}).</span><span class="nx">reverse</span><span class="p">();</span>
 
       <span class="kd">var</span> <span class="nx">graph</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Rickshaw</span><span class="p">.</span><span class="nx">Graph</span><span class="p">({</span>
-        <span class="na">element</span><span class="p">:</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s2">&quot;#chart&quot;</span><span class="p">),</span>
+        <span class="na">element</span><span class="p">:</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s2">"#chart"</span><span class="p">),</span>
         <span class="na">width</span><span class="p">:</span> <span class="mi">1100</span><span class="p">,</span>
         <span class="na">height</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
-        <span class="na">renderer</span><span class="p">:</span> <span class="s1">&#39;line&#39;</span><span class="p">,</span>
-        <span class="na">series</span><span class="p">:</span> <span class="p">[{</span> <span class="na">data</span><span class="p">:</span> <span class="nx">data</span><span class="p">,</span> <span class="na">color</span><span class="p">:</span> <span class="s1">&#39;steelblue&#39;</span> <span class="p">}]</span>
+        <span class="na">renderer</span><span class="p">:</span> <span class="s1">'line'</span><span class="p">,</span>
+        <span class="na">series</span><span class="p">:</span> <span class="p">[{</span> <span class="na">data</span><span class="p">:</span> <span class="nx">data</span><span class="p">,</span> <span class="na">color</span><span class="p">:</span> <span class="s1">'steelblue'</span> <span class="p">}]</span>
       <span class="p">});</span>
 
       <span class="kd">var</span> <span class="nx">xAxis</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Rickshaw</span><span class="p">.</span><span class="nx">Graph</span><span class="p">.</span><span class="nx">Axis</span><span class="p">.</span><span class="nx">Time</span><span class="p">({</span> <span class="na">graph</span><span class="p">:</span> <span class="nx">graph</span> <span class="p">});</span>
       <span class="kd">var</span> <span class="nx">yAxis</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Rickshaw</span><span class="p">.</span><span class="nx">Graph</span><span class="p">.</span><span class="nx">Axis</span><span class="p">.</span><span class="nx">Y</span><span class="p">({</span>
         <span class="na">graph</span><span class="p">:</span> <span class="nx">graph</span><span class="p">,</span>
-        <span class="na">orientation</span><span class="p">:</span> <span class="s1">&#39;left&#39;</span><span class="p">,</span>
-        <span class="na">element</span><span class="p">:</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;y_axis&#39;</span><span class="p">)</span>
+        <span class="na">orientation</span><span class="p">:</span> <span class="s1">'left'</span><span class="p">,</span>
+        <span class="na">element</span><span class="p">:</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'y_axis'</span><span class="p">)</span>
       <span class="p">});</span>
 
       <span class="nx">xAxis</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
@@ -84,7 +83,8 @@
   <span class="p">});</span>
 <span class="p">});</span>
 </pre>
-<h3 id="toc_4">Finish It Off With A Little Style</h3>
+
+<h3 id="finish-it-off-with-a-little-style">Finish It Off With A Little Style</h3>
 
 <p>To make the graph look nice, we can add a little bit of CSS to enhance the layout of the axes and labels. This is pretty standard, but should give you an idea how to get started on your own styling.</p>
 <pre class="highlight css"><span class="nf">#chart_container</span> <span class="p">{</span>
@@ -109,13 +109,14 @@
   <span class="nl">bottom</span><span class="p">:</span> <span class="m">-15px</span> <span class="cp">!important</span><span class="p">;</span>
 <span class="p">}</span>
 </pre>
-<h3 id="toc_5">Seeing It All Come Together</h3>
+
+<h3 id="seeing-it-all-come-together">Seeing It All Come Together</h3>
 
 <p>If we put all of the pieces in the right place, we should see our interface appear under the Interfaces tab when logging in as a database user. Though it&rsquo;s an extremely simple case, the resulting output should look something like this:</p>
 
 <p><img alt="Screenshot Of A Custom Interface" src="/images/custom_interface.png" /></p>
 
-<h3 id="toc_6">Making It Easier With The Asset Pipeline</h3>
+<h3 id="making-it-easier-with-the-asset-pipeline">Making It Easier With The Asset Pipeline</h3>
 
 <p>In building this example on your own, you could drop the JavaScript into a <code>&lt;script&gt;</code> tag and the CSS into a <code>&lt;style&gt;</code> tag embedded within the page. Alternatively, you could fork the <a href="https://github.com/influxdb/influxdb-admin">admin interface repo</a>, which is built with middleman, and use the asset pipeline to separate your components more cleanly. You can use the default interface as an example.</p>
 
@@ -150,4 +151,4 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
 ga('create', 'UA-45024174-1', 'influxdb.org');
-ga('send', 'pageview');</script><a href="https://github.com/influxdb/influxdb"><img alt="Fork me on GitHub" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" style="position: absolute; top: 0; right: 0; border: 0;" /></a></body></html>
+ga('send', 'pageview');</script></body></html>
