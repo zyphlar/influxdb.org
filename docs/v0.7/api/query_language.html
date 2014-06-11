@@ -113,7 +113,13 @@ time will be ignored, for example the following query returns an error:</p>
 <pre class="highlight sql"><span class="k">delete</span> <span class="k">from</span> <span class="n">response_times</span> <span class="k">where</span> <span class="k">user</span> <span class="o">=</span> <span class="s1">'foo'</span>
 </pre>
 
-<p>Deleting all data for a series will only remove the points. It will still remain in the index. If you want to remove all data from a series and remove it from the list of series in a database use the <code>drop</code> query:</p>
+<p>Delete time conditions only support ranges, an equals condition (=) is
+currently not supported.</p>
+
+<p>Deleting all data for a series will only remove the points. It will
+still remain in the index. If you want to remove all data from a
+series and remove it from the list of series in a database use the
+<code>drop</code> query:</p>
 <pre class="highlight sql"><span class="k">drop</span> <span class="n">series</span> <span class="n">response_times</span>
 </pre>
 
