@@ -39,6 +39,8 @@ page "/graphing.html", :layout => false
 page "/blog/*", :layout => :article
 page "/blog/index.html", :layout => :layout
 
+page "/jobs.html", :layout => :jobs
+
 activate :blog do |blog|
   blog.prefix = "blog"
 end
