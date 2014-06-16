@@ -107,7 +107,7 @@ select * from events, errors;
 Get the last hour of data from the two series `events`, and `errors`. Here's a regex example:
 
 ```sql
-select * from /^stats\..*/i;
+select * from /^stats\./i where time > now() - 1h;
 ```
 
 Get the last hour of data from every time series that starts with `stats.` (case insensitive). Another example:
