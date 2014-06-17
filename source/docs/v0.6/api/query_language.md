@@ -100,7 +100,7 @@ select * from events where time = 1400497861762723 and sequence_number = 2321;
 You can select from multiple series by specifying a regex to match against. Here are a few examples.
 
 ```sql
-select * from /^stats\..*/i;
+select * from /^stats\./i where time > now() - 1h;
 ```
 
 Get the last hour of data from every time series that starts with `stats.` (case insensitive). Another example:
