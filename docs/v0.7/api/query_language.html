@@ -86,7 +86,7 @@ timestamp in nanoseconds. For example:</p>
 </pre>
 
 <p>Get the last hour of data from the two series <code>events</code>, and <code>errors</code>. Here&rsquo;s a regex example:</p>
-<pre class="highlight sql"><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="o">/^</span><span class="n">stats</span><span class="err">\</span><span class="p">..</span><span class="o">*/</span><span class="n">i</span><span class="p">;</span>
+<pre class="highlight sql"><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="o">/^</span><span class="n">stats</span><span class="err">\</span><span class="p">.</span><span class="o">/</span><span class="n">i</span> <span class="k">where</span> <span class="n">time</span> <span class="o">&gt;</span> <span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="n">h</span><span class="p">;</span>
 </pre>
 
 <p>Get the last hour of data from every time series that starts with <code>stats.</code> (case insensitive). Another example:</p>

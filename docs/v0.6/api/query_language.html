@@ -82,7 +82,7 @@ timestamp in nanoseconds. For example:</p>
 <h2 id="selecting-multiple-series">Selecting Multiple Series</h2>
 
 <p>You can select from multiple series by specifying a regex to match against. Here are a few examples.</p>
-<pre class="highlight sql"><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="o">/^</span><span class="n">stats</span><span class="err">\</span><span class="p">..</span><span class="o">*/</span><span class="n">i</span><span class="p">;</span>
+<pre class="highlight sql"><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="o">/^</span><span class="n">stats</span><span class="err">\</span><span class="p">.</span><span class="o">/</span><span class="n">i</span> <span class="k">where</span> <span class="n">time</span> <span class="o">&gt;</span> <span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="n">h</span><span class="p">;</span>
 </pre>
 
 <p>Get the last hour of data from every time series that starts with <code>stats.</code> (case insensitive). Another example:</p>
