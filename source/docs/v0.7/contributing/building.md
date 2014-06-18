@@ -48,7 +48,7 @@ If you want to cross compile the arm binaries on Linux, you'll have to
 install the following packages which are required by
 [crosstools-ng](http://crosstool-ng.org/):
 
-`sudo yum install gperf texinfo expat expat-devel` or on ubuntu `sudo apt-get install gperf texinfo expat libexpat1 libexpat1-dev`
+`sudo yum install gperf autoconf libtool libz-dev libbz2-dev texinfo expat expat-devel` or on ubuntu `sudo apt-get install gperf texinfo expat libexpat1 libexpat1-dev autoconf libtool libz-dev libbz2-dev`
 
 Then get crosstools:
 
