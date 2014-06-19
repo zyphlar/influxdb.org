@@ -27,13 +27,13 @@ Then run `./configure --with-flex=/usr/local/Cellar/flex/2.5.37/bin/flex --with-
 - If you're on a Red Hat-based distro:
 
 ``` bash
-sudo yum install hg bzr protobuf-compiler flex bison valgrind g++ make
+sudo yum install hg bzr protobuf-compiler flex bison valgrind g++ make autoconf libtool libz-dev libbz2-dev
 ```
 
 - If you're on a Debian-based distro:
 
 ``` bash
-sudo apt-get install mercurial bzr protobuf-compiler flex bison valgrind g++ make
+sudo apt-get install mercurial bzr protobuf-compiler flex bison valgrind g++ make autoconf libtool libz-dev libbz2-dev
 ```
 
 Then run `./configure && make`. This will build the server and run the tests.
@@ -48,7 +48,7 @@ If you want to cross compile the arm binaries on Linux, you'll have to
 install the following packages which are required by
 [crosstools-ng](http://crosstool-ng.org/):
 
-`sudo yum install gperf autoconf libtool libz-dev libbz2-dev texinfo expat expat-devel` or on ubuntu `sudo apt-get install gperf texinfo expat libexpat1 libexpat1-dev autoconf libtool libz-dev libbz2-dev`
+`sudo yum install gperf texinfo expat expat-devel` or on ubuntu `sudo apt-get install gperf texinfo expat libexpat1 libexpat1-dev`
 
 Then get crosstools:
 
