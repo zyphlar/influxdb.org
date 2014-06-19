@@ -19,13 +19,13 @@
 <li>Ensure <code>go</code> is on your <code>PATH</code>.</li>
 <li>If you&rsquo;re on a Red Hat-based distro:</li>
 </ul>
-<pre class="highlight shell">sudo yum install hg bzr protobuf-compiler flex bison valgrind g++ make
+<pre class="highlight shell">sudo yum install hg bzr protobuf-compiler flex bison valgrind g++ make autoconf libtool libz-dev libbz2-dev
 </pre>
 
 <ul>
 <li>If you&rsquo;re on a Debian-based distro:</li>
 </ul>
-<pre class="highlight shell">sudo apt-get install mercurial bzr protobuf-compiler flex bison valgrind g++ make
+<pre class="highlight shell">sudo apt-get install mercurial bzr protobuf-compiler flex bison valgrind g++ make autoconf libtool libz-dev libbz2-dev
 </pre>
 
 <p>Then run <code>./configure &amp;&amp; make</code>. This will build the server and run the tests.</p>
@@ -40,7 +40,7 @@
 install the following packages which are required by
 <a href="http://crosstool-ng.org/">crosstools-ng</a>:</p>
 
-<p><code>sudo yum install gperf autoconf libtool libz-dev libbz2-dev texinfo expat expat-devel</code> or on ubuntu <code>sudo apt-get install gperf texinfo expat libexpat1 libexpat1-dev autoconf libtool libz-dev libbz2-dev</code></p>
+<p><code>sudo yum install gperf texinfo expat expat-devel</code> or on ubuntu <code>sudo apt-get install gperf texinfo expat libexpat1 libexpat1-dev</code></p>
 
 <p>Then get crosstools:</p>
 <pre class="highlight shell">wget http://crosstool-ng.org/download/crosstool-ng/crosstool-ng-1.19.0.tar.bz2
