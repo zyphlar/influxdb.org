@@ -98,6 +98,14 @@
 <p>The time precision of the epoch returned in the <code>time</code> column can be specified via the <code>time_precision</code> query parameter. It can be set to either <code>s</code> for seconds, <code>ms</code> for milliseconds, or <code>u</code> for microseconds.</p>
 
 <p>Now that you know how to read and write data, let&rsquo;s take a look at the <a href="/docs/v0.7/api/query_language.html">InfluxDB query language</a> to see what you can do.</p>
+
+<h3 id="pretty-printed-results">Pretty-Printed Results</h3>
+
+<p>When working directly with the API, and not via a client library, it&rsquo;s convenient to have pretty-printed JSON output. To enable pretty-printed output, append <code>pretty=true</code> to the Query URL. For example:</p>
+<pre class="highlight plaintext">curl -G 'http://localhost:8086/db/mydb/series?u=root&amp;p=root&amp;pretty=true' --data-urlencode "q=select * from log_lines"
+</pre>
+
+<p>Pretty-printed output is not recommended otherwise, as it consumes unnecessary network bandwidth.</p>
 </div></div></section><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
