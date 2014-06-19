@@ -115,3 +115,13 @@ The `time` and `sequence_number` columns will always be returned when getting ra
 The time precision of the epoch returned in the `time` column can be specified via the `time_precision` query parameter. It can be set to either `s` for seconds, `ms` for milliseconds, or `u` for microseconds.
 
 Now that you know how to read and write data, let's take a look at the [InfluxDB query language](query_language.html) to see what you can do.
+
+### Pretty-Printed Results
+
+When working directly with the API, and not via a client library, it's convenient to have pretty-printed JSON output. To enable pretty-printed output, append `pretty=true` to the Query URL. For example:
+
+```
+curl -G 'http://localhost:8086/db/mydb/series?u=root&p=root&pretty=true' --data-urlencode "q=select * from log_lines"
+```
+
+Pretty-printed output is not recommended otherwise, as it consumes unnecessary network bandwidth.
