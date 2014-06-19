@@ -124,3 +124,7 @@ curl -X DELETE \
 ```
 
 Removes server with ID 23 from the cluster.
+
+## Pretty-Printed Output
+
+The Administration API supports pretty-printed JSON responses. To enable pretty-printed output, append `pretty=true` to the URL.
