@@ -27,7 +27,7 @@ Then run `./configure --with-flex=/usr/local/Cellar/flex/2.5.37/bin/flex --with-
 - If you're on a Red Hat-based distro:
 
 ``` bash
-sudo yum install hg bzr protobuf-compiler flex bison valgrind g++ make autoconf libtool libz-dev libbz2-dev
+sudo yum install hg bzr protobuf-compiler flex bison valgrind g++ make autoconf libtool zlib-dev bzip2-libs
 ```
 
 - If you're on a Debian-based distro:
