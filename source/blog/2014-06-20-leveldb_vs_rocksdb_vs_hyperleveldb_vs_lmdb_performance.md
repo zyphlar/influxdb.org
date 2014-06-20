@@ -12,6 +12,8 @@ Before we get to results, let's look at the test setup. We used a Digital Ocean 
 
 The next release of InfluxDB has a clearly defined interface for adding different storage engines. You'll be able to choose LevelDB, RocksDB, HyperLevelDB, or LMDB. Which one you use is set through the [configuration file](https://github.com/influxdb/influxdb/blob/master/config.sample.toml#L74-L132).
 
+Under the covers LevelDB is a [Log Structured Merge Tree](http://en.wikipedia.org/wiki/Log-structured_merge-tree) while LMDB is a mmap copy on write [B+Tree](http://en.wikipedia.org/wiki/B%2B_tree). RocksDB and HyperLevelDB are forks of the LevelDB project that have different optimizations and enhancements.
+
 Our tests used a [benchmark tool that isolated the storage engines](https://github.com/influxdb/influxdb/tree/master/src/tools/benchmark-storage) for testing. The test does the following:
 
 1. Write N values where the key is 24 bytes (3 ints)
@@ -120,12 +122,16 @@ table tr td {
 
 The test was run on the default configuration for each of the storage engines. If anyone wants to test out variations, we'd love to use the best defaults. You can play around with those in the `new` method of each of the [storage engines](https://github.com/influxdb/influxdb/tree/master/src/datastore/storage).
 
-A few interesting things come out of these results. LevelDB is the winner on disk space utilization, RocksDB is the winner on reads and deletes, and HyperLevelDB is the winner on writes. On smaller runs (30M or less), LMDB came out on top on most of the metrics except for disk size.
+A few interesting things come out of these results. LevelDB is the winner on disk space utilization, RocksDB is the winner on reads and deletes, and HyperLevelDB is the winner on writes. On smaller runs (30M or less), LMDB came out on top on most of the metrics except for disk size. This is actually what we'd expect for B-trees: they're faster the fewer keys you have in them.
 
 I've marked the LMDB compaction time as a loser in red because it's a no-op and deletes don't actually reclaim disk space. On a normal database where you're continually writing data, this is ok because the old pages get used up. However, it means that the DB will ONLY increase in size. For InfluxDB this is a problem because we create a separate database per time range, which we call a shard. This means that after a time range has passed, it probably won't be getting any more writes. If we do a delete, we need some form of compaction to reclaim the disk space.
 
 On disk space utilization, it's no surprise that the Level variants came out on top. They compress the data in blocks while LMDB doesn't use compression.
 
-Overall it looks like RocksDB might be the best choice for our use case. However, there are lies, damn lies, and benchmarks. Things can change drastically based on hardware configuration and settings on the storage engines. We tested on SSD because that's where things are going (if not already there). Rocks won't perform as well on spinning disks, but it's not the primary target hardware for us.
+Overall it looks like RocksDB might be the best choice for our use case. However, __there are lies, damn lies, and benchmarks__. Things can change drastically based on hardware configuration and settings on the storage engines.
+
+We tested on SSD because that's where things are going (if not already there). Rocks won't perform as well on spinning disks, but it's not the primary target hardware for us. You could also potentially create a configuration with smaller shards and use LMDB for screaming fast performance.
+
+Here's a [gist of more of the results from different benchmark runs](https://gist.github.com/pauldix/db7dca9595e5c359ceb8).
 
 We're open to updating settings, benchmarks, or adding new storage engines. In the meantime we'll keep iterating and try to get to the best possible performance for the use case of time series data.
