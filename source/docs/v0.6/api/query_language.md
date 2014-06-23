@@ -67,7 +67,7 @@ select value from response_times where time > now() - 1h limit 1000;
 will return all points starting an hour ago until now.
 
 Other options for how to specify time durations are `u` for
-microseconds, `s` for seconds, `m` for minutes, `h` for hours, ,`d`
+microseconds, `s` for seconds, `m` for minutes, `h` for hours, `d`
 for days and `w` for weeks. If no suffix is given the value is
 interpreted as nanoseconds.
 
