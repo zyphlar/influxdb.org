@@ -5,10 +5,155 @@
   <id>http://influxdb.org/blog</id>
   <link href="http://influxdb.org/blog"/>
   <link href="http://influxdb.org/feed.xml" rel="self"/>
-  <updated>2014-05-20T20:00:00-04:00</updated>
+  <updated>2014-06-19T20:00:00-04:00</updated>
   <author>
     <name>InfluxDB</name>
   </author>
+  <entry>
+    <title>Benchmarking LevelDB vs. RocksDB vs. HyperLevelDB vs. LMDB Performance for InfluxDB</title>
+    <link rel="alternate" href="http://influxdb.org/blog/2014/06/20/leveldb_vs_rocksdb_vs_hyperleveldb_vs_lmdb_performance.html"/>
+    <id>http://influxdb.org/blog/2014/06/20/leveldb_vs_rocksdb_vs_hyperleveldb_vs_lmdb_performance.html</id>
+    <published>2014-06-19T20:00:00-04:00</published>
+    <updated>2014-06-23T11:01:29-04:00</updated>
+    <author>
+      <name>Paul Dix</name>
+    </author>
+    <content type="html">&lt;p&gt;For quite some time we&amp;rsquo;ve wanted to test the performance of different storage engines for our use case with InfluxDB. We started off using LevelDB because it&amp;rsquo;s what we had used on earlier projects and RocksDB wasn&amp;rsquo;t around yet. We&amp;rsquo;ve finally gotten around to running some basic tests against a few different engines. Going forward it looks like RocksDB might be the best choice for us.&lt;/p&gt;
+
+&lt;p&gt;However, we haven&amp;rsquo;t had the time to tune any settings or refactor things to take advantage of specific storage engine characteristics. We&amp;rsquo;re open to suggestions so read on for more detail.&lt;/p&gt;
+
+&lt;p&gt;Before we get to results, let&amp;rsquo;s look at the test setup. We used a Digital Ocean droplet with 4GB RAM, 2 Cores, and 60GB of SSD storage.&lt;/p&gt;
+
+&lt;p&gt;The next release of InfluxDB has a clearly defined interface for adding different storage engines. You&amp;rsquo;ll be able to choose LevelDB, RocksDB, HyperLevelDB, or LMDB. Which one you use is set through the &lt;a href="https://github.com/influxdb/influxdb/blob/master/config.sample.toml#L74-L132"&gt;configuration file&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Under the covers LevelDB is a &lt;a href="http://en.wikipedia.org/wiki/Log-structured_merge-tree"&gt;Log Structured Merge Tree&lt;/a&gt; while LMDB is a mmap copy on write &lt;a href="http://en.wikipedia.org/wiki/B%2B_tree"&gt;B+Tree&lt;/a&gt;. RocksDB and HyperLevelDB are forks of the LevelDB project that have different optimizations and enhancements.&lt;/p&gt;
+
+&lt;p&gt;Our tests used a &lt;a href="https://github.com/influxdb/influxdb/tree/master/src/tools/benchmark-storage"&gt;benchmark tool that isolated the storage engines&lt;/a&gt; for testing. The test does the following:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Write N values where the key is 24 bytes (3 ints)&lt;/li&gt;
+&lt;li&gt;Query N values (range scans through the key space in ascending order and does compares to see if it should stop)&lt;/li&gt;
+&lt;li&gt;Delete N/2 values&lt;/li&gt;
+&lt;li&gt;Run compaction&lt;/li&gt;
+&lt;li&gt;Query N/2 values&lt;/li&gt;
+&lt;li&gt;Write N/2 values&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;At various steps we checked what the on disk size of the database was. We went through multiple runs writing anywhere from 1 million to 100 million values. Which implementation came out on top differed depending on how many values were in the database.&lt;/p&gt;
+
+&lt;p&gt;For our use case we want to test on databases that have more values rather than less so we&amp;rsquo;ll focus on the results for the biggest run. We&amp;rsquo;re also not benchmarking &lt;code&gt;put&lt;/code&gt; operations on keys that already exist. It&amp;rsquo;s either inserts or deletes, which is almost always the use case with time series data.&lt;/p&gt;
+
+&lt;p&gt;The keys consist of 3 unsigned integers that are converted into big endian bytes. The first is an id that would normally represent a time series column id, the second is a time stamp, and the third is a sequence number. The benchmark simulates values written into a number of different ids (the first 8 bytes) and increasing time stamps and sequence numbers. This is a common load pattern for InfluxDB. Single points written to many series or columns at a time.&lt;/p&gt;
+
+&lt;p&gt;Writes during the test happen in batches of 1,000 key/value pairs. Each key/value pair is a different series column id up to the number of series to write in the test. The value is a serialized protobuf object. Specifically, it&amp;rsquo;s a &lt;a href="https://github.com/influxdb/influxdb/blob/master/src/protocol/protocol.proto#L3-L9"&gt;FieldValue&lt;/a&gt; with an &lt;code&gt;int64&lt;/code&gt; set.&lt;/p&gt;
+
+&lt;p&gt;Here are the results of a run on 100 million values spread out over 500k columns:&lt;/p&gt;
+
+&lt;style&gt;
+table tr td {
+  font-weight: normal;
+}
+.green {
+  color: green;
+  font-weight: bold;
+}
+.red {
+  color: red;
+  font-weight: bold;
+}
+&lt;/style&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;th&gt;Test step&lt;/th&gt;
+    &lt;th&gt;LeveLDB&lt;/th&gt;
+    &lt;th&gt;RocksDB&lt;/th&gt;
+    &lt;th&gt;HyperLevelDB&lt;/th&gt;
+    &lt;th&gt;LMDB&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;thead&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Write 100M values&lt;/th&gt;
+    &lt;td&gt;36m8.29s&lt;/td&gt;
+    &lt;td&gt;21m18.60s&lt;/td&gt;
+    &lt;td class="green"&gt;10m45.41&lt;/td&gt;
+    &lt;td class="red"&gt;1h13m21.30s&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;th&gt;DB Size&lt;/th&gt;
+    &lt;td class="green"&gt;2.7G&lt;/td&gt;
+    &lt;td&gt;3.2G&lt;/td&gt;
+    &lt;td&gt;3.2G&lt;/td&gt;
+    &lt;td class="red"&gt;7.6G&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Query 100M values&lt;/th&gt;
+    &lt;td&gt;2m55.37s&lt;/td&gt;
+    &lt;td class="green"&gt;2m44.99s&lt;/td&gt;
+    &lt;td class="red"&gt;13m49.01s&lt;/td&gt;
+    &lt;td&gt;5m24.80s&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Delete 50M values&lt;/th&gt;
+    &lt;td&gt;3m47.64s&lt;/td&gt;
+    &lt;td class="green"&gt;1m53.84s&lt;/td&gt;
+    &lt;td&gt;6m0.38s&lt;/td&gt;
+    &lt;td class="red"&gt;6m15.98s&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Compaction&lt;/th&gt;
+    &lt;td&gt;3m59.87s&lt;/td&gt;
+    &lt;td class="green"&gt;3m20.27s&lt;/td&gt;
+    &lt;td&gt;6m33.36s&lt;/td&gt;
+    &lt;td class="red"&gt;1.548us&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;th&gt;DB Size&lt;/th&gt;
+    &lt;td class="green"&gt;1.4G&lt;/td&gt;
+    &lt;td&gt;1.6G&lt;/td&gt;
+    &lt;td&gt;1.6G&lt;/td&gt;
+    &lt;td class="red"&gt;7.6G&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Query 50M values&lt;/th&gt;
+    &lt;td&gt;12.12s&lt;/td&gt;
+    &lt;td&gt;13.59s&lt;/td&gt;
+    &lt;td class="red"&gt;23.98s&lt;/td&gt;
+    &lt;td class="green"&gt;8.48s&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Write 50M values&lt;/th&gt;
+    &lt;td&gt;3m5.28s&lt;/td&gt;
+    &lt;td class="green"&gt;1m26.9s&lt;/td&gt;
+    &lt;td&gt;1m54.56s&lt;/td&gt;
+    &lt;td class="red"&gt;3m25.96s&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;th&gt;DB Size&lt;/th&gt;
+    &lt;td class="green"&gt;673M&lt;/td&gt;
+    &lt;td&gt;993M&lt;/td&gt;
+    &lt;td&gt;928M&lt;/td&gt;
+    &lt;td class="red"&gt;2.5G&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;p&gt;The test was run on the default configuration for each of the storage engines. If anyone wants to test out variations, we&amp;rsquo;d love to use the best defaults. You can play around with those in the &lt;code&gt;new&lt;/code&gt; method of each of the &lt;a href="https://github.com/influxdb/influxdb/tree/master/src/datastore/storage"&gt;storage engines&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;A few interesting things come out of these results. LevelDB is the winner on disk space utilization, RocksDB is the winner on reads and deletes, and HyperLevelDB is the winner on writes. On smaller runs (30M or less), LMDB came out on top on most of the metrics except for disk size. This is actually what we&amp;rsquo;d expect for B-trees: they&amp;rsquo;re faster the fewer keys you have in them.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ve marked the LMDB compaction time as a loser in red because it&amp;rsquo;s a no-op and deletes don&amp;rsquo;t actually reclaim disk space. On a normal database where you&amp;rsquo;re continually writing data, this is ok because the old pages get used up. However, it means that the DB will ONLY increase in size. For InfluxDB this is a problem because we create a separate database per time range, which we call a shard. This means that after a time range has passed, it probably won&amp;rsquo;t be getting any more writes. If we do a delete, we need some form of compaction to reclaim the disk space.&lt;/p&gt;
+
+&lt;p&gt;On disk space utilization, it&amp;rsquo;s no surprise that the Level variants came out on top. They compress the data in blocks while LMDB doesn&amp;rsquo;t use compression.&lt;/p&gt;
+
+&lt;p&gt;Overall it looks like RocksDB might be the best choice for our use case. However, &lt;strong&gt;there are lies, damn lies, and benchmarks&lt;/strong&gt;. Things can change drastically based on hardware configuration and settings on the storage engines.&lt;/p&gt;
+
+&lt;p&gt;We tested on SSD because that&amp;rsquo;s where things are going (if not already there). Rocks won&amp;rsquo;t perform as well on spinning disks, but it&amp;rsquo;s not the primary target hardware for us. You could also potentially create a configuration with smaller shards and use LMDB for screaming fast performance.&lt;/p&gt;
+
+&lt;p&gt;Here&amp;rsquo;s a &lt;a href="https://gist.github.com/pauldix/db7dca9595e5c359ceb8"&gt;gist of more of the results from different benchmark runs&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;We&amp;rsquo;re open to updating settings, benchmarks, or adding new storage engines. In the meantime we&amp;rsquo;ll keep iterating and try to get to the best possible performance for the use case of time series data.&lt;/p&gt;
+</content>
+  </entry>
   <entry>
     <title>Free trial for InfluxDB hosting and updated documentation</title>
     <link rel="alternate" href="http://influxdb.org/blog/2014/05/21/free_trial_for_influxdb_hosting_and_updated_docs.html"/>
@@ -313,49 +458,6 @@
 &lt;p&gt;In building this example on your own, you could drop the JavaScript into a &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt; tag and the CSS into a &lt;code&gt;&amp;lt;style&amp;gt;&lt;/code&gt; tag embedded within the page. Alternatively, you could fork the &lt;a href="https://github.com/influxdb/influxdb-admin"&gt;admin interface repo&lt;/a&gt;, which is built with middleman, and use the asset pipeline to separate your components more cleanly. You can use the default interface as an example.&lt;/p&gt;
 
 &lt;p&gt;If you end up building an interface that you want to share, send us a pull request!&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>InfluxDB v0.4.0 &amp;ndash; Breaking changes and tons of new features</title>
-    <link rel="alternate" href="http://influxdb.org/blog/2013/11/27/influxdb_v0_4_0-breaking_changes_and_tons_of_new_features.html"/>
-    <id>http://influxdb.org/blog/2013/11/27/influxdb_v0_4_0-breaking_changes_and_tons_of_new_features.html</id>
-    <published>2013-11-26T19:00:00-05:00</published>
-    <updated>2013-12-05T11:22:36-05:00</updated>
-    <author>
-      <name>Paul Dix</name>
-    </author>
-    <content type="html">&lt;p&gt;InfluxDB has some new features, support for custom dashboards, and there are a bunch of new client libraries that have come out since we announced the project. Most importantly, we&amp;rsquo;re planning a release next week that changes something on the underlying data storage. That means that without a migration, all your data will go away. Read on for more details and how to potentially avoid this fate.&lt;/p&gt;
-
-&lt;h3 id="breaking-release"&gt;Breaking Release&lt;/h3&gt;
-
-&lt;p&gt;Next week we&amp;rsquo;ll be releasing v0.4.0 of InfluxDB. It changes a few things about the underlying storage so anyone upgrading will need to blow away their old database. If you&amp;rsquo;re already running InfluxDB in production and have data you don&amp;rsquo;t want to lose, drop us a line at &lt;a href="mailto:influxdb@errplane.com"&gt;influxdb@errplane.com&lt;/a&gt; and let us know. We can work with you to create a migration so that you&amp;rsquo;ll keep your old data. Actually, even if you don&amp;rsquo;t care about the data, drop us a line to let us know you&amp;rsquo;re running in production! We&amp;rsquo;d love to advertise which companies are using InfluxDB.&lt;/p&gt;
-
-&lt;h3 id="new-features"&gt;New Features&lt;/h3&gt;
-
-&lt;p&gt;We&amp;rsquo;ve had  a ton of bug fixes and new features in the last few weeks. Most notably: first, last, and histogram aggregate functions, table aliases, regex = and ! operators on the where clause, and a functioning Homebrew recipe. Just &lt;code&gt;brew update &amp;amp;&amp;amp; brew upgrade influxdb&lt;/code&gt; to get it running locally. More details on the changes can be found in the &lt;a href="https://github.com/influxdb/influxdb/blob/master/CHANGELOG.md"&gt;InfluxDB changelog&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h3 id="new-libraries"&gt;New Libraries&lt;/h3&gt;
-
-&lt;p&gt;People have jumped into contributing libraries and integrations to InfluxDB. Here&amp;rsquo;s a list of some of them (and let us know if you&amp;rsquo;ve written something you want to share!)&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href="https://github.com/FGRibreau/influxdb-cli"&gt;A command line interface (CLI)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://github.com/bencevans/node-influx"&gt;Node.js&lt;/a&gt;, &lt;a href="https://github.com/influxdb/influxdb-python"&gt;Python&lt;/a&gt;, &lt;a href="https://github.com/crodas/InfluxPHP"&gt;PHP&lt;/a&gt;, and &lt;a href="https://github.com/olauzon/capacitor"&gt;Clojure&lt;/a&gt; libraries&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://github.com/obfuscurity/tasseo#influxdb"&gt;Tasseo&lt;/a&gt;, a real-time dashboard, has support for InfluxDB&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://github.com/bernd/statsd-influxdb-backend"&gt;StatsD backend&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://github.com/bpaquet/collectd-influxdb-proxy"&gt;CollectD proxy&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Plenty of options for &lt;a href="http://influxdb.org/docs/deployment.html"&gt;deployment&lt;/a&gt; including Chef, Puppet, and Docker&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id="custom-interfaces-&amp;amp;-dashboards"&gt;Custom Interfaces &amp;amp; Dashboards&lt;/h3&gt;
-
-&lt;p&gt;We&amp;rsquo;ve set up a structure for everyone to create their own custom dashboards and potentially share them with the community. Find out about about it on the InfluxDB docs for creating &lt;a href="http://influxdb.org/docs/interfaces/"&gt;custom interfaces&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h3 id="hackfest"&gt;Hackfest&lt;/h3&gt;
-
-&lt;p&gt;We&amp;rsquo;ve started a &lt;a href="http://www.meetup.com/nyc-influxdb-user-group"&gt;Meetup for NYC users of InfluxDB&lt;/a&gt;. We&amp;rsquo;ve also scheduled the first InfluxDB hackfest for &lt;a href="http://www.meetup.com/NYC-InfluxDB-User-Group/events/150732352/"&gt;Monday, December 2nd&lt;/a&gt;. If you&amp;rsquo;re in the city, join the group and RSVP! We&amp;rsquo;ll be there to answer any questions, and write sweet code. We&amp;rsquo;re thinking we can write some data collection stuff (maybe framework integrations?), and maybe a new interface or two.&lt;/p&gt;
-
-&lt;p&gt;Thanks for reading this far. If you&amp;rsquo;re a fan of what we&amp;rsquo;re doing or just want to see this project continue to grow, tell your friends! Tweet, write blog posts, give lightning talks, and write sweet code to share with the world.&lt;/p&gt;
 </content>
   </entry>
 </feed>
