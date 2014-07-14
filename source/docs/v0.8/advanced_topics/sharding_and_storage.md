@@ -58,4 +58,4 @@ Or run ```influxdb -h``` to see all options.
 
 You can only run this command once when initially creating the database. It will error out if the database already exists. Later on we'll have tools for working with existing databases.
 
-Here is an [example database config json](https://github.com/influxdb/influxdb/blob/master/src/integration/database_conf.json). Note that shard spaces should be ordered in the file from least specific to most. If you have a generic catch all shard space, it should be listed as the first one.
+Here is an [example database config json](https://github.com/influxdb/influxdb/blob/master/integration/database_conf.json). Note that shard spaces should be ordered in the file from least specific to most. If you have a generic catch all shard space, it should be listed as the first one.
