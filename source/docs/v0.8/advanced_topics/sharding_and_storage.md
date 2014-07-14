@@ -18,13 +18,13 @@ Shard spaces have the following properties:
 
 ```json
 {
-  "Name": "high_precision",
-  "Database": "pauls_db",
-  "RetentionPolicy": "7d",
-  "ShardDuration": "1d",
-  "Regex": "/^[a-z].*/",
-  "ReplicatonFactor": 1,
-  "Split": 1
+  "name": "high_precision",
+  "database": "pauls_db",
+  "retentionPolicy": "7d",
+  "shardDuration": "1d",
+  "regex": "/^[a-z].*/",
+  "replicatonFactor": 1,
+  "split": 1
 }
 ```
 
@@ -38,13 +38,13 @@ Note that a duration of `inf` or an empty string will cause the shards in that s
 
 ```json
 {
-  "Name": "default",
-  "Database": "pauls_db",
-  "RetentionPolicy": "inf",
-  "ShardDuration": "7d",
-  "Regex": "/.*/",
-  "ReplicatonFactor": 1,
-  "Split": 1
+  "name": "default",
+  "database": "pauls_db",
+  "retentionPolicy": "inf",
+  "shardDuration": "7d",
+  "regex": "/.*/",
+  "replicatonFactor": 1,
+  "split": 1
 }
 ```
 
