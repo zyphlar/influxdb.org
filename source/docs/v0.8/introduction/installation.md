@@ -13,6 +13,12 @@ As of version 0.7.1, InfluxDB will report anonomous data once every 24 hours to 
 
 This is enabled by default. You can opt-out of this by editing the config file and setting `reporting-disabled = true`. However, we'd be very grateful if you keep it enabled.
 
+## File Limits
+
+InfluxDB can potentially have many open files. You will need to up the open file limits on your box. Pretend like we made it past 1999 and computers can actually handle more than 256 open files, and set the open file limit to `unlimited`. Basho has a nice [writeup on setting the open file limits](http://docs.basho.com/riak/latest/ops/tuning/open-files-limit/).
+
+Replace the `riak` user with `influxdb` and you should be good to go.
+
 ## OS X
 
 Installation on OS X 10.6 and higher is supported through [Homebrew](http://brew.sh/).
