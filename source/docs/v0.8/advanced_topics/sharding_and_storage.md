@@ -56,7 +56,15 @@ Note that a duration of `inf` or an empty string will cause the shards in that s
 }
 ```
 
-The way to create databases and shard spaces is through the command line. Simply call:
+# Configuration
+
+Start by creating a json config file, listing your databases and their shard definitions.
+The sharding rules will automatically be applied to series matching the regex property of the shards.
+Note that shard spaces should be ordered in the file from least specific to most. If you have a generic catch all shard space, it should be listed as the first one.
+[Here's an example file](https://github.com/influxdb/influxdb/blob/master/integration/database_conf.json). 
+
+
+Then, create databases and shard definitions via the command line. Like so:
 
 ```
 influxdb -load-database-config="myconfig.json"
@@ -66,4 +74,3 @@ Or run ```influxdb -h``` to see all options.
 
 You can only run this command once when initially creating the database. It will error out if the database already exists. Later on we'll have tools for working with existing databases.
 
-Here is an [example database config json](https://github.com/influxdb/influxdb/blob/master/integration/database_conf.json). Note that shard spaces should be ordered in the file from least specific to most. If you have a generic catch all shard space, it should be listed as the first one.
