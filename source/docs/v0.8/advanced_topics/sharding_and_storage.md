@@ -8,7 +8,7 @@ InfluxDB can use different storage engines for the underlying storage of data. T
 
 # Databases and Shard Spaces
 
-Data in InfluxDB is organized into **databases** which have many **shard spaaces** which have many **shards**. A shard maps to an underlying storage engine database. That is, each shard will be a separate LevelDB or LMDB. The implications of this are that if you want to keep your underlying storage engine databases small, configure things so your data will be split across many shards.
+Data in InfluxDB is organized into **databases** which have many **shard spaces** which have many **shards**. A shard maps to an underlying storage engine database. That is, each shard will be a separate LevelDB or LMDB. The implications of this are that if you want to keep your underlying storage engine databases small, configure things so your data will be split across many shards.
 
 Shard spaces have the following properties:
 
