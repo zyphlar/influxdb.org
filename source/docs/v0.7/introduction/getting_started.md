@@ -218,4 +218,4 @@ The visualization for this one is off, but you can see the data returned in the 
 
 Now that you've gone through a quick intro to some of the things InfluxDB can do, you may want to pick up one of your favorite client libraries or take a look at the [InfluxDB query language guide](../api/query_language.html).
 
-Or take a look at builidng some [beautiful InfluxDB dashboards with Grafana](../ui/grafana.html).
+Or take a look at building some [beautiful InfluxDB dashboards with Grafana](../ui/grafana.html).
