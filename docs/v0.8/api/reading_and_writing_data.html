@@ -1,0 +1,124 @@
+<!DOCTYPE html><html><head><meta charset="utf-8" /><!--Always force latest IE rendering engine or request Chrome Frame--><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><!--Use title if it's in the page YAML frontmatter--><title>InfluxDB API - Reading and Writing Data</title><script src="//fast.fonts.net/jsapi/2de9def5-2dd1-4d89-b4bb-cd7e5f821645.js" type="text/javascript"></script><link href="/stylesheets/all.css" rel="stylesheet" type="text/css" /><script src="/javascripts/all.js" type="text/javascript"></script></head><body class="docs docs_v0"><header class="navigation"><div class="menu-wrapper"><a class="logo" href="/"><img src="/images/influxdb-light400.png" /></a><p class="navigation-menu-button" id="js-mobile-menu">MENU</p><div class="nav"><ul id="navigation-menu"><li class="nav-link"><a href="/docs/v0.8/introduction/overview.html">Overview</a></li><li class="nav-link"><a target="blank" href="https://customers.influxdb.com">Support & Hosting</a></li><li class="nav-link"><a href="/blog">Blog</a></li><li class="nav-link"><a href="/docs/v0.8/introduction/getting_started.html">Docs</a></li><li class="nav-link"><a href="/community">Community</a></li><li class="nav-link"><a target="blank" href="http://play.influxdb.org">Play</a></li></ul></div><div class="navigation-tools"><a class="sign-up" href="/download">Download</a></div></div></header><section role="main"><div class="row"><div class="large-4 medium-4 columns"><div class="sidebar"><nav><ul class="side-nav"><li class="heading">Introduction</li><li><a href="/docs/v0.8/introduction/overview.html">Overview</a></li><li><a href="/docs/v0.8/introduction/installation.html">Installation</a></li><li><a href="/docs/v0.8/introduction/getting_started.html">Getting Started</a></li><li class="divider"></li><li class="heading">API</li><li><a href="/docs/v0.8/api/reading_and_writing_data.html">Reading & Writing Data</a></li><li><a href="/docs/v0.8/api/query_language.html">Query Language</a></li><li><a href="/docs/v0.8/api/aggregate_functions.html">Aggregate Functions</a></li><li><a href="/docs/v0.8/api/continuous_queries.html">Continuous Queries</a></li><li><a href="/docs/v0.8/api/chunked_responses.html">Chunked HTTP Responses</a></li><li><a href="/docs/v0.8/api/administration.html">Administration</a></li><li class="divider"></li><li class="heading">UI</li><li><a href="/docs/v0.8/ui/built_in_admin_and_explorer.html">Built-in Admin and Explorer Interface</a></li><li><a href="/docs/v0.8/ui/grafana.html">Grafana Dashboards</a></li><li><a href="https://github.com/hakobera/influga">Influga Dashboards</a></li><li class="divider"></li><li class="heading">Advanced Topics</li><li><a href="/docs/v0.8/advanced_topics/sharding_and_storage.html">Underlying Storage and Shards</a></li><li><a href="/docs/v0.8/advanced_topics/configuration_options.html">Configuration Options</a></li><li><a href="/docs/v0.8/advanced_topics/schema_design.html">Schema Design</a></li><li><a href="/docs/v0.8/advanced_topics/performance_considerations.html">Performance Considerations</a></li><li><a href="/docs/v0.8/advanced_topics/security.html">Security</a></li><li class="divider"></li><li class="heading">Clustering</li><li><a href="/docs/v0.8/clustering/design.html">Design</a></li><li><a href="/docs/v0.8/clustering/setup.html">Setup</a></li><li class="divider"></li><li class="heading">Guides</li><li><a href="/docs/v0.8/guides/intro.html">Introduction</a></li><li><a href="/docs/v0.8/guides/replacing_graphite.html">Replacing Graphite</a></li><li><a href="http://www.fluentd.org/guides/recipes/syslog-influxdb">Syslog Analytics with FluentD</a></li><li class="divider"></li><li class="heading">Future Features</li><li><a href="/docs/v0.8/future/binary_protocol.html">Binary Protocol</a></li><li><a href="/docs/v0.8/future/pubsub.html">Pubsub</a></li><li><a href="/docs/v0.8/future/column_indexes.html">Column Indexes and Tags</a></li><li><a href="/docs/v0.8/future/shard_spaces.html">Shard Spaces and Retention Policies</a></li><li><a href="/docs/v0.8/future/custom_functions.html">Custom Functions</a></li><li><a href="/docs/v0.8/future/security.html">Security Enhancements</a></li><li><a href="/docs/v0.8/future/merge.html">Merging Many Series</a></li><li class="divider"></li><li class="heading">Client Libraries</li><li><a href="/docs/v0.8/client_libraries/javascript.html">JavaScript</a></li><li><a href="https://github.com/influxdb/influxdb-ruby">Ruby</a></li><li><a href="https://github.com/influxdb/influxdb-rails">Rails</a></li><li><a href="/docs/v0.8/client_libraries/python.html">Python</a></li><li><a href="https://github.com/puentesarrin/asyncflux">Python (async Tornado)</a></li><li><a href="/docs/v0.8/client_libraries/node.html">Node.js</a></li><li><a href="/docs/v0.8/client_libraries/php.html">PHP</a></li><li><a href="https://github.com/majst01/influxdb-java">Java</a></li><li><a href="https://github.com/olauzon/capacitor">Clojure</a></li><li><a href="https://github.com/mmaul/cl-influxdb">Common Lisp</a></li><li><a href="https://github.com/novaquark/metrics-influxdb">Java Metrics</a></li><li><a href="https://github.com/influxdb/influxdb-go">Go</a></li><li><a href="https://github.com/rcrowley/go-metrics">Go Metrics</a></li><li><a href="https://github.com/influxdb/influxdb-scala">Scala</a></li><li><a href="https://github.com/influxdb/influxdb-r">R</a></li><li><a href="https://metacpan.org/pod/InfluxDB">Perl</a></li><li><a href="https://github.com/maoe/influxdb-haskell">Haskell</a></li><li class="divider"></li><li class="heading">Contributing</li><li><a href="https://github.com/influxdb/influxdb/blob/master/docs/contributing.md">Building and Contributing</a></li><li><a href="/community/cla.html">CLA</a></li><li><a href="https://github.com/influxdb/influxdb.org">To this Documentation</a></li><li><a href="https://github.com/influxdb/influxdb/blob/master/LICENSE">License (MIT)</a></li><li class="divider"></li><li class="heading">Other Libraries and Tools</li><li><a href="https://github.com/FGRibreau/influxdb-cli">CLI (Node)</a></li><li><a href="https://github.com/phstc/influxdb-cli">CLI (Ruby)</a></li><li><a href="http://grafana.org/">Grafana (dashboards)</a></li><li><a href="https://github.com/obfuscurity/tasseo">Tasseo (realtime dashboard)</a></li><li><a href="https://github.com/bernd/statsd-influxdb-backend">StatsD Backend</a></li><li><a href="https://github.com/bpaquet/collectd-influxdb-proxy">CollectD Proxy</a></li><li><a href="https://github.com/fangli/fluent-plugin-influxdb">FluentD Plugin</a></li><li><a href="https://github.com/lusis/sensu_influxdb_handler">Sensu Handler</a></li><li><a href="https://github.com/SimpleFinance/chef-handler-influxdb">Chef Handler/Reporter</a></li><li><a href="https://github.com/CargoSense/puppet-influxdb">Config Management via Boxen</a></li><li class="divider"></li><li class="heading">Docs Versions</li><li><a href="/docs/v0.6/introduction/overview.html">v0.6</a></li><li><a href="/docs/v0.7/introduction/overview.html">v0.7</a></li><li><a href="/docs/v0.8/introduction/overview.html">v0.8</a></li></ul></nav><a class="button download expand" href="/download" style="margin-bottom: 0;">Download InfluxDB</a></div></div><div class="large-8 medium-8 columns" id="docs"><h1 id="reading-and-writing-data">Reading and Writing Data</h1>
+
+<p>There are many ways to write data into InfluxDB. Client libraries, data collectors, integrations to third parties. All of these go through one of InfluxDB&rsquo;s <strong>input plugins</strong>, which are documented below.</p>
+
+<h2 id="writing-data-through-http">Writing data through HTTP</h2>
+
+<p>The easiest way to write data is through the HTTP API. Most of the client libraries use this API. Simply send a <code>POST</code> to <code>/db/&lt;database&gt;/series?u=&lt;user&gt;&amp;p=&lt;pass&gt;</code>. Replacing the things in angle brackets with their associated values. You can use HTTP Basic auth instead of putting the user credentials in the query parameters if you prefer.</p>
+
+<p>The body of the POST should look something like this:</p>
+<pre class="highlight json"><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"hd_used"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"columns"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"value"</span><span class="p">,</span><span class="w"> </span><span class="s2">"host"</span><span class="p">,</span><span class="w"> </span><span class="s2">"mount"</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"points"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">[</span><span class="mf">23.2</span><span class="p">,</span><span class="w"> </span><span class="s2">"serverA"</span><span class="p">,</span><span class="w"> </span><span class="s2">"/mnt"</span><span class="p">]</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></pre>
+
+<p>As you can see from that body, you can post multiple points to multiple series at the same time. In fact, if you want to get decent performance, it&rsquo;s in your best interest to batch up points into a single request. Times for points will be assigned automatically by the server, unless specified.</p>
+
+<p><strong>Note</strong> that InfluxDB is schemaless so the series and columns get created on the fly. You can add columns to existing series without penalty. It also means that if you change the column type later by writing in different data, InfluxDB won&rsquo;t complain, but you might get unexpected results when querying.</p>
+
+<p>If you&rsquo;re running InfluxDB on your local host, for example, you can do:</p>
+<pre class="highlight plaintext">curl -X POST -d '[{"name":"foo","columns":["val"],"points":[[23]]}]' 'http://localhost:8086/db/mydb/series?u=root&amp;p=root'
+</pre>
+
+<p>That&rsquo;ll write a single point to the <code>foo</code> series in the <code>mydb</code> database. That&rsquo;s about all there is to writing via the HTTP API.</p>
+
+<h3 id="specifying-time-and-sequence-number-on-writes">Specifying Time and Sequence Number on writes</h3>
+
+<p>InfluxDB will assign a time and sequence number for every point written. If your data collection lags behind or you&rsquo;re writing in historical data, you&rsquo;ll want to specify the time. Simply include the time column in the body of the post with an epoch as the value. For example:</p>
+<pre class="highlight json"><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"log_lines"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"columns"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"time"</span><span class="p">,</span><span class="w"> </span><span class="s2">"line"</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"points"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">[</span><span class="mi">1400425947368</span><span class="p">,</span><span class="w"> </span><span class="s2">"here's some useful log info"</span><span class="p">]</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></pre>
+
+<p>Because InfluxDB is distributed, the order of points is only guaranteed by timestamp. If you need absolute ordering, you&rsquo;ll probably want to create a proxy and set times and sequence numbers yourself. For example:</p>
+<pre class="highlight json"><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"log_lines"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"columns"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"time"</span><span class="p">,</span><span class="w"> </span><span class="s2">"sequence_number"</span><span class="p">,</span><span class="w"> </span><span class="s2">"line"</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"points"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">[</span><span class="mi">1400425947368</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s2">"this line is first"</span><span class="p">],</span><span class="w">
+      </span><span class="p">[</span><span class="mi">1400425947368</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s2">"and this is second"</span><span class="p">]</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></pre>
+
+<h3 id="time-precision-on-written-data">Time Precision on Written Data</h3>
+
+<p>InfluxDB keeps a timestamp for every point written in. Under the hood this timestamp is a microsecond epoch. If you write data with a time you should specify the precision, which can be done via the <code>time_precision</code> query parameter. It can be set to either <code>s</code> for seconds, <code>ms</code> for milliseconds, or <code>u</code> for microseconds. Just add that to your <code>POST</code>.</p>
+
+<h2 id="writing-data-through-graphite-protocol">Writing data through Graphite Protocol</h2>
+
+<p>InfluxDB supports the Carbon protocol that Graphite uses. All you need to do is enable graphite in the <code>input-plugins</code> section of the <a href="https://github.com/influxdb/influxdb/blob/master/config.sample.toml">configuration file</a>. Then you&rsquo;ll be able to point anything that writes to Graphite to InfluxDB instead.</p>
+
+<h2 id="writing-data-through-json-+-udp">Writing data through JSON + UDP</h2>
+
+<p>InfluxDB allows you to write data through JSON and UDP. It assumes that you will be writing data to a single database, which is configured through the <a href="https://github.com/influxdb/influxdb/blob/master/config.sample.toml">configuration file</a>. The data you write in should look exactly like what you&rsquo;d <code>POST</code> to the HTTP API.</p>
+
+<h2 id="adding-a-method-for-writing-data">Adding a method for writing data</h2>
+
+<p>We want to support data ingestion through a variety of protocols. We&rsquo;ve structured the code base to make it easy to add new ingestion protocols. If you&rsquo;re up for writing a little bit of #golang, you can probably add a new ingestion protocol in an afternoon of work. For an example see this <a href="https://github.com/influxdb/influxdb/pull/477/files">pull request for adding a JSON UDP listener to InfluxDB</a>.</p>
+
+<h2 id="querying-through-the-http-api">Querying Through the HTTP API</h2>
+
+<p>Querying data in InfluxDB happens via the built in admin interface, client libraries, or command line interfaces. All of these use the HTTP API to connect and retrieve data. Simply send a <code>GET</code> to <code>/db/&lt;database&gt;/series?q=&lt;query&gt;&amp;u=&lt;user&gt;&amp;p=&lt;pass&gt;</code>. Substitute the angle brackets with their respective values.</p>
+
+<p>For example, if querying a locally running InfluxDB with a database of <code>mydb</code> you can do this:</p>
+<pre class="highlight plaintext">curl -G 'http://localhost:8086/db/mydb/series?u=root&amp;p=root' --data-urlencode "q=select * from log_lines limit 1"
+</pre>
+
+<p>Which return data that looks like this:</p>
+<pre class="highlight json"><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"log_lines"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"columns"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"time"</span><span class="p">,</span><span class="w"> </span><span class="s2">"sequence_number"</span><span class="p">,</span><span class="w"> </span><span class="s2">"line"</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"points"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">[</span><span class="mi">1400425947368</span><span class="p">,</span><span class="w"> </span><span class="mi">287780001</span><span class="p">,</span><span class="w"> </span><span class="s2">"here's some useful log info"</span><span class="p">]</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></pre>
+
+<p>The <code>time</code> and <code>sequence_number</code> columns will always be returned when getting raw points even if you don&rsquo;t explicitly ask for them. When performing queries with a <code>group by time(...)</code> interval, the time will be in buckets based on the interval and no sequence number will be included since those apply only to raw data points and not summaries.</p>
+
+<h3 id="time-precision-on-returned-results">Time Precision on Returned Results</h3>
+
+<p>The time precision of the epoch returned in the <code>time</code> column can be specified via the <code>time_precision</code> query parameter. It can be set to either <code>s</code> for seconds, <code>ms</code> for milliseconds, or <code>u</code> for microseconds.</p>
+
+<p>Now that you know how to read and write data, let&rsquo;s take a look at the <a href="/docs/v0.7/api/query_language.html">InfluxDB query language</a> to see what you can do.</p>
+
+<h3 id="pretty-printed-results">Pretty-Printed Results</h3>
+
+<p>When working directly with the API, and not via a client library, it&rsquo;s convenient to have pretty-printed JSON output. To enable pretty-printed output, append <code>pretty=true</code> to the Query URL. For example:</p>
+<pre class="highlight plaintext">curl -G 'http://localhost:8086/db/mydb/series?u=root&amp;p=root&amp;pretty=true' --data-urlencode "q=select * from log_lines"
+</pre>
+
+<p>Pretty-printed output is not recommended otherwise, as it consumes unnecessary network bandwidth.</p>
+</div></div></section><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-45024174-1', 'influxdb.org');
+ga('send', 'pageview');</script><script type="text/javascript">(function() {
+  $("#docs h1, #docs h2, #docs h3, #docs h4").each(function(i, el) {
+    var id, text;
+    id = el.id;
+    text = $(el).text();
+    return $(el).html('<a href="#' + id + '">' + text + '</a>');
+  });
+
+}).call(this);
+</script></body></html>

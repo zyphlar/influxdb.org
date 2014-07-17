@@ -1,0 +1,208 @@
+<!DOCTYPE html><html><head><meta charset="utf-8" /><!--Always force latest IE rendering engine or request Chrome Frame--><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><!--Use title if it's in the page YAML frontmatter--><title>Getting Started with InfluxDB</title><script src="//fast.fonts.net/jsapi/2de9def5-2dd1-4d89-b4bb-cd7e5f821645.js" type="text/javascript"></script><link href="/stylesheets/all.css" rel="stylesheet" type="text/css" /><script src="/javascripts/all.js" type="text/javascript"></script></head><body class="docs docs_v0"><header class="navigation"><div class="menu-wrapper"><a class="logo" href="/"><img src="/images/influxdb-light400.png" /></a><p class="navigation-menu-button" id="js-mobile-menu">MENU</p><div class="nav"><ul id="navigation-menu"><li class="nav-link"><a href="/docs/v0.8/introduction/overview.html">Overview</a></li><li class="nav-link"><a target="blank" href="https://customers.influxdb.com">Support & Hosting</a></li><li class="nav-link"><a href="/blog">Blog</a></li><li class="nav-link"><a href="/docs/v0.8/introduction/getting_started.html">Docs</a></li><li class="nav-link"><a href="/community">Community</a></li><li class="nav-link"><a target="blank" href="http://play.influxdb.org">Play</a></li></ul></div><div class="navigation-tools"><a class="sign-up" href="/download">Download</a></div></div></header><section role="main"><div class="row"><div class="large-4 medium-4 columns"><div class="sidebar"><nav><ul class="side-nav"><li class="heading">Introduction</li><li><a href="/docs/v0.8/introduction/overview.html">Overview</a></li><li><a href="/docs/v0.8/introduction/installation.html">Installation</a></li><li><a href="/docs/v0.8/introduction/getting_started.html">Getting Started</a></li><li class="divider"></li><li class="heading">API</li><li><a href="/docs/v0.8/api/reading_and_writing_data.html">Reading & Writing Data</a></li><li><a href="/docs/v0.8/api/query_language.html">Query Language</a></li><li><a href="/docs/v0.8/api/aggregate_functions.html">Aggregate Functions</a></li><li><a href="/docs/v0.8/api/continuous_queries.html">Continuous Queries</a></li><li><a href="/docs/v0.8/api/chunked_responses.html">Chunked HTTP Responses</a></li><li><a href="/docs/v0.8/api/administration.html">Administration</a></li><li class="divider"></li><li class="heading">UI</li><li><a href="/docs/v0.8/ui/built_in_admin_and_explorer.html">Built-in Admin and Explorer Interface</a></li><li><a href="/docs/v0.8/ui/grafana.html">Grafana Dashboards</a></li><li><a href="https://github.com/hakobera/influga">Influga Dashboards</a></li><li class="divider"></li><li class="heading">Advanced Topics</li><li><a href="/docs/v0.8/advanced_topics/sharding_and_storage.html">Underlying Storage and Shards</a></li><li><a href="/docs/v0.8/advanced_topics/configuration_options.html">Configuration Options</a></li><li><a href="/docs/v0.8/advanced_topics/schema_design.html">Schema Design</a></li><li><a href="/docs/v0.8/advanced_topics/performance_considerations.html">Performance Considerations</a></li><li><a href="/docs/v0.8/advanced_topics/security.html">Security</a></li><li class="divider"></li><li class="heading">Clustering</li><li><a href="/docs/v0.8/clustering/design.html">Design</a></li><li><a href="/docs/v0.8/clustering/setup.html">Setup</a></li><li class="divider"></li><li class="heading">Guides</li><li><a href="/docs/v0.8/guides/intro.html">Introduction</a></li><li><a href="/docs/v0.8/guides/replacing_graphite.html">Replacing Graphite</a></li><li><a href="http://www.fluentd.org/guides/recipes/syslog-influxdb">Syslog Analytics with FluentD</a></li><li class="divider"></li><li class="heading">Future Features</li><li><a href="/docs/v0.8/future/binary_protocol.html">Binary Protocol</a></li><li><a href="/docs/v0.8/future/pubsub.html">Pubsub</a></li><li><a href="/docs/v0.8/future/column_indexes.html">Column Indexes and Tags</a></li><li><a href="/docs/v0.8/future/shard_spaces.html">Shard Spaces and Retention Policies</a></li><li><a href="/docs/v0.8/future/custom_functions.html">Custom Functions</a></li><li><a href="/docs/v0.8/future/security.html">Security Enhancements</a></li><li><a href="/docs/v0.8/future/merge.html">Merging Many Series</a></li><li class="divider"></li><li class="heading">Client Libraries</li><li><a href="/docs/v0.8/client_libraries/javascript.html">JavaScript</a></li><li><a href="https://github.com/influxdb/influxdb-ruby">Ruby</a></li><li><a href="https://github.com/influxdb/influxdb-rails">Rails</a></li><li><a href="/docs/v0.8/client_libraries/python.html">Python</a></li><li><a href="https://github.com/puentesarrin/asyncflux">Python (async Tornado)</a></li><li><a href="/docs/v0.8/client_libraries/node.html">Node.js</a></li><li><a href="/docs/v0.8/client_libraries/php.html">PHP</a></li><li><a href="https://github.com/majst01/influxdb-java">Java</a></li><li><a href="https://github.com/olauzon/capacitor">Clojure</a></li><li><a href="https://github.com/mmaul/cl-influxdb">Common Lisp</a></li><li><a href="https://github.com/novaquark/metrics-influxdb">Java Metrics</a></li><li><a href="https://github.com/influxdb/influxdb-go">Go</a></li><li><a href="https://github.com/rcrowley/go-metrics">Go Metrics</a></li><li><a href="https://github.com/influxdb/influxdb-scala">Scala</a></li><li><a href="https://github.com/influxdb/influxdb-r">R</a></li><li><a href="https://metacpan.org/pod/InfluxDB">Perl</a></li><li><a href="https://github.com/maoe/influxdb-haskell">Haskell</a></li><li class="divider"></li><li class="heading">Contributing</li><li><a href="https://github.com/influxdb/influxdb/blob/master/docs/contributing.md">Building and Contributing</a></li><li><a href="/community/cla.html">CLA</a></li><li><a href="https://github.com/influxdb/influxdb.org">To this Documentation</a></li><li><a href="https://github.com/influxdb/influxdb/blob/master/LICENSE">License (MIT)</a></li><li class="divider"></li><li class="heading">Other Libraries and Tools</li><li><a href="https://github.com/FGRibreau/influxdb-cli">CLI (Node)</a></li><li><a href="https://github.com/phstc/influxdb-cli">CLI (Ruby)</a></li><li><a href="http://grafana.org/">Grafana (dashboards)</a></li><li><a href="https://github.com/obfuscurity/tasseo">Tasseo (realtime dashboard)</a></li><li><a href="https://github.com/bernd/statsd-influxdb-backend">StatsD Backend</a></li><li><a href="https://github.com/bpaquet/collectd-influxdb-proxy">CollectD Proxy</a></li><li><a href="https://github.com/fangli/fluent-plugin-influxdb">FluentD Plugin</a></li><li><a href="https://github.com/lusis/sensu_influxdb_handler">Sensu Handler</a></li><li><a href="https://github.com/SimpleFinance/chef-handler-influxdb">Chef Handler/Reporter</a></li><li><a href="https://github.com/CargoSense/puppet-influxdb">Config Management via Boxen</a></li><li class="divider"></li><li class="heading">Docs Versions</li><li><a href="/docs/v0.6/introduction/overview.html">v0.6</a></li><li><a href="/docs/v0.7/introduction/overview.html">v0.7</a></li><li><a href="/docs/v0.8/introduction/overview.html">v0.8</a></li></ul></nav><a class="button download expand" href="/download" style="margin-bottom: 0;">Download InfluxDB</a></div></div><div class="large-8 medium-8 columns" id="docs"><h1 id="getting-started">Getting Started</h1>
+
+<p>Now that you&rsquo;ve <a href="/docs/v0.8/introduction/installation.html">installed InfluxDB</a> you&rsquo;re ready to start doing awesome things. There are many client libraries available for InfluxDB, but in this section we&rsquo;re going to use the built in user interface to get started quickly.</p>
+
+<h2 id="logging-in-and-creating-your-first-database">Logging in and creating your first database</h2>
+
+<p>If you&rsquo;ve installed locally, point your browser to <a href="http://localhost:8083" target="_blank">localhost:8083</a>. The built in user interface runs on port <code>8083</code> by default. You should see a screen like this:</p>
+
+<p><img alt="Admin login" src="/images/docs/admin_login.jpg" /></p>
+
+<p>The default options for hostname of <code>localhost</code> and port of <code>8086</code> should work. The InfluxDB HTTP API runs on port <code>8086</code> by default. Enter the username <code>root</code> and password <code>root</code> and click Connect. You&rsquo;ll then see a logged in screen like this:</p>
+
+<p><img alt="Logged in with no databases" src="/images/docs/logged_in_no_databases.jpg" /></p>
+
+<p>Enter in a database name and click Create. Database names should contain only letters, numbers, or underscores and start with a letter. Once you&rsquo;ve created a database you should see it on the screen:</p>
+
+<p><img alt="Database list screen" src="/images/docs/database_created.jpg" /></p>
+
+<h2 id="writing-and-exploring-data-in-the-ui">Writing and exploring data in the UI</h2>
+
+<p>Go ahead and click the &ldquo;Explore&rdquo; link to get here:</p>
+
+<p><img alt="Explore data interface" src="/images/docs/explore_screen.jpg" /></p>
+
+<p>From this screen you can write some test data. More importantly, you&rsquo;ll be able to issue ad-hoc queries and see basic visualizations. Let&rsquo;s write a little data in to see how things work. Data in InfluxDB is organized by &ldquo;time series&rdquo; which then have &ldquo;points&rdquo; which have a <code>time</code>, <code>sequence_number</code>, and <code>columns</code>. Think of it kind of like SQL tables, and rows where the primary index is always time. The difference is that with InfluxDB you can have millions of series, you don&rsquo;t have to define schemas up front, and null values aren&rsquo;t stored.</p>
+
+<p>Let&rsquo;s write some data. Here are a couple of examples of things we&rsquo;d want to write. We&rsquo;ll show the screenshot and what the JSON data looks like right after.</p>
+
+<p><img alt="Storing log lines" src="/images/docs/log_lines.jpg" /></p>
+<pre class="highlight json"><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"log_lines"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"columns"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"line"</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"points"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">[</span><span class="s2">"here's some useful log info from paul@influx.com"</span><span class="p">]</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></pre>
+
+<p><img alt="Storing response times" src="/images/docs/response_times.jpg" /></p>
+<pre class="highlight json"><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"response_times"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"columns"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"code"</span><span class="p">,</span><span class="w"> </span><span class="s2">"value"</span><span class="p">,</span><span class="w"> </span><span class="s2">"controller_action"</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"points"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">[</span><span class="mi">200</span><span class="p">,</span><span class="w"> </span><span class="mi">234</span><span class="p">,</span><span class="w"> </span><span class="s2">"users#show"</span><span class="p">]</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></pre>
+
+<p><img alt="Storing user analytics data" src="/images/docs/user_events.jpg" /></p>
+<pre class="highlight json"><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"user_events"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"columns"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"type"</span><span class="p">,</span><span class="w"> </span><span class="s2">"url_base"</span><span class="p">,</span><span class="w"> </span><span class="s2">"user_id"</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"points"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">[</span><span class="s2">"add_friend"</span><span class="p">,</span><span class="w"> </span><span class="s2">"friends#show"</span><span class="p">,</span><span class="w"> </span><span class="mi">23</span><span class="p">]</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></pre>
+
+<p><img alt="Storing sensor data" src="/images/docs/device_temperatures.jpg" /></p>
+<pre class="highlight json"><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"device_temperatures"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"columns"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"value"</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"points"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">[</span><span class="mf">88.2</span><span class="p">]</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></pre>
+
+<p>Or a classic example from DevOps:</p>
+<pre class="highlight json"><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"cpu_idle"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"columns"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"value"</span><span class="p">,</span><span class="w"> </span><span class="s2">"host"</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"points"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">[</span><span class="mf">88.2</span><span class="p">,</span><span class="w"> </span><span class="s2">"serverA"</span><span class="p">]</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></pre>
+
+<p>Now that we&rsquo;ve written a few points. Let&rsquo;s take a look at them. Try some of the following queries:</p>
+<pre class="highlight sql"><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="o">/</span><span class="p">.</span><span class="o">*/</span> <span class="k">limit</span> <span class="mi">1</span>
+<span class="c1">--
+</span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">cpu_idle</span>
+<span class="c1">--
+</span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">response_times</span> <span class="k">where</span> <span class="n">value</span> <span class="o">&gt;</span> <span class="mi">200</span>
+<span class="c1">--
+</span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">user_events</span> <span class="k">where</span> <span class="n">url_base</span> <span class="o">=</span> <span class="s1">'friends#show'</span>
+<span class="c1">--
+</span><span class="k">select</span> <span class="n">line</span> <span class="k">from</span> <span class="n">log_lines</span> <span class="k">where</span> <span class="n">line</span> <span class="o">=~</span> <span class="o">/</span><span class="n">paul</span><span class="o">@</span><span class="n">influx</span><span class="p">.</span><span class="n">com</span><span class="o">/</span>
+</pre>
+
+<p><img alt="Selecting log lines on regex match" src="/images/docs/select_log_lines.jpg" /></p>
+
+<p>In the results of those queries we notice two columns that we didn&rsquo;t explicitly write in: <code>time</code> and <code>sequence_number</code>. Those are automatically assigned by InfluxDB when you write data in if they&rsquo;re not specified. In the UI time is represented as an epoch in seconds, but the underlying storage keeps them as microsecond epochs.</p>
+
+<p>There&rsquo;s a lot more you can do with the query language. Let&rsquo;s get to writing some test data to try things out.</p>
+
+<h2 id="writing-data-through-javascript">Writing Data Through JavaScript</h2>
+
+<p>Let&rsquo;s drop into the javascript console to write some test data. That&rsquo;ll help us try some queries that show more of what InfluxDB can do. While in the explore data interface, bring up the javascript console. Copy and paste this code in and execute it.</p>
+<pre class="highlight javascript"><span class="c1">// start time of 24 hours ago
+</span><span class="kd">var</span> <span class="nx">backMilliseconds</span> <span class="o">=</span> <span class="mi">86000</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">startTime</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">()</span> <span class="o">-</span> <span class="nx">backMilliseconds</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">timeInterval</span> <span class="o">=</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">eventTypes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"click"</span><span class="p">,</span> <span class="s2">"view"</span><span class="p">,</span> <span class="s2">"post"</span><span class="p">,</span> <span class="s2">"comment"</span><span class="p">];</span>
+
+<span class="kd">var</span> <span class="nx">cpuSeries</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">name</span><span class="p">:</span>    <span class="s2">"cpu_idle"</span><span class="p">,</span>
+  <span class="na">columns</span><span class="p">:</span> <span class="p">[</span><span class="s2">"time"</span><span class="p">,</span> <span class="s2">"value"</span><span class="p">,</span> <span class="s2">"hostName"</span><span class="p">],</span>
+  <span class="na">points</span><span class="p">:</span>  <span class="p">[]</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">eventSeries</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">name</span><span class="p">:</span>    <span class="s2">"customer_events"</span><span class="p">,</span>
+  <span class="na">columns</span><span class="p">:</span> <span class="p">[</span><span class="s2">"time"</span><span class="p">,</span> <span class="s2">"customerId"</span><span class="p">,</span> <span class="s2">"type"</span><span class="p">],</span>
+  <span class="na">points</span><span class="p">:</span>  <span class="p">[]</span>
+<span class="p">};</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">backMilliseconds</span><span class="p">;</span> <span class="nx">i</span> <span class="o">+=</span> <span class="nx">timeInterval</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// generate fake cpu idle host values
+</span>  <span class="kd">var</span> <span class="nx">hostName</span> <span class="o">=</span> <span class="s2">"server"</span> <span class="o">+</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">value</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">pointValues</span> <span class="o">=</span> <span class="p">[</span><span class="nx">startTime</span> <span class="o">+</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">value</span><span class="p">,</span> <span class="nx">hostName</span><span class="p">];</span>
+  <span class="nx">cpuSeries</span><span class="p">.</span><span class="nx">points</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">pointValues</span><span class="p">);</span>
+
+  <span class="c1">// generate some fake customer events
+</span>  <span class="k">for</span> <span class="p">(</span><span class="nx">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="mi">10</span><span class="p">;</span> <span class="nx">j</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">customerId</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">eventTypeIndex</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="mi">1000</span> <span class="o">%</span> <span class="mi">4</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">eventValues</span> <span class="o">=</span> <span class="p">[</span><span class="nx">startTime</span> <span class="o">+</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">customerId</span><span class="p">,</span> <span class="nx">eventTypes</span><span class="p">[</span><span class="nx">eventTypeIndex</span><span class="p">]];</span>
+    <span class="nx">eventSeries</span><span class="p">.</span><span class="nx">points</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">eventValues</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">influxdb</span><span class="p">.</span><span class="nx">writeSeries</span><span class="p">([</span><span class="nx">cpuSeries</span><span class="p">,</span> <span class="nx">eventSeries</span><span class="p">]);</span>
+</pre>
+
+<p><code>influxdb</code> is the javascript library that is available in that window. Go <a href="client_libraries/javascript.html">here for more info on using the InfluxDB javascript library</a>. But for now, let&rsquo;s run some queries:</p>
+
+<p>Get the average of <code>cpu_idle</code> in 30 minute windows for the last day:</p>
+<pre class="highlight sql"><span class="k">select</span> <span class="n">mean</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">from</span> <span class="n">cpu_idle</span> 
+<span class="k">group</span> <span class="k">by</span> <span class="n">time</span><span class="p">(</span><span class="mi">30</span><span class="n">m</span><span class="p">)</span> <span class="k">where</span> <span class="n">time</span> <span class="o">&gt;</span> <span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="n">d</span>
+</pre>
+
+<p><img alt="Cpu idle time in 30 minute windows" src="/images/docs/cpu_idle_mean_group_by.jpg" /></p>
+
+<p>Get the average of <code>cpu_idle</code> for <code>server1</code> in 30 minute windows for the last day:</p>
+<pre class="highlight sql"><span class="k">select</span> <span class="n">mean</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">from</span> <span class="n">cpu_idle</span> 
+<span class="k">group</span> <span class="k">by</span> <span class="n">time</span><span class="p">(</span><span class="mi">30</span><span class="n">m</span><span class="p">)</span> 
+<span class="k">where</span> <span class="n">time</span> <span class="o">&gt;</span> <span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="n">d</span> <span class="k">and</span> <span class="n">hostName</span> <span class="o">=</span> <span class="s1">'server1'</span>
+</pre>
+
+<p><img alt="Cpu idle time for server1 in 30 minute windows" src="/images/docs/cpu_idle_mean_group_by_where_server.jpg" /></p>
+
+<p>Get the number of data points from the <code>cpu_idle</code> series for the last hour:</p>
+<pre class="highlight sql"><span class="k">select</span> <span class="k">count</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">from</span> <span class="n">cpu_idle</span> <span class="k">where</span> <span class="n">time</span> <span class="o">&gt;</span> <span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="n">h</span>
+</pre>
+
+<p>Get the number of <code>customer_events</code> in 10 minute windows for the last day:</p>
+<pre class="highlight sql"><span class="k">select</span> <span class="k">count</span><span class="p">(</span><span class="n">customerId</span><span class="p">)</span> <span class="k">from</span> <span class="n">customer_events</span> 
+<span class="k">where</span> <span class="n">time</span> <span class="o">&gt;</span> <span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="n">d</span> <span class="k">group</span> <span class="k">by</span> <span class="n">time</span><span class="p">(</span><span class="mi">10</span><span class="n">m</span><span class="p">)</span>
+</pre>
+
+<p><img alt="Customer events in 10 minute increments" src="/images/docs/customer_events_count_10m.jpg" /></p>
+
+<p>Find the unique customer ids from <code>customer_events</code> for the last hour:</p>
+<pre class="highlight sql"><span class="k">select</span> <span class="k">distinct</span><span class="p">(</span><span class="n">customerId</span><span class="p">)</span> <span class="k">as</span> <span class="n">cusomerId</span> <span class="k">from</span> <span class="n">customer_events</span> 
+<span class="k">where</span> <span class="n">time</span> <span class="o">&gt;</span> <span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="n">h</span>
+</pre>
+
+<p><img alt="Customer events in 10 minute increments" src="/images/docs/customer_events_distinct.jpg" /></p>
+
+<p>Count the number of <code>customer_events</code> per customer in 10 minute windows for the last 4 hours:</p>
+<pre class="highlight sql"><span class="k">select</span> <span class="k">count</span><span class="p">(</span><span class="n">customerId</span><span class="p">),</span> <span class="n">customerId</span> <span class="k">from</span> <span class="n">customer_events</span>
+<span class="k">group</span> <span class="k">by</span> <span class="n">time</span><span class="p">(</span><span class="mi">10</span><span class="n">m</span><span class="p">),</span> <span class="n">customerId</span>
+<span class="k">where</span> <span class="n">time</span> <span class="o">&gt;</span> <span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="mi">4</span><span class="n">h</span>
+</pre>
+
+<p>The visualization for this one is off, but you can see the data returned in the table.</p>
+
+<p>Now that you&rsquo;ve gone through a quick intro to some of the things InfluxDB can do, you may want to pick up one of your favorite client libraries or take a look at the <a href="/docs/v0.8/api/query_language.html">InfluxDB query language guide</a>.</p>
+
+<p>Or take a look at builidng some <a href="/docs/v0.8/ui/grafana.html">beautiful InfluxDB dashboards with Grafana</a>.</p>
+</div></div></section><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-45024174-1', 'influxdb.org');
+ga('send', 'pageview');</script><script type="text/javascript">(function() {
+  $("#docs h1, #docs h2, #docs h3, #docs h4").each(function(i, el) {
+    var id, text;
+    id = el.id;
+    text = $(el).text();
+    return $(el).html('<a href="#' + id + '">' + text + '</a>');
+  });
+
+}).call(this);
+</script></body></html>
