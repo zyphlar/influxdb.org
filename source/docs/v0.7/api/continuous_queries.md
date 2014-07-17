@@ -57,7 +57,7 @@ Each hour, this query will count the number of points written into the time seri
 If you have many series that you want downsampled, it's best to create a convention with a single continuous query that downsamples many series. Here's an example:
 
 ```sql
-select mean(value), percentile(90, value) as percentile.90, percentile(99, value) as percentile.99 
+select mean(value), percentile(90, value) as percentile_90, percentile(99, value) as percentile.99 
 from /^stats.*/ group by time(10m) into 10m.:series_name
 ```
 
