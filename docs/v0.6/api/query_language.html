@@ -57,15 +57,15 @@ current timestamp. For example:</p>
 <p>Other options for how to specify time durations are <code>u</code> for
 microseconds, <code>s</code> for seconds, <code>m</code> for minutes, <code>h</code> for hours, <code>d</code>
 for days and <code>w</code> for weeks. If no suffix is given the value is
-interpreted as nanoseconds.</p>
+interpreted as microseconds.</p>
 
 <h4 id="absolute-time">Absolute time</h4>
 
 <p>You can specify timestamp in epoch time, which is defined as the
-number of nanoseconds that have elapsed since 00:00:00 Coordinated
+number of microseconds that have elapsed since 00:00:00 Coordinated
 Universal Time (UTC), Thursday, 1 January 1970. You can use the same
 suffixes from the previous section if you don&rsquo;t want to specify
-timestamp in nanoseconds. For example:</p>
+timestamp in microseconds. For example:</p>
 <pre class="highlight sql"><span class="k">select</span> <span class="n">value</span> <span class="k">from</span> <span class="n">response_times</span> <span class="k">where</span> <span class="n">time</span> <span class="o">&gt;</span> <span class="mi">1388534400</span><span class="n">s</span>
 </pre>
 
