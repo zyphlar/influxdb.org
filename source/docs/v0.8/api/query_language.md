@@ -70,15 +70,15 @@ will return all points starting an hour ago until now.
 Other options for how to specify time durations are `u` for
 microseconds, `s` for seconds, `m` for minutes, `h` for hours, `d`
 for days and `w` for weeks. If no suffix is given the value is
-interpreted as nanoseconds.
+interpreted as microseconds.
 
 #### Absolute time
 
 You can specify timestamp in epoch time, which is defined as the
-number of nanoseconds that have elapsed since 00:00:00 Coordinated
+number of microseconds that have elapsed since 00:00:00 Coordinated
 Universal Time (UTC), Thursday, 1 January 1970. You can use the same
 suffixes from the previous section if you don't want to specify
-timestamp in nanoseconds. For example:
+timestamp in microseconds. For example:
 
 ```sql
 select value from response_times where time > 1388534400s
