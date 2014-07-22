@@ -19,7 +19,7 @@ Shard spaces have the following properties:
   "retentionPolicy": "7d",
   "shardDuration": "1d",
   "regex": "/^[a-z].*/",
-  "replicatonFactor": 1,
+  "replicationFactor": 1,
   "split": 1
 }
 ```
@@ -51,7 +51,7 @@ Note that a duration of `inf` or an empty string will cause the shards in that s
   "retentionPolicy": "inf",
   "shardDuration": "7d",
   "regex": "/.*/",
-  "replicatonFactor": 1,
+  "replicationFactor": 1,
   "split": 1
 }
 ```
