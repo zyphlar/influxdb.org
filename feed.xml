@@ -14,7 +14,7 @@
     <link rel="alternate" href="http://influxdb.org/blog/2014/06/20/leveldb_vs_rocksdb_vs_hyperleveldb_vs_lmdb_performance.html"/>
     <id>http://influxdb.org/blog/2014/06/20/leveldb_vs_rocksdb_vs_hyperleveldb_vs_lmdb_performance.html</id>
     <published>2014-06-19T20:00:00-04:00</published>
-    <updated>2014-07-18T09:24:33-04:00</updated>
+    <updated>2014-06-23T11:01:29-04:00</updated>
     <author>
       <name>Paul Dix</name>
     </author>
@@ -159,7 +159,7 @@ table tr td {
     <link rel="alternate" href="http://influxdb.org/blog/2014/05/21/free_trial_for_influxdb_hosting_and_updated_docs.html"/>
     <id>http://influxdb.org/blog/2014/05/21/free_trial_for_influxdb_hosting_and_updated_docs.html</id>
     <published>2014-05-20T20:00:00-04:00</published>
-    <updated>2014-06-13T10:02:51-04:00</updated>
+    <updated>2014-05-23T19:02:10-04:00</updated>
     <author>
       <name>Paul Dix</name>
     </author>
@@ -177,7 +177,7 @@ table tr td {
     <link rel="alternate" href="http://influxdb.org/blog/2014/04/30/java-is-the-cobol-of-my-generation-and-go-is-its-successor.html"/>
     <id>http://influxdb.org/blog/2014/04/30/java-is-the-cobol-of-my-generation-and-go-is-its-successor.html</id>
     <published>2014-04-29T20:00:00-04:00</published>
-    <updated>2014-05-22T16:46:43-04:00</updated>
+    <updated>2014-05-02T15:37:36-04:00</updated>
     <author>
       <name>Paul Dix</name>
     </author>
@@ -231,7 +231,7 @@ table tr td {
     <link rel="alternate" href="http://influxdb.org/blog/2014/03/24/influxdb_v0_5_0_ready_for_production.html"/>
     <id>http://influxdb.org/blog/2014/03/24/influxdb_v0_5_0_ready_for_production.html</id>
     <published>2014-03-23T20:00:00-04:00</published>
-    <updated>2014-05-22T16:46:43-04:00</updated>
+    <updated>2014-03-25T14:51:58-04:00</updated>
     <author>
       <name>Paul Dix</name>
     </author>
@@ -266,7 +266,7 @@ table tr td {
     <link rel="alternate" href="http://influxdb.org/blog/2014/02/25/influxdb_v0_5_0-rc_1-released_with_new_clustering_and_features.html"/>
     <id>http://influxdb.org/blog/2014/02/25/influxdb_v0_5_0-rc_1-released_with_new_clustering_and_features.html</id>
     <published>2014-02-24T19:00:00-05:00</published>
-    <updated>2014-03-04T13:49:47-05:00</updated>
+    <updated>2014-03-03T11:11:08-05:00</updated>
     <author>
       <name>Paul Dix</name>
     </author>
@@ -331,7 +331,7 @@ table tr td {
     <link rel="alternate" href="http://influxdb.org/blog/2013/12/02/building_custom_interfaces_for_influxdb.html"/>
     <id>http://influxdb.org/blog/2013/12/02/building_custom_interfaces_for_influxdb.html</id>
     <published>2013-12-01T19:00:00-05:00</published>
-    <updated>2013-12-04T10:03:01-05:00</updated>
+    <updated>2013-12-05T11:22:36-05:00</updated>
     <author>
       <name>Todd Persen</name>
     </author>

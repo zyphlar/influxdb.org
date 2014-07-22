@@ -57,7 +57,13 @@
 
 <h3 id="time-precision-on-written-data">Time Precision on Written Data</h3>
 
-<p>InfluxDB keeps a timestamp for every point written in. Under the hood this timestamp is a microsecond epoch. If you write data with a time you should specify the precision, which can be done via the <code>time_precision</code> query parameter. It can be set to either <code>s</code> for seconds, <code>ms</code> for milliseconds, or <code>u</code> for microseconds. Just add that to your <code>POST</code>.</p>
+<p>InfluxDB keeps a timestamp for every point written in. Under the hood
+this timestamp is a microsecond epoch. If you write data with a time
+you should specify the precision, which can be done via the
+<code>time_precision</code> query parameter. It can be set to either <code>s</code> for
+seconds, <code>ms</code> for milliseconds, or <code>u</code> for microseconds. Just add that
+to your <code>POST</code>. By default time precision is assumed to be
+milliseconds. This holds true for both reading and writing data.</p>
 
 <h2 id="writing-data-through-graphite-protocol">Writing data through Graphite Protocol</h2>
 
@@ -95,9 +101,15 @@
 
 <h3 id="time-precision-on-returned-results">Time Precision on Returned Results</h3>
 
-<p>The time precision of the epoch returned in the <code>time</code> column can be specified via the <code>time_precision</code> query parameter. It can be set to either <code>s</code> for seconds, <code>ms</code> for milliseconds, or <code>u</code> for microseconds.</p>
+<p>The time precision of the epoch returned in the <code>time</code> column can be
+specified via the <code>time_precision</code> query parameter. By default time
+precision is in milliseconds, this is true for both reading and
+writing timestamps. To override the time precision you can be set to
+either <code>s</code> for seconds, <code>ms</code> for milliseconds, or <code>u</code> for
+microseconds.</p>
 
-<p>Now that you know how to read and write data, let&rsquo;s take a look at the <a href="/docs/v0.8/api/query_language.html">InfluxDB query language</a> to see what you can do.</p>
+<p>Now that you know how to read and write data, let&rsquo;s take a look at the
+<a href="/docs/v0.8/api/query_language.html">InfluxDB query language</a> to see what you can do.</p>
 
 <h3 id="pretty-printed-results">Pretty-Printed Results</h3>
 
