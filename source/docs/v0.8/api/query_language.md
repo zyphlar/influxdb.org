@@ -217,11 +217,19 @@ select count(type) from events
 group by time(1h) where time > now() - 3h
 ```
 
-If the events series had data for this hour and two hours ago only, you'd only get two points in the result. If you want to ensure that you get back points for intervals that don't have data, you can use the `fill` function like this:
+If the events series had data for this hour and two hours ago only, you'd only get two points in the result. If you want to ensure that you get back points for intervals that don't have data, you can use the `fill` function. Any numerical value, including negative values, and the special value `null`, are valid values for `fill`. For example, each of the following queries is valid:
 
 ```sql
 select count(type) from events
 group by time(1h) fill(0) where time > now() - 3h
+```
+```sql
+select count(type) from events
+group by time(1h) fill(-1) where time > now() - 3h
+```
+```sql
+select count(type) from events
+group by time(1h) fill(null) where time > now() - 3h
 ```
 
 Note that `fill` must go at the end of the group by clause if there are other arguments:
