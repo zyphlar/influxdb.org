@@ -70,7 +70,13 @@ Because InfluxDB is distributed, the order of points is only guaranteed by times
 
 ### Time Precision on Written Data
 
-InfluxDB keeps a timestamp for every point written in. Under the hood this timestamp is a microsecond epoch. If you write data with a time you should specify the precision, which can be done via the `time_precision` query parameter. It can be set to either `s` for seconds, `ms` for milliseconds, or `u` for microseconds. Just add that to your `POST`.
+InfluxDB keeps a timestamp for every point written in. Under the hood
+this timestamp is a microsecond epoch. If you write data with a time
+you should specify the precision, which can be done via the
+`time_precision` query parameter. It can be set to either `s` for
+seconds, `ms` for milliseconds, or `u` for microseconds. Just add that
+to your `POST`. By default time precision is assumed to be
+milliseconds. This holds true for both reading and writing data.
 
 ## Writing data through Graphite Protocol
 
@@ -112,9 +118,15 @@ The `time` and `sequence_number` columns will always be returned when getting ra
 
 ### Time Precision on Returned Results
 
-The time precision of the epoch returned in the `time` column can be specified via the `time_precision` query parameter. It can be set to either `s` for seconds, `ms` for milliseconds, or `u` for microseconds.
+The time precision of the epoch returned in the `time` column can be
+specified via the `time_precision` query parameter. By default time
+precision is in milliseconds, this is true for both reading and
+writing timestamps. To override the time precision you can be set to
+either `s` for seconds, `ms` for milliseconds, or `u` for
+microseconds.
 
-Now that you know how to read and write data, let's take a look at the [InfluxDB query language](query_language.html) to see what you can do.
+Now that you know how to read and write data, let's take a look at the
+[InfluxDB query language](query_language.html) to see what you can do.
 
 ### Pretty-Printed Results
 
