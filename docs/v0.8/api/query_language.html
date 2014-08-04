@@ -2,6 +2,14 @@
 
 <p>InfluxDB features a SQL like query language, only used for querying data. The HTTP API has endpoints for writing data and performing other database administration tasks. The only exception to this is <a href="/docs/v0.8/api/continuous_queries.html">continuous queries</a>, which perpetually write their results into one or more time series.</p>
 
+<h2 id="getting-series-with-special-characters">Getting series with special characters</h2>
+
+<p>InfluxDB allows you to use any characters in your time series names. However, parsing queries for those series can be tricky. So it&rsquo;s best to wrap your queries for any series that has characters other than letters in double quotes like this:</p>
+<pre class="highlight sql"><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="nv">"series with special characters!"</span>
+
+<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="nv">"series with </span><span class="se">\"</span><span class="nv">double quotes</span><span class="se">\"</span><span class="nv">"</span>
+</pre>
+
 <h2 id="getting-a-list-of-time-series">Getting a List of Time Series</h2>
 
 <p>There are two different methods for returning a list of all time series in a database:</p>
