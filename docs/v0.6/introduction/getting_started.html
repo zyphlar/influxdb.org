@@ -144,7 +144,7 @@
 <span class="nx">influxdb</span><span class="p">.</span><span class="nx">writeSeries</span><span class="p">([</span><span class="nx">cpuSeries</span><span class="p">,</span> <span class="nx">eventSeries</span><span class="p">]);</span>
 </pre>
 
-<p><code>influxdb</code> is the javascript library that is available in that window. Go <a href="client_libraries/javascript.html">here for more info on using the InfluxDB javascript library</a>. But for now, let&rsquo;s run some queries:</p>
+<p><code>influxdb</code> is the javascript library that is available in that window. Go <a href="/docs/v0.6/client_libraries/javascript.html">here for more info on using the InfluxDB javascript library</a>. But for now, let&rsquo;s run some queries:</p>
 
 <p>Get the average of <code>cpu_idle</code> in 30 minute windows for the last day:</p>
 <pre class="highlight sql"><span class="k">select</span> <span class="n">mean</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">from</span> <span class="n">cpu_idle</span> 
