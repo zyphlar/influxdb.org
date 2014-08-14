@@ -161,7 +161,7 @@ for (i = 0; i < backMilliseconds; i += timeInterval) {
 influxdb.writeSeries([cpuSeries, eventSeries]);
 ```
 
-`influxdb` is the javascript library that is available in that window. Go [here for more info on using the InfluxDB javascript library](client_libraries/javascript.html). But for now, let's run some queries:
+`influxdb` is the javascript library that is available in that window. Go [here for more info on using the InfluxDB javascript library](../client_libraries/javascript.html). But for now, let's run some queries:
 
 Get the average of `cpu_idle` in 30 minute windows for the last day:
 
