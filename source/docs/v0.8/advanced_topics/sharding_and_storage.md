@@ -58,19 +58,53 @@ Note that a duration of `inf` or an empty string will cause the shards in that s
 
 # Configuration
 
-Start by creating a json config file, listing your databases and their shard definitions.
-The sharding rules will automatically be applied to series matching the regex property of the shards.
+You must set up shard spaces when you create your database. You can also set up any continuous queries you want running at the same time. It's easy to do through the API. Take a file like this:
+
+```json
+{
+  "spaces": [
+    {
+      "name": "everything_30d",
+      "retentionPolicy": "30d",
+      "shardDuration": "7d",
+      "regex": "/.*/",
+      "replicationFactor": 1,
+      "split": 1
+    },
+    {
+      "name": "forever",
+      "retentionPolicy": "inf",
+      "shardDuration": "7d",
+      "regex": "/^_.*/",
+      "replicationFactor": 1,
+      "split": 1
+    },
+    {
+      "name": "rollups",
+      "retentionPolicy": "365d",
+      "shardDuration": "30d",
+      "regex": "/^\d+m.*/",
+      "replicationFactor": 1,
+      "split": 1
+    }
+  ],
+  "continuousQueries": [
+    "select * from events into events.[id]",
+    "select count(value) from events group by time(5m) into 5m.count.events"
+  ]
+}
+```
+
 Note that shard spaces should be ordered in the file from least specific to most. If you have a generic catch all shard space, it should be listed as the first one.
-[Here's an example file](https://github.com/influxdb/influxdb/blob/master/integration/database_conf.json). 
 
-
-Then, create databases and shard definitions via the command line. Like so:
+Create the database, shard spaces, and continuous queries with this call:
 
 ```
-influxdb -load-database-config="myconfig.json"
+curl -X POST \
+  "http://localhost/cluster/shard_spaces/mydb:8086?u=root&p=root" \
+  --data-binary @myconfig.json
 ```
 
-Or run ```influxdb -h``` to see all options.
+There you're creating a database called `mydb` and loading it with the shard space and continuous query config from the local file `myconfig.json`.
 
 You can only run this command once when initially creating the database. It will error out if the database already exists. Later on we'll have tools for working with existing databases.
-
