@@ -4,7 +4,7 @@
 
 <p>The first thing you should do is back up your data. Shut down InfluxDB and make copies of the <code>raft</code> and <code>wal</code> directories. The underlying <code>db/shard_db</code> directory won&rsquo;t be modified in any way so you should be safe without backing up the raw database files.</p>
 
-<p>Install version 0.8 and start InfluxDB up. Note that none of your old data will show up in queries at this point. Don&rsquo;t be alarmed, we&rsquo;re going to kick off a background migration to move it over. We chose to do it this way so you could have a small amount of down time for accepting writes and let the migration progress while you&rsquo;re still ingesting data.</p>
+<p>Install version 0.8 and start InfluxDB up. If you have a cluster, shut all of them down upgrade them all and start them back up. Note that none of your old data will show up in queries at this point. Don&rsquo;t be alarmed, we&rsquo;re going to kick off a background migration to move it over. We chose to do it this way so you could have a small amount of down time for accepting writes and let the migration progress while you&rsquo;re still ingesting data.</p>
 
 <p>The upgraded Influx will be able to take writes as soon as it starts. Since you haven&rsquo;t created a shard space yet, a default one will be created for you. You&rsquo;ll probably want to create some shard spaces.</p>
 
@@ -62,7 +62,9 @@ curl -X POST <span class="s2">"http://localhost:8086/cluster/shard_spaces/test?u
 
 <p>That&rsquo;ll kick off a migration in the background. It will look in your <code>db/shard_db</code> directory for the shards there. It will migrate each of them highest number to lowest. This will generally mean that most recent data will be migrated first. You should be able to perform writes and queries against Influx while this is running.</p>
 
-<p>As each shard is migrated a marker file will be written to <code>db/shard_db/00001/MIGRATED</code> where <code>00001</code> is whatever the shard number is. Note that the old shard numbers may not be the same as the new shard numbers. New shards can be found at <code>db/shard_db_v2</code>. You can also keep an eye on the log to see how the migration is progressing.</p>
+<p>As each shard is migrated a marker file will be written to <code>db/shard_db/00001/MIGRATED</code> where <code>00001</code> is whatever the shard number is. Note that the old shard numbers may not be the same as the new shard numbers. New shards can be found at <code>db/shard_db_v2</code>. You can also keep an eye on the log to see how the migration is progressing. Depending on how much data you have, migration could take a considerable amount of time.</p>
+
+<p><strong>NOTE:</strong> The old data will still remain on disk after it is migrated. You&rsquo;ll want to go through and remove that manually once things are done. Any directory that has a <code>MIGRATED</code> file in it should be safe to delete.</p>
 </div></div></section><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
