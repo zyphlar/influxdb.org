@@ -101,7 +101,7 @@ Create the database, shard spaces, and continuous queries with this call:
 
 ```
 curl -X POST \
-  "http://localhost/cluster/shard_spaces/mydb:8086?u=root&p=root" \
+  "http://localhost:8086/cluster/database_configs/mydb?u=root&p=root" \
   --data-binary @myconfig.json
 ```
 
