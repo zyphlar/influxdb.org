@@ -83,7 +83,7 @@ You must set up shard spaces when you create your database. You can also set up 
       "name": "rollups",
       "retentionPolicy": "365d",
       "shardDuration": "30d",
-      "regex": "/^\d+m.*/",
+      "regex": "/^\\d+.*/",
       "replicationFactor": 1,
       "split": 1
     }
