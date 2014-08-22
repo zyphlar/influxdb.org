@@ -74,6 +74,18 @@ curl -X POST "http://localhost:8086/cluster/migrate_data?u=root&p=root"
 
 That'll kick off a migration in the background. It will look in your `db/shard_db` directory for the shards there. It will migrate each of them highest number to lowest. This will generally mean that most recent data will be migrated first. You should be able to perform writes and queries against Influx while this is running.
 
+__NOTE:__ By default the migration routine will pause for 100ms after 10,000 points have been migrated. We put this in so that the migration wouldn't completely overwhelm your server. You can adjust this with the query parameter `pause` like this:
+
+```
+# no pause
+curl -X POST "http://localhost:8086/cluster/migrate_data?u=root&p=root&pause=0s"
+
+# bigger pause
+curl -X POST "http://localhost:8086/cluster/migrate_data?u=root&p=root&pause=1s"
+```
+
+You can use `u`, `ms`, `s`, and `m` units on the pause time.
+
 As each shard is migrated a marker file will be written to `db/shard_db/00001/MIGRATED` where `00001` is whatever the shard number is. Note that the old shard numbers may not be the same as the new shard numbers. New shards can be found at `db/shard_db_v2`. You can also keep an eye on the log to see how the migration is progressing. Depending on how much data you have, migration could take a considerable amount of time.
 
 __NOTE:__ The old data will still remain on disk after it is migrated. You'll want to go through and remove that manually once things are done. Any directory that has a `MIGRATED` file in it should be safe to delete.
