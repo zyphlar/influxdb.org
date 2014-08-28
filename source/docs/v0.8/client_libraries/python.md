@@ -54,11 +54,11 @@ Example:
     ]
     db.write_points(data)
 
-#### write\_points\_with\_precision(_data_, _time-precision_='s')
+#### write\_points\_with\_precision(_data_, _time\_precision_='s')
 
 Write to multiple time series names with defined precision.
 
-#### query(_query_, _time-precision_='s', _chunked_=False)
+#### query(_query_, _time\_precision_='s', _chunked_=False)
 
 Query for data
 
