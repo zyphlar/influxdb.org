@@ -28,11 +28,11 @@ the endpoints specific to cluster admins:
 
 ```bash
 # get list of cluster admins curl
-'http://localhost:8086/cluster_admins?u=root&p=root'
+curl 'http://localhost:8086/cluster_admins?u=root&p=root'
 
 # add cluster admin
 curl -X POST 'http://localhost:8086/cluster_admins?u=root&p=root' \
-  -d '{"name: "paul", "password": "i write teh docz"}'
+  -d '{"name": "paul", "password": "i write teh docz"}'
 
 # update cluster admin password
 curl -X POST 'http://localhost:8086/cluster_admins/paul?u=root&p=root' \
