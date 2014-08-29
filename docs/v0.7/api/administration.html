@@ -24,11 +24,11 @@ users and database admins to any database and change their read and
 write access. A cluster admin can&rsquo;t query a database though. Below are
 the endpoints specific to cluster admins:</p>
 <pre class="highlight shell"><span class="c"># get list of cluster admins curl</span>
-<span class="s1">'http://localhost:8086/cluster_admins?u=root&amp;p=root'</span>
+curl <span class="s1">'http://localhost:8086/cluster_admins?u=root&amp;p=root'</span>
 
 <span class="c"># add cluster admin</span>
 curl -X POST <span class="s1">'http://localhost:8086/cluster_admins?u=root&amp;p=root'</span> <span class="se">\</span>
-  -d <span class="s1">'{"name: "paul", "password": "i write teh docz"}'</span>
+  -d <span class="s1">'{"name": "paul", "password": "i write teh docz"}'</span>
 
 <span class="c"># update cluster admin password</span>
 curl -X POST <span class="s1">'http://localhost:8086/cluster_admins/paul?u=root&amp;p=root'</span> <span class="se">\</span>
