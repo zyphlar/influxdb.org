@@ -108,3 +108,23 @@ curl -X POST \
 There you're creating a database called `mydb` and loading it with the shard space and continuous query config from the local file `myconfig.json`.
 
 You can only run this command once when initially creating the database. It will error out if the database already exists. Later on we'll have tools for working with existing databases.
+
+# Updating Shard Spaces
+
+As of version 0.8.2 you can update shard space definitions. However, it's important to note that updates do not move things around. The updates to replication factor and split will only cause future shards to have those changes. If you update the regex, you could end up hiding a bunch of data that was previously accessible.
+
+So be very careful when using this feature. If you don't fully understand shard spaces and how things work, it's best to avoid this one.
+
+The API endpoint is: `/cluster/shard_spaces/:db/:name`. Where :db is the database name and :name is the shard space name. You can post JSON that looks like this:
+
+```json
+{
+  "retentionPolicy": "365d",
+  "shardDuration": "30d",
+  "regex": "/^\\d+.*/",
+  "replicationFactor": 1,
+  "split": 1
+}
+```
+
+Updates to the retention policy will take effect on the next sweep, which happens every 10 minutes. Updates to replication factor and split will be take into account the next time shards must be created for a shard space. Regex updates will take effect for any writes after the update and for any queries.
