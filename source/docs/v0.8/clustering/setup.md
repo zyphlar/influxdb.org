@@ -4,7 +4,7 @@ title: InfluxDB Cluster Setup
 
 # Cluster Setup
 
-The current clustering implementation is only a prototype. We suggest using Influx in single server mode for the time being. However, if you're feeling adventurous, here's how you set up a cluster.
+The current clustering implementation is experimental. We suggest using Influx in single server mode for the time being. However, if you're feeling adventurous, here's how you set up a cluster.
 
 Ensure that the Raft and Protobuf ports are accessible between servers in the cluster. On the configs of every server, set the `hostname` setting. This should be a resolvable hostname or IP address.
 
