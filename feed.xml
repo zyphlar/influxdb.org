@@ -5,10 +5,93 @@
   <id>http://influxdb.org/blog</id>
   <link href="http://influxdb.org/blog"/>
   <link href="http://influxdb.org/feed.xml" rel="self"/>
-  <updated>2014-06-19T20:00:00-04:00</updated>
+  <updated>2014-09-25T20:00:00-04:00</updated>
   <author>
     <name>InfluxDB</name>
   </author>
+  <entry>
+    <title>One year of InfluxDB and the road to 1.0</title>
+    <link rel="alternate" href="http://influxdb.org/blog/2014/09/26/one-year-of-influxdb-and-the-road-to-1_0.html"/>
+    <id>http://influxdb.org/blog/2014/09/26/one-year-of-influxdb-and-the-road-to-1_0.html</id>
+    <published>2014-09-25T20:00:00-04:00</published>
+    <updated>2014-09-26T13:57:00-04:00</updated>
+    <author>
+      <name>Paul Dix</name>
+    </author>
+    <content type="html">&lt;p&gt;I&amp;rsquo;m sitting in a Starbucks in Tokyo as I write this. I&amp;rsquo;m here because &lt;a href="https://github.com/chobie"&gt;Shuhei Tanuma&lt;/a&gt;, a developer at GREE, has invited me to give a talk about our experiences developing InfluxDB in Golang at a &lt;a href="https://atnd.org/events/55464"&gt;GREE tech event&lt;/a&gt;. Shuhei is also one of the 47 contributors we&amp;rsquo;ve had issue pull requests to the core of InfluxDB in the last year. He&amp;rsquo;s using InfluxDB to store server and application performance data at GREE, a mobile social gaming company that&amp;rsquo;s publicly traded on the Tokyo stock exchange.&lt;/p&gt;
+
+&lt;p&gt;It&amp;rsquo;s hard to imagine that only a year ago this project didn&amp;rsquo;t exist.&lt;/p&gt;
+
+&lt;p&gt;&lt;img alt="first commit" src="/images/first_commit.png" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Now that a year has gone by I wanted to take the opportunity to reflect on our path and look ahead to what we need to accomplish to get to version 1.0 of InfluxDB.&lt;/p&gt;
+
+&lt;h3 id="the-tale-of-a-pivot"&gt;The tale of a pivot&lt;/h3&gt;
+
+&lt;p&gt;The genesis of InfluxDB starts well before that first commit. In the fall of 2012, Todd Persen and I applied to Y Combinator for the W13 batch. We were accepted for a project we were working on called Errplane, a real-time metrics and monitoring SaaS application. As part of the YC application process you&amp;rsquo;re asked to list any other ideas you might want to work on. Our only other idea was &amp;ldquo;an open source time series database.&amp;rdquo;&lt;/p&gt;
+
+&lt;p&gt;We got into YC and spent the entire time working on Errplane. Afterwards, we raised a seed round of funding and continued to work on Errplane until that first InfluxDB commit. However, we had to build something like InfluxDB before we could build Errplane. The evolution of the Errplane API is one of the things that led us directly to InfluxDB.&lt;/p&gt;
+
+&lt;p&gt;The first version of Errplane from 2012 was built on top of web services written in Scala using Cassandra to store metrics and time series data. This is a common use case for Cassandra and it&amp;rsquo;s not the first time I&amp;rsquo;ve built a &amp;ldquo;time series database&amp;rdquo; on top of it. Around the end of 2012 we had the idea that we&amp;rsquo;d want to do on-premise deployments of the application. We figured we&amp;rsquo;d need to have an architecture that was a little more self contained so we started looking at rewriting it in Go.&lt;/p&gt;
+
+&lt;p&gt;Version 2.0 of the Errplane API was written Go using LevelDB as the underlying storage engine (two technologies that InfluxDB relies on).&lt;/p&gt;
+
+&lt;p&gt;&lt;img alt="errplane api commit" src="/images/errplane_api_commit.png" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Over the next 10 months we improved the Errplane API and pushed out two major versions. In its original design the API consisted of three separate services. One for data collection with a pub-sub mechanism, one for counting and aggregating (like StatsD), and a service for answering queries. The API was somewhat RESTful and could store both metrics and events data.&lt;/p&gt;
+
+&lt;p&gt;While we thought the API was cool, Errplane as a product wasn&amp;rsquo;t taking off like we hoped it would. We knew there was a lot of work to do and features that users were expecting, but we were resource constrained and trying to take on too many things at the same time. However, we did have some people paying us for the service that were very enthusiastic about what we were doing. So we dug into how they were using the product. As it turned out, they were using our API like a time series database.&lt;/p&gt;
+
+&lt;h3 id="open-source-time-series-databases-are-a-ghetto"&gt;Open source time series databases are a ghetto&lt;/h3&gt;
+
+&lt;p&gt;Late in the summer of 2013 we started thinking about making a drastic shift in our strategy. The time series database angle looked interesting so we checked out what other people were doing. In the closed source world there are countless examples. In fact, almost any monitoring, APM, metrics, or analytics company has had to roll their own time series solution from scratch. Most of these are exposed as APIs that customers can use directly outside of the actual product, but very few developers outside the companies that produce these APIs use them. &lt;/p&gt;
+
+&lt;p&gt;In the open source world we found Graphite and OpenTSDB. While the approach each project takes is a little different, both have some great features. Graphite also looked like it had a fairly large user base that was continuing to grow.&lt;/p&gt;
+
+&lt;p&gt;Despite Graphite&amp;rsquo;s popularity and the growing need in many organizations to handle time series data, neither of these projects were being pushed forward at any level approaching other open source projects like Cassandra, Riak, Mongo, or Hadoop. I talked to users of Graphite and the two most common complaints I heard were that it was a pain to install and that it didn&amp;rsquo;t scale well. The few OpenTSDB users I talked to complained about having to run an HBase cluster and that it was too easy to create hot spots that would kill performance.&lt;/p&gt;
+
+&lt;p&gt;We started seriously considering the open source time series database idea we had put in our YC application. The final moment of realization came for me in Berlin in September of 2013 at the &lt;a href="http://monitorama.eu"&gt;Monitorama conference&lt;/a&gt;. I signed up to attend and even had Errplane sponsor the event so I could present something new we were working on. I thought it might be a good place to meet potential customers.&lt;/p&gt;
+
+&lt;p&gt;What I found instead was that half of the attendees were employees and entrepreneurs at monitoring, metrics, DevOps, and server analytics companies. Most of them had a story about how their metrics API was their key intellectual property that took them years to develop. The other half of the attendees were developers at larger organizations that were rolling their own DevOps stack from a collection of open source tools. Almost all of them were creating a &amp;ldquo;time series database&amp;rdquo; with a bunch of web services code on top of some other database or just using Graphite.&lt;/p&gt;
+
+&lt;p&gt;When everyone is repeating the same work, it&amp;rsquo;s not key intellectual property or a differentiator, it&amp;rsquo;s a barrier to entry. Not only that, it&amp;rsquo;s something that is hindering innovation in this space since everyone has to spend their first year or two getting to the point where they can start building something real. It&amp;rsquo;s like building a web company in 1998. You have to spend millions of dollars and a year building infrastructure, racking servers, and getting everything ready before you could run the application. Monitoring and analytics applications should not be like this.&lt;/p&gt;
+
+&lt;p&gt;If so many people had the time series use case it seemed there was an opportunity to create a standard open platform. So I traveled back from Berlin and nervously announced to Todd and John that I thought we should start the open source project. They were both concerned about making such a drastic move, but we had a little bit of wiggle room. We figured that we could test the idea out in about two months. We had to make the choice to either continue pushing a boulder uphill with Errplane or take a risk that the open source time series database was something people needed and there was room for another player.&lt;/p&gt;
+
+&lt;h3 id="influxdb-gets-announced-to-the-world"&gt;InfluxDB gets announced to the world&lt;/h3&gt;
+
+&lt;p&gt;We decided to take some lessons we learned from the Errplane API and start a fresh project. We worked on InfluxDB without really telling anyone other than our investors what we were doing for about 4 weeks. After that I thought we were far enough along to start talking about it and get some feedback on the API. I arranged to give talks at the &lt;a href="http://www.meetup.com/NYC-rb/events/141323452/"&gt;NYC Ruby Meetup&lt;/a&gt; and the &lt;a href="http://www.meetup.com/nyhackr/events/148609252/"&gt;NY Open Statistical Programming Meetup&lt;/a&gt;. Word got out about the project. O&amp;#39;Reilly posted a link on their &lt;a href="http://radar.oreilly.com/2013/11/four-short-links-5-november-2013.html"&gt;Radar Blog&lt;/a&gt;. Someone posted the documentation site to Hacker News where it stayed on the front page for most of the day.&lt;/p&gt;
+
+&lt;p&gt;Since then I&amp;rsquo;ve received an incredible amount of encouragement on what we&amp;rsquo;re building. I&amp;rsquo;ve been invited to give talks at the NY League of Professional Systems Administrators, Boston Ruby, Dropbox, a meetup in Charlottesville organized by &lt;a href="https://vividcortex.com/"&gt;Vivid Cortex&lt;/a&gt;, SF Data Engineers, Pivtol Tech Talks, Square, Data Dog, CloudFlare, Monitorama, GREE, Paris Data Geeks, and probably a few others I&amp;rsquo;m forgetting. I think I&amp;rsquo;ve given about 22 talks about InfluxDB in the past 12 months.&lt;/p&gt;
+
+&lt;p&gt;Luckily, I wasn&amp;rsquo;t alone. Members of the growing InfluxDB community have given talks around the world including ones in &lt;a href="https://speakerdeck.com/smly/influxdb-and-leveldb-inside-out"&gt;Kyoto&lt;/a&gt;, &lt;a href="http://www.meetup.com/devops-sydney/events/118488982/"&gt;Sydney&lt;/a&gt;, &lt;a href="http://www.colognerb.de/topics/zeitreihendaten-mit-influxdb"&gt;Cologne&lt;/a&gt;, and &lt;a href="https://2014.nosql-matters.org/dub/abstracts/#abstract_5279382692"&gt;Dublin&lt;/a&gt;. The interest in InfluxDB has been overwhelming and it&amp;rsquo;s encouraging to us to continue to push the project forward. Here are some interesting stats around the project.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Over 2,500 InfluxDB servers reported running in the last 24 hours&lt;/li&gt;
+&lt;li&gt;Over 3,000 &lt;a href="https://github.com/influxdb/influxdb"&gt;stars on Github&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;47 contributors to core&lt;/li&gt;
+&lt;li&gt;Over 17 client libraries written by external contributors for almost every language&lt;/li&gt;
+&lt;li&gt;4 command line interfaces for InfluxDB (Node, Perl, Ruby, and Go)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Despite how young InfluxDB is as an open source project, companies and other open source projects are forging ahead by deploying it into production and integrating Influx into their stack. Some of the more notable examples include &lt;a href="https://blog.heroku.com/archives/2014/8/5/new-dashboard-and-metrics-beta#heroku-metrics"&gt;Heroku building a metrics dashboard for dynos&lt;/a&gt;, &lt;a href="http://tech.gilt.com/post/98337737919/slideshows-and-photos-from-last-nights-dublin-scala-ug"&gt;Gilt building a monitoring stack&lt;/a&gt;, &lt;a href="http://dieter.plaetinck.be/influxdb-as-graphite-backend-part2.html"&gt;Dieter Plaetinick working to replace Graphite at Vimeo&lt;/a&gt;, &lt;a href="https://github.com/google/cadvisor"&gt;Google&amp;rsquo;s cAdvisor adding InfluxDB support&lt;/a&gt;, and the &lt;a href="https://wiki.openstack.org/wiki/Monasca"&gt;OpenStack Monasca project adding InfluxDB support&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id="the-road-to-1.0"&gt;The road to 1.0&lt;/h3&gt;
+
+&lt;p&gt;With all this interest in the project we&amp;rsquo;ve had a bunch of feedback. We&amp;rsquo;ve encountered and fixed bugs and tried to be as helpful as possible with questions and feature requests. Even though there are already people running Influx in production, a 1.0 version would give more people confidence in running Influx as a key part of their stack. Here&amp;rsquo;s a list of some of the priorities we&amp;rsquo;ll be focusing on to get there:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;A robust and scalable clustering implementation&lt;/li&gt;
+&lt;li&gt;Tools for devops on Influx production clusters like hot backups and node replacement&lt;/li&gt;
+&lt;li&gt;Revisiting the API to match more closely with the metrics use case&lt;/li&gt;
+&lt;li&gt;Taking some of the common patterns that are emerging and building them into the API&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Basically, we&amp;rsquo;re focusing on stability, production use, and making sure the API is mature enough that it won&amp;rsquo;t have major changes for a while. We&amp;rsquo;ve already started much of this work and I&amp;quot;ll be writing more here and on the mailing list about changes we&amp;rsquo;ll be making to the API.&lt;/p&gt;
+
+&lt;p&gt;If you&amp;rsquo;re an InfluxDB user, fan, or simply interested in what we&amp;rsquo;re doing, thank you. It&amp;rsquo;s been an incredible year and the next 12 months are going to be even better. We&amp;rsquo;ll keep shipping code and pushing to make Influx a core piece of infrastructure that delights developers and saves time and effort when building any kind of analytics or monitoring product.&lt;/p&gt;
+</content>
+  </entry>
   <entry>
     <title>Benchmarking LevelDB vs. RocksDB vs. HyperLevelDB vs. LMDB Performance for InfluxDB</title>
     <link rel="alternate" href="http://influxdb.org/blog/2014/06/20/leveldb_vs_rocksdb_vs_hyperleveldb_vs_lmdb_performance.html"/>
@@ -324,140 +407,6 @@ table tr td {
 &lt;/pre&gt;
 
 &lt;p&gt;If you&amp;rsquo;re upgrading from a previous version you&amp;rsquo;ll need to delete your Raft and DB directories.&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>Building Custom Interfaces For InfluxDB</title>
-    <link rel="alternate" href="http://influxdb.org/blog/2013/12/02/building_custom_interfaces_for_influxdb.html"/>
-    <id>http://influxdb.org/blog/2013/12/02/building_custom_interfaces_for_influxdb.html</id>
-    <published>2013-12-01T19:00:00-05:00</published>
-    <updated>2013-12-05T11:22:36-05:00</updated>
-    <author>
-      <name>Todd Persen</name>
-    </author>
-    <content type="html">&lt;p&gt;In addition to shipping with a basic admin interface, InfluxDB also allows you to create &lt;a href="/docs/interfaces/custom.html"&gt;custom interfaces&lt;/a&gt; with a little bit of HTML and JavaScript and drop them into the admin interface as plugins. This makes it easy to build custom dashboards or reporting interfaces that you can share with others. In this post, we&amp;rsquo;ll walk through the basic concepts of building a plugin and put together a quick visualization example.&lt;/p&gt;
-
-&lt;h3 id="getting-started"&gt;Getting Started&lt;/h3&gt;
-
-&lt;p&gt;You&amp;rsquo;ll need to be running version 0.3.2 or greater of InfluxDB for this to work (&lt;code&gt;brew update &amp;amp;&amp;amp; brew upgrade influxdb&lt;/code&gt;). First, it helps to know how the admin interface is structured so that you get a better sense of the world in which your custom interface will live. The &lt;a href="https://github.com/influxdb/influxdb-admin"&gt;admin interface&lt;/a&gt; is built as a single-page application written in &lt;a href="http://angularjs.org/"&gt;AngularJS&lt;/a&gt;. Custom interfaces are loaded within an iframe, so that they are effectively isolated from the rest of the admin interface. This means that you will need to load your own JavaScript and CSS assets, but also means that you&amp;rsquo;re free to build the application as you wish. The only requirement is that you build it as a single-page application, so that it doesn&amp;rsquo;t navigate the browser away from the container.&lt;/p&gt;
-
-&lt;p&gt;Since the admin interface is responsible for authentication, it exposes an InfluxDB connection that can be accessed from within the iframe so that you aren&amp;rsquo;t required to re-authenticate your custom interface when it loads. You can access this as &lt;code&gt;window.parent.window.influxdb&lt;/code&gt; or just &lt;code&gt;parent.influxdb&lt;/code&gt;, and the interface will conform to that of the &lt;a href="/docs/libraries/javascript.html"&gt;InfluxDB JavaScript Library&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h3 id="how-influxdb-organizes-custom-interfaces"&gt;How InfluxDB Organizes Custom Interfaces&lt;/h3&gt;
-
-&lt;p&gt;When you look at the InfluxDB configuration file, you&amp;rsquo;ll see a variable called &lt;code&gt;AdminAssetsDir&lt;/code&gt;. This is the path that admin interface assets are served from. The &lt;code&gt;index.html&lt;/code&gt; that ships with InfluxDB is the starting point for the admin interface. There is also a subfolder called &lt;code&gt;interfaces&lt;/code&gt; which is where the custom interfaces live. By default, InfluxDB comes with an interface called &lt;code&gt;default&lt;/code&gt;, but you can make your own by creating a subfolder with an appropriate name. These names should be lowercase and underscored, as they will be converted into human readable names automatically. Let&amp;rsquo;s call this one &lt;code&gt;example&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h3 id="starting-with-some-html"&gt;Starting With Some HTML&lt;/h3&gt;
-
-&lt;p&gt;This example interface is going to pull in some data from an InfluxDB instance and graph it for us, just like we might want on a dashboard. Let&amp;rsquo;s start by setting up an quick framework, which will be a basic HTML page with jQuery, D3, Rickshaw, and Bootstrap. Notice that we don&amp;rsquo;t need to include the InfluxDB library because it&amp;rsquo;s already loaded in the parent container, which we&amp;rsquo;ll leverage. We&amp;rsquo;ll also add a div with an id of &lt;code&gt;chart&lt;/code&gt;, so that we can insert a graph into it.&lt;/p&gt;
-&lt;pre class="highlight html"&gt;&lt;span class="nt"&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
-  &lt;span class="nt"&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
-    &lt;span class="nt"&gt;&amp;lt;title&amp;gt;&lt;/span&gt;InfluxDB Custom Interface Example&lt;span class="nt"&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
-    &lt;span class="nt"&gt;&amp;lt;script &lt;/span&gt;&lt;span class="na"&gt;src=&lt;/span&gt;&lt;span class="s"&gt;"http://code.jquery.com/jquery-2.0.3.min.js"&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;"text/javascript"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
-    &lt;span class="nt"&gt;&amp;lt;script &lt;/span&gt;&lt;span class="na"&gt;src=&lt;/span&gt;&lt;span class="s"&gt;"http://d3js.org/d3.v3.min.js"&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;"text/javascript"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
-    &lt;span class="nt"&gt;&amp;lt;script &lt;/span&gt;&lt;span class="na"&gt;src=&lt;/span&gt;&lt;span class="s"&gt;"http://influxdb.org/javascripts/vendor/rickshaw.js"&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;"text/javascript"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
-    &lt;span class="nt"&gt;&amp;lt;script &lt;/span&gt;&lt;span class="na"&gt;src=&lt;/span&gt;&lt;span class="s"&gt;"/javascripts/interfaces/example.js"&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;"text/javascript"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
-
-    &lt;span class="nt"&gt;&amp;lt;link&lt;/span&gt; &lt;span class="na"&gt;href=&lt;/span&gt;&lt;span class="s"&gt;"http://influxdb.org/stylesheets/vendor/rickshaw.css"&lt;/span&gt; &lt;span class="na"&gt;media=&lt;/span&gt;&lt;span class="s"&gt;"screen"&lt;/span&gt; &lt;span class="na"&gt;rel=&lt;/span&gt;&lt;span class="s"&gt;"stylesheet"&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;"text/css"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class="nt"&gt;&amp;lt;link&lt;/span&gt; &lt;span class="na"&gt;href=&lt;/span&gt;&lt;span class="s"&gt;"//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"&lt;/span&gt; &lt;span class="na"&gt;media=&lt;/span&gt;&lt;span class="s"&gt;"screen"&lt;/span&gt; &lt;span class="na"&gt;rel=&lt;/span&gt;&lt;span class="s"&gt;"stylesheet"&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;"text/css"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
-  &lt;span class="nt"&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
-  &lt;span class="nt"&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
-    &lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;"container"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
-      &lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;"row"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
-        &lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;"col-md-12"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
-          &lt;span class="nt"&gt;&amp;lt;h1&amp;gt;&lt;/span&gt;Important Dashboard&lt;span class="nt"&gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;
-          &lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;id=&lt;/span&gt;&lt;span class="s"&gt;"chart_container"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
-            &lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;id=&lt;/span&gt;&lt;span class="s"&gt;"y_axis"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-            &lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;id=&lt;/span&gt;&lt;span class="s"&gt;"x_axis"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-            &lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;id=&lt;/span&gt;&lt;span class="s"&gt;"chart"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-          &lt;span class="nt"&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-        &lt;span class="nt"&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-      &lt;span class="nt"&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-    &lt;span class="nt"&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-  &lt;span class="nt"&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
-&lt;span class="nt"&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
-&lt;/pre&gt;
-
-&lt;p&gt;Save this as &lt;code&gt;index.html&lt;/code&gt; inside the subfolder called &lt;code&gt;example&lt;/code&gt;, which should leave us with a structure like this:&lt;/p&gt;
-&lt;pre class="highlight shell"&gt;admin/
-  index.html
-  interfaces/
-    default/
-      index.html
-    example/
-      index.html
-&lt;/pre&gt;
-
-&lt;h3 id="connecting-with-some-javascript"&gt;Connecting With Some JavaScript&lt;/h3&gt;
-
-&lt;p&gt;Next, we need to fetch data from the server and graph it on the page. To do this, we just need to use the InfluxDB object from the parent window (remember, this is available as &lt;code&gt;parent.influxdb&lt;/code&gt;) and then hand the data off to Rickshaw and D3 for graphing. For this example, we&amp;rsquo;ll assume that there is a table called &lt;code&gt;posts&lt;/code&gt; from which we can query data grouped by day.&lt;/p&gt;
-&lt;pre class="highlight javascript"&gt;&lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-  &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"input"&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;click&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-    &lt;span class="nx"&gt;parent&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;influxdb&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;query&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"SELECT COUNT(message) FROM posts WHERE time &amp;gt; now() - 365d GROUP BY time(24h);"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;points&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-      &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;points&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;map&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;point&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="na"&gt;x&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;point&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;time&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="mi"&gt;1000&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="na"&gt;y&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;point&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;count&lt;/span&gt; &lt;span class="p"&gt;};&lt;/span&gt;
-      &lt;span class="p"&gt;}).&lt;/span&gt;&lt;span class="nx"&gt;reverse&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
-
-      &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;graph&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;Rickshaw&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Graph&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
-        &lt;span class="na"&gt;element&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;querySelector&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"#chart"&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
-        &lt;span class="na"&gt;width&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;1100&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="na"&gt;height&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;200&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="na"&gt;renderer&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;'line'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="na"&gt;series&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[{&lt;/span&gt; &lt;span class="na"&gt;data&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="na"&gt;color&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;'steelblue'&lt;/span&gt; &lt;span class="p"&gt;}]&lt;/span&gt;
-      &lt;span class="p"&gt;});&lt;/span&gt;
-
-      &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;xAxis&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;Rickshaw&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Graph&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Axis&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Time&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt; &lt;span class="na"&gt;graph&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;graph&lt;/span&gt; &lt;span class="p"&gt;});&lt;/span&gt;
-      &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;yAxis&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;Rickshaw&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Graph&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Axis&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Y&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
-        &lt;span class="na"&gt;graph&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;graph&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="na"&gt;orientation&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;'left'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="na"&gt;element&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getElementById&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'y_axis'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-      &lt;span class="p"&gt;});&lt;/span&gt;
-
-      &lt;span class="nx"&gt;xAxis&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;render&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
-      &lt;span class="nx"&gt;yAxis&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;render&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
-      &lt;span class="nx"&gt;graph&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;render&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
-    &lt;span class="p"&gt;});&lt;/span&gt;
-  &lt;span class="p"&gt;});&lt;/span&gt;
-&lt;span class="p"&gt;});&lt;/span&gt;
-&lt;/pre&gt;
-
-&lt;h3 id="finish-it-off-with-a-little-style"&gt;Finish It Off With A Little Style&lt;/h3&gt;
-
-&lt;p&gt;To make the graph look nice, we can add a little bit of CSS to enhance the layout of the axes and labels. This is pretty standard, but should give you an idea how to get started on your own styling.&lt;/p&gt;
-&lt;pre class="highlight css"&gt;&lt;span class="nf"&gt;#chart_container&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-  &lt;span class="nl"&gt;position&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;relative&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-  &lt;span class="nl"&gt;font-family&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Arial&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Helvetica&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;sans-serif&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-  &lt;span class="nl"&gt;margin-top&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="m"&gt;20px&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;span class="p"&gt;}&lt;/span&gt;
-&lt;span class="nf"&gt;#chart&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-  &lt;span class="nl"&gt;position&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;absolute&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-  &lt;span class="nl"&gt;left&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="m"&gt;30px&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;span class="p"&gt;}&lt;/span&gt;
-&lt;span class="nf"&gt;#y_axis&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-  &lt;span class="nl"&gt;position&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;absolute&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-  &lt;span class="nl"&gt;top&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-  &lt;span class="nl"&gt;bottom&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-  &lt;span class="nl"&gt;width&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="m"&gt;30px&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;span class="p"&gt;}&lt;/span&gt;
-&lt;span class="nf"&gt;#y_axis&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nt"&gt;svg&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;  
-  &lt;span class="nl"&gt;padding-bottom&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="m"&gt;20px&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;span class="p"&gt;}&lt;/span&gt;
-&lt;span class="nc"&gt;.x_tick&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-  &lt;span class="nl"&gt;bottom&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="m"&gt;-15px&lt;/span&gt; &lt;span class="cp"&gt;!important&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;span class="p"&gt;}&lt;/span&gt;
-&lt;/pre&gt;
-
-&lt;h3 id="seeing-it-all-come-together"&gt;Seeing It All Come Together&lt;/h3&gt;
-
-&lt;p&gt;If we put all of the pieces in the right place, we should see our interface appear under the Interfaces tab when logging in as a database user. Though it&amp;rsquo;s an extremely simple case, the resulting output should look something like this:&lt;/p&gt;
-
-&lt;p&gt;&lt;img alt="Screenshot Of A Custom Interface" src="/images/custom_interface.png" /&gt;&lt;/p&gt;
-
-&lt;h3 id="making-it-easier-with-the-asset-pipeline"&gt;Making It Easier With The Asset Pipeline&lt;/h3&gt;
-
-&lt;p&gt;In building this example on your own, you could drop the JavaScript into a &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt; tag and the CSS into a &lt;code&gt;&amp;lt;style&amp;gt;&lt;/code&gt; tag embedded within the page. Alternatively, you could fork the &lt;a href="https://github.com/influxdb/influxdb-admin"&gt;admin interface repo&lt;/a&gt;, which is built with middleman, and use the asset pipeline to separate your components more cleanly. You can use the default interface as an example.&lt;/p&gt;
-
-&lt;p&gt;If you end up building an interface that you want to share, send us a pull request!&lt;/p&gt;
 </content>
   </entry>
 </feed>
