@@ -40,7 +40,7 @@ Data is assigned to a shard using the following algorithm:
 
 The best way to use shard spaces is to have high precision data write into a shard space with a lower retention policy. Then have continuous queries downsample from that data into new series that start with their interval (like `1h` or `10m`). Create a shard space that will match against those series names.
 
-Dropping shard, shard spaces, and databases are very efficient operations. If you're going to be clearning out certain data regularly, it's best to use the shard spaces feature to organize things so that it's efficient.
+Dropping shard, shard spaces, and databases are very efficient operations. If you're going to be cleaning out certain data regularly, it's best to use the shard spaces feature to organize things so that it's efficient.
 
 Note that a duration of `inf` or an empty string will cause the shards in that space to never be automatically dropped. If you create a database and start writing data in, the following shard space will be created automatically:
 

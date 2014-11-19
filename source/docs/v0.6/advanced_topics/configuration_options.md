@@ -87,7 +87,7 @@ protobuf_port = 8099
 protobuf_timeout = "2s" # the write timeout on the protobuf conn any duration parseable by time.ParseDuration
 protobuf_heartbeat = "200ms" # the heartbeat interval between the servers. must be parseable by time.ParseDuration
 protobuf_min_backoff = "1s" # the minimum backoff after a failed heartbeat attempt
-protobuf_max_backoff = "10s" # the maxmimum backoff after a failed heartbeat attempt
+protobuf_max_backoff = "10s" # the maximum backoff after a failed heartbeat attempt
 
 # How many write requests to potentially buffer in memory per server. If the buffer gets filled then writes
 # will still be logged and once the server has caught up (or come back online) the writes
@@ -148,7 +148,7 @@ point-batch-size = 100
   # split will determine how many shards to split each duration into. For example,
   # if we created a shard for 2014-02-10 and split was set to 2. Then two shards
   # would be created that have the data for 2014-02-10. By default, data will
-  # be split into those two shards deterministically by hashing the (database, serise)
+  # be split into those two shards deterministically by hashing the (database, series)
   # tuple. That means that data for a given series will be written to a single shard
   # making querying efficient. That can be overridden with the next option.
   split = 1

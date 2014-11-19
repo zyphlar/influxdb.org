@@ -83,7 +83,7 @@ timestamp in microseconds. For example:
 select value from response_times where time > 1388534400s
 ```
 
-will return all points that were writtern after `2014-01-01 00:00:00`
+will return all points that were written after `2014-01-01 00:00:00`
 
 ## Selecting a Specific Point
 
