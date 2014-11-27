@@ -173,7 +173,7 @@
 <p><img alt="Customer events in 10 minute increments" src="/images/docs/customer_events_count_10m.jpg" /></p>
 
 <p>Find the unique customer ids from <code>customer_events</code> for the last hour:</p>
-<pre class="highlight sql"><span class="k">select</span> <span class="k">distinct</span><span class="p">(</span><span class="n">customerId</span><span class="p">)</span> <span class="k">as</span> <span class="n">cusomerId</span> <span class="k">from</span> <span class="n">customer_events</span> 
+<pre class="highlight sql"><span class="k">select</span> <span class="k">distinct</span><span class="p">(</span><span class="n">customerId</span><span class="p">)</span> <span class="k">as</span> <span class="n">customerId</span> <span class="k">from</span> <span class="n">customer_events</span> 
 <span class="k">where</span> <span class="n">time</span> <span class="o">&gt;</span> <span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="n">h</span>
 </pre>
 

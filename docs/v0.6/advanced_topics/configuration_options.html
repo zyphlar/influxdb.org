@@ -85,7 +85,7 @@
 <span class="py">protobuf_timeout</span> <span class="p">=</span> <span class="s">"2s"</span> <span class="c"># the write timeout on the protobuf conn any duration parseable by time.ParseDuration</span>
 <span class="py">protobuf_heartbeat</span> <span class="p">=</span> <span class="s">"200ms"</span> <span class="c"># the heartbeat interval between the servers. must be parseable by time.ParseDuration</span>
 <span class="py">protobuf_min_backoff</span> <span class="p">=</span> <span class="s">"1s"</span> <span class="c"># the minimum backoff after a failed heartbeat attempt</span>
-<span class="py">protobuf_max_backoff</span> <span class="p">=</span> <span class="s">"10s"</span> <span class="c"># the maxmimum backoff after a failed heartbeat attempt</span>
+<span class="py">protobuf_max_backoff</span> <span class="p">=</span> <span class="s">"10s"</span> <span class="c"># the maximum backoff after a failed heartbeat attempt</span>
 
 <span class="c"># How many write requests to potentially buffer in memory per server. If the buffer gets filled then writes</span>
 <span class="c"># will still be logged and once the server has caught up (or come back online) the writes</span>
@@ -146,7 +146,7 @@
   <span class="c"># split will determine how many shards to split each duration into. For example,</span>
   <span class="c"># if we created a shard for 2014-02-10 and split was set to 2. Then two shards</span>
   <span class="c"># would be created that have the data for 2014-02-10. By default, data will</span>
-  <span class="c"># be split into those two shards deterministically by hashing the (database, serise)</span>
+  <span class="c"># be split into those two shards deterministically by hashing the (database, series)</span>
   <span class="c"># tuple. That means that data for a given series will be written to a single shard</span>
   <span class="c"># making querying efficient. That can be overridden with the next option.</span>
   <span class="py">split</span> <span class="p">=</span> <span class="mi">1</span>

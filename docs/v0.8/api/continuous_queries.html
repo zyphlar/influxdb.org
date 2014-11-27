@@ -63,7 +63,7 @@
 
 <p>In the event that the source time series already has data in it when you create a new downsampled continuous query, InfluxDB will go back in time and calculate the values for all intervals up to the present. The continuous query will then continue running in the background for all current and future intervals.</p>
 
-<p>If you have a mountian of historical data that you don&rsquo;t want to churn through to backfill you can issue the query with the option <code>backfill(false)</code> at the very end to tell InfluxDB to not bother backfilling.</p>
+<p>If you have a mountain of historical data that you don&rsquo;t want to churn through to backfill you can issue the query with the option <code>backfill(false)</code> at the very end to tell InfluxDB to not bother backfilling.</p>
 
 <p>Fanout queries currently don&rsquo;t backfill. Watch this <a href="https://github.com/influxdb/influxdb/issues/186">issue to track fanout backfill</a>.</p>
 
