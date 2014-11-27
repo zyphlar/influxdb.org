@@ -28,11 +28,7 @@ GEM
       sass (~> 3.2.19)
     compass-import-once (1.0.4)
       sass (>= 3.2, < 3.5)
-    em-websocket (0.5.1)
-      eventmachine (>= 0.12.9)
-      http_parser.rb (~> 0.6.0)
     erubis (2.7.0)
-    eventmachine (1.0.3)
     excon (0.33.0)
     execjs (2.1.0)
     ffi (1.9.3)
@@ -60,7 +56,6 @@ GEM
     hike (1.2.3)
     hooks (0.4.0)
       uber (~> 0.0.4)
-    http_parser.rb (0.6.0)
     i18n (0.6.9)
     influxdb (0.1.7)
       json
@@ -101,10 +96,6 @@ GEM
       rack-test (~> 0.6.2)
       thor (>= 0.15.2, < 2.0)
       tilt (~> 1.4.1, < 2.0)
-    middleman-livereload (3.3.3)
-      em-websocket (~> 0.5.1)
-      middleman-core (~> 3.2)
-      rack-livereload (~> 0.3.15)
     middleman-s3_sync (3.0.27)
       colorize
       fog (>= 1.10.1)
@@ -141,8 +132,6 @@ GEM
       activesupport (>= 3.1)
     pmap (1.0.1)
     rack (1.5.2)
-    rack-livereload (0.3.15)
-      rack
     rack-test (0.6.2)
       rack (>= 1.0)
     rb-fsevent (0.9.4)
@@ -197,7 +186,6 @@ DEPENDENCIES
   middleman
   middleman-alias
   middleman-blog
-  middleman-livereload
   middleman-s3_sync
   middleman-syntax
   neat
