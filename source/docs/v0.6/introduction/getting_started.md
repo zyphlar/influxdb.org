@@ -188,7 +188,7 @@ Get the number of data points from the `cpu_idle` series for the last hour:
 select count(value) from cpu_idle where time > now() - 1h
 ```
 
-Get the number of `cusomter_events` in 10 minute windows for the last day:
+Get the number of `customer_events` in 10 minute windows for the last day:
 
 ```sql
 select count(customerId) from customer_events 
@@ -200,7 +200,7 @@ where time > now() - 1d group by time(10m)
 Find the unique customer ids from `customer_events` for the last hour:
 
 ```sql
-select distinct(customerId) as cusomerId from customer_events 
+select distinct(customerId) as customerId from customer_events 
 where time > now() - 1h
 ```
 
