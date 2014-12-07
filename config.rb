@@ -46,7 +46,7 @@ activate :blog do |blog|
 end
 
 activate :alias
-# activate :livereload
+activate :livereload
 activate :syntax
 
 set :markdown_engine, :redcarpet

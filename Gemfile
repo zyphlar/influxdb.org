@@ -5,7 +5,7 @@ source 'http://rubygems.org'
 gem "middleman"
 gem "slim", "~> 2.0.0"
 
-# gem "middleman-livereload"
+gem "middleman-livereload"
 gem "middleman-blog"
 gem 'middleman-alias'
 
