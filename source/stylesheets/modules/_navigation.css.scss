@@ -193,59 +193,45 @@ header.navigation {
       float: right;
       clear: none;
     }
-  }
 
-  a.sign-up {
-    margin-top: 13px;
-    float: right;
-    @include transition (all 0.2s ease-in-out);
-    display: inline;
-    background: $navigation-nav-button-background;
-    border-radius: $base-border-radius;
-    color: white;
-    font-size: .8em;
-    font-weight: 800;
-    padding: .4em 1em;
-    text-transform: uppercase;
+    a {
+      margin-top: 13px;
+      margin-right: 10px;
+      float: right;
+      @include transition (all 0.2s ease-in-out);
+      display: inline;
+      background: $navigation-nav-button-background;
+      border-radius: $base-border-radius;
+      color: white;
+      font-size: .8em;
+      font-weight: 800;
+      padding: .4em 1em;
+      text-transform: uppercase;
 
-    &:hover {
-      background: lighten($navigation-nav-button-background, 10);
-    }
-  }
+      &:hover {
+        background: lighten($navigation-nav-button-background, 10);
+      }
 
-  a.sign-in {
-    margin-top: 13px;
-    margin-right: 10px;
-    float: right;
-    @include transition (all 0.2s ease-in-out);
-    display: inline;
-    border-radius: $base-border-radius;
-    color: white;
-    font-size: .8em;
-    font-weight: 800;
-    padding: .4em 1em;
-    text-transform: uppercase;
+      &.download {
+        margin-right: 0;
+        background: $navigation-nav-button-background;
+        border-radius: $base-border-radius;
+        color: white;
 
-    &:hover {
-      color: darken(white, 15);
-    }
-  }
+        &:hover {
+          background: lighten($navigation-nav-button-background, 10);
+        }
+      }
 
-  a.sign-out {
-    margin-top: 13px;
-    float: right;
-    @include transition (all 0.2s ease-in-out);
-    display: inline;
-    background: $navigation-nav-button-background;
-    border-radius: $base-border-radius;
-    color: white;
-    font-size: .8em;
-    font-weight: 800;
-    padding: .4em 1em;
-    text-transform: uppercase;
+      &.hiring {
+        background: $orange;
+        border-radius: $base-border-radius;
+        color: white;
 
-    &:hover {
-      background: lighten($navigation-nav-button-background, 10);
+        &:hover {
+          background: lighten($orange, 10);
+        }
+      }
     }
   }
 

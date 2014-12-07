@@ -39,7 +39,7 @@ page "/graphing.html", :layout => false
 page "/blog/*", :layout => :article
 page "/blog/index.html", :layout => :layout
 
-page "/jobs.html", :layout => :jobs
+redirect "jobs.html", to: "https://jobs.lever.co/influxdb"
 
 activate :blog do |blog|
   blog.prefix = "blog"
