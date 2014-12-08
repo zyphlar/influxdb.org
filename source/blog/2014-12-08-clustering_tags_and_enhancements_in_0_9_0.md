@@ -16,7 +16,7 @@ In the most simple highly available cluster, you'd have three servers all acting
 
 In a larger setup you'd have 3-7 dedicated brokers and have the remainder be data nodes. The number of brokers you have is influenced by the number of failures you want to be able to sustain among the brokers. In a setup with 3, you can have 1 broker failure and your cluster will still be available for writes. With 5 brokers you can have 2 broker failures and with 7 you can have 3 failures.
 
-The number of data node failures you can have is dependent on the replication factor you set.
+The number of data node failures you can have is dependent on the replication factor you set. The raw time series data will be split among replication groups in the data nodes. Thus if you have 10 data nodes and a replication factor of 2, a copy of each series will exist on 2 of the data nodes in the cluster.
 
 Our goals on this clustering release include:
 
