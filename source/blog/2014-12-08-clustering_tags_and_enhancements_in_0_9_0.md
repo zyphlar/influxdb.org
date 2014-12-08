@@ -14,7 +14,7 @@ The 0.9.0 release has a new clustering design. At its core is a new [Streaming R
 
 In the most simple highly available cluster, you'd have three servers all acting as both brokers and data nodes. In that setup if you had a replication factor of 3, you'd be able to sustain a single server failure and have things stay up for both reads and writes.
 
-In a larger setup you'd have 3-7 dedicated brokers and have the remainder be data nodes. The number of brokers you have is influenced by the number of failures you want to be able to sustain among the brokers. In a setup with 3, you can have 1 broker failure before your cluster is unavailable for writes. With 5 brokers you can have 2 broker failures and with 7 you can have 3 failures.
+In a larger setup you'd have 3-7 dedicated brokers and have the remainder be data nodes. The number of brokers you have is influenced by the number of failures you want to be able to sustain among the brokers. In a setup with 3, you can have 1 broker failure and your cluster will still be available for writes. With 5 brokers you can have 2 broker failures and with 7 you can have 3 failures.
 
 The number of data node failures you can have is dependent on the replication factor you set.
 
@@ -46,7 +46,7 @@ On the performance side of things, the current InfluxDB can actually store milli
 
 ### API cleanup
 
-The 0.9.0 releease will have some cleanup of the API and part of this will be a few breaking changes. Some of them are minor, like moving some HTTP endpoints to lie under the database as opposed to the cluster. There are two changes that I'd like to talk about specifically here: retention policies and continuous queries.
+The 0.9.0 release will have some cleanup of the API and part of this will be a few breaking changes. Some of them are minor, like moving some HTTP endpoints to lie under the database as opposed to the cluster. There are two changes that I'd like to talk about specifically here: retention policies and continuous queries.
 
 The current version of InfluxDB has a feature called *Shard Spaces*. The goal of this feature was to give the user the ability to set retention policies for how long certain bits of data would be kept around. This works in the current release. Unfortunately, many users have found it confusing and it is too easy to get into a state where you're not sure where data is going.
 
