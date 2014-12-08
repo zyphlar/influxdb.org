@@ -8,7 +8,9 @@ Version 0.8 of InfluxDB made some changes to how the underlying storage works. W
 
 The first thing you should do is back up your data. Shut down InfluxDB and make copies of the `raft` and `wal` directories. The underlying `db/shard_db` directory won't be modified in any way so you should be safe without backing up the raw database files.
 
-Install version 0.8 and start InfluxDB up. If you have a cluster, shut all of them down upgrade them all and start them back up. Note that none of your old data will show up in queries at this point. Don't be alarmed, we're going to kick off a background migration to move it over. We chose to do it this way so you could have a small amount of down time for accepting writes and let the migration progress while you're still ingesting data.
+Install version 0.8 and start InfluxDB up. *Note* that you can only upgrade using version 0.8.0, 0.8.1, 0.8.2, or 0.8.3. That means you should upgrade to one of those versions, migrate your data, then upgrade to the most recent 0.8 release.
+
+If you have a cluster, shut all of them down upgrade them all and start them back up. Note that none of your old data will show up in queries at this point. Don't be alarmed, we're going to kick off a background migration to move it over. We chose to do it this way so you could have a small amount of down time for accepting writes and let the migration progress while you're still ingesting data.
 
 The upgraded Influx will be able to take writes as soon as it starts. Since you haven't created a shard space yet, a default one will be created for you. You'll probably want to create some shard spaces.
 
