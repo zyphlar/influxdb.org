@@ -1,93 +1,104 @@
 .row
-  h1 Community
+  .large-12.columns
+    h1 Community
 
-  .row.padding-bottom-medium
-    .large-1.columns
-      icon.fa.fa-envelope.fa-border.fa-2x.fa-lg.pull-right.fa-align-center
-    .large-11.columns
-      .row
-        .large-6.columns
-          p 
-            'Sign up for updates  
-            a href="#newsletter" on the InfluxDB newsletter
-            '.
-  .row.padding-bottom-medium
-    .large-1.columns
-      icon.fa.fa-comments.fa-border.fa-2x.fa-lg.pull-right.fa-align-center
-    .large-11.columns
-      .row
-        .large-6.columns
-          p 
-            'Join the 
-            a href="https://groups.google.com/forum/#!forum/influxdb" mailing list for users and developers
-            '.
-  .row.padding-bottom-medium
-    .large-1.columns
-      icon.fa.fa-twitter.fa-border.fa-2x.fa-lg.pull-right.fa-align-center
-    .large-11.columns
-      .row
-        .large-6.columns
-          p 
-            'Follow
-            a href="https://twitter.com/influxdb" @influxdb
-            '  on twitter. 
+    p InfluxDB is an open-source company, so we rely on a strong community for feedback<br />and adoption. We try to stay connected in as many ways as possible:
 
-  .row.padding-bottom-medium
-    .large-1.columns
-      icon.fa.fa-comment.fa-border.fa-2x.fa-lg.pull-right.fa-align-center
-    .large-11.columns
-      .row
-        .large-6.columns
-          p 
-            'Find us on freenode in #influxdb.
+    #community-icons
+      .row.padding-bottom-medium
+        .large-1.columns
+          icon.fa.fa-envelope.fa-border.fa-2x.fa-lg.pull-right.fa-align-center
+        .large-11.columns
+          .row
+            .large-6.columns
+              p 
+                'Sign up for updates
+                a href="#newsletter" on the InfluxDB newsletter
+                '.
 
-  .row.padding-bottom-medium
-    .large-1.columns
-      icon.fa.fa-exclamation-circle.fa-border.fa-2x.fa-lg.pull-right.fa-align-center
-    .large-11.columns
-      .row
-        .large-6.columns
-          p 
-            'Log issues on
-            a href="https://github.com/influxdb/influxdb/issues" GitHub
-            '.
+      .row.padding-bottom-medium
+        .large-1.columns
+          icon.fa.fa-comments.fa-border.fa-2x.fa-lg.pull-right.fa-align-center
+        .large-11.columns
+          .row
+            .large-6.columns
+              p 
+                'Join the 
+                a href="https://groups.google.com/forum/#!forum/influxdb" mailing list for users and developers
+                '.
 
-  .row.padding-bottom-medium
-    .large-1.columns
-      icon.fa.fa-github.fa-border.fa-2x.fa-lg.pull-right.fa-align-center
-    .large-11.columns
-      .row
-        .large-6.columns
-          p 
-            'Check out the 
-            a href="https://github.com/influxdb" source code
-            '.
-  .row
-    .large-7.columns
-      h2 Meetups & User Groups
-      p
-        ' Here's a list of local groups we know about. Let us know if you start one and we'll add it here!
-      ul
-        li=link_to "NYC InfluxDB - hackfest on December 2nd", "http://www.meetup.com/NYC-InfluxDB-User-Group/events/150732352/"
+      .row.padding-bottom-medium
+        .large-1.columns
+          icon.fa.fa-twitter.fa-border.fa-2x.fa-lg.pull-right.fa-align-center
+        .large-11.columns
+          .row
+            .large-6.columns
+              p 
+                'Follow
+                a href="https://twitter.com/influxdb" @influxdb
+                '  on twitter. 
 
-      h2 In Person
-      p
-        'If you're in NYC we're up for meeting up and hacking or answering questions almost any time day or night. We are  
-        a href="https://twitter.com/jvshahid" @jvshahid
-        ', 
-        a href="https://twitter.com/toddpersen" @toddpersen
-        ', and 
-        a href="https://twitter.com/pauldix" @pauldix
+      .row.padding-bottom-medium
+        .large-1.columns
+          icon.fa.fa-comment.fa-border.fa-2x.fa-lg.pull-right.fa-align-center
+        .large-11.columns
+          .row
+            .large-6.columns
+              p 
+                'Find us on freenode in #influxdb.
 
-      h2 Support
-      p
-        'We're available for consulting and professional support. We can help you build out a custom solution on top of InfluxDB or help you get set up and making the most of InfluxDB. Drop us a line at 
-        a href="mailto:support@influxdb.com" support@influxdb.com
-        '.
-      h2 Presenting
-      p
-        'We're up for giving talks at local user groups, meetups, and conferences any time. We can talk about InfluxDB, distributed computing, our experience building in Go, or scaling real-time analytics. If it's within train distance from NYC, we'd be happy to come to you almost any time. Otherwise, get in touch at
-        a href="mailto:support@influxdb.com" support@influxdb.com
-        '  and tell us about your group and when you'd like us to drop by. If it requires a flight we'd like to make sure we can line up some other groups nearby around the same time.
-      h2#newsletter Newsletter
-      = partial "layouts/signup"
+      .row.padding-bottom-medium
+        .large-1.columns
+          icon.fa.fa-exclamation-circle.fa-border.fa-2x.fa-lg.pull-right.fa-align-center
+        .large-11.columns
+          .row
+            .large-6.columns
+              p 
+                'Log issues on
+                a href="https://github.com/influxdb/influxdb/issues" GitHub
+                '.
+
+      .row.padding-bottom-medium
+        .large-1.columns
+          icon.fa.fa-github.fa-border.fa-2x.fa-lg.pull-right.fa-align-center
+        .large-11.columns
+          .row
+            .large-6.columns
+              p 
+                'Check out the 
+                a href="https://github.com/influxdb" source code
+                '.
+.row#community
+  .large-8.columns
+    h2 Meetups & User Groups
+    p Here's a list of local groups we know about:
+    ul
+      li= link_to "NYC InfluxDB User Group", "http://www.meetup.com/NYC-InfluxDB-User-Group/"
+      li= link_to "Berlin InfluxDB Users", "http://www.meetup.com/Berlin-InfluxDB-Users/"
+      li &nbsp;
+
+    p 
+      'If you're interested in starting your own meetup, email us at
+      a href="mailto:support@influxdb.com" support@influxdb.com
+      ' and we'll cover the Meetup dues for you!
+
+
+    h2 In Person
+    p
+      'If you're in New York City or San Francisco we're up for meeting up and hacking or answering questions almost any time day or night.
+
+    h2 Support
+    p
+      'We're available for consulting and professional support. We can help you build out a custom solution on top of InfluxDB or help you get set up and making the most of InfluxDB. Drop us a line at 
+      a href="mailto:support@influxdb.com" support@influxdb.com
+      '.
+
+    h2 Presenting
+    p
+      'We're up for giving talks at local user groups, meetups, and conferences any time. We can talk about InfluxDB, distributed computing, our experience building in Go, or scaling real-time analytics. If it's within train distance from NYC, we'd be happy to come to you almost any time. Otherwise, get in touch at
+      a href="mailto:support@influxdb.com" support@influxdb.com
+      '  and tell us about your group and when you'd like us to drop by. If it requires a flight we'd like to make sure we can line up some other groups nearby around the same time.
+
+    h2#newsletter Newsletter
+    p If you want to receive updates about upcoming features, new releases, and community developments, sign up for our newsletter here!
+    = partial "layouts/signup"
