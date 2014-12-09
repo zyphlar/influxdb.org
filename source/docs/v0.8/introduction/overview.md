@@ -12,7 +12,7 @@ InfluxDB is targeted at use cases for DevOps, metrics, sensor data, and real-tim
 
 The current version of InfluxDB is 0.8.8. This version is an alpha of the software, but is currently being run by hundreds of organizations around the world. It is recommended that you run in single server mode.
 
-For clustering, high availability, and a more stable production ready release it is recommended that you wait for the next version, 0.9.0. Read the [details on InfluxDB 0.9.0](/blog/2014-12-08-clustering_tags_and_stability_in_0_9_0.html).
+For clustering, high availability, and a more stable production ready release it is recommended that you wait for the next version, 0.9.0. Read the [details on InfluxDB 0.9.0](/blog/2014/12/08/clustering_tags_and_enhancements_in_0_9_0.html).
 
 ## Key Features
 
