@@ -18,7 +18,7 @@ For clustering, high availability, and a more stable production ready release it
 
 Here are some of the features that InfluxDB currently supports that make it a great choice for working with time series data.
 
-* SQL like query langauge
+* SQL like query language
 * HTTP(S) API
 * Store billions of data points
 * Database managed retention policies for data
