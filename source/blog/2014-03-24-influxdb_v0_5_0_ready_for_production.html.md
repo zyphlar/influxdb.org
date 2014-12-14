@@ -17,7 +17,7 @@ Does all this mean that you can run InfluxDB in production? Well yes, if you're 
 * Move a shard from one node to another (for downed node replacement)
 * Backup the database (instead of just copying all the files in /data)
 
-Note that the current release will handle a node in a cluster going down. Reads and writes should continue, but the assumption is that you'll be able to bring the node back up. When it comes back up it will receieve all the data from the other nodes in the cluster that it missed while it was down. If the node is totally lost, there's currently no way to spin up a new node and have it take the place of the downed one.
+Note that the current release will handle a node in a cluster going down. Reads and writes should continue, but the assumption is that you'll be able to bring the node back up. When it comes back up it will receive all the data from the other nodes in the cluster that it missed while it was down. If the node is totally lost, there's currently no way to spin up a new node and have it take the place of the downed one.
 
 Our priority for the next few point releases is to fix some of the remaining issues and add those two key features. You can expect a point release every week or two for the next few months. Future releases should not break the underlying storage format. If they do, we'll give you a migration path. If you're running a two node cluster, you should be able to upgrade the cluster one node at a time to avoid downtime. However, the client you're using must support failover. We have this in the [InfluxDB Ruby gem](https://github.com/influxdb/influxdb-ruby) and library authors should update their libraries to support multiple hosts.
 
