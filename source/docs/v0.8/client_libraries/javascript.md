@@ -10,7 +10,13 @@ You can get the most recent version here:
 
 First, create a new InfluxDB object by connecting to a running instance.
 
-    influxdb = new InfluxDB(host, port, username, password, database);
+    influxdb = new InfluxDB({
+      "host" :"localhost",
+      "port" :"8086",
+      "username" :"root",
+      "password" :"root",
+      "database" :"test"
+    });
 
 ### Available Functions
 
