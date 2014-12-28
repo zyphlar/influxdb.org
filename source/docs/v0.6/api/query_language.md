@@ -165,7 +165,7 @@ select * from nagios_checks where status <> 0;
 select * from events where signed_in = false;
 
 select * from events
-where (email =~ /.*gmail.* or email =~ /.*yahoo.*/) and state = 'ny';
+where (email =~ /.*gmail.*/ or email =~ /.*yahoo.*/) and state = 'ny';
 ```
 
 The where clause supports comparisons against regexes, strings, booleans, floats, integers, and the times listed before. Comparators include `=` equal to, `>` greater than, `<` less than, `<>` not equal to, `=~` matches against, `!~` doesn't match against. You can chain logic together using `and` and `or` and you can separate using `(` and `)`
