@@ -31,71 +31,61 @@ Let's write some data. Here are a couple of examples of things we'd want to writ
 ![Storing log lines](/images/docs/log_lines.jpg)
 
 ```json
-[
-  {
-    "name" : "log_lines",
-    "columns" : ["line"],
-    "points" : [
-      ["here's some useful log info from paul@influx.com"]
-    ]
-  }
-]
+{
+  "name" : "log_lines",
+  "columns" : ["line"],
+  "points" : [
+    ["here's some useful log info from paul@influx.com"]
+  ]
+}
 ```
 
 ![Storing response times](/images/docs/response_times.jpg)
 
 ```json
-[
-  {
-    "name" : "response_times",
-    "columns" : ["code", "value", "controller_action"],
-    "points" : [
-      [200, 234, "users#show"]
-    ]
-  }
-]
+{
+  "name" : "response_times",
+  "columns" : ["code", "value", "controller_action"],
+  "points" : [
+    [200, 234, "users#show"]
+  ]
+}
 ```
 
 ![Storing user analytics data](/images/docs/user_events.jpg)
 
 ```json
-[
-  {
-    "name" : "user_events",
-    "columns" : ["type", "url_base", "user_id"],
-    "points" : [
-      ["add_friend", "friends#show", 23]
-    ]
-  }
-]
+{
+  "name" : "user_events",
+  "columns" : ["type", "url_base", "user_id"],
+  "points" : [
+    ["add_friend", "friends#show", 23]
+  ]
+}
 ```
 
 ![Storing sensor data](/images/docs/device_temperatures.jpg)
 
 ```json
-[
-  {
-    "name" : "device_temperatures",
-    "columns" : ["value"],
-    "points" : [
-      [88.2]
-    ]
-  }
-]
+{
+  "name" : "device_temperatures",
+  "columns" : ["value"],
+  "points" : [
+    [88.2]
+  ]
+}
 ```
 
 Or a classic example from DevOps:
 
 ```json
-[
-  {
-    "name" : "cpu_idle",
-    "columns" : ["value", "host"],
-    "points" : [
-      [88.2, "serverA"]
-    ]
-  }
-]
+{
+  "name" : "cpu_idle",
+  "columns" : ["value", "host"],
+  "points" : [
+    [88.2, "serverA"]
+  ]
+}
 ```
 
 Now that we've written a few points. Let's take a look at them. Try some of the following queries:
