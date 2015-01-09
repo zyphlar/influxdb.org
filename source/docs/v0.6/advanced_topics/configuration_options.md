@@ -34,7 +34,7 @@ assets = "./admin"
 [api]
 port     = 8086    # binding is disabled if the port isn't set
 # ssl-port = 8084    # Ssl support is enabled if you set a port and cert
-# ssl-cert = /path/to/cert.pem
+# ssl-cert = "/path/to/cert.pem"
 
 # connections will timeout after this amount of time. Ensures that clients that misbehave 
 # and keep alive connections they don't use won't end up connection a million times.
