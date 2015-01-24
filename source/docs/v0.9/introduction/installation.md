@@ -5,7 +5,7 @@ The easiest way to get started using InfluxDB is to head over to [play.influxdb.
 Or, if you're ready to use InfluxDB in production, you may want to check out our [managed hosted InfluxDB offering](http://customers.influxdb.com).
 
 ## Ports
-By default InfluxDB will use ports `8083`, `8086`, `8090`, and `8099`. Once you install you can change those ports and other options in the configuration file, which is located at either `/opt/influxdb/shared/config.toml` or `/usr/local/etc/influxdb.conf`
+By default InfluxDB will use ports `8083`, `8086`, `8090`, and `8099`. Once you install you can change those ports and other options in the configuration file, which is located by default in `/etc/opt/influxdb`.
 
 ## Reporting
 

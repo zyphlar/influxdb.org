@@ -4,25 +4,23 @@ alias: overview/
 
 # Overview
 
-InfluxDB is a time series, metrics, and analytics database. It's written in Go and has no external dependencies. That means once you install it there's nothing else to manage (like Redis, ZooKeeper, HBase, or whatever).
+InfluxDB is a time series, metrics, and analytics database. It's written in Go and has no external dependencies. That means once you install it there's nothing else to manage (such as Redis, ZooKeeper, Cassandra, HBase, or anything else).
 
 InfluxDB is targeted at use cases for DevOps, metrics, sensor data, and real-time analytics. It arose from our need for a database like this on more than a few previous products we've built. You can [read more about our journey from SaaS application to open source time series database](/blog/2014/09/26/one-year-of-influxdb-and-the-road-to-1_0.html).
 
 ## Project Status
 
-The current version of InfluxDB is 0.8.8. This version is an alpha of the software, but is currently being run by hundreds of organizations around the world. It is recommended that you run in single server mode.
-
-For clustering, high availability, and a more stable production ready release it is recommended that you wait for the next version, 0.9.0. Read the [details on InfluxDB 0.9.0](/blog/2014/12/08/clustering_tags_and_enhancements_in_0_9_0.html).
+The current version of InfluxDB is 0.9.0 and is alpha-level software. Clustering and High-Availability are supported.
 
 ## Key Features
 
 Here are some of the features that InfluxDB currently supports that make it a great choice for working with time series data.
 
-* SQL like query language
-* HTTP(S) API
-* Store billions of data points
-* Database managed retention policies for data
-* Built in management interface
+* SQL-like query language.
+* HTTP(S) API.
+* Store billions of data points.
+* Database-managed retention policies for data.
+* Built in management interface.
 * Aggregate on the fly:
 
 ```sql
