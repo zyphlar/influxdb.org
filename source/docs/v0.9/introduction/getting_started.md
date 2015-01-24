@@ -15,7 +15,7 @@ The default options for hostname of `localhost` and port of `8086` should work. 
 
 ![Logged in with no databases](/images/docs/logged_in_no_databases.jpg)
 
-Enter in a database name and click Create. Database names should contain only letters, numbers, or underscores and start with a letter. Once you've created a database you should see it on the screen:
+Enter in a database name and click Create. Database names should contain only letters, numbers, dashes, or underscores and start with a letter. Once you've created a database you should see it on the screen:
 
 ![Database list screen](/images/docs/database_created.jpg)
 
@@ -24,7 +24,7 @@ Go ahead and click the "Explore" link to get here:
 
 ![Explore data interface](/images/docs/explore_screen.jpg)
 
-From this screen you can write some test data. More importantly, you'll be able to issue ad-hoc queries and see basic visualizations. Let's write a little data in to see how things work. Data in InfluxDB is organized by "time series" which then have "points" which have a `time`, `sequence_number`, and `columns`. Think of it kind of like SQL tables, and rows where the primary index is always time. The difference is that with InfluxDB you can have millions of series, you don't have to define schemas up front, and null values aren't stored.
+From this screen you can write some test data. More importantly, you'll be able to issue ad-hoc queries and see basic visualizations. Let's write a little data in to see how things work. Data in InfluxDB is organized by "time series" which then have "points" which have a `timestamp`, `columns`, fields, and possibly tags. Think of it kind of like SQL tables, and rows where the primary index is always time. The difference is that with InfluxDB you can have millions of series, you don't have to define schemas up front, and null values aren't stored.
 
 Let's write some data. Here are a couple of examples of things we'd want to write. We'll show the screenshot and what the JSON data looks like right after.
 
