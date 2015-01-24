@@ -31,15 +31,9 @@ html
 
                 li.divider
 
-                li.heading Concepts
+                li.heading Fundamentals
+                li= link_to "Reading and Writing Data", "/docs/#{@version}/concepts/reading_and_writing_data.html"
                 li= link_to "Schema and Data Layout", "/docs/#{@version}/concepts/schema_and_data_layout.html"
-
-                li.divider
-
-                li.heading Data Sources
-                li= link_to "HTTP API", "/docs/#{@version}/data_sources/http_api.html"
-                li= link_to "Carbon", "/docs/#{@version}/data_sources/carbon.html"
-                li= link_to "CollectD", "/docs/#{@version}/data_sources/collectd.html"
 
                 li.divider
 
@@ -57,6 +51,12 @@ html
                 li.heading Advanced Topics
                 li= link_to "Storage Engine", "/docs/#{@version}/advanced_topics/storage_engine.html"
                 li= link_to "Clustering", "/docs/#{@version}/advanced_topics/clustering.html"
+
+                li.divider
+
+                li.heading Other Data Sources
+                li= link_to "Carbon", "/docs/#{@version}/data_sources/carbon.html"
+                li= link_to "CollectD", "/docs/#{@version}/data_sources/collectd.html"
 
                 li.divider
 
