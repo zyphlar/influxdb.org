@@ -1,3 +1,6 @@
+# Glossary
+This page describes the key terms and concepts within the InfluxDB system.
+
 **Broker** Brokers are nodes within an InfluxDB cluster that are responsible for managing the Raft-based Distributed Consensus. Brokers also host Shard Topics.
 
 **Continuous Query** A Continuous Query is a query constructed by a user that runs independently within an InfluxDB system. Continuous queries serve two purposes in InfluxDB: denormalizing data  into many series or into a single series and aggregating and  downsampling data. We refer to these as `fan-out`, `fan-in`, or `aggregation`.
