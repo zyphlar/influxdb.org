@@ -6,7 +6,7 @@ To understand InfluxDB, it is necessary to understand some key concepts. These c
 
 A **database** is quite similar to that of a traditional relational database, and is an organized collection of time-series data and retention policies. User privileges are also set on a per-database level.
 
-A **retention policies** is a logical namespace which maps to one or more shards, and has a _replication factor_. The replication factor must be at least 1. An integral part of a retention policy is the _retention period_ – the time after which data is automatically deleted within the InfluxDB system. Every database has at least one retention policy.
+A **retention policy** is a logical namespace which maps to one or more shards, and has a _replication factor_. The replication factor must be at least 1. An integral part of a retention policy is the _retention period_ – the time after which data is automatically deleted within the InfluxDB system. Every database has at least one retention policy.
 
 ## Time-Series Data
 
