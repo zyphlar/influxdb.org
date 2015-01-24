@@ -25,6 +25,9 @@ In the example above the destination database is `mydb`, and the data will be st
 ### Writing Multiple Points
 As you can see from the example above, you can post multiple points to multiple series at the same time. Batching points in this manner will result in much higher performance.
 
+### Supplying Authentication Credentials
+If authentication is enabled, user credentials must be supplied. These may be suppled via the URL parameters `u` and `p`. For example, if the user is "bob" and Bob's password is "mypass", then endpoint URL should take the form `/query?u=bob&p=mypass`.
+
 ## Tags
 Each point can have a set of key-value pairs associated with it. Both keys and values must be strings. Tags allow data to be easily and efficient queried, including or excluding data that matches a set of keys with particular values.
 
@@ -35,5 +38,6 @@ Timestamps must be in RFC3339 format. Nanosecond precision is supported.
 Once InfluxDB has accepted this data and safely persisted it to disk, it responds with `HTTP 200 OK`.
 
 ### Errors
+If an error was encountered while processing the data, InfluxDB will respond with `HTTP 500 Internal Error`.
 
 
