@@ -49,7 +49,7 @@ If an error was encountered while processing the data, InfluxDB will respond wit
 The HTTP API is also the primary means for querying data contained within InfluxDB. To perform a query send a `GET` to the endpoint `/query`, and set the URL parameter `q` as your query. An example query, sent to a locally-running InfluxDB server, is shown below.
 
 ```
-curl -XGET 'http://localhost:8086/query' --data-urlencode "q=SELECT * from cpu.load.short WHERE region=us-west 1"
+curl -XGET 'http://localhost:8086/query' --data-urlencode "q=SELECT * from cpu.load.short WHERE region=us-west"
 ```
 
 Which returns data that looks like so:
