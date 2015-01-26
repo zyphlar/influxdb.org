@@ -86,7 +86,7 @@ InfluxDB supports the Carbon protocol that Graphite uses. All you need to do is 
 
 InfluxDB supports also the [binary protocol](https://collectd.org/wiki/index.php/Binary_protocol) used by collectd, so you can store in influxdb data coming from collectd clients. To activate collectd, enable the plugin in `input-plugins` section of the [configuration file](https://github.com/influxdb/influxdb/blob/master/etc/config.sample.toml). Then configure the collectd clients to send data to InfluxDB.
 
-Note that you need to install file types.db, you can find a version of this file in the GitHub repository of [Collect](https://github.com/collectd/collectd/blob/master/src/types.db).
+Note that you need to install file types.db, you can find a version of this file in the GitHub repository of [Collectd](https://github.com/collectd/collectd/blob/master/src/types.db).
 
 ## Writing data through JSON + UDP
 
