@@ -19,31 +19,32 @@ Here are some of the features that InfluxDB currently supports that make it a gr
 * SQL-like query language.
 * HTTP(S) API.
 * Store billions of data points.
+* Tag data for fast and efficient queries.
 * Database-managed retention policies for data.
 * Built in management interface.
 * Aggregate on the fly:
 
 ```sql
-select mean(value) from cpu group by time(5m)
+SELECT mean(value) FROM cpu GROUP BY time(5m)
 ```
 * Pre-aggregate in the database:
 
 ```sql
-select mean(value) from cpu group by time(5m) into 5m.cpu.mean
+SELECT mean(value) FROM cpu GROUP BY time(5m) INTO 5m_cpu_mean
 -- after that you can select from the composed series
-select * from "5m.cpu.mean" where time > now() - 4h
+SELECT * FROM "5m_cpu_mean" WHERE time > now() - 4h
 ```
-* Store hundreds of thousands of series:
+* Store and query hundreds of thousands of series:
 
 ```sql
-select mean(value) from "region.uswest.az.1.serverA.cpu"
-group by time(30s)
+SELECT mean(value) FROM cpu WHERE region=uswest,az=1,server=serverA
+GROUP BY time(30s)
 ```
 
 * Merge multiple series together:
 
 ```sql
-select mean(value) from merge(/.*az\.1.*\.cpu/) group by time(1h)
+SELECT mean(value) FROM merge(/.*az\.1.*\.cpu/) GROUP BY time(1h)
 ```
 
 There's much more, have a look at the [getting started guide](getting_started.html) to see some examples.
