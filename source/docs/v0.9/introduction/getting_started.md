@@ -138,7 +138,7 @@ SELECT * FROM /.*/ limit 1
 --
 SELECT * FROM cpu_load_short
 --
-SELECT * FROM cpu_load_short where value > 0.9
+SELECT * FROM cpu_load_short WHERE value > 0.9
 ```
 
 This is all you need to know to write data into InfluxDB and query it back. Of course, to write significant amounts of data you will want to access th HTTP API directly, or use one of the many client libraries.
