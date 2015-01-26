@@ -52,7 +52,7 @@ If an error was encountered while processing the data, InfluxDB will respond wit
 The HTTP API is also the primary means for querying data contained within InfluxDB. To perform a query send a `GET` to the endpoint `/query`, and set the URL parameter `q` as your query. An example query, sent to a locally-running InfluxDB server, is shown below.
 
 ```
-curl -XGET 'http://localhost:8086/query' --data-urlencode "q=SELECT * from cpu.load.short WHERE region=us-west"
+curl -XGET 'http://localhost:8086/query' --data-urlencode "q=SELECT * from cpu_load_short WHERE region=us-west"
 ```
 
 Which returns data that looks like so:
@@ -85,15 +85,15 @@ Which returns data that looks like so:
 InfluxDB supports a sophisticated query language. Consult the Query Language section to learn more.
 
 ## Authentication
-If authentication is enabled, user credentials must be supplied. These may be suppled via the URL parameters `u` and `p`. For example, if the     user is "bob" and Bob's password is "mypass", then endpoint URL should take the form `/query?u=bob&p=mypass`.
+Authentication is disabled by default, but if authentication is enabled, user credentials must be supplied with every query. These can be suppled via the URL parameters `u` and `p`. For example, if the  user is "bob" and Bob's password is "mypass", then endpoint URL should take the form `/query?u=bob&p=mypass`.
 
-_Basic Authentication_ is also supported. If both types of authentication are present in a request, the URL parameters take precedence.
+The credentials may also be passed using _Basic Authentication_. If both types of authentication are present in a request, the URL parameters take precedence.
 
 ## Pretty Printing
 When working directly with the API it’s often convenient to have pretty-printed JSON output. To enable pretty-printed output, append `pretty=true` to the URL. For example:
 
 ```
-curl -G 'http://localhost:8086/query?pretty=true' --data-urlencode "q=SELECT * from cpu.load.short"
+curl -G 'http://localhost:8086/query?pretty=true' --data-urlencode "q=SELECT * from cpu_load_short"
 ```
 
 Pretty-printed output is not recommended otherwise, as it consumes unnecessary network bandwidth.
