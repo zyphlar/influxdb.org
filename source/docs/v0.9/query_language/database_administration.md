@@ -7,26 +7,73 @@ Full configuration and managament of an InfluxDB system is provided through the 
 ## Database Management
 Databases can be created, dropped, and listed. User privileges are also set on a per-database basis.
 
-To create a database, issue the following command:
-
+### Creating a database
 ```sql
 CREATE DATABASE <name>
 ```
 
 The name must only contain alphanumeric characters, dashes, and underscores. No database must already exist with the given name.
 
-To delete an existing database, issue the following command:
+_Example_
 
+```sql
+CREATE DATABASE mydb
+```
+The response returned is:
+
+```json
+[{}]
+```
+
+### Deleting a database
 ```sql
 DROP DATABASE <name>
 ```
 
-The database must exist or an error is returned.
-
-To see all existing databases, issue the following command:
+_Example_
 
 ```sql
-LIST DATABASES
+DROP DATABASE mydb
+```
+The response returned is:
+
+```json
+[{}]
+```
+
+The database must exist or an error is returned.
+
+### Show existing databases
+```sql
+SHOW DATABASES
+```
+
+_Example_
+
+```sql
+CREATE DATABASE mydb
+SHOW DATABASES
+```
+
+The response returned is:
+
+```json
+[
+    {
+        "rows": [
+            {
+                "columns": [
+                    "Name"
+                ],
+                "values": [
+                    [
+                        "mydb"
+                    ]
+                ]
+            }
+        ]
+    }
+]
 ```
 
 ## Retention Policy Management
