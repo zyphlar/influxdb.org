@@ -44,4 +44,16 @@ To see all existing retention policies issue the following command:
 ## User Management
 Users can be created, modified, listed, and deleted.
 
+To create a user, issue the following command:
+
+`CREATE USER <username> WITH PASSWORD '<password>'`
+
+To delete a user, issue the following command:
+
+`DROP USER <username>`
+
+The following command lists all users in the system:
+
+`LIST USERS`
+
 
