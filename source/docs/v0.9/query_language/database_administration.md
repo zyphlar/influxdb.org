@@ -170,16 +170,28 @@ CREATE USER <username> WITH PASSWORD '<password>'
 ```
 Note that is is required that _password_ be quoted.
 
-To delete a user, issue the following command:
+_Example_
+
+```sql
+CREATE USER jdoe WITH PASSWORD 'mypassword'
+```
+
+The response returned is:
+
+```json
+[]
+```
+
+### Deleting a user
 
 ```sql
 DROP USER <username>
 ```
 
-The following command lists all users in the system:
+### Showing existing users
 
 ```sql
-LIST USERS
+SHOW USERS
 ```
 
 ## Privilege Control
