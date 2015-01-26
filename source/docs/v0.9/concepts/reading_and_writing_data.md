@@ -11,7 +11,7 @@ curl -XPOST 'httpp://localhost:8086/write' -d '
     "retentionPolicy": "mypolicy",
     "points": [
         {
-            "name": "cpu.load.short",
+            "name": "cpu_load_short",
             "tags": {
                 "host": "server01",
                 "region": "us-west"
@@ -60,7 +60,7 @@ Which returns data that looks like so:
         {
             "rows": [
                 {
-                    "name": "cpu.load.short",
+                    "name": "cpu_load_short",
                     "tags": {
                         "host": "servera",
                         "region": "us-west"
