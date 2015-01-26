@@ -92,3 +92,5 @@ To grant cluster administration privileges to a user, issue the following comman
 ```sql
 GRANT ALL PRIVILEGES TO <user>
 ```
+
+Only the cluster adminstrator can create and drop databases, and manage users.
