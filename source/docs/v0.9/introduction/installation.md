@@ -1,3 +1,6 @@
+---
+_PLEASE NOTE 0.9.0 IS PRE-RELEASE SOFTWARE. THESE DOCUMENTS ARE TESTING REFERENCES_.
+
 # Installation
 
 If you're ready to use InfluxDB but don't want to install any software, you may want to check out our [managed hosted InfluxDB offering](http://customers.influxdb.com). But if you want to run your own InfluxDB system, this page provides directions on downloading and starting InfluxDB.

@@ -1,3 +1,6 @@
+---
+_PLEASE NOTE 0.9.0 IS PRE-RELEASE SOFTWARE. THESE DOCUMENTS ARE TESTING REFERENCES_.
+
 # Key Concepts
 
 To understand InfluxDB, it is necessary to understand some key concepts. These concepts are outlined below.
