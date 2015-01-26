@@ -79,37 +79,92 @@ The response returned is:
 ## Retention Policy Management
 Retention policies can be created, modified, listed, and deleted.
 
-To create a retention policy issue the following command:
-
+### Create a retention policy
 ```sql
-CREATE RETENTION POLICY <rp-name> ON <db-name> DURATION <duration> REPLICATION <n> [DEFAULT]
+CREATE RETENTION POLICY <rp-name>
+    ON <db-name>
+    DURATION <duration>
+    REPLICATION <n>
+    [DEFAULT]
 ```
 
+_Example_
+
+```sql
+CREATE RETENTION POLICY mypolicy
+    ON mydb
+    DURATION 1d
+    REPLICATION 1
+    DEFAULT
+```
+The response returned is:
+
+```json
+[{}]
+```
+
+### Show existing retention polices
 To delete a retention policy issue the following command:
-
 ```sql
-DROP RETENTION POLICY <rp-name> ON <db-name>
+SHOW RETENTION POLICES <db-name>
 ```
 
+```sql
+SHOW RETENTION POLICIES
+```
+
+The response returned is:
+
+```json
+[
+    {
+        "rows": [
+            {
+                "columns": [
+                    "Name"
+                ],
+                "values": [
+                    [
+                        "mypolicy"
+                    ]
+                ]
+            }
+        ]
+    }
+]
+```
+
+### Modifying a retention policy
 To modify a retention policy, issue the following command:
 
 ```sql
-ALTER RETENTION POLICY <rp-name> ON <db-name> [DURATION <duration>] [REPLICATION <n>] [DEFAULT]
+ALTER RETENTION POLICY <rp-name>
+    ON <db-name>
+    [DURATION <duration>]
+    [REPLICATION <n>] [DEFAULT]
 ```
 
 At least 1 of `DURATION`, `REPLICATION`, or the `DEFAULT` flag must be set.
 
-To see all existing retention policies issue the following command:
+_Example_
 
 ```sql
-LIST RETENTION POLICIES <db-name>
+ALTER RETENTION POLICY mypolicy
+    ON mydb
+    DURATION 2d
+```
+
+The response returned is:
+
+```json
+[]
 ```
 
 ## User Management
 Users can be created, modified, listed, and deleted.
 
-To create a user, issue the following command:
 
+### Creating a user
 ```sql
 CREATE USER <username> WITH PASSWORD '<password>'
 ```
