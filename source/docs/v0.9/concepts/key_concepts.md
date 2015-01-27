@@ -17,7 +17,7 @@ InfluxDB uses particular terms to describe the various components of time-series
 
 A **series** is defined as a combination of a _measurement_ and set of _tag_ key-values. Combined with _fields_ and _values_, these make up series _data_.
 
-**Measurement** is the name give to quantity being recorded by a time-series. For example _cpu_load_.
+**Measurement** is the name give to quantity being recorded by a time-series. For example `cpu_load`.
 
 InfluxDB also allows you to associate **Tags**. Tags are arbitrary key-value pairs associated with a single time-series data point. Tags are indexed by InfluxDB, allowing efficient and fast look-up of particular series. Finally a **field** s the part of a time-series data point that is not indexed by the system.
 
