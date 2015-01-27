@@ -47,7 +47,7 @@ GROUP BY time(30s)
 * Merge multiple series together:
 
 ```sql
-SELECT mean(value) FROM merge(/.*az\.1.*\.cpu/) GROUP BY time(1h)
+SELECT mean(value) FROM merge(/cpu*/) GROUP BY time(1h)
 ```
 
 There's much more, have a look at the [getting started guide](getting_started.html) to see some examples.
