@@ -230,7 +230,7 @@ The response returned is:
 ## Privilege Control
 In InfluxDB, privileges are controlled on per-database user. Any given user can have `READ`, `WRITE`, or `ALL` access to an individual database. Without explicitly some access to a given database, a user has no access to it whatsoever.
 
-The grant access to a user for a given databasse, issue the following command:
+### Granting privileges
 
 ```sql
 GRANT READ|WRITE|ALL
@@ -252,6 +252,28 @@ The response returned is:
 [{}]
 ```
 
+### Revoking privileges
+
+```sql
+REVOKE READ|WRITE|ALL
+    ON <database>
+    TO <user>
+```
+
+_Example_
+
+```sql
+REVOKE ALL
+    ON mydb
+    TO jdoe
+```
+
+The response returned is:
+
+```json
+[{}]
+```
+
 ### Setting the Cluster Adminstrator
 To grant cluster administration privileges to a user, issue the following command:
 
@@ -263,6 +285,24 @@ _Example_
 
 ```sql
 GRANT ALL PRIVILEGES TO jdoe
+```
+
+The response returned is:
+
+```json
+[{}]
+```
+
+To revoke cluster administratoin privileges, issue this command:
+
+```sql
+REVOKE ALL PRIVILEGES TO <user>
+```
+
+_Example_
+
+```sql
+REVOKE ALL PRIVILEGES TO jdoe
 ```
 
 The response returned is:
