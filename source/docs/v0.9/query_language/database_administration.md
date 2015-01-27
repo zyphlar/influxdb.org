@@ -233,7 +233,23 @@ In InfluxDB, privileges are controlled on per-database user. Any given user can 
 The grant access to a user for a given databasse, issue the following command:
 
 ```sql
-GRANT READ|WRITE|ALL PRIVILEGES ON <database> TO <user>
+GRANT READ|WRITE|ALL
+    ON <database>
+    TO <user>
+```
+
+_Example_
+
+```sql
+GRANT READ
+    ON mydb
+    TO jdoe
+```
+
+The response returned is:
+
+```json
+[{}]
 ```
 
 ### Setting the Cluster Adminstrator
@@ -241,6 +257,18 @@ To grant cluster administration privileges to a user, issue the following comman
 
 ```sql
 GRANT ALL PRIVILEGES TO <user>
+```
+
+_Example_
+
+```sql
+GRANT ALL PRIVILEGES TO jdoe
+```
+
+The response returned is:
+
+```json
+[{}]
 ```
 
 Only the cluster adminstrator can create and drop databases, and manage users.
