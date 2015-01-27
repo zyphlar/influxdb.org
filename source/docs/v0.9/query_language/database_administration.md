@@ -157,7 +157,7 @@ ALTER RETENTION POLICY mypolicy
 The response returned is:
 
 ```json
-[]
+[{}]
 ```
 
 ## User Management
@@ -176,10 +176,37 @@ _Example_
 CREATE USER jdoe WITH PASSWORD 'mypassword'
 ```
 
+### Showing existing users
+```sql
+SHOW USERS
+```
+
+_Example_
+
+```sql
+CREATE USER jdoe WITH PASSWORD 'mypassword'
+SHOW USERS
+```
+
 The response returned is:
 
 ```json
-[]
+[
+    {
+        "rows": [
+            {
+                "columns": [
+                    "User"
+                ],
+                "values": [
+                    [
+                        "jdoe"
+                    ]
+                ]
+            }
+        ]
+    }
+]
 ```
 
 ### Deleting a user
@@ -188,10 +215,16 @@ The response returned is:
 DROP USER <username>
 ```
 
-### Showing existing users
+_Example_
 
 ```sql
-SHOW USERS
+DROP USER jdoe
+```
+
+The response returned is:
+
+```json
+[{}]
 ```
 
 ## Privilege Control
