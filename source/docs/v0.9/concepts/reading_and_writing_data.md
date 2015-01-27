@@ -8,7 +8,7 @@ There are many ways to write data into InfluxDB including the built-in HTTP API,
 The HTTP API is the primary means of getting data into InfluxDB. To write data simply send a `POST` to the endpoint `/write`. The body of the POST contains the destination database, retention policy, and time-series data you wish to store. An example request sent to InfluxDB running on localhost, which writes a single point, is shown below.
 
 ```
-curl -XPOST 'httpp://localhost:8086/write' -d '
+curl -XPOST 'http://localhost:8086/write' -d '
 {
     "database": "mydb",
     "retentionPolicy": "mypolicy",
