@@ -80,17 +80,17 @@ milliseconds. This holds true for both reading and writing data.
 
 ## Writing data through Graphite Protocol
 
-InfluxDB supports the Carbon protocol that Graphite uses. All you need to do is enable graphite in the `input-plugins` section of the [configuration file](https://github.com/influxdb/influxdb/blob/master/config.sample.toml). Then you'll be able to point anything that writes to Graphite to InfluxDB instead.
+InfluxDB supports the Carbon protocol that Graphite uses. All you need to do is enable graphite in the `input-plugins` section of the [configuration file](https://github.com/influxdb/influxdb/blob/0.8/config.sample.toml). Then you'll be able to point anything that writes to Graphite to InfluxDB instead.
 
 ## Writing data through Collectd Protocol
 
-InfluxDB supports also the [binary protocol](https://collectd.org/wiki/index.php/Binary_protocol) used by collectd, so you can store in influxdb data coming from collectd clients. To activate collectd, enable the plugin in `input-plugins` section of the [configuration file](https://github.com/influxdb/influxdb/blob/master/etc/config.sample.toml). Then configure the collectd clients to send data to InfluxDB.
+InfluxDB supports also the [binary protocol](https://collectd.org/wiki/index.php/Binary_protocol) used by collectd, so you can store in influxdb data coming from collectd clients. To activate collectd, enable the plugin in `input-plugins` section of the [configuration file](https://github.com/influxdb/influxdb/blob/0.8/config.sample.toml). Then configure the collectd clients to send data to InfluxDB.
 
 Note that you need to install file types.db, you can find a version of this file in the GitHub repository of [Collectd](https://github.com/collectd/collectd/blob/master/src/types.db).
 
 ## Writing data through JSON + UDP
 
-InfluxDB allows you to write data through JSON and UDP. It assumes that you will be writing data to a single database, which is configured through the [configuration file](https://github.com/influxdb/influxdb/blob/master/config.sample.toml). The data you write in should look exactly like what you'd `POST` to the HTTP API.
+InfluxDB allows you to write data through JSON and UDP. It assumes that you will be writing data to a single database, which is configured through the [configuration file](https://github.com/influxdb/influxdb/blob/0.8/config.sample.toml). The data you write in should look exactly like what you'd `POST` to the HTTP API.
 
 ## Adding a method for writing data
 
