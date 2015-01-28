@@ -49,4 +49,11 @@ Then start the daemon by running:
 sudo /etc/init.d/influxdb start
 ```
 
+## OS X
+Installation on OS X 10.6 and higher is supported through Homebrew.
+
+```
+brew update
+brew install influxdb
+```
 <a href="getting_started.html"><font size="6"><b>Now get started!</b></font></a>
