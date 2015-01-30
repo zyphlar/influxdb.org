@@ -19,6 +19,6 @@ A **series** is defined as a combination of a _measurement_ and set of _tag_ key
 
 **Measurement** is the name give to quantity being recorded by a time-series. For example `cpu_load`.
 
-InfluxDB also allows you to associate **tags**. Tags are arbitrary key-value pairs associated with a single time-series data point. Tags are indexed by InfluxDB, allowing efficient and fast look-up of particular series. Finally a **field** s the part of a time-series data point that is not indexed by the system.
+InfluxDB also allows you to associate **tags**. Tags are arbitrary key-value pairs associated with a single time-series data point. Tags are indexed by InfluxDB, allowing efficient and fast look-up of particular series. Finally a **field** is the part of a time-series data point that is not indexed by the system.
 
 
