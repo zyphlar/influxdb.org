@@ -111,8 +111,9 @@ To delete a retention policy issue the following command:
 SHOW RETENTION POLICES <db-name>
 ```
 
+_Example_
 ```sql
-SHOW RETENTION POLICIES
+SHOW RETENTION POLICIES mydb
 ```
 
 The response returned is:
