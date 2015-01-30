@@ -176,21 +176,12 @@ You'd get a single time series with the count of events from the two combined in
 Joins will put two or more series together. Since timestamps may not match exactly, InfluxDB will make a best effort to put points together. Joins are used when you want to perform a transformation of one time series against another. Here are a few examples.
 
 ```sql
-SELECT hosta.value + hostb.value
-FROM cpu_load as hosta
-inner join cpu_load as hostb
-where hosta.host = 'hosta.influxdb.orb' and hostb.host = 'hostb.influxdb.org';
+SELECT ...
 ```
-
-The above query will return a time series of the combined cpu load for hosts a and b. The individual points will be coerced into the closest time frames to match up.
 
 ```sql
-SELECT errors_per_minute.value / page_views_per_minute.value
-FROM errors_per_minute
-inner join page_views_per_minute
+SELECT ...
 ```
-
-The above query will return the error rate per minute.
 
 ## Getting series with special characters
 
