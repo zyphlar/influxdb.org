@@ -40,7 +40,29 @@ As you can see from the example above, you can post multiple points to multiple 
 Each point can have a set of key-value pairs associated with it. Both keys and values must be strings. Tags allow data to be easily and efficient queried, including or excluding data that matches a set of keys with particular values.
 
 ### Timestamp format
-Timestamps must be in RFC3339 format. Nanosecond precision is supported.
+The following timestamp formats are accepted:
+
+_RFC3339_
+
+Both UTC and formats with timezone information are supported. Nanonsecond precision is also supported. Examples of each are shown below.
+
+```
+"timestamp": "2015-01-29T21:50:44Z"
+"timestamp": "2015-01-29T14:49:23-07:00"
+"timestamp": "2015-01-29T21:51:28.968422294Z"
+"timestamp": "2015-01-29T14:48:36.127798015-07:00"
+```
+
+_Epoch and Precision_
+
+Timestamps can also be supplied as an integer value, with the precision specified seperately. For example to set the time in nanoseconds, use the following two keys in the JSON request.
+
+```
+"timestamp": 1422568543702900257,
+"precision": "n"
+```
+
+`n`, `u`, `ms`, `s`, `m`, and `h` are all supported and represent nanoseconds, microseconds, milliseconds, seconds, minutes, and hours, respectively. If no precision is specified, seconds is assumed.
 
 ### Response
 Once InfluxDB has accepted this data and safely persisted it to disk, it responds with `HTTP 200 OK`.
