@@ -3,18 +3,18 @@
 There are various ways to learn about the data contained within an InfluxDB system.
 
 ```sql
-LIST SERIES
+SHOW SERIES
 ```
 
 ```sql
-LIST MEASUREMENTS
+SHOW MEASUREMENTS
 ```
 
 ```sql
-LIST TAG KEYS
+SHOW TAG KEYS
 ```
 
 ```
-LIST TAG VALUES
+SHOW TAG VALUES
 ```
 
