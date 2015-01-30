@@ -82,7 +82,32 @@ Which returns data that looks like so:
     ]
 }
 ```
-InfluxDB supports a sophisticated query language. Consult the Query Language section to learn more.
+
+In general the response body will be of the following form:
+
+```json
+{
+    "results": [
+        {
+            "rows": [{}],
+            "error": "...."
+        }
+    ],
+    "error": "...."
+}
+```
+
+There are two top-level keys. `results` is an array of objects, one for each query, each containing a `rows` keys. Each _row_ contains a data point returned by the query. If there was an error processing the query, the `error` key will be present, and will contained detailed information explaining why the query failed. An example of this type of failure would be attempt to query a series that does not exist.
+
+The second top-level key is also named `error`, and is set if the API called failed before InfluxDB could perform any *query* operations. A example of this kind of failure would be invalid authentication credentials.
+
+### Multiple queries
+
+Multiple queries can be sent to InfluxDB in a single API call. Simply delimit each query using a semicolon, as shown in the example below.
+
+```
+curl -XGET 'http://localhost:8086/query' --data-urlencode "q=SELECT * from cpu_load_short WHERE region=us-west;SELECT * from cpu_load_long"
+```
 
 ## Authentication
 Authentication is disabled by default, but if authentication is enabled, user credentials must be supplied with every query. These can be suppled via the URL parameters `u` and `p`. For example, if the  user is "bob" and Bob's password is "mypass", then endpoint URL should take the form `/query?u=bob&p=mypass`.
