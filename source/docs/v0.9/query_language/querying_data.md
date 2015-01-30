@@ -5,26 +5,6 @@ _PLEASE NOTE 0.9.0 IS PRE-RELEASE SOFTWARE. THESE DOCUMENTS ARE TESTING REFERENC
 # Querying Data
 InfluxDB features an SQL-like query language for querying data and performing aggregations on that data. This section describes the syntax of the query. All queries that return data use the keyword `SELECT`.
 
-## Discovery the Data within InfluxDB
-
-There are various ways for learning about the data contained within an InfluxDB system.
-
-```sql
-LIST SERIES
-```
-
-```sql
-LIST MEASUREMENTS
-```
-
-```sql
-LIST TAG KEYS
-```
-
-```
-LIST TAG VALUES
-```
-
 ## Select and Time Ranges
 
 By default, InfluxDB returns data in time descending order.
