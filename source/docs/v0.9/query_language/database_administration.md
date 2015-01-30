@@ -22,7 +22,7 @@ CREATE DATABASE mydb
 The response returned is:
 
 ```json
-[{}]
+{"results":[{}]}
 ```
 
 ### Deleting a database
@@ -38,7 +38,7 @@ DROP DATABASE mydb
 The response returned is:
 
 ```json
-[{}]
+{"results":[{}]}
 ```
 
 The database must exist or an error is returned.
@@ -58,22 +58,24 @@ SHOW DATABASES
 The response returned is:
 
 ```json
-[
-    {
-        "rows": [
-            {
-                "columns": [
-                    "Name"
-                ],
-                "values": [
-                    [
-                        "mydb"
+{
+    "results":[
+        {
+            "rows": [
+                {
+                    "columns": [
+                        "Name"
+                    ],
+                    "values": [
+                        [
+                            "mydb"
+                        ]
                     ]
-                ]
-            }
-        ]
-    }
-]
+                }
+            ]
+        }
+    ]
+}
 ```
 
 ## Retention Policy Management
@@ -100,7 +102,7 @@ CREATE RETENTION POLICY mypolicy
 The response returned is:
 
 ```json
-[{}]
+{"results":[{}]}
 ```
 
 ### Show existing retention polices
@@ -116,22 +118,22 @@ SHOW RETENTION POLICIES
 The response returned is:
 
 ```json
-[
-    {
-        "rows": [
-            {
-                "columns": [
-                    "Name"
-                ],
-                "values": [
-                    [
+{
+    "results": [
+        {
+            "rows": [
+                {
+                    "columns": [
+                        "Name"
+                    ],
+                    "values": [
                         "mypolicy"
                     ]
-                ]
-            }
-        ]
-    }
-]
+                }
+            ]
+        }
+    ]
+}
 ```
 
 ### Modifying a retention policy
@@ -157,7 +159,7 @@ ALTER RETENTION POLICY mypolicy
 The response returned is:
 
 ```json
-[{}]
+{"results":[{}]}
 ```
 
 ## User Management
@@ -191,22 +193,22 @@ SHOW USERS
 The response returned is:
 
 ```json
-[
-    {
-        "rows": [
-            {
-                "columns": [
-                    "User"
-                ],
-                "values": [
-                    [
+{
+    "results": [
+        {
+            "rows": [
+                {
+                    "columns": [
+                        "User"
+                    ],
+                    "values": [
                         "jdoe"
                     ]
-                ]
-            }
-        ]
-    }
-]
+                }
+            ]
+        }
+    ]
+}
 ```
 
 ### Deleting a user
@@ -224,7 +226,7 @@ DROP USER jdoe
 The response returned is:
 
 ```json
-[{}]
+{"results":[{}]}
 ```
 
 ## Privilege Control
@@ -249,7 +251,7 @@ GRANT READ
 The response returned is:
 
 ```json
-[{}]
+{"results":[{}]}
 ```
 
 ### Revoking privileges
@@ -271,7 +273,7 @@ REVOKE ALL
 The response returned is:
 
 ```json
-[{}]
+{"results":[{}]}
 ```
 
 ### Setting the Cluster Adminstrator
@@ -290,7 +292,7 @@ GRANT ALL PRIVILEGES TO jdoe
 The response returned is:
 
 ```json
-[{}]
+{"results":[{}]}
 ```
 
 To revoke cluster administratoin privileges, issue this command:
@@ -308,7 +310,7 @@ REVOKE ALL PRIVILEGES TO jdoe
 The response returned is:
 
 ```json
-[{}]
+{"results":[{}]}
 ```
 
 Only the cluster adminstrator can create and drop databases, and manage users.
