@@ -9,7 +9,7 @@ If you're ready to use InfluxDB but don't want to install any software, you may 
 Installation of InfluxDB requires root privileges on the host machine.
 
 ### Networking
-By default InfluxDB will use TCP ports `8083`, `8086`, `8090`, and `8099`, so these ports should be available on your system. Once you install you can change those ports and other options in the configuration file, which is located by default in `/etc/opt/influxdb`.
+By default InfluxDB will use TCP ports `8083` and `8086` so these ports should be available on your system. Once installation is complete you can change those ports and other options in the configuration file, which is located by default in `/etc/opt/influxdb`.
 
 ## Ubuntu & Debian
 Debian users can install by downloading the package and installing it like this:
@@ -27,7 +27,7 @@ sudo dpkg -i influxdb_latest_i386.deb
 Then start the daemon by running:
 
 ```
-sudo /etc/init.d/influxdb start
+sudo service influxdb start
 ```
 
 ## RedHat & CentOS

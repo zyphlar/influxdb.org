@@ -37,11 +37,12 @@ SELECT mean(value) FROM cpu GROUP BY time(5m) INTO 5m_cpu_mean
 -- after that you can select from the composed series
 SELECT * FROM "5m_cpu_mean" WHERE time > now() - 4h
 ```
-* Store and query hundreds of thousands of series:
+* Store and query hundreds of thousands of series, filtering by tags:
 
 ```sql
-SELECT mean(value) FROM cpu WHERE region=uswest,az=1,server=serverA
-GROUP BY time(30s)
+SELECT mean(value) FROM cpu
+    WHERE region='uswest' AND az='1' AND server='server01'
+    GROUP BY time(30s)
 ```
 
 * Merge multiple series together:

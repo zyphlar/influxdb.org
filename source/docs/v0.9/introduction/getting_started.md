@@ -14,7 +14,7 @@ If you've installed locally, point your browser to <a href="http://localhost:808
 
 ![Admin login](/images/docs/admin_login.jpg)
 
-The default options for hostname of `localhost` and port of `8086` should work. The InfluxDB HTTP API runs on port `8086` by default. 
+The default options for hostname of `localhost` and port of `8086` should work. The InfluxDB HTTP API runs on port `8086` by default.
 
 ![Logged in with no databases](/images/docs/logged_in_no_databases.jpg)
 
@@ -86,8 +86,7 @@ The JSON resonse that is returned is as follows:
 }
 ```
 
-Let's try storing a different type of data -- sensor data" 
-Write values input:
+Let's try storing a different type of data -- sensor data. Enter the following data in the `Values` textbox:
 
 ```json
 {
@@ -137,7 +136,7 @@ Resulting JSON that will get returned on query:
 InfluxDB supports a sophisticated query language, allowing many different types of queries. For example:
 
 ```sql
-SELECT * FROM /.*/ limit 1
+SELECT * FROM /.*/ LIMIT 1
 --
 SELECT * FROM cpu_load_short
 --
