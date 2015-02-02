@@ -113,7 +113,7 @@ DROP SERIES response_times
 
 ## The WHERE Clause
 
-We've already seen the where clause for selecting time ranges and a specific point. You can also use it to filter based on given values, comparators, or regexes. Here are some examples of different ways to use `WHERE`.
+We've already seen the where clause for selecting time ranges and a specific point. You can also use it to filter based on given values, tags, or regexes. Here are some examples of different ways to use `WHERE`.
 
 ```sql
 SELECT * FROM events WHERE state = 'NY';
@@ -122,11 +122,9 @@ SELECT * FROM log_lines WHERE line =~ /error/i;
 
 SELECT * FROM events WHERE customer_id = 23 AND type = 'click';
 
-SELECT * FROM response_times WHERE value > 500;
+SELECT * FROM response_times WHERE value > 500 AND region='us-west'
 
 SELECT * FROM events WHERE email !~ /.*gmail.*/;
-
-SELECT * FROM nagios_checks WHERE status <> 0;
 
 SELECT * FROM events WHERE signed_in = false;
 
@@ -134,7 +132,7 @@ SELECT * FROM events
 WHERE (email =~ /.*gmail.*/ or email =~ /.*yahoo.*/) AND state = 'ny';
 ```
 
-The WHERE clause supports comparisons against regexes, strings, booleans, floats, integers, and the times listed before. Comparators include `=` equal to, `>` greater than, `<` less than, `<>` not equal to, `=~` matches against, `!~` doesn't match against. You can chain logic together using `and` and `or` and you can separate using `(` and `)`
+The WHERE clause supports comparisons against regexes, strings, booleans, floats, integers, and the times listed before. Comparators include `=` equal to, `>` greater than, `<` less than, `<>` not equal to, `=~` matches against, `!~` doesn't match against. You can chain logic together using `AMD` and `OR` and you can separate using `(` and `)`
 
 ## Group By
 
@@ -146,6 +144,9 @@ SELECT count(type) FROM events GROUP BY time(10m);
 
 -- count of each unique type of event in 10 minute intervals
 SELECT count(type) FROM events GROUP BY time(10m), type;
+
+-- count of each unique type of event grouped by host tag
+SELECT count(type) FROM events GROUP BY host
 
 -- 95th percentile of response times in 30 second intervals
 SELECT percentile(value, 95) FROM response_times GROUP BYtime(30s);
