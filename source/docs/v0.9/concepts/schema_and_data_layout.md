@@ -62,7 +62,7 @@ Take a common example from the world of computer infrastucture monitoring. Imagi
     ]
 }
 ```
-With the data in this format, querying and aggregating by various dimenension is straightforward -- filter by tags as necessary. For example, to see only CPU load information from `server01` simply add `host=server01` to your query. This would return data for both cores on that machine. To only see data from core 1, add `host=server01,core=1`. And so on.
+With the data in this format, querying and aggregating by various dimenension is straightforward -- filter by tags as necessary. For example, to see only CPU load information from `server01` simply add `host='server01'` to your query. This would return data for both cores on that machine. To only see data from core 1, add `host='server01',core='1'`. And so on.
 
 ## Series Name
 Avoid using '.' in series names if possible, as names containing '.' must be quoted when queried.
