@@ -1,4 +1,4 @@
-ing the **Influx** Shell
+# Using the Influx Shell
 
 The Influx shell is an interactive shell for InfluxDB, and is part of all InfluxDB distributions. If you install InfluxDB via a package manager, the shell is installed at `/opt/influxdb/influx`.
 
