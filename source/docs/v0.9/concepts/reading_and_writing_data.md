@@ -71,10 +71,10 @@ Once InfluxDB has accepted this data and safely persisted it to disk, it respond
 If an error was encountered while processing the data, InfluxDB will respond with `HTTP 500 Internal Error`.
 
 ## Querying data using the HTTP API
-The HTTP API is also the primary means for querying data contained within InfluxDB. To perform a query send a `GET` to the endpoint `/query`, and set the URL parameter `q` as your query. An example query, sent to a locally-running InfluxDB server, is shown below.
+The HTTP API is also the primary means for querying data contained within InfluxDB. To perform a query send a `GET` to the endpoint `/query`, set the URL parameter `db` as the target database, and set the URL parameter `q` as your query. An example query, sent to a locally-running InfluxDB server, is shown below.
 
 ```
-curl -XGET 'http://localhost:8086/query' --data-urlencode "q=SELECT * from cpu_load_short WHERE region=us-west"
+curl -XGET 'http://localhost:8086/query' --data-urlencode "db=mydb" --data-urlencode "q=SELECT * from cpu_load_short WHERE region=us-west"
 ```
 
 Which returns data that looks like so:
