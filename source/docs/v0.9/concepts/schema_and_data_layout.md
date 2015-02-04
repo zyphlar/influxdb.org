@@ -5,7 +5,7 @@ _PLEASE NOTE 0.9.0 IS PRE-RELEASE SOFTWARE. THESE DOCUMENTS ARE TESTING REFERENC
 
 The best way to structure things is to have many series and a single column named value or something consistent across all series.
 
-In the 0.9.x version of InfluxDB, it is recommended that you encode most metadata into the series `Tags`. Tags are indexed within the InfluxDB system allowing fast querying by 1 or more tag values. Note that tag values are always interpreted as strings. And the optimial way to structure things is to have many series and a single column named "value" (or some other key of your choice) used consistently across all series.
+In the 0.9.x version of InfluxDB, it is recommended that you encode most metadata into the series `Tags`. Tags are indexed within the InfluxDB system allowing fast querying by 1 or more tag values. Note that tag values are always interpreted as strings. And the optimal way to structure things is to have many series and a single column named "value" (or some other key of your choice) used consistently across all series.
 
 It’s also a good idea to start the tag names and measurement names with a character in [a-z] or [A-Z], but not a requirement. It will just make writing queries easier later since you won’t have to wrap the names in double quotes.
 

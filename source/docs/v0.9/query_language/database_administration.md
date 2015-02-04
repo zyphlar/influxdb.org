@@ -107,11 +107,13 @@ The response returned is:
 
 ### Show existing retention polices
 To delete a retention policy issue the following command:
+
 ```sql
 SHOW RETENTION POLICES <db-name>
 ```
 
 _Example_
+
 ```sql
 SHOW RETENTION POLICIES mydb
 ```

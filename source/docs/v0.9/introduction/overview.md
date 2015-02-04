@@ -13,14 +13,15 @@ InfluxDB is targeted at use cases for DevOps, metrics, sensor data, and real-tim
 
 ## Project Status
 
-The current version of InfluxDB is 0.9.0 and is alpha-level software. Clustering and High-Availability are supported.
+The current version of InfluxDB is 0.9.0 and is alpha-level software. Clustering, replication and high-availability are supported.
 
 ## Key Features
 
 Here are some of the features that InfluxDB currently supports that make it a great choice for working with time series data.
 
 * SQL-like query language.
-* HTTP(S) API.
+* HTTP(S) API for data ingestion and queries.
+* Built-in support for other data protocols such as collectd.
 * Store billions of data points.
 * Tag data for fast and efficient queries.
 * Database-managed retention policies for data.

@@ -7,14 +7,14 @@ _PLEASE NOTE 0.9.0 IS PRE-RELEASE SOFTWARE. THESE DOCUMENTS ARE TESTING REFERENC
 
 # Getting Started
 
-Now that you've [installed InfluxDB](installation.html) you're ready to start doing awesome things. There are many client libraries available for InfluxDB, but in this section we're going to use the built in user interface to get started quickly.
+Now that you've [installed InfluxDB](installation.html) you're ready to start doing awesome things. In this section we're going to use the built in user interface to get started quickly.
 
 ## Logging in and creating your first database
 If you've installed locally, point your browser to <a href="http://localhost:8083" target="_blank">localhost:8083</a>. The built in user interface runs on port `8083` by default. You should see a screen like this:
 
 ![Admin login](/images/docs/admin_login.jpg)
 
-The default options for hostname of `localhost` and port of `8086` should work. The InfluxDB HTTP API runs on port `8086` by default.
+The default options for hostname of `localhost` and port of `8086` should work, since the InfluxDB HTTP API runs on port `8086` by default.
 
 ![Logged in with no databases](/images/docs/logged_in_no_databases.jpg)
 
@@ -27,7 +27,7 @@ Go ahead and click the "Explore" link to get here:
 
 ![Explore data interface](/images/docs/explore_screen.jpg)
 
-From this screen you can write some test data. More importantly, you'll be able to issue ad-hoc queries and see basic visualizations. Let's write a little data in to see how things work. Data in InfluxDB is organized by "time series" which then have "points" which have a `timestamp`, `columns`, `fields`, and possibly `tags`. Think of it kind of like SQL tables, and rows where the primary index is always time. The difference is that with InfluxDB you can have millions of series, you don't have to define schemas up front, and null values aren't stored.
+From this screen you can write some test data. More importantly, you'll be able to issue ad-hoc queries and see basic visualizations. Let's write a little data in to see how things work. Data in InfluxDB is organized by "time series" which then have "points" which have a `timestamp`, `columsn`, `values`, and possibly `tags`. Think of it like SQL tables, with rows where the primary index is always time. The difference is that with InfluxDB you can have millions of series, you don't have to define schemas up front, and null values aren't stored.
 
 Let's write some data. Here are a couple of examples of things we'd want to write. We'll show the screenshot and what the JSON data looks like right after.
 
@@ -56,8 +56,10 @@ To insert a single time-series datapoint into InfluxDB, enter the following in t
 And now let's take a look at how we query for this data. In the `Query` textbox, enter the following command:
 
 ```sql
-SELECT * from cpu_load_short
+SELECT * FROM cpu_load_short
 ```
+
+Note that the keywords are capitalized for clarity, but keywords are not case-senstive.
 
 The JSON resonse that is returned is as follows:
 
@@ -67,9 +69,9 @@ The JSON resonse that is returned is as follows:
         {
             "rows": [
                 {
-                    "name": "cpu.load.short",
+                    "name": "cpu_load_short",
                     "tags": {
-                        "host": "servera",
+                        "host": "server01"
                     },
                     "columns": [
                         "timestamp",
@@ -77,7 +79,7 @@ The JSON resonse that is returned is as follows:
                     ],
                     "values": [
                         1400425957368,
-                        27
+                        0.64
                     ]
                 }
             ]
@@ -116,7 +118,7 @@ Resulting JSON that will get returned on query:
                 {
                     "name": "temperature",
                     "tags": {
-                        "machine": "unit47",
+                        "machine": "unit42"
                     },
                     "columns": [
                         "timestamp",
@@ -143,4 +145,4 @@ SELECT * FROM cpu_load_short
 SELECT * FROM cpu_load_short WHERE value > 0.9
 ```
 
-This is all you need to know to write data into InfluxDB and query it back. Of course, to write significant amounts of data you will want to access th HTTP API directly, or use one of the many client libraries.
+This is all you need to know to write data into InfluxDB and query it back. Of course, to write significant amounts of data you will want to access the HTTP API directly, or use one a _client library_.

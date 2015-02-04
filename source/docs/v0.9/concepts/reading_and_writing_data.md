@@ -28,7 +28,7 @@ curl -XPOST 'http://localhost:8086/write' -d '
 }
 '
 ```
-In the example above the destination database is `mydb`, and the data will be stored in the retention policy named `mypolicy`. The actual data represents the short-term CPU-load on a server server01 in region _us-west_. `database` must be specified in the request body, but `retentionPolicy` is optional. If `retentionPolicy` is not specified, the default retention policy for the database is used.
+In the example above the destination database is `mydb`, and the data will be stored in the retention policy named `mypolicy`. The actual data represents the short-term CPU-load on a server server01 in region _us-west_. `database` must be specified in the request body, but `retentionPolicy` is optional. If `retentionPolicy` is not specified, the default retention policy for the database is used. Tags are also optional, but very useful. Finally, if you do not set the timestamp, the server's local timestamp will be used.
 
 #### Schemaless Design
 InfluxDB is schemaless so the series and columns get created on the fly. You can add columns to existing series without penalty. It also means that if you change the column type later by writing in different data, InfluxDB won’t complain, but you might get unexpected results when querying.
