@@ -5,6 +5,23 @@ _PLEASE NOTE 0.9.0 IS PRE-RELEASE SOFTWARE. THESE DOCUMENTS ARE TESTING REFERENC
 # Querying Data
 InfluxDB features an SQL-like query language for querying data and performing aggregations on that data. This section describes the syntax of the query. All queries that return data use the keyword `SELECT`.
 
+## Selecting the Database and Retention Period
+When selecting data using the query language, the target database and retention period can optionally be specified. Doing so is known as "fully qualifying" your series. A fully-qualified series is in the following form:
+
+```
+"<database>"."<retention period>".<series>
+```
+
+So, for example, the following statement:
+
+```sql
+SELECT value FROM "mydb"."mypolicy".cpu_load
+```
+
+queries for data from the series `cpu_load` in the database `mydb`, that has been written to the retention policy `mypolicy`. In the event that the database is not specified, the database is determined by the URL parameter `db`. If the retention period is not specified, the query will use the default retention period for the database.
+
+This feature is particularly useful if you wish to query data from different databases or retention periods, in one single query.
+
 ## Select and Time Ranges
 
 By default, InfluxDB returns data in time descending order.
