@@ -128,7 +128,7 @@ The second top-level key is also named `error`, and is set if the API called fai
 Multiple queries can be sent to InfluxDB in a single API call. Simply delimit each query using a semicolon, as shown in the example below.
 
 ```
-curl -XGET 'http://localhost:8086/query' --data-urlencode "q=SELECT * from cpu_load_short WHERE region=us-west;SELECT * from cpu_load_long"
+curl -XGET 'http://localhost:8086/query' --data-urlencode "db=mydb" --data-urlencode "q=SELECT * from cpu_load_short WHERE region=us-west;SELECT * from cpu_load_long"
 ```
 
 ## Authentication
@@ -140,7 +140,7 @@ The credentials may also be passed using _Basic Authentication_. If both types o
 When working directly with the API it’s often convenient to have pretty-printed JSON output. To enable pretty-printed output, append `pretty=true` to the URL. For example:
 
 ```
-curl -G 'http://localhost:8086/query?pretty=true' --data-urlencode "q=SELECT * from cpu_load_short"
+curl -G 'http://localhost:8086/query?pretty=true' --data-urlencode "db=mydb" --data-urlencode "q=SELECT * from cpu_load_short"
 ```
 
 Pretty-printed output is not recommended otherwise, as it consumes unnecessary network bandwidth.
