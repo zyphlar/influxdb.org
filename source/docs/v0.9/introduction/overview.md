@@ -2,9 +2,6 @@
 alias: overview/
 ---
 
----
-_PLEASE NOTE 0.9.0 IS PRE-RELEASE SOFTWARE. THESE DOCUMENTS ARE TESTING REFERENCES_.
-
 # Overview
 
 InfluxDB is a time series, metrics, and analytics database. It's written in Go and has no external dependencies. That means once you install it there's nothing else to manage (such as Redis, ZooKeeper, Cassandra, HBase, or anything else).

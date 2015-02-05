@@ -1,6 +1,3 @@
----
-_PLEASE NOTE 0.9.0 IS PRE-RELEASE SOFTWARE. THESE DOCUMENTS ARE TESTING REFERENCES_.
-
 # Schema Design
 
 The best way to structure things is to have many series and a single column named value or something consistent across all series.

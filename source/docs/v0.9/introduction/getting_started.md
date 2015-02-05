@@ -2,9 +2,6 @@
 title: Getting Started with InfluxDB
 ---
 
----
-_PLEASE NOTE 0.9.0 IS PRE-RELEASE SOFTWARE. THESE DOCUMENTS ARE TESTING REFERENCES_.
-
 # Getting Started
 
 Now that you've [installed InfluxDB](installation.html) you're ready to start doing awesome things. In this section we're going to use the built in user interface to get started quickly.

@@ -1,6 +1,3 @@
----
-_PLEASE NOTE 0.9.0 IS PRE-RELEASE SOFTWARE. THESE DOCUMENTS ARE TESTING REFERENCES_.
-
 # Clustering
 InfluxDB is design to scale horizontally. This means that you can easily add more machines to your cluster, to increase data ingestion performance, and reduce query response time.
 
