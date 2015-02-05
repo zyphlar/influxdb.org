@@ -92,7 +92,7 @@ Which returns data that looks like so:
                         "value"
                     ],
                     "values": [
-                        1400425947368,
+                        "2015-01-29T21:51:28.968422294Z",
                         0.64
                     ]
                 }
@@ -119,6 +119,9 @@ In general the response body will be of the following form:
 There are two top-level keys. `results` is an array of objects, one for each query, each containing a `rows` keys. Each _row_ contains a data point returned by the query. If there was an error processing the query, the `error` key will be present, and will contained detailed information explaining why the query failed. An example of this type of failure would be attempt to query a series that does not exist.
 
 The second top-level key is also named `error`, and is set if the API called failed before InfluxDB could perform any *query* operations. A example of this kind of failure would be invalid authentication credentials.
+
+### Timestamp Format
+The format of the returned timestamps complies with RFC3339, and has nanosecond precision.
 
 ### Multiple queries
 
