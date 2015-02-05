@@ -3,7 +3,8 @@ require 'slim'
 set :site_title, "InfluxDB - Open Source Time Series, Metrics, and Analytics Database"
 set :site_url, "http://influxdb.org"
 
-DOCS_VERSIONS = ['0.6', '0.7', '0.8']
+DOCS_VERSIONS = ['0.6', '0.7', '0.8', '0.9']
+set :latest_docs_version, 'v0.8'
 
 helpers do
   def heading_link(h, id, text)
@@ -32,7 +33,7 @@ DOCS_VERSIONS.each do |version|
   end
 end
 
-page "/docs", :layout => "docs.v#{DOCS_VERSIONS.last}.index"
+page "/docs", :layout => "docs.#{latest_docs_version}.index"
 
 page "/graphing.html", :layout => false
 

@@ -1,0 +1,92 @@
+doctype html
+html
+  head
+    meta charset="utf-8"
+
+    /! Always force latest IE rendering engine or request Chrome Frame
+    meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"
+
+    /! Use title if it's in the page YAML frontmatter
+    title == data.page.title || "InfluxDB Documentation"
+
+    == javascript_include_tag "//fast.fonts.net/jsapi/2de9def5-2dd1-4d89-b4bb-cd7e5f821645.js"
+    == stylesheet_link_tag "all"
+    == javascript_include_tag  "all"
+
+    - @version = "v0.9"
+
+  body class="#{page_classes}"
+    = partial "layouts/navigation"
+    = partial "layouts/notice"
+
+    section role="main"
+      .row
+        .large-4.medium-4.columns
+          .sidebar
+            nav
+              ul.side-nav
+                li.heading Introduction
+                li= link_to "Overview", "/docs/#{@version}/introduction/overview.html"
+                li= link_to "Installation", "/docs/#{@version}/introduction/installation.html"
+                li= link_to "Getting Started", "/docs/#{@version}/introduction/getting_started.html"
+
+                li.divider
+
+                li.heading Fundamentals
+                li= link_to "Key Concepts", "/docs/#{@version}/concepts/key_concepts.html"
+                li= link_to "Reading and Writing Data", "/docs/#{@version}/concepts/reading_and_writing_data.html"
+                li= link_to "Schema and Data Layout", "/docs/#{@version}/concepts/schema_and_data_layout.html"
+
+                li.divider
+
+                li.heading Query Language
+                li= link_to "Data Exploration", "/docs/#{@version}/query_language/data_exploration.html"
+                li= link_to "Querying Data", "/docs/#{@version}/query_language/querying_data.html"
+                li= link_to "Server Administration", "/docs/#{@version}/query_language/database_administration.html"
+
+                li.divider
+
+                li.heading Grafana
+                li= link_to "Grafana Dashboards", "http://grafana.org/"
+
+                li.divider
+
+                li.heading Advanced Topics
+                li= link_to "Storage Engine", "/docs/#{@version}/advanced_topics/storage_engine.html"
+                li= link_to "Clustering", "/docs/#{@version}/advanced_topics/clustering.html"
+                li= link_to "Upgrading to 0.9", "/docs/#{@version}/advanced_topics/upgrading.html"
+
+                li.divider
+
+                li.heading Other Data Sources
+                li= link_to "Carbon", "/docs/#{@version}/data_sources/carbon.html"
+                li= link_to "CollectD", "/docs/#{@version}/data_sources/collectd.html"
+
+                li.divider
+
+                li.heading Client Libraries and Tools
+                li= link_to "Influx Shell", "/docs/#{@version}/clients/shell.html"
+                li= link_to "Suggested Library Design", "/docs/#{@version}/clients/javascript.html"
+                li= link_to "Client Libraries", "https://github.com/influxdb/influxdb-ruby"
+                li= link_to "Tools", "https://github.com/influxdb/influxdb-ruby"
+                li.divider
+
+                li.heading Contributing
+                li= link_to "Building and Contributing", "https://github.com/influxdb/influxdb/blob/master/docs/contributing.md"
+                li= link_to "CLA", "/community/cla.html"
+                li= link_to "To this Documentation", "https://github.com/influxdb/influxdb.org"
+                li= link_to "License (MIT)", "https://github.com/influxdb/influxdb/blob/master/LICENSE"
+
+                = partial "/layouts/versions"
+
+            a.button.download.expand href="/download" style="margin-bottom: 0;" Download InfluxDB
+        .large-8.medium-8.columns#docs
+          == yield
+
+    = partial "layouts/analytics"
+
+    coffee:
+      $("#docs h1, #docs h2, #docs h3, #docs h4").each (i, el) ->
+        id = el.id
+        text = $(el).text()
+        $(el).html('<a href="#' + id + '">' + text + '</a>')
