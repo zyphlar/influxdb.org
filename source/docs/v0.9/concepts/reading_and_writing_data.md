@@ -25,7 +25,8 @@ curl -XPOST 'http://localhost:8086/write' -d '
 }
 '
 ```
-In the example above the destination database is `mydb`, and the data will be stored in the retention policy named `mypolicy`. The actual data represents the short-term CPU-load on a server server01 in region _us-west_. `database` must be specified in the request body, but `retentionPolicy` is optional. If `retentionPolicy` is not specified, the default retention policy for the database is used. Tags are also optional, but very useful. Finally, if you do not set the timestamp, the server's local timestamp will be used.
+
+In the example above the destination database is `mydb`, and the data will be stored in the retention policy named `mypolicy`, which are assumed to exist. The actual data represents the short-term CPU-load on a server server01 in region _us-west_. `database` must be specified in the request body, but `retentionPolicy` is optional. If `retentionPolicy` is not specified, the default retention policy for the database is used. Tags are also optional, but very useful. Finally, if you do not set the timestamp, the server's local timestamp will be used.
 
 #### Schemaless Design
 InfluxDB is schemaless so the series and columns get created on the fly. You can add columns to existing series without penalty. It also means that if you change the column type later by writing in different data, InfluxDB won’t complain, but you might get unexpected results when querying.
@@ -71,7 +72,7 @@ If an error was encountered while processing the data, InfluxDB will respond wit
 The HTTP API is also the primary means for querying data contained within InfluxDB. To perform a query send a `GET` to the endpoint `/query`, set the URL parameter `db` as the target database, and set the URL parameter `q` as your query. An example query, sent to a locally-running InfluxDB server, is shown below.
 
 ```
-curl -XGET 'http://localhost:8086/query' --data-urlencode "db=mydb" --data-urlencode "q=SELECT * from cpu_load_short WHERE region=us-west"
+curl -G 'http://localhost:8086/query' --data-urlencode "db=mydb" --data-urlencode "q=SELECT value FROM cpu_load_short WHERE region=us-west"
 ```
 
 Which returns data that looks like so:
@@ -84,7 +85,7 @@ Which returns data that looks like so:
                 {
                     "name": "cpu_load_short",
                     "tags": {
-                        "host": "servera",
+                        "host": "server01",
                         "region": "us-west"
                     },
                     "columns": [
