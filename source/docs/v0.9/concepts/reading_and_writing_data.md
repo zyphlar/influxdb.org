@@ -32,7 +32,43 @@ In the example above the destination database is `mydb`, and the data will be st
 InfluxDB is schemaless so the series and columns get created on the fly. You can add columns to existing series without penalty. It also means that if you change the column type later by writing in different data, InfluxDB won’t complain, but you might get unexpected results when querying.
 
 #### Writing multiple points
-As you can see from the example above, you can post multiple points to multiple series at the same time. Batching points in this manner will result in much higher performance.
+As you can see from the example above, you can post multiple points to multiple series at the same time. Batching points in this manner will result in much higher performance. Furthermore, if `tags`, `timestamp` are common to some of your points, these keys may be placed alongside `database` and `retentionPolicy`. Any points without these keys will then use the shared values. If there are shared tags, and tags specifically for the point, they will be merged. For example, the JSON data shown below is a valid write request.
+
+```json
+{
+    "database": "mydb",
+    "retentionPolicy": "mypolicy",
+    "tags": {
+        "host": "server01",
+        "region": "us-west"
+    },
+    "timestamp": "2009-11-10T23:00:00Z",
+    "points": [
+        {
+            "name": "cpu_load_short",
+            "values": {
+                "value": 0.64
+            }
+        },
+        {
+            "name": "cpu_load_short",
+            "values": {
+                "value": 0.55
+            },
+            "timestamp": "2009-11-10T23:00:10Z"
+        },
+        {
+            "name": "network",
+            "tags": {
+                "direction": "in"
+            },
+            "values": {
+                "value": 23422
+            }
+        }
+    ]
+}
+```
 
 ### Tags
 Each point can have a set of key-value pairs associated with it. Both keys and values must be strings. Tags allow data to be easily and efficient queried, including or excluding data that matches a set of keys with particular values.
