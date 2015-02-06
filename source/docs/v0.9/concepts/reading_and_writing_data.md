@@ -25,13 +25,50 @@ curl -XPOST 'http://localhost:8086/write' -d '
 }
 '
 ```
-In the example above the destination database is `mydb`, and the data will be stored in the retention policy named `mypolicy`. The actual data represents the short-term CPU-load on a server server01 in region _us-west_. `database` must be specified in the request body, but `retentionPolicy` is optional. If `retentionPolicy` is not specified, the default retention policy for the database is used. Tags are also optional, but very useful. Finally, if you do not set the timestamp, the server's local timestamp will be used.
+
+In the example above the destination database is `mydb`, and the data will be stored in the retention policy named `mypolicy`, which are assumed to exist. The actual data represents the short-term CPU-load on a server server01 in region _us-west_. `database` must be specified in the request body, but `retentionPolicy` is optional. If `retentionPolicy` is not specified, the default retention policy for the database is used. Tags are also optional, but very useful. Finally, if you do not set the timestamp, the server's local timestamp will be used.
 
 #### Schemaless Design
 InfluxDB is schemaless so the series and columns get created on the fly. You can add columns to existing series without penalty. It also means that if you change the column type later by writing in different data, InfluxDB won’t complain, but you might get unexpected results when querying.
 
 #### Writing multiple points
-As you can see from the example above, you can post multiple points to multiple series at the same time. Batching points in this manner will result in much higher performance.
+As you can see from the example above, you can post multiple points to multiple series at the same time. Batching points in this manner will result in much higher performance. Furthermore, if `tags`, `timestamp` are common to some of your points, these keys may be placed alongside `database` and `retentionPolicy`. Any points without these keys will then use the shared values. If there are shared tags, and tags specifically for the point, they will be merged. For example, the JSON data shown below is a valid write request.
+
+```json
+{
+    "database": "mydb",
+    "retentionPolicy": "mypolicy",
+    "tags": {
+        "host": "server01",
+        "region": "us-west"
+    },
+    "timestamp": "2009-11-10T23:00:00Z",
+    "points": [
+        {
+            "name": "cpu_load_short",
+            "values": {
+                "value": 0.64
+            }
+        },
+        {
+            "name": "cpu_load_short",
+            "values": {
+                "value": 0.55
+            },
+            "timestamp": "2009-11-10T23:00:10Z"
+        },
+        {
+            "name": "network",
+            "tags": {
+                "direction": "in"
+            },
+            "values": {
+                "value": 23422
+            }
+        }
+    ]
+}
+```
 
 ### Tags
 Each point can have a set of key-value pairs associated with it. Both keys and values must be strings. Tags allow data to be easily and efficient queried, including or excluding data that matches a set of keys with particular values.
@@ -71,7 +108,7 @@ If an error was encountered while processing the data, InfluxDB will respond wit
 The HTTP API is also the primary means for querying data contained within InfluxDB. To perform a query send a `GET` to the endpoint `/query`, set the URL parameter `db` as the target database, and set the URL parameter `q` as your query. An example query, sent to a locally-running InfluxDB server, is shown below.
 
 ```
-curl -XGET 'http://localhost:8086/query' --data-urlencode "db=mydb" --data-urlencode "q=SELECT * from cpu_load_short WHERE region=us-west"
+curl -G 'http://localhost:8086/query' --data-urlencode "db=mydb" --data-urlencode "q=SELECT value FROM cpu_load_short WHERE region=us-west"
 ```
 
 Which returns data that looks like so:
@@ -84,7 +121,7 @@ Which returns data that looks like so:
                 {
                     "name": "cpu_load_short",
                     "tags": {
-                        "host": "servera",
+                        "host": "server01",
                         "region": "us-west"
                     },
                     "columns": [
