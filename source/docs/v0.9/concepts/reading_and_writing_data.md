@@ -102,7 +102,7 @@ Timestamps can also be supplied as an integer value, with the precision specifie
 Once InfluxDB has accepted this data and safely persisted it to disk, it responds with `HTTP 200 OK`.
 
 #### Errors
-If an error was encountered while processing the data, InfluxDB will respond with either a `HTTP 400 Request` or `HTTP 500 Internal Error`. In many cases, a JSON response is still sent in the body of the response with additional error information that is useful for debugging.
+If an error was encountered while processing the data, InfluxDB will respond with either a `HTTP 400 Bad Request` or `HTTP 500 Internal Error`. In many cases, a JSON response is still sent in the body of the response with additional error information that is useful for debugging.
 
 For example, issuing a bad query such as:
 
