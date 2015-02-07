@@ -88,7 +88,7 @@ In the example response shown below, the system also contains two measurements, 
 ```
 
 ## Show Tag Keys
-`SHOW TAGS KEYS` shows the unique tag keys associated with each measurement.
+`SHOW TAG KEYS` shows the unique tag keys associated with each measurement.
 
 _Example_
 
@@ -140,7 +140,7 @@ The query can include a condition, so only certain tag keys are shown.
 SHOW TAG KEYS FROM network
 ```
 
-In this case the respone is:
+In this case the response is:
 
 ```json
 {
