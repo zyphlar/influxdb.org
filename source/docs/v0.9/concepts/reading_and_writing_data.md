@@ -102,7 +102,7 @@ Timestamps can also be supplied as an integer value, with the precision specifie
 Once InfluxDB has accepted this data and safely persisted it to disk, it responds with `HTTP 200 OK`.
 
 #### Errors
-If an error was encountered while processing the data, InfluxDB will respond with `HTTP 500 Internal Error`.
+If an error was encountered while processing the data, InfluxDB will respond with either a `HTTP 400 Request` or `HTTP 500 Internal Error`. In many cases, a JSON response is still sent in the body of the response with additional error information that is useful for debugging.
 
 ## Querying data using the HTTP API
 The HTTP API is also the primary means for querying data contained within InfluxDB. To perform a query send a `GET` to the endpoint `/query`, set the URL parameter `db` as the target database, and set the URL parameter `q` as your query. An example query, sent to a locally-running InfluxDB server, is shown below.
