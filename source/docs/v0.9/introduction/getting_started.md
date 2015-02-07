@@ -75,7 +75,7 @@ The JSON resonse that is returned is as follows:
                         "value"
                     ],
                     "values": [
-                        1400425957368,
+                        "2009-11-10T23:00:00Z",
                         0.64
                     ]
                 }
@@ -122,7 +122,7 @@ Resulting JSON that will get returned on query:
                         "value"
                     ],
                     "values": [
-                        1400425957368,
+                        "2009-11-10T23:00:00Z",
                         25
                     ]
                 }
