@@ -15,3 +15,4 @@ A minimal configuration for a high availablity cluster requires three servers, e
 
 In a larger setup you’d have 3-7 dedicated brokers and have the remainder act as data nodes. The number of brokers you have is influenced by the number of failures you want to be able to sustain among the brokers. In a setup with 3, you can have 1 broker failure and your cluster will still be available for writes. With 5 brokers you can have 2 broker failures and with 7 you can have 3 failures.
 
+It is important to note that while it doesn't affect performance, an odd number of brokers is common in cluster design.  This is due to how leader election is computed and always requires a quorum with the raft consensus protocaol.
