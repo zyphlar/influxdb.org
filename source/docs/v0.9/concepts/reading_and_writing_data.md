@@ -192,4 +192,4 @@ When working directly with the API it’s often convenient to have pretty-printe
 curl -G 'http://localhost:8086/query?pretty=true' --data-urlencode "db=mydb" --data-urlencode "q=SELECT * from cpu_load_short"
 ```
 
-Pretty-printed output is useful for debugging, but not recommended for production use as it consumes unnecessary network bandwidth.
+Pretty-printed output is useful for debugging or querying directly using tools like `curl`, etc., It is not recommended for production use, such as in client libraries, or client code, as it consumes unnecessary network bandwidth.
