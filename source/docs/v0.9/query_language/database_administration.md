@@ -203,7 +203,7 @@ The response returned is:
             "rows": [
                 {
                     "columns": [
-                        "User"
+                        "user"
                     ],
                     "values": [
                         "jdoe"
