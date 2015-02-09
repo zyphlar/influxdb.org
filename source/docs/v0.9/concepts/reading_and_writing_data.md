@@ -102,7 +102,19 @@ Timestamps can also be supplied as an integer value, with the precision specifie
 Once InfluxDB has accepted this data and safely persisted it to disk, it responds with `HTTP 200 OK`.
 
 #### Errors
-If an error was encountered while processing the data, InfluxDB will respond with `HTTP 500 Internal Error`.
+If an error was encountered while processing the data, InfluxDB will respond with either a `HTTP 400 Bad Request` or `HTTP 500 Internal Error`. In many cases, a JSON response is still sent in the body of the response with additional error information that is useful for debugging.
+
+For example, issuing a bad query such as:
+
+```
+curl -G http://localhost:8086/query --data-urlencode "db=foo" --data-urlencode "q=show"
+```
+
+will result in `HTTP 400 Bad Request` with the the following JSON in the body of the response:
+
+```json
+{"error":"error parsing query: found EOF, expected SERIES, CONTINUOUS, MEASUREMENTS, TAG, FIELD, RETENTION at line 1, char 6"}
+```
 
 ## Querying data using the HTTP API
 The HTTP API is also the primary means for querying data contained within InfluxDB. To perform a query send a `GET` to the endpoint `/query`, set the URL parameter `db` as the target database, and set the URL parameter `q` as your query. An example query, sent to a locally-running InfluxDB server, is shown below.
@@ -180,4 +192,4 @@ When working directly with the API it’s often convenient to have pretty-printe
 curl -G 'http://localhost:8086/query?pretty=true' --data-urlencode "db=mydb" --data-urlencode "q=SELECT * from cpu_load_short"
 ```
 
-Pretty-printed output is not recommended otherwise, as it consumes unnecessary network bandwidth.
+Pretty-printed output is useful for debugging or querying directly using tools like `curl`, etc., It is not recommended for production use, such as in client libraries, or client code, as it consumes unnecessary network bandwidth.

@@ -124,10 +124,14 @@ The response returned is:
             "rows": [
                 {
                     "columns": [
-                        "Name"
+                        "name",
+                        "duration",
+                        "replicaN"
                     ],
                     "values": [
-                        "mypolicy"
+                        "mypolicy",
+                        "24h0m0s",
+                        1
                     ]
                 }
             ]
@@ -199,7 +203,7 @@ The response returned is:
             "rows": [
                 {
                     "columns": [
-                        "User"
+                        "user"
                     ],
                     "values": [
                         "jdoe"

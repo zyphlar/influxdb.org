@@ -11,9 +11,10 @@ $ influx --help
 Usage of default:
   -database="": database to connect to the server.
   -host="localhost": influxdb host to connect to
-  -password="": password to connect to the server.  can be blank if authorization is not required
+  -output="column": format specifies the format of the server responses:  json, csv, or column
+  -password="": password to connect to the server.  Leaving blank will prompt for password (--password="")
   -port=8086: influxdb port to connect to
-  -username="": username to connect to the server.  can be blank if authorization is not required
+  -username="": username to connect to the server.
 ```
 
 ## Shell Commands
@@ -34,8 +35,11 @@ To see a partial list of commands, you can type `help` and see the following:
 > help
 Usage:
         connect <host:port>   connect to another node
+        auth                  prompt for username and password
         pretty                toggle pretty print
         use <db_name>         set current databases
+        format <format>       set the output format: json, csv, or column
+        settings              output the current settings for the shell
         exit                  quit the influx shell
 
         show databases        show database names
@@ -48,6 +52,45 @@ Usage:
         http://influxdb.com/docs
 ```
 
+### connect
+
+Connect allows you to connect to a different server without exiting the shell.
+
+```sh
+> connect localhost:8087
+Connected to http://localhost:8087 version 0.9
+```
+
+You do not need specify both parts of the server.  For example,
+if your current host is `localhost:8086`, the following command:
+
+```sh
+> connect :8087
+```
+
+will try to connect to `localhost:8087`.
+
+If you specify only the `host` and not the `port`, port `8086` (the default port)
+is always assumed.
+
+### auth
+
+The `auth` command will prompt you for a username and password,
+and use those credentials when querying the database.
+
+### settings
+
+Settings will output your the current state of the shell.
+
+```sh
+> settings
+Host            localhost:8086
+Username
+Database        foo
+Pretty          false
+Format          csv
+```
+
 ### Issuing Queries
 
 For a complete reference to the query language, please read the [online documentation](http://influxdb.com/docs).
@@ -56,12 +99,27 @@ For a complete reference to the query language, please read the [online document
 
 ```sh
 > show databases
-{"results":[{"rows":[{"columns":["name"],"values":[["foo"]]}]}]}
+name    tags    name
+----    ----    ----
+                foo
 ```
 
-#### pretty
+### format
 
-Pretty will toggle formatting on the JSON results.
+Format changes the format in which results are displayed in the shell.  Options
+are `column`, `csv`, and `json`.  The default is `column`.
+
+```sh
+> format csv
+show databases
+name,tags,name
+,,foo
+```
+
+### pretty
+
+Pretty will toggle formatting on the JSON results. This only applies when format
+is set to `json`.
 
 ```sh
 > pretty
@@ -87,7 +145,7 @@ Pretty print enabled
 }
 ```
 
-#### exit
+### exit
 
 Exit will exit the shell
 
@@ -95,6 +153,6 @@ Exit will exit the shell
 exit
 ```
 
-#### Command History
+### Command History
 
 The Influx shell stores that last 1,000 commands in you home directory in a file called `.influx_history`.  To use the history while in the shell, simply use the "up" arrow.

@@ -145,7 +145,7 @@ SELECT * FROM events
 WHERE (email =~ /.*gmail.*/ or email =~ /.*yahoo.*/) AND state = 'ny';
 ```
 
-The WHERE clause supports comparisons against regexes, strings, booleans, floats, integers, and the times listed before. Comparators include `=` equal to, `>` greater than, `<` less than, `<>` not equal to, `=~` matches against, `!~` doesn't match against. You can chain logic together using `AMD` and `OR` and you can separate using `(` and `)`
+The WHERE clause supports comparisons against regexes, strings, booleans, floats, integers, and the times listed before. Comparators include `=` equal to, `>` greater than, `<` less than, `<>` not equal to, `=~` matches against, `!~` doesn't match against. You can chain logic together using `AND` and `OR` and you can separate using `(` and `)`
 
 ## Group By
 
@@ -165,7 +165,7 @@ SELECT count(type) FROM events GROUP BY host
 SELECT percentile(value, 95) FROM response_times GROUP BYtime(30s);
 ```
 
-By default functions will output a column that have the same name as the function, e.g. `count` will output a column with the name `count` in order to change the name of the column an `AS` clause is required. Here is an example to illustrate how aliasing work:
+By default functions will output a column that have the same name as the function, e.g. `count` will output a column with the name `count`. In order to change the name of the column an `AS` clause is required. Here is an example to illustrate how aliasing work:
 
 ```sql
 SELECT count(type) AS number_of_types GROUP BY time(10m);
