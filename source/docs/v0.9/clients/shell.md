@@ -34,8 +34,11 @@ To see a partial list of commands, you can type `help` and see the following:
 > help
 Usage:
         connect <host:port>   connect to another node
+        auth                  prompt for username and password
         pretty                toggle pretty print
         use <db_name>         set current databases
+        format <format>       set the output format: json, csv, or column
+        settings              output the current settings for the shell
         exit                  quit the influx shell
 
         show databases        show database names
