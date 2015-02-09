@@ -151,6 +151,8 @@ The WHERE clause supports comparisons against regexes, strings, booleans, floats
 
 The `GROUP BY` clause in InfluxDB is used not only for grouping by given values, but also for grouping by given time buckets. You'll always be pairing this up with [a function](aggregate_functions.html) in the `SELECT` clause. Here are a few examples to illustrate how group by works.
 
+TODO: remove or add aggregate_functions.html file.  Currently a broken link.
+
 ```sql
 -- count of events in 10 minute intervals
 SELECT count(type) FROM events GROUP BY time(10m);
