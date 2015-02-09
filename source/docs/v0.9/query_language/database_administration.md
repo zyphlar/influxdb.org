@@ -170,7 +170,7 @@ Users can be created, modified, listed, and deleted.
 ```sql
 CREATE USER <username> WITH PASSWORD '<password>'
 ```
-Note that is is required that _password_ be quoted.
+Note that it is required that _password_ be quoted.
 
 _Example_
 
@@ -230,7 +230,7 @@ The response returned is:
 ```
 
 ## Privilege Control
-In InfluxDB, privileges are controlled on per-database user. Any given user can have `READ`, `WRITE`, or `ALL` access to an individual database. Without explicitly some access to a given database, a user has no access to it whatsoever.
+In InfluxDB, privileges are controlled on per-database user. Any given user can have `READ`, `WRITE`, or `ALL` access to an individual database. Until a user is granted privileges on a given database, that user has no access to it whatsoever.
 
 ### Granting privileges
 
@@ -295,7 +295,7 @@ The response returned is:
 {"results":[{}]}
 ```
 
-To revoke cluster administratoin privileges, issue this command:
+To revoke cluster administration privileges, issue this command:
 
 ```sql
 REVOKE ALL PRIVILEGES TO <user>
