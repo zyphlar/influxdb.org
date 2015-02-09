@@ -11,9 +11,10 @@ $ influx --help
 Usage of default:
   -database="": database to connect to the server.
   -host="localhost": influxdb host to connect to
-  -password="": password to connect to the server.  can be blank if authorization is not required
+  -output="column": format specifies the format of the server responses:  json, csv, or column
+  -password="": password to connect to the server.  Leaving blank will prompt for password (--password="")
   -port=8086: influxdb port to connect to
-  -username="": username to connect to the server.  can be blank if authorization is not required
+  -username="": username to connect to the server.
 ```
 
 ## Shell Commands
