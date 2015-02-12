@@ -1,6 +1,12 @@
 # Server Administraton
 Full configuration and managament of an InfluxDB system is provided through the query language. This section describes how to manage databases, retention policies, users, and user privileges using the query language.
 
+The primary mechanism for issuing any of the commands listed below is through the HTTP API. For example, the command `CREATE DATABASE mydb` can be executed using `curl` as follows:
+
+```
+curl -G 'http://localhost:8086/query' --data-urlencode "q=CREATE DATABASE mydb"
+```
+
 ## Database Management
 Databases can be created, dropped, and listed. User privileges are also set on a per-database basis.
 

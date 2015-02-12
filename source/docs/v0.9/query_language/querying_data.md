@@ -1,6 +1,12 @@
 # Querying Data
 InfluxDB features an SQL-like query language for querying data and performing aggregations on that data. This section describes the syntax of the query. All queries that return data use the keyword `SELECT`.
 
+The primary mechanism for issuing any of the queries listed below is through the HTTP API. For example, the command `SELECT * FROM cpu` can be executed using `curl` as follows:
+
+```
+curl -G 'http://localhost:8086/query' --data-urlencode "q=SELECT * FROM foo"
+```
+
 ## Selecting the Database and Retention Period
 When selecting data using the query language, the target database and retention period can optionally be specified. Doing so is known as "fully qualifying" your series. A fully-qualified series is in the following form:
 
