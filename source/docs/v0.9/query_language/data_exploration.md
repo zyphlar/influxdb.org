@@ -19,16 +19,17 @@ In the example response shown below, the system contains two meauresments -- `cp
         {
             "rows": [
                 {
-                    "name": "cpu",
+                    "name": "measurements",
                     "columns": [
-                        "host"
-                    ]
-                },
-                {
-                    "name": "network",
-                    "columns": [
-                        "host",
-                        "region"
+                        "name"
+                    ],
+                    "values": [
+                        [
+                            "cpu"
+                        ],
+                        [
+                            "network"
+                        ]
                     ]
                 }
             ]
