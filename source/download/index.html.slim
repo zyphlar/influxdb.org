@@ -21,11 +21,11 @@
     pre.highlight.bash
       code
         | # for 64-bit systems
-          wget http://s3.amazonaws.com/influxdb/influxdb_latest_amd64.deb
+          wget https://s3.amazonaws.com/influxdb/influxdb_latest_amd64.deb
           sudo dpkg -i influxdb_latest_amd64.deb
 
           # for 32-bit systems
-          wget http://s3.amazonaws.com/influxdb/influxdb_latest_i686.deb
+          wget https://s3.amazonaws.com/influxdb/influxdb_latest_i686.deb
           sudo dpkg -i influxdb_latest_i686.deb
 
     h2 RedHat & CentOS
@@ -33,11 +33,11 @@
     pre.highlight.bash
       code
         | # for 64-bit systems
-          wget http://s3.amazonaws.com/influxdb/influxdb-latest-1.x86_64.rpm
+          wget https://s3.amazonaws.com/influxdb/influxdb-latest-1.x86_64.rpm
           sudo rpm -ivh influxdb-latest-1.x86_64.rpm
 
           # for 32-bit systems
-          wget http://s3.amazonaws.com/influxdb/influxdb-latest-1.i686.rpm
+          wget https://s3.amazonaws.com/influxdb/influxdb-latest-1.i686.rpm
           sudo rpm -ivh influxdb-latest-1.i686.rpm
 
     h2 All Versions
@@ -46,9 +46,9 @@
 
 coffee:
   $("#file_list").html("")
-  $.get 'http://s3.amazonaws.com/influxdb', (response) ->
+  $.get 'https://s3.amazonaws.com/influxdb', (response) ->
     items = response.getElementsByTagName("Contents")
     for tag in items
       fileName = tag.getElementsByTagName("Key")[0].textContent
       if fileName.indexOf("logs/") == -1
-        $("#file_list").append("<li><a href='http://s3.amazonaws.com/influxdb/" + fileName + "'>" + fileName + "</a></li>")
+        $("#file_list").append("<li><a href='https://s3.amazonaws.com/influxdb/" + fileName + "'>" + fileName + "</a></li>")
