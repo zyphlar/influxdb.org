@@ -112,7 +112,7 @@ The response returned is:
 To delete a retention policy issue the following command:
 
 ```sql
-SHOW RETENTION POLICES <db-name>
+SHOW RETENTION POLICIES <db-name>
 ```
 
 _Example_
