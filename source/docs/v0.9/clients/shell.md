@@ -128,7 +128,7 @@ Pretty print enabled
 {
     "results": [
         {
-            "rows": [
+            "series": [
                 {
                     "columns": [
                         "name"
