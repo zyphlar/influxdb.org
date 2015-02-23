@@ -23,7 +23,7 @@ In the example response shown below, the system contains two meauresments -- `cp
 {
     "results": [
         {
-            "rows": [
+            "series": [
                 {
                     "name": "measurements",
                     "columns": [
@@ -59,7 +59,7 @@ In the example response shown below, the system also contains two measurements, 
 {
     "results": [
         {
-            "rows": [
+            "series": [
                 {
                     "name": "cpu",
                     "columns": [
@@ -109,7 +109,7 @@ An example response is shown below.
 {
     "results": [
         {
-            "rows": [
+            "series": [
                 {
                     "name": "cpu",
                     "columns": [
@@ -153,7 +153,7 @@ In this case the response is:
 {
     "results": [
         {
-            "rows": [
+            "series": [
                 {
                     "name": "network",
                     "columns": [
@@ -190,7 +190,7 @@ which results in the following response:
 {
     "results": [
         {
-            "rows": [
+            "series": [
                 {
                     "name": "cpu",
                     "columns": [

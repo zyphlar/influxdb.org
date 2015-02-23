@@ -129,7 +129,7 @@ Which returns data that looks like so:
 {
     "results": [
         {
-            "rows": [
+            "series": [
                 {
                     "name": "cpu_load_short",
                     "tags": {
@@ -157,7 +157,7 @@ In general the response body will be of the following form:
 {
     "results": [
         {
-            "rows": [{}],
+            "series": [{}],
             "error": "...."
         }
     ],
@@ -165,7 +165,7 @@ In general the response body will be of the following form:
 }
 ```
 
-There are two top-level keys. `results` is an array of objects, one for each query, each containing a `rows` keys. Each _row_ contains a data point returned by the query. If there was an error processing the query, the `error` key will be present, and will contained detailed information explaining why the query failed. An example of this type of failure would be attempt to query a series that does not exist.
+There are two top-level keys. `results` is an array of objects, one for each query, each containing a `series` keys. Each _row_ contains a data point returned by the query. If there was an error processing the query, the `error` key will be present, and will contained detailed information explaining why the query failed. An example of this type of failure would be attempt to query a series that does not exist.
 
 The second top-level key is also named `error`, and is set if the API called failed before InfluxDB could perform any *query* operations. A example of this kind of failure would be invalid authentication credentials.
 

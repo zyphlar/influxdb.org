@@ -64,7 +64,7 @@ The JSON resonse that is returned is as follows:
 {
     "results": [
         {
-            "rows": [
+            "series": [
                 {
                     "name": "cpu_load_short",
                     "tags": {
@@ -111,7 +111,7 @@ Resulting JSON that will get returned on query:
 {
     "results": [
         {
-            "rows": [
+            "series": [
                 {
                     "name": "temperature",
                     "tags": {

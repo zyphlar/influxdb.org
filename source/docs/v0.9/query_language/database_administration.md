@@ -64,7 +64,7 @@ The response returned is:
 {
     "results":[
         {
-            "rows": [
+            "series": [
                 {
                     "columns": [
                         "Name"
@@ -127,7 +127,7 @@ The response returned is:
 {
     "results": [
         {
-            "rows": [
+            "series": [
                 {
                     "columns": [
                         "name",
@@ -206,7 +206,7 @@ The response returned is:
 {
     "results": [
         {
-            "rows": [
+            "series": [
                 {
                     "columns": [
                         "user"
