@@ -17,7 +17,7 @@ curl -XPOST 'http://localhost:8086/write' -d '
                 "region": "us-west"
             },
             "timestamp": "2009-11-10T23:00:00Z",
-            "values": {
+            "fields": {
                 "value": 0.64
             }
         }
@@ -46,13 +46,13 @@ As you can see from the example above, you can post multiple points to multiple 
     "points": [
         {
             "name": "cpu_load_short",
-            "values": {
+            "fields": {
                 "value": 0.64
             }
         },
         {
             "name": "cpu_load_short",
-            "values": {
+            "fields": {
                 "value": 0.55
             },
             "timestamp": "2009-11-10T23:00:10Z"
@@ -62,7 +62,7 @@ As you can see from the example above, you can post multiple points to multiple 
             "tags": {
                 "direction": "in"
             },
-            "values": {
+            "fields": {
                 "value": 23422
             }
         }

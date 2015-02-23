@@ -19,7 +19,7 @@ Take a common example from the world of computer infrastucture monitoring. Imagi
                 "core": 0
             },
             "timestamp": "2009-11-10T23:00:00Z",
-            "values": {
+            "fields": {
                 "value": 0.45
             }
         },
@@ -30,7 +30,7 @@ Take a common example from the world of computer infrastucture monitoring. Imagi
                 "core": 1
             },
             "timestamp": "2009-11-10T23:00:00Z",
-            "values": {
+            "fields": {
                 "value": 1.56
             }
         },
@@ -41,7 +41,7 @@ Take a common example from the world of computer infrastucture monitoring. Imagi
                 "core": 0
             },
             "timestamp": "2009-11-10T23:00:00Z",
-            "values": {
+            "fields": {
                 "value": 0.72
             }
         },
@@ -52,7 +52,7 @@ Take a common example from the world of computer infrastucture monitoring. Imagi
                 "core": 1
             },
             "timestamp": "2009-11-10T23:00:00Z",
-            "values": {
+            "fields": {
                 "value": 2.14
             }
         }

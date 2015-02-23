@@ -24,7 +24,7 @@ Go ahead and click the "Explore" link to get here:
 
 ![Explore data interface](/images/docs/explore_screen.jpg)
 
-From this screen you can write some test data. More importantly, you'll be able to issue ad-hoc queries and see basic visualizations. Let's write a little data in to see how things work. Data in InfluxDB is organized by "time series" which then have "points" which have a `timestamp`, `columns`, `values`, and possibly `tags`. Think of it like SQL tables, with rows where the primary index is always time. The difference is that with InfluxDB you can have millions of series, you don't have to define schemas up front, and null values aren't stored.
+From this screen you can write some test data. More importantly, you'll be able to issue ad-hoc queries and see basic visualizations. Let's write a little data in to see how things work. Data in InfluxDB is organized by "time series" which then have "points" which have a `timestamp`, `columns`, `fields`, and possibly `tags`. Think of it like SQL tables, with rows where the primary index is always time. The difference is that with InfluxDB you can have millions of series, you don't have to define schemas up front, and null values aren't stored.
 
 Let's write some data. Here are a couple of examples of things we'd want to write. We'll show the screenshot and what the JSON data looks like right after.
 
@@ -42,7 +42,7 @@ To insert a single time-series datapoint into InfluxDB, enter the following in t
                 "host": "server01"
             },
             "timestamp": "2009-11-10T23:00:00Z",
-            "values": {
+            "fields": {
                 "value": 0.64
             }
         }
@@ -74,7 +74,7 @@ The JSON resonse that is returned is as follows:
                         "timestamp",
                         "value"
                     ],
-                    "values": [
+                    "fields": [
                         "2009-11-10T23:00:00Z",
                         0.64
                     ]
@@ -92,18 +92,21 @@ Let's try storing a different type of data -- sensor data. Enter the following d
     "database": "mydb",
     "points": [
         {
-            "name": "external_temp",
+            "name": "temperature",
             "tags": {
-                "machine": "unit42"
+                "machine": "unit42",
+                "type": "assembly"
             },
             "timestamp": "2009-11-10T23:00:00Z",
-            "values": {
-                "value": 25
+            "fields": {
+                "external": 25,
+                "internal": 37
             }
         }
     ]
 }
 ```
+Note that in this example we write two values in the `fields` object. Up to 255 different values can be stored as `fields`.
 
 Resulting JSON that will get returned on query:
 
@@ -115,15 +118,18 @@ Resulting JSON that will get returned on query:
                 {
                     "name": "temperature",
                     "tags": {
-                        "machine": "unit42"
+                        "machine": "unit42",
+                        "type": "assembly"
                     },
                     "columns": [
                         "timestamp",
-                        "value"
+                        "external",
+                        "internal"
                     ],
                     "values": [
                         "2009-11-10T23:00:00Z",
-                        25
+                        25,
+                        37
                     ]
                 }
             ]
