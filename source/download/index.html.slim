@@ -40,15 +40,51 @@
           wget https://s3.amazonaws.com/influxdb/influxdb-latest-1.i686.rpm
           sudo rpm -ivh influxdb-latest-1.i686.rpm
 
-    h2 All Versions
-    p Here's a list of all the available builds and versions that we've released.
-    ul#file_list
+    h2 Major Releases
 
-coffee:
-  $("#file_list").html("")
-  $.get 'https://s3.amazonaws.com/influxdb', (response) ->
-    items = response.getElementsByTagName("Contents")
-    for tag in items
-      fileName = tag.getElementsByTagName("Key")[0].textContent
-      if fileName.indexOf("logs/") == -1
-        $("#file_list").append("<li><a href='https://s3.amazonaws.com/influxdb/" + fileName + "'>" + fileName + "</a></li>")
+    p Below are the most significant prior releases of InfluxDB.
+
+    h3 v0.9.0-rc4
+    ul style="border-top: 1px solid #ccc; margin-bottom: 1em"
+      li
+        a href="http://get.influxdb.org/influxdb-0.9.0_rc4-1.x86_64.rpm" RedHat/CentOS (64-bit)
+      li
+        a href="http://get.influxdb.org/influxdb_0.9.0-rc4_amd64.deb" Debian/Ubuntu (64-bit)
+
+    h3 v0.8.8 (Stable)
+    ul style="border-top: 1px solid #ccc; margin-bottom: 1em"
+      li
+        a href="http://get.influxdb.org/influxdb-0.8.8-1.x86_64.rpm" RedHat/CentOS (64-bit)
+      li
+        a href="http://get.influxdb.org/influxdb-0.8.8-1.i686.rpm" RedHat/CentOS (32-bit)
+      li
+        a href="http://get.influxdb.org/influxdb_0.8.8_amd64.deb" Debian/Ubuntu (64-bit)
+      li
+        a href="http://get.influxdb.org/influxdb_0.8.8_i686.deb" Debian/Ubuntu (32-bit)
+      li
+        a href="http://get.influxdb.org/influxdb-0.8.8.386.tar.gz" Source (32-bit)
+      li
+        a href="http://get.influxdb.org/influxdb-0.8.8.amd64.tar.gz" Source (64-bit)
+      li
+        a href="http://get.influxdb.org/influxdb-0.8.8.src.tar.gz" Source (OS X)
+
+    h3 v0.8.3
+    ul style="border-top: 1px solid #ccc; margin-bottom: 1em; padding-top: 0.5em;"
+      p style="font-style: italic"
+        ' It is important to note that v0.8.3 was the last release that included the built-in migration code from v0.7.x. If you are trying to upgrade from v0.7.x and migrate your data, you should upgrade to this version first. Details on how to perform the migration can be found
+        a href="http://influxdb.com/docs/v0.8/advanced_topics/upgrading.html" here
+        ' .
+      li
+        a href="http://get.influxdb.org/influxdb-0.8.3-1.x86_64.rpm" RedHat/CentOS (64-bit)
+      li
+        a href="http://get.influxdb.org/influxdb-0.8.3-1.i686.rpm" RedHat/CentOS (32-bit)
+      li
+        a href="http://get.influxdb.org/influxdb_0.8.3_amd64.deb" Debian/Ubuntu (64-bit)
+      li
+        a href="http://get.influxdb.org/influxdb_0.8.3_i686.deb" Debian/Ubuntu (32-bit)
+      li
+        a href="http://get.influxdb.org/influxdb-0.8.3.386.tar.gz" Source (32-bit)
+      li
+        a href="http://get.influxdb.org/influxdb-0.8.3.amd64.tar.gz" Source (64-bit)
+      li
+        a href="http://get.influxdb.org/influxdb-0.8.3.src.tar.gz" Source (OS X)
