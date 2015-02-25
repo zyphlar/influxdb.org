@@ -125,7 +125,7 @@ SHOW MEASUREMENTS
 SHOW MEASSUREMENTS WHERE service = 'redis'
 
 -- show measurements against a regex
-SHOW MEASUREMENTS where app =~ /.*paulapp.*/
+SHOW MEASUREMENTS where app =~ '.*paulapp.*'
 
 -- show series (unique tag sets) on the cpu measurement
 SHOW SERIES FROM cpu
