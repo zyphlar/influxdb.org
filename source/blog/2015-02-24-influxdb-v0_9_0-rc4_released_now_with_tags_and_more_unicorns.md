@@ -48,7 +48,7 @@ In this example the first part is the measurement name `cpu`, followed by the ta
 }
 ```
 
-We have the tag keys of `host` and `region` and we're writing a single field called `value`. Measurements, tags, and fields are defined when you write the data in. Databases and retention policies must be created ahead of time. Fields are defined on measurements. Once a field has been written to a data point within a measurement, its type is set. You can have multiple fields of either float64, bool, or string (and sooon bytes and int64).
+We have the tag keys of `host` and `region` and we're writing a single field called `value`. Measurements, tags, and fields are defined when you write the data in. Databases and retention policies must be created ahead of time. Fields are defined on measurements. Once a field has been written to a data point within a measurement, its type is set. You can have multiple fields of either float64, bool, or string (and soon bytes and int64).
 
 With the addition of tags queries like this are very fast:
 
@@ -183,7 +183,7 @@ In this RC you can only operate clusters where the replication factor on the ret
 
 ### Grafana
 
-[Grafana](http://grafana.org/), everyone's favorite dashboarding tool, needs an update to work with the new version. The good news is that we've already done some work on this and you can find it in our [Grafana fork](https://github.com/influxdb/grafana). We'll work with the Grafana team to get it updated to support InfluxDB 0.9.0 in the coming weeks.
+[Grafana](http://grafana.org/), everyone's favorite dashboarding tool, needs an update to work with the new version. The good news is that we've already done some work on this and you can find it in our [Grafana fork](https://github.com/influxdb/grafana/tree/influx-0.9rc4). We'll work with the Grafana team to get it updated to support InfluxDB 0.9.0 in the coming weeks.
 
 ### Pure Go Implementation
 
