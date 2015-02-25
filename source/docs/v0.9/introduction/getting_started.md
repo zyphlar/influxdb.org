@@ -74,7 +74,7 @@ The JSON resonse that is returned is as follows:
                         "timestamp",
                         "value"
                     ],
-                    "fields": [
+                    "values": [
                         "2009-11-10T23:00:00Z",
                         0.64
                     ]
