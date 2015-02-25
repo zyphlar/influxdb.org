@@ -173,7 +173,7 @@ The combination of these new features makes InfluxDB not just a time series data
 
 Previously, continuous queries wouldn't work with lagged data. You'd also only get the results after a time window had passed, so you wouldn't see incremental results. Now, you have configuration options to have CQs run multiple times for each window of time giving you incremental results and picking up any data that lagged behind.
 
-You can find more details on how the continuous query configuration operations work in the [InfluxDB config source code](https://github.com/influxdb/influxdb/blob/v0.9.0-rc4/cmd/influxd/config.go#L109-L136). We'll be updating docs over the coming weeks with mroe information.
+You can find more details on how the continuous query configuration operations work in the [InfluxDB config source code](https://github.com/influxdb/influxdb/blob/v0.9.0-rc4/cmd/influxd/config.go#L109-L136). We'll be updating docs over the coming weeks with more information.
 
 The syntax for creating continuous queries has also been changed. You can find details on the new CQ syntax in the [InfluxQL Language Spec](https://github.com/influxdb/influxdb/blob/v0.9.0-rc4/influxql/INFLUXQL.md#create-continuous-query)
 
