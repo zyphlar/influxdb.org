@@ -36,7 +36,7 @@ In this example the first part is the measurement name `cpu`, followed by the ta
     {
       "name": "cpu",
       "tags": {
-        "host": "serverA",
+        "host": "serverB",
         "region": "uswest"
       },
       "timestamp": "2009-11-10T23:00:00Z",
