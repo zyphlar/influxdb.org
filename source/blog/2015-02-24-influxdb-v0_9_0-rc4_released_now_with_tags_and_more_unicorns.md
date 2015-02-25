@@ -122,7 +122,7 @@ SHOW DATABASES
 SHOW MEASUREMENTS
 
 -- find out what measurements we're taking for redis
-SHOW MEASSUREMENTS WHERE service = 'redis'
+SHOW MEASUREMENTS WHERE service = 'redis'
 
 -- show measurements against a regex
 SHOW MEASUREMENTS where app =~ '.*paulapp.*'
