@@ -6,7 +6,7 @@ The primary mechanism for issuing any of the queries listed below is through the
 ```
 curl -G 'http://localhost:8086/query' --data-urlencode "q=SELECT * FROM foo"
 ```
-## Quote USage
+## Quote Usage
 *Identifiers* are either unquoted or double quoted. Identifiers are database names, retention policies, measurements, or tag keys. String literals are always single quoted however.
 
 ## Selecting the Database and Retention Period
