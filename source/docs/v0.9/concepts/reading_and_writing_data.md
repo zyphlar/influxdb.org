@@ -177,7 +177,7 @@ The format of the returned timestamps complies with RFC3339, and has nanosecond 
 Multiple queries can be sent to InfluxDB in a single API call. Simply delimit each query using a semicolon, as shown in the example below.
 
 ```
-curl -XGET 'http://localhost:8086/query' --data-urlencode "db=mydb" --data-urlencode "q=SELECT * from cpu_load_short WHERE region=us-west;SELECT * from cpu_load_long"
+curl -XGET 'http://localhost:8086/query' --data-urlencode "db=mydb" --data-urlencode "q=SELECT * FROM cpu_load_short WHERE region=us-west;SELECT * FROM cpu_load_long"
 ```
 
 ## Authentication
