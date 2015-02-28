@@ -189,7 +189,7 @@ The credentials may also be passed using _Basic Authentication_. If both types o
 When working directly with the API it’s often convenient to have pretty-printed JSON output. To enable pretty-printed output, append `pretty=true` to the URL. For example:
 
 ```
-curl -G 'http://localhost:8086/query?pretty=true' --data-urlencode "db=mydb" --data-urlencode "q=SELECT * from cpu_load_short"
+curl -G 'http://localhost:8086/query?pretty=true' --data-urlencode "db=mydb" --data-urlencode "q=SELECT * FROM cpu_load_short"
 ```
 
 Pretty-printed output is useful for debugging or querying directly using tools like `curl`, etc., It is not recommended for production use, such as in client libraries, or client code, as it consumes unnecessary network bandwidth.
