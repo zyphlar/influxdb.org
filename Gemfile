@@ -3,7 +3,7 @@
 source 'http://rubygems.org'
 
 gem "middleman"
-gem "slim", "~> 2.0.0"
+gem "slim"
 
 gem "middleman-livereload"
 gem "middleman-blog"
