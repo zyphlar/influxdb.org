@@ -91,6 +91,24 @@ SELECT value FROM response_times WHERE time > 1388534400s
 
 will return all points that were writtern after `2014-01-01 00:00:00`
 
+## Regular expressions
+
+Regular expressions can be used to filter query results.  InfluxDB supports two regex operators: `=~` for equal and `!~` for not equal.  Expressions are surrounded by `/` characters and use Golang's regular expression syntax.  http://golang.org/pkg/regexp/syntax/
+
+```sql
+SELECT value FROM response_times WHERE region =~ /us.*/
+```
+
+will return all points where the region starts with a lowercase "us".
+
+```sql
+SELECT value FROM response_times WHERE region =~ /(?i)us.*/
+```
+
+is the case-insensitive version of the previous query.  Note the `(?i)` at the beginning of the expression.
+
+## Selecting Multiple Series
+
 ## Dropping measurements and series
 
 You can drop individual series within a measurement that match given tags, or you can drop entire measurements. Some examples:
