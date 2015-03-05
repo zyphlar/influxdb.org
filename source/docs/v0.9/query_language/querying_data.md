@@ -125,11 +125,10 @@ DELETE FROM response_times WHERE user = 'foo'
 
 Delete time conditions only support ranges, an equals condition (=) is currently not supported.
 
-Deleting all data for a series will only remove the points. It will still remain in the index. If you want to remove all data from a
-series and remove it from the list of series in a database use the `DROP` query:
+Deleting all data for a series will only remove the points. It will still remain in the index. If you want to remove all data for a Measurement and remove it from the list of Measurements in a database index use the `DROP` query:
 
 ```sql
-DROP SERIES response_times
+DROP MEASUREMENT response_times
 ```
 
 ## The WHERE Clause
