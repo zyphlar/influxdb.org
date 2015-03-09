@@ -82,7 +82,10 @@ The response returned is:
 ```
 
 ## Retention Policy Management
-Retention policies can be created, modified, listed, and deleted.
+Retention policies can be created, modified, listed, and deleted. 
+
+### Auto-creation of retention policies
+When a database is created, a retention policy named "default", with infinite retention, is automatically created for that database. This may not be desirable for certain deployments, and auto-creation can be disabled via the configuration file.
 
 ### Create a retention policy
 ```sql
