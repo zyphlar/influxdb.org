@@ -58,7 +58,7 @@ SELECT * FROM cpu_load_short
 
 Note that the keywords are capitalized for clarity, but keywords are not case-senstive.
 
-The JSON resonse that is returned is as follows:
+The JSON response is as follows:
 
 ```json
 {
@@ -148,4 +148,4 @@ SELECT * FROM cpu_load_short
 SELECT * FROM cpu_load_short WHERE value > 0.9
 ```
 
-This is all you need to know to write data into InfluxDB and query it back. Of course, to write significant amounts of data you will want to access the HTTP API directly, or use a _client library_.
+This is all you need to know to write data into InfluxDB and query it back. Of course, to write significant amounts of data you will want to access the HTTP API directly, or use a _client library_. 
