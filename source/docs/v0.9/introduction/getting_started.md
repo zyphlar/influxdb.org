@@ -24,7 +24,7 @@ Go ahead and click the "Explore" link to get here:
 
 ![Explore data interface](/images/docs/explore_screen.jpg)
 
-From this screen you can write some test data. More importantly, you'll be able to issue ad-hoc queries and see basic visualizations. Let's write a little data in to see how things work. Data in InfluxDB is organized by "time series" which then have "points" which have a `timestamp`, `columns`, `fields`, and possibly `tags`. Think of it like SQL tables, with rows where the primary index is always time. The difference is that with InfluxDB you can have millions of series, you don't have to define schemas up front, and null values aren't stored.
+From this screen you can write some test data. More importantly, you'll be able to issue ad-hoc queries and see basic visualizations. Let's write a little data in to see how things work. Data in InfluxDB is organized by `time series`, which describe a class of measurement, like "cpu_load" or "temperature". Time series have zero to many `points` which contain the data. Points consist of a `timestamp`, at least one `field` (the measurement itself), and zero to many key-value `tags` containing metadata. Conceptually you can think of it like SQL tables, with rows where the primary index is always time. The difference is that with InfluxDB you can have millions of series, you don't have to define schemas up front, and null values aren't stored.
 
 Let's write some data. Here are a couple of examples of things we'd want to write. We'll show the screenshot and what the JSON data looks like right after.
 
@@ -148,4 +148,4 @@ SELECT * FROM cpu_load_short
 SELECT * FROM cpu_load_short WHERE value > 0.9
 ```
 
-This is all you need to know to write data into InfluxDB and query it back. Of course, to write significant amounts of data you will want to access the HTTP API directly, or use one a _client library_.
+This is all you need to know to write data into InfluxDB and query it back. Of course, to write significant amounts of data you will want to access the HTTP API directly, or use a _client library_.
