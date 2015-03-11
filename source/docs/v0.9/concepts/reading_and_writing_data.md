@@ -5,10 +5,14 @@ There are many ways to write data into InfluxDB including the built-in HTTP API,
 The HTTP API is the primary means of getting data into InfluxDB. To write data simply send a `POST` to the endpoint `/write`. The body of the POST contains the destination database, retention policy, and time-series data you wish to store. An example request sent to InfluxDB running on localhost, which writes a single point, is shown below.
 
 ```
+# Create your new database, this only needs to be done once.
+curl -G http://localhost:8086/query --data-urlencode "q=CREATE DATABASE mydb"
+
+# Write your data to your new database.
 curl -XPOST 'http://localhost:8086/write' -d '
 {
     "database": "mydb",
-    "retentionPolicy": "mypolicy",
+    "retentionPolicy": "default",
     "points": [
         {
             "name": "cpu_load_short",
@@ -37,7 +41,7 @@ As you can see from the example above, you can post multiple points to multiple 
 ```json
 {
     "database": "mydb",
-    "retentionPolicy": "mypolicy",
+    "retentionPolicy": "default",
     "tags": {
         "host": "server01",
         "region": "us-west"
