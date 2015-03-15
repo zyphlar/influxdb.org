@@ -17,7 +17,7 @@ _Example_
 SHOW MEASUREMENTS
 ```
 
-In the example response shown below, the system contains two meauresments -- `cpu` and `network`. The first has a tag key `host`, and the second has two tags keys, `host` and `region`.
+In the example response shown below, the system contains two measurements -- `cpu` and `network`. The first has a tag key `host`, and the second has two tags keys, `host` and `region`.
 
 ```json
 {

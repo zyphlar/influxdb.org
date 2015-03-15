@@ -3,7 +3,7 @@
 title: Replacing Collectd network server with InfluxDB
 ---
 
-Since version 0.8.4 Influxdb supports the native collect network protocole hence it can replace a collectd network server transparently.
+Since version 0.8.4 Influxdb supports the native collect network protocol hence it can replace a collectd network server transparently.
 
 To active the network collectd server add this declaration in the configuration file.
 ```[input_plugins.collectd]

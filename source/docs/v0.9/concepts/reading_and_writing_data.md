@@ -93,7 +93,7 @@ Both UTC and formats with timezone information are supported. Nanonsecond precis
 
 _Epoch and Precision_
 
-Timestamps can also be supplied as an integer value, with the precision specified seperately. For example to set the time in nanoseconds, use the following two keys in the JSON request.
+Timestamps can also be supplied as an integer value, with the precision specified separately. For example to set the time in nanoseconds, use the following two keys in the JSON request.
 
 ```
 "timestamp": 1422568543702900257,
@@ -187,7 +187,7 @@ curl -XGET 'http://localhost:8086/query' --data-urlencode "db=mydb" --data-urlen
 ```
 
 ## Authentication
-Authentication is disabled by default, but if authentication is enabled, user credentials must be supplied with every query. These can be suppled via the URL parameters `u` and `p`. For example, if the  user is "bob" and Bob's password is "mypass", then endpoint URL should take the form `/query?u=bob&p=mypass`.
+Authentication is disabled by default, but if authentication is enabled, user credentials must be supplied with every query. These can be supplied via the URL parameters `u` and `p`. For example, if the  user is "bob" and Bob's password is "mypass", then endpoint URL should take the form `/query?u=bob&p=mypass`.
 
 The credentials may also be passed using _Basic Authentication_. If both types of authentication are present in a request, the URL parameters take precedence.
 

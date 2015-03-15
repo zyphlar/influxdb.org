@@ -1,5 +1,5 @@
-# Server Administraton
-Full configuration and managament of an InfluxDB system is provided through the query language. This section describes how to manage databases, retention policies, users, and user privileges using the query language.
+# Server Administration
+Full configuration and management of an InfluxDB system is provided through the query language. This section describes how to manage databases, retention policies, users, and user privileges using the query language.
 
 The primary mechanism for issuing any of the commands listed below is through the HTTP API. For example, the command `CREATE DATABASE mydb` can be executed using `curl` as follows:
 
@@ -290,7 +290,7 @@ The response returned is:
 {"results":[{}]}
 ```
 
-### Setting the Cluster Adminstrator
+### Setting the Cluster Administrator
 To grant cluster administration privileges to a user, issue the following command:
 
 ```sql
@@ -327,4 +327,4 @@ The response returned is:
 {"results":[{}]}
 ```
 
-Only the cluster adminstrator can create and drop databases, and manage users.
+Only the cluster administrator can create and drop databases, and manage users.
