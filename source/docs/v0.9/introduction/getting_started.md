@@ -56,9 +56,9 @@ And now let's take a look at how we query for this data. In the `Query` textbox,
 SELECT * FROM cpu_load_short
 ```
 
-Note that the keywords are capitalized for clarity, but keywords are not case-senstive.
+Note that the keywords are capitalized for clarity, but keywords are not case-sensitive.
 
-The JSON resonse that is returned is as follows:
+The JSON response that is returned is as follows:
 
 ```json
 {
