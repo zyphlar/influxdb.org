@@ -16,7 +16,7 @@ Take a common example from the world of computer infrastructure monitoring. Imag
             "name": "cpu_load",
             "tags": {
                 "host": "server01",
-                "core": 0
+                "core": "0"
             },
             "timestamp": "2009-11-10T23:00:00Z",
             "fields": {
@@ -27,7 +27,7 @@ Take a common example from the world of computer infrastructure monitoring. Imag
             "name": "cpu_load",
             "tags": {
                 "host": "server01",
-                "core": 1
+                "core": "1"
             },
             "timestamp": "2009-11-10T23:00:00Z",
             "fields": {
@@ -38,7 +38,7 @@ Take a common example from the world of computer infrastructure monitoring. Imag
             "name": "cpu_load",
             "tags": {
                 "host": "server02",
-                "core": 0
+                "core": "0"
             },
             "timestamp": "2009-11-10T23:00:00Z",
             "fields": {
@@ -49,7 +49,7 @@ Take a common example from the world of computer infrastructure monitoring. Imag
             "name": "cpu_load",
             "tags": {
                 "host": "server02",
-                "core": 1
+                "core": "1"
             },
             "timestamp": "2009-11-10T23:00:00Z",
             "fields": {
