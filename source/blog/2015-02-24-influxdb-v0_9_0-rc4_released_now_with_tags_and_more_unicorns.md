@@ -43,7 +43,7 @@ In this example the first part is the measurement name `cpu`, followed by the ta
       "fields": {
         "value": 25.1
       }
-    },
+    }
   ]
 }
 ```
