@@ -156,26 +156,26 @@ The WHERE clause supports comparisons against regexes, strings, booleans, floats
 
 ## Group By
 
-The `GROUP BY` clause in InfluxDB is used not only for grouping by given values, but also for grouping by given time buckets. You'll always be pairing this up with [a function](aggregate_functions.html) in the `SELECT` clause. Here are a few examples to illustrate how group by works.
+The `GROUP BY` clause in InfluxDB is used not only for grouping by given values, but also for grouping by given time buckets. You'll always be pairing this up with [a function](aggregate_functions.html) in the `SELECT` clause and possibly a specific time range in the `WHERE` clause. Here are a few examples to illustrate how group by works.
 
 ```sql
--- count of events in 10 minute intervals
-SELECT count(type) FROM events GROUP BY time(10m);
+-- count of events in the last hour in 10 minute intervals
+SELECT count(type) FROM events WHERE time > now() - 1h GROUP BY time(10m);
 
--- count of each unique type of event in 10 minute intervals
-SELECT count(type) FROM events GROUP BY time(10m), type;
+-- count of each unique type of event in the last hour in 10 minute intervals
+SELECT count(type) FROM events WHERE time > now() - 1h GROUP BY time(10m), type;
 
--- count of each unique type of event grouped by host tag
-SELECT count(type) FROM events GROUP BY host
+-- count of each unique type of event in the last day grouped by host tag
+SELECT count(type) FROM events WHERE time > now() - 1d GROUP BY host
 
--- 95th percentile of response times in 30 second intervals
-SELECT percentile(value, 95) FROM response_times GROUP BYtime(30s);
+-- 95th percentile of response times in the last day in 30 second intervals
+SELECT percentile(value, 95) FROM response_times WHERE time > now() - 1d GROUP BYtime(30s);
 ```
 
 By default functions will output a column that have the same name as the function, e.g. `count` will output a column with the name `count`. In order to change the name of the column an `AS` clause is required. Here is an example to illustrate how aliasing work:
 
 ```sql
-SELECT count(type) AS number_of_types GROUP BY time(10m);
+SELECT count(type) AS number_of_types WHERE time > now() - 1d GROUP BY time(10m);
 ```
 
 The time function takes the time interval which can be in
