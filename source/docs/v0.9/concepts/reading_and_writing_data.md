@@ -103,7 +103,7 @@ Timestamps can also be supplied as an integer value, with the precision specifie
 `n`, `u`, `ms`, `s`, `m`, and `h` are all supported and represent nanoseconds, microseconds, milliseconds, seconds, minutes, and hours, respectively. If no precision is specified, seconds is assumed.
 
 ### Response
-Once InfluxDB has accepted this data and safely persisted it to disk, it responds with `HTTP 200 OK`.
+Once a quorum of Brokers has acknowledged the write, the Data node that initially received the write responds with `HTTP 200 OK`.
 
 #### Errors
 If an error was encountered while processing the data, InfluxDB will respond with either a `HTTP 400 Bad Request` or `HTTP 500 Internal Error`. In many cases, a JSON response is still sent in the body of the response with additional error information that is useful for debugging.
