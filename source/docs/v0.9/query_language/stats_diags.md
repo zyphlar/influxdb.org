@@ -46,7 +46,7 @@ SHOW STATS
 The statistics returned by `SHOW STATS` are stored in memory only, and are reset to zero when the node is restarted.
 
 ## SHOW DIAGNOSTICS
-To see node diagnostics execute the command `SHOW DIAGNOSTICS`. This returns information such as build information, uptime, hostname, server configuration, memory usage, and Go runtime diagnostics, 
+To see node diagnostics execute the command `SHOW DIAGNOSTICS`. This returns information such as build information, uptime, hostname, server configuration, memory usage, and Go runtime diagnostics.
 
 # Self Monitoring
 InfluxDB also supports writing statistical and diagnostic information to an internal database, allowing server performance to be recorded over the long term. This data is written as standard time-series data, allowing the full power of `InfluxQL` to be used. Check the [example configuration file](https://github.com/influxdb/influxdb/blob/master/etc/config.sample.toml) for full details.
