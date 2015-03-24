@@ -141,7 +141,7 @@ Which returns data that looks like so:
                         "region": "us-west"
                     },
                     "columns": [
-                        "timestamp",
+                        "time",
                         "value"
                     ],
                     "values": [
