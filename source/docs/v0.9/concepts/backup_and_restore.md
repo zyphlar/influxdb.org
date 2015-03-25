@@ -5,10 +5,10 @@ Starting with v0.9.0, InfluxDB has the ability to snapshot a single data node at
 
 ## Usage
 
-While a data node is running, you can create a hot backup to a snapshot file (`mysnapshot`):
+While a data node is running, you can create a hot backup to a snapshot file (e.g. `/tmp/mysnapshot`):
 
 ```sh
-$ influxd backup mysnapshot
+$ influxd backup /tmp/mysnapshot
 ```
 
 By default, this can only be run from the data node itself. See configuration options below to snapshot from another machine.
@@ -16,7 +16,7 @@ By default, this can only be run from the data node itself. See configuration op
 Once you have your snapshot file, you can copy it to another machine and restore it:
 
 ```sh
-$ influxd restore -config influxdb.conf mysnapshot
+$ influxd restore -config influxdb.conf /tmp/mysnapshot
 ```
 
 This command will remove the broker and data directories listed in the configuration file provided and replace them with the data in the snapshot. Once the restore is complete, you can start the `influxd` server normally.
@@ -40,6 +40,23 @@ The bind address restricts snapshot so they can only be run from the local machi
 The snapshot file is a single `tar` archive that contains a `manifest` file at the beginning, the data node's `meta` file next, and then a list of all shard files. The metastore and shards all use Bolt so they contain a point-in-time copy of the database when the backup was initiated.
 
 The broker node is not backed up because it can be materialized from the data in the data node. The restore command generates a broker meta store based on the highest index in the data node and generates a raft configuration based on the InfluxDB config passed in.
+
+
+## Incremental Backups
+
+This commit adds incremental backup support. Snapshotting from the server
+now creates a full backup if one does not exist and creates numbered
+incremental backups after that.
+
+For example, if you ran:
+
+```
+$ influxd backup /tmp/snapshot
+```
+
+Then you'll see a full snapshot in `/tmp/snapshot`. If you run the same
+command again then an incremental snapshot will be created at
+`/tmp/snapshot.0`. Running it again will create `/tmp/snapshot.1`.
 
 
 ## Caveats
