@@ -37,16 +37,14 @@ The bind address restricts snapshot so they can only be run from the local machi
 
 ## Implementation
 
-The snapshot file is a single `tar` archive that contains a `manifest` file at the beginning, the data node's `meta` file next, and then a list of all shard files. The metastore and shards all use Bolt so they contain a point-in-time copy of the database when the backup was initiated.
+The snapshot file is one or more `tar` archives that contain a `manifest` file at the beginning, the data node's `meta` file next, and then a list of all shard files. The metastore and shards all use Bolt so they contain a point-in-time copy of the database when the backup was initiated.
 
 The broker node is not backed up because it can be materialized from the data in the data node. The restore command generates a broker meta store based on the highest index in the data node and generates a raft configuration based on the InfluxDB config passed in.
 
 
 ## Incremental Backups
 
-This commit adds incremental backup support. Snapshotting from the server
-now creates a full backup if one does not exist and creates numbered
-incremental backups after that.
+InfluxDB also has support for incremental backups. Snapshotting from the server now creates a full backup if one does not exist and creates numbered incremental backups after that.
 
 For example, if you ran:
 
