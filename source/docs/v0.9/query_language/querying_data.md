@@ -143,25 +143,25 @@ WHERE (email =~ /.*gmail.*/ or email =~ /.*yahoo.*/) AND state = 'ny';
 
 The WHERE clause supports comparisons against regexes, strings, booleans, floats, integers, and the times listed before. Comparators include `=` equal to, `>` greater than, `<` less than, `<>` not equal to, `=~` matches against, `!~` doesn't match against. You can chain logic together using `AND` and `OR` and you can separate using `(` and `)`
 
-## Group By
+## GROUP BY
 
-The `GROUP BY` clause in InfluxDB is used not only for grouping by given values, but also for grouping by given time buckets. You'll always be pairing this up with [a function](aggregate_functions.html) in the `SELECT` clause and possibly a specific time range in the `WHERE` clause. Here are a few examples to illustrate how group by works.
+The `GROUP BY` clause in InfluxDB is used not only for grouping by given values, but also for grouping by given time buckets. You'll always be pairing this up with [a function](aggregate_functions.html) in the `SELECT` clause and possibly a specific time range in the `WHERE` clause. Here are a few examples to illustrate how `GROUP BY` works.
 
 ```sql
 -- count of events in the last hour in 10 minute intervals
-SELECT count(type) FROM events WHERE time > now() - 1h GROUP BY time(10m);
+SELECT count(type) FROM events WHERE time > now() - 1h GROUP BY time(10m)
 
 -- count of each unique type of event in the last hour in 10 minute intervals
-SELECT count(type) FROM events WHERE time > now() - 1h GROUP BY time(10m), type;
+SELECT count(type) FROM events WHERE time > now() - 1h GROUP BY time(10m), type
 
 -- count of each unique type of event in the last day grouped by host tag
 SELECT count(type) FROM events WHERE time > now() - 1d GROUP BY host
 
 -- 95th percentile of response times in the last day in 30 second intervals
-SELECT percentile(value, 95) FROM response_times WHERE time > now() - 1d GROUP BY time(30s);
+SELECT percentile(value, 95) FROM response_times WHERE time > now() - 1d GROUP BY time(30s)
 ```
 
-By default functions will output a column that have the same name as the function, e.g. `count` will output a column with the name `count`. In order to change the name of the column an `AS` clause is required. Here is an example to illustrate how aliasing work:
+By default functions will output a column that has the same name as the function, e.g. `count` will output a column with the name `count`. In order to change the name of the column an `AS` clause is required. Here is an example to illustrate how aliasing works:
 
 ```sql
 SELECT count(type) AS number_of_types WHERE time > now() - 1d GROUP BY time(10m);
@@ -169,7 +169,7 @@ SELECT count(type) AS number_of_types WHERE time > now() - 1d GROUP BY time(10m)
 
 The time function takes the time interval which can be in microseconds, seconds, minutes, hours, days or weeks. To specify the units you can use the respective suffix `u`, `s`, `m`, `h`, `d` and `w`.
 
-If you issue a query that has an aggregate function like `count` but don't specify a `GROUP BY time` You will only get a single data point back with the number of count from time zero (1970-01-01).
+If you issue a query that has an aggregate function like `count` but don't specify a `GROUP BY time` You will only get a single data point back with the number of count from time zero (00:00:00 UTC, Thursday, 1 January 1970).
 
 If you have a `GROUP BY time` clause you should **always** have a `WHERE` clause that limits the scope of time you are looking at.
 
