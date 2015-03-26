@@ -122,7 +122,7 @@ WHERE region = 'uswest'
 
 ## The WHERE Clause
 
-We've already seen the where clause for selecting time ranges and a specific point. You can also use it to filter based on given field values, tags, or regexes. Here are some examples of different ways to use `WHERE`.
+We've already seen the `WHERE` clause for selecting time ranges and a specific point. You can also use it to filter based on given field values, tags, or regexes. Here are some examples of different ways to use `WHERE`.
 
 ```sql
 SELECT * FROM events WHERE state = 'NY';
@@ -171,7 +171,7 @@ The time function takes the time interval which can be in microseconds, seconds,
 
 If you issue a query that has an aggregate function like `count` but don't specify a `GROUP BY time` You will only get a single data point back with the number of count from time zero (1970-01-01).
 
-If you have a `GROUP BY time` clause you should ALWAYS have a `WHERE` clause that limits the scope of time you are looking at.
+If you have a `GROUP BY time` clause you should **always** have a `WHERE` clause that limits the scope of time you are looking at.
 
 ## Merging Series
 
