@@ -44,7 +44,7 @@ In the example response shown below, the system contains two measurements -- `cp
 }
 ```
 
-You can also filter by tag key values with a where clause. The following example shows all measurements that have a tag key/value pair of `service` and `redis`:
+You can also filter by tag key values with a `WHERE` clause. The following example shows all measurements that have a tag key/value pair of `service` and `redis`:
 
 ```sql
 SHOW MEASUREMENTS
