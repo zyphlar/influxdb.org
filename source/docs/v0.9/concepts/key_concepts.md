@@ -12,10 +12,10 @@ A **retention policy** is a logical namespace which maps to one or more shards, 
 
 InfluxDB uses particular terms to describe the various components of time-series data, and the techniques used to categorize that data.
 
-A **series** is defined as a combination of a _measurement_ and set of _tag_ key-values. Combined with _fields_ (columns) and _values_, these make up series _data_.
+A **series** is defined as a combination of a _measurement_ and set of _tag_ key-values. Combined with _fields_ (columns) and the fields' _values_, these make up series _data_.
 
 **Measurement** is the name give to quantity being recorded by a time-series. For example `cpu_load`.
 
-InfluxDB also allows you to associate **tags**. Tags are arbitrary key-value pairs associated with a single time-series data point. Series data is indexed by tags, allowing efficient and fast look-up of series that match a given set of tags. Finally a **field** is the part of a time-series data point that is not indexed by the system.
+InfluxDB also allows you to associate **tags** with measurements. Tags are arbitrary key-value pairs associated with a single time-series data point. Series data is indexed by tags, allowing efficient and fast look-up of series that match a given set of tags. Finally a **field** is the part of a time-series data point that is not indexed by the system.
 
 
