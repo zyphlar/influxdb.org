@@ -61,6 +61,13 @@ Take a common example from the world of computer infrastructure monitoring. Imag
 ```
 With the data in this format, querying and aggregating by various dimension is straightforward -- filter by tags as necessary. For example, to see only CPU load information from `server01` simply add `host='server01'` to your query. This would return data for both cores on that machine. To only see data from core 1, add `host='server01',core='1'`. And so on.
 
+## Tags and Cadinality
+_Cardinality_ means the number of unique values a certain object has. For example if a tag, let's call it _host_, has two values in the database _server01_ and _server02_, the cardinality of the tag is 2. Cardinality has a significant impact on how InfluxDB operates.
+
+Within InfluxDB, a series is defined as a combination of a _Measurement_ and all the tag key-value pairs associated with that Measurement. This means that if your tags have a high cardinality, there will be a large number of series in your system. In the extreme case, if a tag has a different value for every data point -- if the tag was a monotonically increasing integer, for example -- this would result in a large number of series being generated. This would significantly degrade both ingest and query performance of your system.
+
+As a rule of thumb, keep tag cardinality below 100,000. The limit will vary depending on the resources available to InfluxDB, but it is best to keep tag cardinality as low as possible. If you have a value in your data with high cardinality, it should probably be a _field_, not a tag.
+
 ## Series Name
 Avoid using '.' in series names if possible, as names containing '.' must be quoted when queried.
 
