@@ -108,7 +108,7 @@ SHOW SERIES
 FROM cpu_load
 ```
 
-And you can further filter show series with a where clause like you can with `SHOW MEASUREMENTS`
+And you can further filter `SHOW SERIES` with a `WHERE` clause like you can with `SHOW MEASUREMENTS`
 
 ```sql
 SHOW SERIES
