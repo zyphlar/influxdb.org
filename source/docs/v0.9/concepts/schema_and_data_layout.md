@@ -68,6 +68,6 @@ Within InfluxDB, a series is defined as a combination of a _Measurement_ and all
 
 As a rule of thumb, keep tag cardinality below 100,000. The limit will vary depending on the resources available to InfluxDB, but it is best to keep tag cardinality as low as possible. If you have a value in your data with high cardinality, it should probably be a _field_, not a tag.
 
-## Series name
-Avoid using '.' in series names if possible, as names containing '.' must be quoted when queried.
+## Meaurement names
+Avoid using '.' in measurement names if possible, as names containing '.' must be quoted when queried.
 
