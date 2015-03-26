@@ -30,13 +30,13 @@ curl -XPOST 'http://localhost:8086/write' -d '
 '
 ```
 
-In the example above the destination database is `mydb`, and the data will be stored in the retention policy named `default`, which is created automatically. The actual data represents the short-term CPU-load on a server server01 in region _us-west_. `database` must be specified in the request body, but `retentionPolicy` is optional. If `retentionPolicy` is not specified, the default retention policy for the database is used. Tags are also optional, but very useful. Finally, if you do not set the timestamp, the server's local timestamp will be used.
+In the example above the destination database is `mydb`, and the data will be stored in the retention policy named `default`, which is created automatically. The actual data represents the short-term CPU-load on a server _server01_ in region _us-west_. `database` must be specified in the request body, but `retentionPolicy` is optional. If `retentionPolicy` is not specified, the default retention policy for the database is used. Tags are also optional, but very useful. Finally, if you do not set the timestamp, the server's local timestamp at the time the data was received will be used.
 
 #### Schemaless Design
-InfluxDB is schemaless so the series and columns get created on the fly. You can add columns to existing series without penalty, and integers, floats, strings, booleans, and raw bytes, are all supported as types. If you change a column type later by writing in data with a different type (writing a string for a column value that was previously an integer), InfluxDB will reject the data.
+InfluxDB is schemaless so the series, and columns for that series, get created on the fly. You can add columns to existing series without penalty, and integers, floats, strings, booleans, and raw bytes, are all supported as types. If you change a column type later by writing in data with a different type (writing a string for a column value that was previously an integer), InfluxDB will reject the data.
 
 #### Writing multiple points
-As you can see from the example above, you can post multiple points to multiple series at the same time. Batching points in this manner will result in much higher performance. Furthermore, if `tags`, `timestamp` are common to some of your points, these keys may be placed alongside `database` and `retentionPolicy`. Any points without these keys will then use the shared values. If there are shared tags, and tags specifically for the point, they will be merged. For example, the JSON data shown below is a valid write request.
+As you can see from the example above, you can post multiple points to multiple series at the same time. Batching points in this manner will result in much higher performance. Furthermore, if `tags`, `timestamp` are common to some of your points, these keys may be placed alongside `database` and `retentionPolicy`. Any points without these keys will then use the shared values. If there are shared tags, and tags specifically for the point, they will be merged, except in the case of `timestamp`, when the point's timestamp takes precedence. For example, the JSON data shown below is a valid write request.
 
 ```json
 {
@@ -59,7 +59,8 @@ As you can see from the example above, you can post multiple points to multiple 
             "fields": {
                 "value": 0.55
             },
-            "timestamp": "2009-11-10T23:00:10Z"
+            "timestamp": "1422568543702900257",
+            "precision: "n",
         },
         {
             "name": "network",
@@ -190,6 +191,8 @@ curl -XGET 'http://localhost:8086/query' --data-urlencode "db=mydb" --data-urlen
 Authentication is disabled by default, but if authentication is enabled, user credentials must be supplied with every query. These can be supplied via the URL parameters `u` and `p`. For example, if the  user is "bob" and Bob's password is "mypass", then endpoint URL should take the form `/query?u=bob&p=mypass`.
 
 The credentials may also be passed using _Basic Authentication_. If both types of authentication are present in a request, the URL parameters take precedence.
+
+Boostrapping a secured system requires that the first administrator is created on the system with authentication disabled. Once this initial adminstrator has been created, the system can then be restarted with authentication enabled.
 
 ## Pretty Printing
 When working directly with the API it’s often convenient to have pretty-printed JSON output. To enable pretty-printed output, append `pretty=true` to the URL. For example:
