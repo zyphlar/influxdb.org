@@ -192,6 +192,18 @@ _Example_
 CREATE USER jdoe WITH PASSWORD 'mypassword'
 ```
 
+### Changing a user's password
+```sql
+SET PASSWORD FOR <username> = '<password>'
+```
+Note that it is required that _password_ be quoted.
+
+_Example_
+
+```sql
+SET PASSWORD FOR jdoe = 'mynewpassword'
+```
+
 ### Showing existing users
 ```sql
 SHOW USERS
