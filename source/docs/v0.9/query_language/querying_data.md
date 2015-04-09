@@ -82,14 +82,58 @@ Other options for how to specify time durations are `u` for microseconds, `s` fo
 
 #### Absolute time
 
-You can specify timestamp in epoch time, which is defined as the number of microseconds that have elapsed since 00:00:00 Coordinated Universal Time (UTC), Thursday, 1 January 1970. You can use the same suffixes from the previous section if you don't want to specify
-timestamp in microseconds. For example:
+Specify timestamp in epoch time, which is defined as the number of microseconds that have elapsed since 00:00:00 Coordinated Universal Time (UTC), Thursday, 1 January 1970. Use the same suffixes from the previous section to specify timestamps in other units. For example:
 
 ```sql
 SELECT value FROM response_times WHERE time > 1388534400s
 ```
 
 will return all points that were writtern after `2014-01-01 00:00:00`
+
+## Regular expressions
+
+Regular expressions are surrounded by `/` characters and use Golang's regular expression syntax.  http://golang.org/pkg/regexp/syntax/.
+
+```sql
+/us.*/
+```
+
+*NOTE*: Use of regular expressions is explained in the following sections.
+
+## Selecting Multiple Series
+
+Select from multiple series by name or by specifying a regex to match against. Here are a few examples.
+```sql
+SELECT * FROM events, errors;
+```
+
+Get the last hour of data from the two series events, and errors. Here's a regex example:
+
+```sql
+SELECT * FROM /^stats\./i WHERE time > now() - 1h;
+```
+
+Get the last hour of data from every time series that starts with stats. (case insensitive). Another example:
+
+```sql
+SELECT * FROM /.*/ limit 1;
+```
+
+Return the last point from every time series in the database.
+
+```sql
+SELECT * FROM "otherDB"../disk.*/ LIMIT 1
+```
+
+Return the last point from otherDB's default retention policy where the measurement name begins with lowercase disk.
+
+```sql
+SELECT * FROM "1h"./disk.*/ LIMIT 1
+```
+
+Return the last point from the 1h retention policy where the measurement name begins with lowercase disk.
+
+*NOTE*: Regular expressions cannot be used to specify multiple databases or retention policies. Only measurements.
 
 ## Dropping measurements and series
 
