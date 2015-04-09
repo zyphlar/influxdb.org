@@ -93,7 +93,7 @@ will return all points that were writtern after `2014-01-01 00:00:00`
 
 ## Regular expressions
 
-Regular expressions can be used to filter query results.  InfluxDB supports two regex operators: `=~` for equal and `!~` for not equal.  Expressions are surrounded by `/` characters and use Golang's regular expression syntax.  http://golang.org/pkg/regexp/syntax/
+Regular expressions can be used to filter query results.  InfluxDB supports two regex operators in the `WHERE` clause: `=~` for equal and `!~` for not equal.  Expressions are surrounded by `/` characters and use Golang's regular expression syntax.  http://golang.org/pkg/regexp/syntax/
 
 ```sql
 SELECT value FROM response_times WHERE region =~ /us.*/
@@ -107,11 +107,43 @@ SELECT value FROM response_times WHERE region =~ /(?i)us.*/
 
 is the case-insensitive version of the previous query.  Note the `(?i)` at the beginning of the expression.
 
+```sql
+SELECT value FROM "mydb"../(?i)disk.*/
+```
+
+will select values from database `mydb`'s default retention policy where the measurement name starts with case insensitive `disk`.
+
 ## Selecting Multiple Series
 
 ## Dropping measurements and series
 
+<<<<<<< HEAD
 You can drop individual series within a measurement that match given tags, or you can drop entire measurements. Some examples:
+=======
+```sql
+SELECT * FROM /.*/ limit 1;
+```
+
+Return the last point from every time series in the database.
+
+```sql
+SELECT * FROM "otherDB"../disk.*/ LIMIT 1
+```
+
+Return the last point from `otherDB`'s default retention policy where the measurement name begins with lowercase `disk`.
+
+```sql
+SELECT * FROM "1h"./disk.*/ LIMIT 1
+```
+
+Return the last point from the `1h` retention policy where the measurement name begins with lowercase `disk`.
+
+*NOTE*: regular expressions cannot be used to specify multiple databases or retention policies.  Only measurements.
+
+## Deleting data or dropping series
+
+The delete query looks like the following:
+>>>>>>> update regex syntax
 
 ```sql
 DROP MEASUREMENT response_times
