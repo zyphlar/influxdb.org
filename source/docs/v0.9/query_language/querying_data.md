@@ -28,7 +28,7 @@ This feature is particularly useful if you wish to query data from different dat
 
 ## Statements
 
-A query in InfluxDB can have muliple statements separated by semicolons. For example:
+A query in InfluxDB can have multiple statements separated by semicolons. For example:
 
 ```sql
 SELECT mean(value) from cpu
@@ -175,7 +175,7 @@ If you have a `GROUP BY time` clause you should **always** have a `WHERE` clause
 
 ## Merging Series
 
-Queries merge series automatically for you on the fly. Remember that a series is a mesurement plus its tag set. This means if you do a query like this:
+Queries merge series automatically for you on the fly. Remember that a series is a measurement plus its tag set. This means if you do a query like this:
 
 ```
 SELECT mean(value)
