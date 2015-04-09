@@ -83,7 +83,7 @@ The following timestamp formats are accepted:
 
 _RFC3339_
 
-Both UTC and formats with timezone information are supported. Nanonsecond precision is also supported. Examples of each are shown below.
+Both UTC and formats with timezone information are supported. Nanosecond precision is also supported. Examples of each are shown below.
 
 ```
 "timestamp": "2015-01-29T21:50:44Z"
@@ -192,7 +192,7 @@ Authentication is disabled by default, but if authentication is enabled, user cr
 
 The credentials may also be passed using _Basic Authentication_. If both types of authentication are present in a request, the URL parameters take precedence.
 
-Boostrapping a secured system requires that the first administrator is created on the system with authentication disabled. Once this initial adminstrator has been created, the system can then be restarted with authentication enabled.
+Bootstrapping a secured system requires that the first administrator is created on the system with authentication disabled. Once this initial administrator has been created, the system can then be restarted with authentication enabled.
 
 ## Pretty Printing
 When working directly with the API it’s often convenient to have pretty-printed JSON output. To enable pretty-printed output, append `pretty=true` to the URL. For example:
