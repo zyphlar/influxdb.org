@@ -82,8 +82,7 @@ Other options for how to specify time durations are `u` for microseconds, `s` fo
 
 #### Absolute time
 
-You can specify timestamp in epoch time, which is defined as the number of microseconds that have elapsed since 00:00:00 Coordinated Universal Time (UTC), Thursday, 1 January 1970. You can use the same suffixes from the previous section if you don't want to specify
-timestamp in microseconds. For example:
+Specify timestamp in epoch time, which is defined as the number of microseconds that have elapsed since 00:00:00 Coordinated Universal Time (UTC), Thursday, 1 January 1970. Use the same suffixes from the previous section to specify timestamps in other units. For example:
 
 ```sql
 SELECT value FROM response_times WHERE time > 1388534400s
@@ -93,33 +92,29 @@ will return all points that were writtern after `2014-01-01 00:00:00`
 
 ## Regular expressions
 
-Regular expressions can be used to filter query results.  InfluxDB supports two regex operators in the `WHERE` clause: `=~` for equal and `!~` for not equal.  Expressions are surrounded by `/` characters and use Golang's regular expression syntax.  http://golang.org/pkg/regexp/syntax/
+Regular expressions are surrounded by `/` characters and use Golang's regular expression syntax.  http://golang.org/pkg/regexp/syntax/.
 
 ```sql
-SELECT value FROM response_times WHERE region =~ /us.*/
+/us.*/
 ```
 
-will return all points where the region starts with a lowercase "us".
-
-```sql
-SELECT value FROM response_times WHERE region =~ /(?i)us.*/
-```
-
-is the case-insensitive version of the previous query.  Note the `(?i)` at the beginning of the expression.
-
-```sql
-SELECT value FROM "mydb"../(?i)disk.*/
-```
-
-will select values from database `mydb`'s default retention policy where the measurement name starts with case insensitive `disk`.
+*NOTE*: Use of regular expressions is explained in the following sections.
 
 ## Selecting Multiple Series
 
-## Dropping measurements and series
+Select from multiple series by name or by specifying a regex to match against. Here are a few examples.
+```sql
+SELECT * FROM events, errors;
+```
 
-<<<<<<< HEAD
-You can drop individual series within a measurement that match given tags, or you can drop entire measurements. Some examples:
-=======
+Get the last hour of data from the two series events, and errors. Here's a regex example:
+
+```sql
+SELECT * FROM /^stats\./i WHERE time > now() - 1h;
+```
+
+Get the last hour of data from every time series that starts with stats. (case insensitive). Another example:
+
 ```sql
 SELECT * FROM /.*/ limit 1;
 ```
@@ -130,20 +125,19 @@ Return the last point from every time series in the database.
 SELECT * FROM "otherDB"../disk.*/ LIMIT 1
 ```
 
-Return the last point from `otherDB`'s default retention policy where the measurement name begins with lowercase `disk`.
+Return the last point from otherDB's default retention policy where the measurement name begins with lowercase disk.
 
 ```sql
 SELECT * FROM "1h"./disk.*/ LIMIT 1
 ```
 
-Return the last point from the `1h` retention policy where the measurement name begins with lowercase `disk`.
+Return the last point from the 1h retention policy where the measurement name begins with lowercase disk.
 
-*NOTE*: regular expressions cannot be used to specify multiple databases or retention policies.  Only measurements.
+*NOTE*: Regular expressions cannot be used to specify multiple databases or retention policies. Only measurements.
 
-## Deleting data or dropping series
+## Dropping measurements and series
 
-The delete query looks like the following:
->>>>>>> update regex syntax
+You can drop individual series within a measurement that match given tags, or you can drop entire measurements. Some examples:
 
 ```sql
 DROP MEASUREMENT response_times
