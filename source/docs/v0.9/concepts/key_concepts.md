@@ -6,13 +6,13 @@ To understand InfluxDB, it is necessary to understand some key concepts. These c
 
 InfluxDB uses particular terms to describe the various components of time-series data, and the techniques used to categorize that data.
 
-Every data point with InfluxDB has a **timestamp**. When a point is written to InfluxDB it is either accompanied by a timestamp or, if it has no associated timestamp, InfluxDB uses its local clock to assign a timestamp to the point. It is important to note that InfluxDB does not differentiate between points that came with a timestamp versus points that were assigned a timestamp at ingest time. 
+Every data point within InfluxDB has a **timestamp**. When a point is written to InfluxDB it is either accompanied by a timestamp or, if it has no associated timestamp, InfluxDB uses its local clock to assign a timestamp to the point. It is important to note that InfluxDB does not differentiate between points that came with a timestamp versus points that were assigned a timestamp at reception time. 
 
 A **series** is defined as a combination of a _measurement_ and set of _tag_ key-values. Combined with _fields_ (columns) and the fields' _values_, these make up series _data_.
 
 **Measurement** is the name give to quantity being recorded by a time-series. For example `cpu_load`.
 
-InfluxDB also allows you to associate **tags** with measurements. Tags are arbitrary key-value pairs associated with a single time-series data point. Series data is indexed by tags, allowing efficient and fast look-up of series that match a given set of tags. Finally a **field** is the part of a time-series data point that is not indexed by the system.
+InfluxDB also allows you to associate **tags** with measurements. Tags are arbitrary key-value pairs associated with a single time-series data point. Series data is indexed by tags, allowing efficient and fast look-up of series data that match a given set of tags. Finally a **field** is the part of a time-series data point that is not indexed by the system.
 
 ## Storing Data
 
