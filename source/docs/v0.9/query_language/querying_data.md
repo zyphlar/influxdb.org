@@ -219,7 +219,7 @@ If you have a `GROUP BY time` clause you should **always** have a `WHERE` clause
 
 ### Filling intervals with no data
 
-By default, `GROUP BY` intervals that have no data will use `null` as the value, default, though any numerical value, including negative values, are valid values for `fill`. For example, each of the following queries is valid:
+By default, `GROUP BY` intervals that have no data will use `null` as the value, by default, though any numerical value, including negative values, are valid values for `fill`. For example, each of the following queries is valid:
 
 ```sql
 SELECT COUNT(type) FROM events
