@@ -217,6 +217,43 @@ If you issue a query that has an aggregate function like `count` but don't speci
 
 If you have a `GROUP BY time` clause you should **always** have a `WHERE` clause that limits the scope of time you are looking at.
 
+### Filling intervals with no data
+
+By default, `GROUP BY` intervals that have no data will use `null` as the value, default, though any numerical value, including negative values, are valid values for `fill`. For example, each of the following queries is valid:
+
+```sql
+SELECT COUNT(type) FROM events
+GROUP BY time(1h) fill(0) WHERE time > now() - 3h
+```
+```sql
+SELECT COUNT(type) FROM events
+GROUP BY time(1h) fill(-1) WHERE time > now() - 3h
+```
+
+There are also special options for `fill`. Those values are `null`, `previous`, and `none`. `null` means null is used as the value for intervals without data. `previous` means the values of the previous window is used, and `none` means that all null values are removed. Examples of each are shown below.
+
+```sql
+SELECT COUNT(type) FROM events
+GROUP BY time(1h) fill(null) WHERE time > now() - 3h
+```
+
+```sql
+SELECT COUNT(type) FROM events
+GROUP BY time(1h) fill(previous) WHERE time > now() - 3h
+```
+
+```sql
+SELECT COUNT(type) FROM events
+GROUP BY time(1h) fill(none) WHERE time > now() - 3h
+```
+
+Note that `fill` must go at the end of the group by clause if there are other arguments:
+
+```sql
+select count(type) from events
+group by time(1h), type fill(0) where time > now() - 3h
+```
+
 ## Merging Series
 
 Queries merge series automatically for you on the fly. Remember that a series is a measurement plus its tag set. This means if you do a query like this:
