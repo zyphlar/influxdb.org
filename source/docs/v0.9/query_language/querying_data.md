@@ -9,6 +9,10 @@ curl -G 'http://localhost:8086/query' --data-urlencode "q=SELECT * FROM foo"
 ## Quote Usage
 *Identifiers* are either unquoted or double quoted. Identifiers are database names, retention policies, measurements, or tag keys. String literals are always single quoted however.
 
+Double quoted identifiers may contain any unicode character except a new line character. Double quoted identifiers can also contain escaped double quote characters (i.e., `\"`).
+
+Unquoted identifiers must start with an upper or lowercase ASCII letter and can only contain ASCII letters, decimal digits, and the "_" or "." characters.
+
 ## Selecting the Database and Retention Period
 When selecting data using the query language, the target database and retention period can optionally be specified. Doing so is known as "fully qualifying" your measurement. A fully-qualified measurement is in the following form:
 
