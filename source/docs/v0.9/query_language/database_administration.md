@@ -15,7 +15,7 @@ Databases can be created, dropped, and listed. User privileges are also set on a
 CREATE DATABASE <name>
 ```
 
-The name must only contain alphanumeric characters, dashes, and underscores. No database must already exist with the given name.
+The name must only contain alphanumeric characters, or underscores. No database must already exist with the given name.
 
 _Example_
 
