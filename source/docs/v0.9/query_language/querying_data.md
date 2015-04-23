@@ -44,7 +44,7 @@ WHERE time > now() - 7d
 
 ## Select and Time Ranges
 
-By default, InfluxDB returns data in time descending order.
+By default, InfluxDB returns data in time-ascending order.
 
 ```sql
 SELECT value FROM response_times;
