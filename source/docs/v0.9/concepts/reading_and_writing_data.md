@@ -59,7 +59,7 @@ As you can see from the example above, you can post multiple points to multiple 
             "fields": {
                 "value": 0.55
             },
-            "timestamp": "1422568543702900257",
+            "timestamp": 1422568543702900257,
             "precision": "n"
         },
         {
