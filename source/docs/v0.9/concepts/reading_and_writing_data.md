@@ -20,7 +20,7 @@ curl -XPOST 'http://localhost:8086/write' -d '
                 "host": "server01",
                 "region": "us-west"
             },
-            "timestamp": "2009-11-10T23:00:00Z",
+            "time": "2009-11-10T23:00:00Z",
             "fields": {
                 "value": 0.64
             }
@@ -30,13 +30,13 @@ curl -XPOST 'http://localhost:8086/write' -d '
 '
 ```
 
-In the example above the destination database is `mydb`, and the data will be stored in the retention policy named `default`, which is created automatically. The actual data represents the short-term CPU-load on a server _server01_ in region _us-west_. `database` must be specified in the request body, but `retentionPolicy` is optional. If `retentionPolicy` is not specified, the default retention policy for the database is used. Tags are also optional, but very useful. Finally, if you do not set the timestamp, the server's local timestamp at the time the data was received will be used.
+In the example above the destination database is `mydb`, and the data will be stored in the retention policy named `default`, which is created automatically. The actual data represents the short-term CPU-load on a server _server01_ in region _us-west_. `database` must be specified in the request body, but `retentionPolicy` is optional. If `retentionPolicy` is not specified, the default retention policy for the database is used. Tags are also optional, but very useful. Finally, if you do not set the time, the server's local timestamp at the time the data was received will be used.
 
 #### Schemaless Design
 InfluxDB is schemaless so the series, and columns for that series, get created on the fly. You can add columns to existing series without penalty, and integers, floats, strings, booleans, and raw bytes, are all supported as types. If you change a column type later by writing in data with a different type (writing a string for a column value that was previously an integer), InfluxDB will reject the data.
 
 #### Writing multiple points
-As you can see from the example above, you can post multiple points to multiple series at the same time. Batching points in this manner will result in much higher performance. Furthermore, if `tags`, `timestamp` are common to some of your points, these keys may be placed alongside `database` and `retentionPolicy`. Any points without these keys will then use the shared values. If there are shared tags, and tags specifically for the point, they will be merged, except in the case of `timestamp`, when the point's timestamp takes precedence. For example, the JSON data shown below is a valid write request.
+As you can see from the example above, you can post multiple points to multiple series at the same time. Batching points in this manner will result in much higher performance. Furthermore, if `tags`, `time` are common to some of your points, these keys may be placed alongside `database` and `retentionPolicy`. Any points without these keys will then use the shared values. If there are shared tags, and tags specifically for the point, they will be merged, except in the case of `time`, when the point's timestamp takes precedence. For example, the JSON data shown below is a valid write request.
 
 ```json
 {
@@ -46,7 +46,7 @@ As you can see from the example above, you can post multiple points to multiple 
         "host": "server01",
         "region": "us-west"
     },
-    "timestamp": "2009-11-10T23:00:00Z",
+    "time": "2009-11-10T23:00:00Z",
     "points": [
         {
             "name": "cpu_load_short",
@@ -59,7 +59,7 @@ As you can see from the example above, you can post multiple points to multiple 
             "fields": {
                 "value": 0.55
             },
-            "timestamp": 1422568543702900257,
+            "time": 1422568543702900257,
             "precision": "n"
         },
         {
@@ -78,18 +78,18 @@ As you can see from the example above, you can post multiple points to multiple 
 ### Tags
 Each point can have a set of key-value pairs associated with it. Both keys and values must be strings. Tags allow data to be easily and efficient queried, including or excluding data that matches a set of keys with particular values.
 
-### Timestamp format
-The following timestamp formats are accepted:
+### Time format
+The following time formats are accepted:
 
 _RFC3339_
 
 Both UTC and formats with timezone information are supported. Nanosecond precision is also supported. Examples of each are shown below.
 
 ```
-"timestamp": "2015-01-29T21:50:44Z"
-"timestamp": "2015-01-29T14:49:23-07:00"
-"timestamp": "2015-01-29T21:51:28.968422294Z"
-"timestamp": "2015-01-29T14:48:36.127798015-07:00"
+"time": "2015-01-29T21:50:44Z"
+"time": "2015-01-29T14:49:23-07:00"
+"time": "2015-01-29T21:51:28.968422294Z"
+"time": "2015-01-29T14:48:36.127798015-07:00"
 ```
 
 _Epoch and Precision_
@@ -97,7 +97,7 @@ _Epoch and Precision_
 Timestamps can also be supplied as an integer value, with the precision specified separately. For example to set the time in nanoseconds, use the following two keys in the JSON request.
 
 ```
-"timestamp": 1422568543702900257,
+"time": 1422568543702900257,
 "precision": "n"
 ```
 
