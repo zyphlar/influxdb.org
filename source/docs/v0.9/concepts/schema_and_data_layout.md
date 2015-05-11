@@ -16,7 +16,7 @@ Take a common example from the world of computer infrastructure monitoring. Imag
                 "host": "server01",
                 "core": "0"
             },
-            "timestamp": "2009-11-10T23:00:00Z",
+            "time": "2009-11-10T23:00:00Z",
             "fields": {
                 "value": 0.45
             }
@@ -27,7 +27,7 @@ Take a common example from the world of computer infrastructure monitoring. Imag
                 "host": "server01",
                 "core": "1"
             },
-            "timestamp": "2009-11-10T23:00:00Z",
+            "time": "2009-11-10T23:00:00Z",
             "fields": {
                 "value": 1.56
             }
@@ -38,7 +38,7 @@ Take a common example from the world of computer infrastructure monitoring. Imag
                 "host": "server02",
                 "core": "0"
             },
-            "timestamp": "2009-11-10T23:00:00Z",
+            "time": "2009-11-10T23:00:00Z",
             "fields": {
                 "value": 0.72
             }
@@ -49,7 +49,7 @@ Take a common example from the world of computer infrastructure monitoring. Imag
                 "host": "server02",
                 "core": "1"
             },
-            "timestamp": "2009-11-10T23:00:00Z",
+            "time": "2009-11-10T23:00:00Z",
             "fields": {
                 "value": 2.14
             }
