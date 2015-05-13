@@ -187,13 +187,6 @@ Multiple queries can be sent to InfluxDB in a single API call. Simply delimit ea
 curl -XGET 'http://localhost:8086/query' --data-urlencode "db=mydb" --data-urlencode "q=SELECT * FROM cpu_load_short WHERE region=us-west;SELECT * FROM cpu_load_long"
 ```
 
-## Authentication
-Authentication is disabled by default, but if authentication is enabled, user credentials must be supplied with every query. These can be supplied via the URL parameters `u` and `p`. For example, if the  user is "bob" and Bob's password is "mypass", then endpoint URL should take the form `/query?u=bob&p=mypass`.
-
-The credentials may also be passed using _Basic Authentication_. If both types of authentication are present in a request, the URL parameters take precedence.
-
-Bootstrapping a secured system requires that the first administrator is created on the system with authentication disabled. Once this initial administrator has been created, the system can then be restarted with authentication enabled.
-
 ## Pretty Printing
 When working directly with the API it’s often convenient to have pretty-printed JSON output. To enable pretty-printed output, append `pretty=true` to the URL. For example:
 
