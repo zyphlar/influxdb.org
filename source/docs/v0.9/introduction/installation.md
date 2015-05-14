@@ -54,3 +54,10 @@ brew update
 brew install influxdb
 ```
 <a href="getting_started.html"><font size="6"><b>Now get started!</b></font></a>
+
+
+## Getting a clean configuration
+It is possible to generate a clean configuraiton file by
+```
+/opt/influxdb/influxd config
+```
