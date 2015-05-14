@@ -6,9 +6,11 @@ InfluxDB provides simple, built-in authentication and authorization capabilities
 
 ### Enabling authentication
 
-Authentication is enforced by checking each HTTP request to API against the user credentials of all users in the cluster.
-
 Authentication is __disabled__ by default.  A new cluster will accept all requests to the API.
+
+When authentication is enabled, every request must be accompanied by a valid username, and the correct password for that username.
+
+_Note: Authentication occurs at the cluster scope.  See the [Authorization](authentication_and_authorization.html#authorization) section for more information on how to grant a user access to a particular database._
 
 To enable authentication, set the `[authentication]` section in the configuration file (shown below) to `true` and restart `influxd`.  
 
@@ -25,13 +27,24 @@ _Note: the first user with admin privileges can only be created when authenticat
 
 ### Authenticating requests
 
-When authentication is enabled, user credentials must be supplied with every request via _Basic Authentication_ as described in [RFC 2617, Section 2](http://tools.ietf.org/html/rfc2617).
+When authentication is enabled, user credentials must be supplied with every request via one of following two methods:
 
-Authentication is checked per user.  All users created in an InfluxDB cluster are allowed to send authenticated requests, although a request may still fail if the user does not have the authorization required to execute the request.
+- _query parameters in the URL_, with `u` set as the username and `p` set as the password.
+- _Basic Authentication_, as described in [RFC 2617, Section 2](http://tools.ietf.org/html/rfc2617)
+
+If both are present in the same request, user credentials specified in the URL query parameters take precedence over those specified in Basic Auth.
+
+Authentication is checked on every request.  If the request supplies valid credentials for a user in the cluster, the request is processed.  Otherwise, the request is rejected and returns a `401 Unauthorized` HTTP error code.  An authenticated request may still fail if the user is not _authorized_ to execute the requested operation.
 
 _Example_
 
-A request can be sent with _Basic Authentication_ credentials using `curl` with the `-u` option.
+Send a request with user credentials via query parameters.
+
+```
+curl -G http://localhost:8086/query --data-urlencode "u=mydb_username" --data-urlencode "p=mydb_password" --data-urlencode "q=CREATE DATABASE mydb"
+```
+
+Send a request with user credentials via _Basic Authentication_.
 
 ```
 curl -G http://localhost:8086/query -u mydb_username:mydb_password --data-urlencode "q=CREATE DATABASE mydb"
