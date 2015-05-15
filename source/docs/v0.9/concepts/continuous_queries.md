@@ -23,8 +23,11 @@ END
 This is expected to be the primary use case for continuous queries. When a continuous query is created from a select query that contains a `GROUP BY` time() clause, InfluxDB will write the aggregate into the target time series when each time interval elapses. On creation, the cluster will backfill old data asynchronously in the background.
 
 ```sql
-SELECT COUNT(name) INTO clicksCount_1h FROM clicks GROUP BY time(1h) 
+CREATE CONTINUOUS QUERY clicks_per_hour ON mydb BEGIN
+  SELECT COUNT(name) INTO clicksCount_1h FROM clicks GROUP BY time(1h) 
+END
 ```
+
 
 ## Listing Continuous Queries
 
