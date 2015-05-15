@@ -1,6 +1,8 @@
 # Installation
 
-If you're ready to use InfluxDB but don't want to install any software, you may want to check out our [managed hosted InfluxDB offering](http://customers.influxdb.com). But if you want to run your own InfluxDB system, this page provides directions on downloading and starting InfluxDB.
+This page provides directions on downloading and starting InfluxDB Version 0.9.0 - Release Candidate 30.
+
+For users who don't want to install any software and are ready to use InfluxDB, you may want to check out our [managed hosted InfluxDB offering](http://customers.influxdb.com). However, our hosted service is currently only running InfluxDB v0.8.8.
 
 ## Requirements
 Installation of InfluxDB requires root privileges on the host machine.
@@ -13,18 +15,14 @@ Debian users can install by downloading the package and installing it like this:
 
 ```bash
 # for 64-bit systems
-wget https://s3.amazonaws.com/influxdb/influxdb_latest_amd64.deb
-sudo dpkg -i influxdb_latest_amd64.deb
-
-# for 32-bit systems
-wget https://s3.amazonaws.com/influxdb/influxdb_latest_i386.deb
-sudo dpkg -i influxdb_latest_i386.deb
+wget http://get.influxdb.org/influxdb_0.9.0-rc30_amd64.deb
+sudo dpkg -i influxdb_0.9.0-rc30_amd64.deb
 ```
 
 Then start the daemon by running:
 
 ```
-sudo service influxdb start
+sudo /etc/init.d/influxdb start
 ```
 
 ## RedHat & CentOS
@@ -32,12 +30,8 @@ RedHat and CentOS users can install by downloading and installing the rpm like t
 
 ```bash
 # for 64-bit systems
-wget https://s3.amazonaws.com/influxdb/influxdb-latest-1.x86_64.rpm
-sudo rpm -ivh influxdb-latest-1.x86_64.rpm
-
-# for 32-bit systems
-wget https://s3.amazonaws.com/influxdb/influxdb-latest-1.i686.rpm
-sudo rpm -ivh influxdb-latest-1.i686.rpm
+wget http://get.influxdb.org/influxdb-0.9.0_rc30-1.x86_64.rpm
+sudo rpm -ivh influxdb-0.9.0_rc30-1.x86_64.rpm
 ```
 
 Then start the daemon by running:
@@ -47,17 +41,20 @@ sudo /etc/init.d/influxdb start
 ```
 
 ## OS X
-Installation on OS X 10.6 and higher is supported through Homebrew.
+
+Users of OS X 10.8 and higher can install using the [Homebrew](http://brew.sh/) package manager using the `--devel` flag.
 
 ```
 brew update
-brew install influxdb
+brew install influxdb --devel
 ```
-<a href="getting_started.html"><font size="6"><b>Now get started!</b></font></a>
 
+## Generate a configuration file
 
-## Generating a configuration file
-InfluxDB packages ship with an example configuration file, which is automatically copied to `/etc/opt/influxdb`. In addition a valid configuration file can be displayed at any time using the command:
+All InfluxDB packages ship with an example configuration file.  In addition a valid configuration file can be displayed at any time using the command:
+
 ```
 /opt/influxdb/influxd config
 ```
+
+<a href="getting_started.html"><font size="6"><b>⇒ Now get started!</b></font></a>
