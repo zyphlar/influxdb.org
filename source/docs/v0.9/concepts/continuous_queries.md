@@ -35,7 +35,7 @@ To see the continuous queries you have defined, query `SHOW CONTINUOUS QUERIES` 
 
 ## Deleting Continuous Queries
 
-Continuous queries are referred to by their internal id, which can be retrieved through the `DROP CONTINUOUS QUERY` command. The drop query takes the following form:
+The drop query takes the following form:
 
 ```sql
 DROP CONTINUOUS QUERY <name> ON <database>
