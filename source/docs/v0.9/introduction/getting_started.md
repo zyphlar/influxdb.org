@@ -26,7 +26,7 @@ Go ahead and click the "Explore" link to get here:
 
 From this screen you can write some test data. More importantly, you'll be able to issue ad-hoc queries and see basic visualizations. Let's write a little data in to see how things work. Data in InfluxDB is organized by "time series" which then have "points" which have a `timestamp`, `columns`, `fields`, and possibly `tags`. Think of it like SQL tables, with rows where the primary index is always time. The difference is that with InfluxDB you can have millions of series, you don't have to define schemas up front, and null values aren't stored.
 
-Let's write some data. Here are a couple of examples of things we'd want to write. We'll show the screenshot and what the JSON data looks like right after.
+Let's write some data. Here are a couple of examples of things we'd want to write. We'll show the screenshot and what the JSON data looks like right after. (Note that database, field, and tag names containing any character other than [A-Z,a-z,0-9,_] or starting with one or more digits must be double-quoted.)
 
 ![Storing log lines](/images/docs/log_lines.jpg)
 
