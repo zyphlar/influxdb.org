@@ -10,7 +10,7 @@ Every data point within InfluxDB has a **timestamp**. When a point is written to
 
 A **series** is defined as a combination of a _measurement_ and set of _tag_ key-values. Combined with _fields_ (columns) and the fields' _values_, these make up series _data_.
 
-**Measurement** is the name give to quantity being recorded by a time-series. For example `cpu_load`.
+A **measurement** is the value being recorded in the series. For example `cpu_load` or `sensor_temperature`.
 
 InfluxDB also allows you to associate **tags** with measurements. Tags are arbitrary key-value pairs associated with a single time-series data point. Series data are indexed by tags, allowing efficient and fast look-up of series data that match a given set of tags. Finally a **field** is the part of a time-series data point that is not indexed by the system.
 
