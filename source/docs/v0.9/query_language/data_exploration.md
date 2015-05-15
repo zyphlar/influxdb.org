@@ -17,7 +17,7 @@ _Example_
 SHOW MEASUREMENTS
 ```
 
-In the example response shown below, the system contains two meauresments -- `cpu` and `network`. The first has a tag key `host`, and the second has two tags keys, `host` and `region`.
+In the example response shown below, the system contains two measurements -- `cpu` and `network`. The first has a tag key `host`, and the second has two tags keys, `host` and `region`.
 
 ```json
 {
@@ -42,6 +42,13 @@ In the example response shown below, the system contains two meauresments -- `cp
         }
     ]
 }
+```
+
+You can also filter by tag key values with a `WHERE` clause. The following example shows all measurements that have a tag key/value pair of `service` and `redis`:
+
+```sql
+SHOW MEASUREMENTS
+WHERE service = 'redis'
 ```
 
 ## Show Series
@@ -92,6 +99,21 @@ In the example response shown below, the system also contains two measurements, 
         }
     ]
 }
+```
+
+Or you can show the series for a specific measurement:
+
+```sql
+SHOW SERIES
+FROM cpu_load
+```
+
+And you can further filter `SHOW SERIES` with a `WHERE` clause like you can with `SHOW MEASUREMENTS`
+
+```sql
+SHOW SERIES
+FROM cpu_load
+WHERE region = 'uswest'
 ```
 
 ## Show Tag Keys
@@ -217,4 +239,12 @@ which results in the following response:
         }
     ]
 }
+```
+
+And you can filter the tag values shown to only those associated with a specific measurement:
+
+```sql
+SHOW TAG VALUES
+FROM cpu_load
+WITH KEY=host
 ```

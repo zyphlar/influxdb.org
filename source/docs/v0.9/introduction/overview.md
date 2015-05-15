@@ -28,25 +28,18 @@ Here are some of the features that InfluxDB currently supports that make it a gr
 ```sql
 SELECT mean(value) FROM cpu GROUP BY time(5m)
 ```
-* Pre-aggregate in the database:
-
-```sql
-SELECT mean(value) FROM cpu GROUP BY time(5m) INTO 5m_cpu_mean
--- after that you can select from the composed series
-SELECT * FROM "5m_cpu_mean" WHERE time > now() - 4h
-```
 * Store and query hundreds of thousands of series, filtering by tags:
 
 ```sql
 SELECT mean(value) FROM cpu
-    WHERE region='uswest' AND az='1' AND server='server01'
+    WHERE region="uswest" AND az="1" AND server="server01"
     GROUP BY time(30s)
 ```
 
 * Merge multiple series together:
 
 ```sql
-SELECT mean(value) FROM merge(/cpu*/) GROUP BY time(1h)
+SELECT mean(value) FROM /cpu*/ GROUP BY time(1h)
 ```
 
 There's much more, have a look at the [getting started guide](getting_started.html) to see some examples.

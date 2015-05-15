@@ -20,7 +20,7 @@ curl -XPOST 'http://localhost:8086/write' -d '
                 "host": "server01",
                 "region": "us-west"
             },
-            "timestamp": "2009-11-10T23:00:00Z",
+            "time": "2009-11-10T23:00:00Z",
             "fields": {
                 "value": 0.64
             }
@@ -37,6 +37,7 @@ InfluxDB is schemaless so the series and columns (fields and tags) get created o
 
 ### Writing multiple points
 As you can see in the example below, you can post multiple points to multiple series at the same time. Batching points in this manner will result in much higher performance. 
+
 #### Shared values in batches
 If some of your points in a batch have identical `tags` or `timestamp` values, you may set the shared default value for those keys by declaring them at the same level as `database` and `retentionPolicy` in the JSON schema. Any points in the batch lacking explicit values for those keys will inherit the shared values. Shared tags will be merged with explicitly declared tags for each point. For example, the JSON data shown below is a valid write request.
 
@@ -48,7 +49,7 @@ If some of your points in a batch have identical `tags` or `timestamp` values, y
         "host": "server01",
         "region": "us-west"
     },
-    "timestamp": "2009-11-10T23:00:00Z",
+    "time": "2009-11-10T23:00:00Z",
     "points": [
         {
             "name": "cpu_load_short",
@@ -61,7 +62,8 @@ If some of your points in a batch have identical `tags` or `timestamp` values, y
             "fields": {
                 "value": 0.55
             },
-            "timestamp": "2009-11-10T23:00:10Z"
+            "time": 1422568543702900257,
+            "precision": "n"
         },
         {
             "name": "network",
@@ -79,36 +81,36 @@ If some of your points in a batch have identical `tags` or `timestamp` values, y
 ### Tags
 Each point can have a set of key-value pairs associated with it. Both keys and values must be strings. Tags allow data to be easily and efficient queried, including or excluding data that matches a set of keys with particular values.
 
-### Timestamp format
-The following timestamp formats are accepted:
+### Time format
+The following time formats are accepted:
 
 _RFC3339_
 
-Both UTC and formats with timezone information are supported. Nanonsecond precision is also supported. Examples of each are shown below.
+Both UTC and formats with timezone information are supported. Nanosecond precision is also supported. Examples of each are shown below.
 
 ```
-"timestamp": "2015-01-29T21:50:44Z"
-"timestamp": "2015-01-29T14:49:23-07:00"
-"timestamp": "2015-01-29T21:51:28.968422294Z"
-"timestamp": "2015-01-29T14:48:36.127798015-07:00"
+"time": "2015-01-29T21:50:44Z"
+"time": "2015-01-29T14:49:23-07:00"
+"time": "2015-01-29T21:51:28.968422294Z"
+"time": "2015-01-29T14:48:36.127798015-07:00"
 ```
 
 _Epoch and Precision_
 
-Timestamps can also be supplied as an integer value, with the precision specified seperately. For example to set the time in nanoseconds, use the following two keys in the JSON request.
+Timestamps can also be supplied as an integer value, with the precision specified separately. For example to set the time in nanoseconds, use the following two keys in the JSON request.
 
 ```
-"timestamp": 1422568543702900257,
+"time": 1422568543702900257,
 "precision": "n"
 ```
 
 `n`, `u`, `ms`, `s`, `m`, and `h` are all supported and represent nanoseconds, microseconds, milliseconds, seconds, minutes, and hours, respectively. If no precision is specified, seconds is assumed.
 
 ### Response
-Once InfluxDB has accepted this data and safely persisted it to disk, it responds with `HTTP 200 OK`.
+Once a quorum of Brokers has acknowledged the write, the Data node that initially received the write responds with `HTTP 200 OK`.
 
 #### Errors
-If an error was encountered while processing the data, InfluxDB will respond with either a `HTTP 400 Bad Request` or `HTTP 500 Internal Error`. In many cases, a JSON response is still sent in the body of the response with additional error information that is useful for debugging.
+If an error was encountered while processing the data, InfluxDB will respond with either a `HTTP 400 Bad Request` or, in certain cases, with `HTTP 200 OK`. The former is returned if the request could not be understood. In the latter, InfluxDB could understand the request, but processing cannot be completed. In this case a JSON response is included in the body of the response with additional error information.
 
 For example, issuing a bad query such as:
 
@@ -126,7 +128,7 @@ will result in `HTTP 400 Bad Request` with the the following JSON in the body of
 The HTTP API is also the primary means for querying data contained within InfluxDB. To perform a query send a `GET` to the endpoint `/query`, set the URL parameter `db` as the target database, and set the URL parameter `q` as your query. An example query, sent to a locally-running InfluxDB server, is shown below.
 
 ```
-curl -G 'http://localhost:8086/query' --data-urlencode "db=mydb" --data-urlencode "q=SELECT value FROM cpu_load_short WHERE region=us-west"
+curl -G 'http://localhost:8086/query' --data-urlencode "db=mydb" --data-urlencode "q=SELECT value FROM cpu_load_short WHERE region='us-west'"
 ```
 
 Which returns:
@@ -143,7 +145,7 @@ Which returns:
                         "region": "us-west"
                     },
                     "columns": [
-                        "timestamp",
+                        "time",
                         "value"
                     ],
                     "values": [

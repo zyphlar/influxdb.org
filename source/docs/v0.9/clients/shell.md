@@ -80,7 +80,7 @@ and use those credentials when querying the database.
 
 ### settings
 
-Settings will output your the current state of the shell.
+Settings will output the current state of the shell.
 
 ```sh
 > settings

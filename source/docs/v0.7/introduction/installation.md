@@ -38,11 +38,11 @@ Debian users can install by downloading the package and installing it like this:
 
 ```bash
 # for 64-bit systems
-wget http://s3.amazonaws.com/influxdb/influxdb_latest_amd64.deb
+wget https://s3.amazonaws.com/influxdb/influxdb_latest_amd64.deb
 sudo dpkg -i influxdb_latest_amd64.deb
 
 # for 32-bit systems
-wget http://s3.amazonaws.com/influxdb/influxdb_latest_i386.deb
+wget https://s3.amazonaws.com/influxdb/influxdb_latest_i386.deb
 sudo dpkg -i influxdb_latest_i386.deb
 ```
 
@@ -57,11 +57,11 @@ RedHat and CentOS users can install by downloading and installing the rpm like t
 
 ```bash
 # for 64-bit systems
-wget http://s3.amazonaws.com/influxdb/influxdb-latest-1.x86_64.rpm
+wget https://s3.amazonaws.com/influxdb/influxdb-latest-1.x86_64.rpm
 sudo rpm -ivh influxdb-latest-1.x86_64.rpm
 
 # for 32-bit systems
-wget http://s3.amazonaws.com/influxdb/influxdb-latest-1.i686.rpm
+wget https://s3.amazonaws.com/influxdb/influxdb-latest-1.i686.rpm
 sudo rpm -ivh influxdb-latest-1.i686.rpm
 ```
 

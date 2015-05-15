@@ -43,7 +43,7 @@ In this example the first part is the measurement name `cpu`, followed by the ta
       "fields": {
         "value": 25.1
       }
-    },
+    }
   ]
 }
 ```
@@ -187,7 +187,7 @@ In this RC you can only operate clusters where the replication factor on the ret
 
 ### Pure Go Implementation
 
-InfluxDB v0.9.0 is written entirely in Go. There are no longer any C or C++ based buid dependencies. This means it should be trivial to build the project for any platform that Go supports. Windows and ARM users rejoice! We're not yet putting out builds for these, but if anyone is interested in helping out we'd gladly make them available if you want to build them.
+InfluxDB v0.9.0 is written entirely in Go. There are no longer any C or C++ based build dependencies. This means it should be trivial to build the project for any platform that Go supports. Windows and ARM users rejoice! We're not yet putting out builds for these, but if anyone is interested in helping out we'd gladly make them available if you want to build them.
 
 To achieve this goal we've changed the underlying storage engine to [BoltDB](https://github.com/boltdb/bolt), a pure Go COW B+Tree implementation. We also wrote the query language parser in pure Go. We think the result is [code that's easier to understand and update](https://github.com/influxdb/influxdb/tree/master/influxql).
 

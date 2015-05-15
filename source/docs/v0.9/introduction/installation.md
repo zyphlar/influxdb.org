@@ -54,3 +54,10 @@ brew update
 brew install influxdb
 ```
 <a href="getting_started.html"><font size="6"><b>Now get started!</b></font></a>
+
+
+## Generating a configuration file
+InfluxDB packages ship with an example configuration file, which is automatically copied to `/etc/opt/influxdb`. In addition a valid configuration file can be displayed at any time using the command:
+```
+/opt/influxdb/influxd config
+```

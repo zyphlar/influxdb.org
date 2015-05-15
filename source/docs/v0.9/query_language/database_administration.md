@@ -1,21 +1,43 @@
-# Server Administraton
-Full configuration and managament of an InfluxDB system is provided through the query language. This section describes how to manage databases, retention policies, users, and user privileges using the query language.
+# Cluster Administration
+Full configuration and management of an InfluxDB cluster is provided through the query language. This section describes how to manage databases, retention policies, users, and user privileges using the query language.
 
-The primary mechanism for issuing any of the commands listed below is through the HTTP API. For example, the command `CREATE DATABASE mydb` can be executed using `curl` as follows:
+_Note: Only cluster administrators can create and drop databases, and manage users. See the documentation on [Authorization](../authentication_and_authorization.html#cluster-administration-privileges) for more information._
+
+The primary mechanism for issuing any of the commands listed below is through the HTTP API or `influx` command line interface. For example, the command `CREATE DATABASE mydb` can be executed using `curl` as follows:
 
 ```
 curl -G 'http://localhost:8086/query' --data-urlencode "q=CREATE DATABASE mydb"
 ```
+
+and via the `influx` command line interface
+
+```
+influx -username test -password test
+> CREATE DATABASE mydb
+```
+
+### Identifiers
+
+An identifier is any user defined name or key, e.g. `mydb`.  In the query language, identifiers are used to reference databases, retention policies, measurements, and users, as well as tag keys and field keys.
+
+Identifiers may be quoted or unquoted and must follow these rules:
+
+- double quoted identifiers can contain any unicode character other than a new line
+- double quoted identifiers can contain escaped `"` characters (i.e., `\"`)
+- unquoted identifiers must start with an upper or lowercase ASCII character or "_"
+- unquoted identifiers may contain only ASCII letters, decimal digits, and "_"
+
+Throughout this page, identifiers are denoted by a word enclosed in `<>` characters, e.g. `<database>`.  
 
 ## Database Management
 Databases can be created, dropped, and listed. User privileges are also set on a per-database basis.
 
 ### Creating a database
 ```sql
-CREATE DATABASE <name>
+CREATE DATABASE <database>
 ```
 
-The name must only contain alphanumeric characters, dashes, and underscores. No database must already exist with the given name.
+An error is returned if a database with the same name already exists.
 
 _Example_
 
@@ -30,7 +52,7 @@ The response returned is:
 
 ### Deleting a database
 ```sql
-DROP DATABASE <name>
+DROP DATABASE <database>
 ```
 
 _Example_
@@ -89,8 +111,8 @@ When a database is created, a retention policy named "default", with infinite re
 
 ### Create a retention policy
 ```sql
-CREATE RETENTION POLICY <rp-name>
-    ON <db-name>
+CREATE RETENTION POLICY <retentionpolicy>
+    ON <database>
     DURATION <duration>
     REPLICATION <n>
     [DEFAULT]
@@ -112,11 +134,11 @@ The response returned is:
 ```
 Durations such as `1h`, `90m`, `12h`, `7d`, and `4w`, are all supported and mean 1 hour, 90 minutes, 12 hours, 7 day, and 4 weeks, respectively. For infinite retention -- meaning the data will never be deleted -- use `INF` for duration. The minimum retention period is 1 hour.
 
-### Show existing retention polices
+### Show existing retention policies
 To delete a retention policy issue the following command:
 
 ```sql
-SHOW RETENTION POLICIES <db-name>
+SHOW RETENTION POLICIES <database>
 ```
 
 _Example_
@@ -154,8 +176,8 @@ The response returned is:
 To modify a retention policy, issue the following command:
 
 ```sql
-ALTER RETENTION POLICY <rp-name>
-    ON <db-name>
+ALTER RETENTION POLICY <retentionpolicy>
+    ON <database>
     [DURATION <duration>]
     [REPLICATION <n>] [DEFAULT]
 ```
@@ -192,6 +214,18 @@ _Example_
 CREATE USER jdoe WITH PASSWORD 'mypassword'
 ```
 
+### Changing a user's password
+```sql
+SET PASSWORD FOR <username> = '<password>'
+```
+Note that it is required that _password_ be quoted.
+
+_Example_
+
+```sql
+SET PASSWORD FOR jdoe = 'mynewpassword'
+```
+
 ### Showing existing users
 ```sql
 SHOW USERS
@@ -213,10 +247,14 @@ The response returned is:
             "series": [
                 {
                     "columns": [
-                        "user"
+                        "user",
+                        "admin"
                     ],
                     "values": [
-                        "jdoe"
+                        [
+                            "myuser",
+                            true
+                        ]
                     ]
                 }
             ]
@@ -245,6 +283,8 @@ The response returned is:
 
 ## Privilege Control
 In InfluxDB, privileges are controlled on per-database user. Any given user can have `READ`, `WRITE`, or `ALL` access to an individual database. Until a user is granted privileges on a given database, that user has no access to it whatsoever.
+
+A user can also be granted cluster administration privilege, which overrides any per-database privileges.
 
 ### Granting privileges
 
@@ -290,9 +330,28 @@ The response returned is:
 {"results":[{}]}
 ```
 
-### Setting the Cluster Adminstrator
-To grant cluster administration privileges to a user, issue the following command:
+### Granting cluster administration privileges to new users
+```sql
+CREATE <user>
+    WITH PASSWORD <password>
+    WITH ALL PRIVILEGES
+```
 
+_Example_
+
+```sql
+CREATE someuser
+    WITH PASSWORD 'somepassword'
+    WITH ALL PRIVILEGES
+```
+
+The response returned is:
+
+```json
+{"results":[{}]}
+```
+
+### Granting cluster administration privileges to existing users
 ```sql
 GRANT ALL PRIVILEGES TO <user>
 ```
@@ -309,16 +368,56 @@ The response returned is:
 {"results":[{}]}
 ```
 
-To revoke cluster administration privileges, issue this command:
+### Showing cluster administrators
+```sql
+SHOW USERS
+```
+
+_Example_
+
+```bash
+SHOW USERS
+```
+
+The response returned is:
+
+```json
+{
+    "results": [
+        {
+            "series": [
+                {
+                    "columns": [
+                        "user",
+                        "admin"
+                    ],
+                        "values": [
+                        [
+                            "someuser",
+                            true
+                        ],
+                        [
+                            "jdoe",
+                            true
+                        ]
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+
+### Revoke cluster administration privileges
 
 ```sql
-REVOKE ALL PRIVILEGES TO <user>
+REVOKE ALL PRIVILEGES FROM <user>
 ```
 
 _Example_
 
 ```sql
-REVOKE ALL PRIVILEGES TO jdoe
+REVOKE ALL PRIVILEGES FROM jdoe
 ```
 
 The response returned is:
@@ -326,5 +425,3 @@ The response returned is:
 ```json
 {"results":[{}]}
 ```
-
-Only the cluster adminstrator can create and drop databases, and manage users.

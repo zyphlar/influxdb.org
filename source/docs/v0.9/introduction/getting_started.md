@@ -26,7 +26,7 @@ Go ahead and click the "Explore" link to get here:
 
 From this screen you can write some test data. More importantly, you'll be able to issue ad-hoc queries and see basic visualizations. Let's write a little data in to see how things work. Data in InfluxDB is organized by `time series`, which describe a class of measurement, like "cpu_load" or "temperature". Time series have zero to many `points` which contain the data. Points consist of a `timestamp`, at least one `field` (the measurement itself), and zero to many key-value `tags` containing metadata. Conceptually you can think of it like SQL tables, with rows where the primary index is always time. The difference is that with InfluxDB you can have millions of series, you don't have to define schemas up front, and null values aren't stored.
 
-Let's write some data. Here are a couple of examples of things we'd want to write. We'll show the screenshot and what the JSON data looks like right after.
+Let's write some data. Here are a couple of examples of things we'd want to write. We'll show the screenshot and what the JSON data looks like right after. (Note that database, field, and tag names containing any character other than [A-Z,a-z,0-9,_] or starting with one or more digits must be double-quoted.)
 
 ![Storing log lines](/images/docs/log_lines.jpg)
 
@@ -56,7 +56,7 @@ And now let's take a look at how we query for this data. In the `Query` textbox,
 SELECT * FROM cpu_load_short
 ```
 
-Note that the keywords are capitalized for clarity, but keywords are not case-senstive.
+Note that the keywords are capitalized for clarity, but keywords are not case-sensitive.
 
 The JSON response is as follows:
 
