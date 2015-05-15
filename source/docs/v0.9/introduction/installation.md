@@ -16,7 +16,7 @@ Debian users can install by downloading the package and installing it like this:
 ```bash
 # for 64-bit systems
 wget http://get.influxdb.org/influxdb_0.9.0-rc30_amd64.deb
-sudo dpkg -i influxdb_latest_amd64.deb
+sudo dpkg -i influxdb_0.9.0-rc30_amd64.deb
 ```
 
 Then start the daemon by running:
@@ -31,7 +31,7 @@ RedHat and CentOS users can install by downloading and installing the rpm like t
 ```bash
 # for 64-bit systems
 wget http://get.influxdb.org/influxdb-0.9.0_rc30-1.x86_64.rpm
-sudo rpm -ivh influxdb-latest-1.x86_64.rpm
+sudo rpm -ivh influxdb-0.9.0_rc30-1.x86_64.rpm
 ```
 
 Then start the daemon by running:
