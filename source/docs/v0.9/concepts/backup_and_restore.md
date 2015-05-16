@@ -19,7 +19,7 @@ Once you have your snapshot file, you can copy it to another machine and restore
 $ influxd restore -config /path/to/influxdb.conf /path/to/mysnapshot
 ```
 
-This command will remove the broker and data directories listed in the configuration file provided and replace them with the data in the snapshot. Once the restore is complete make sure the newly written files are readable and writeable by the `influxdb`. Once that's ensured you can start the `influxd` server normally.
+This command will remove the broker and data directories listed in the configuration file provided and replace them with the data in the snapshot. Once the restore is complete make sure the newly written files are readable and writeable by the `influxdb` user. Once that's ensured you can start the `influxd` server normally.
 
 
 ## Configuration Options
