@@ -13,13 +13,13 @@ $ influxd backup /tmp/mysnapshot
 
 By default, this can only be run from the data node itself. See configuration options below to snapshot from another machine.
 
-Once you have your snapshot file, you can copy it to another machine and restore it:
+Once you have your snapshot file, you can copy it to another machine and restore it. Be sure to first shut down any running influxd process
 
 ```sh
-$ influxd restore -config influxdb.conf /tmp/mysnapshot
+$ influxd restore -config /path/to/influxdb.conf /path/to/mysnapshot
 ```
 
-This command will remove the broker and data directories listed in the configuration file provided and replace them with the data in the snapshot. Once the restore is complete, you can start the `influxd` server normally.
+This command will remove the broker and data directories listed in the configuration file provided and replace them with the data in the snapshot. Once the restore is complete make sure the newly written files are readable and writeable by the `influxdb` user. Once that's ensured you can start the `influxd` server normally.
 
 
 ## Configuration Options
@@ -28,12 +28,10 @@ A configuration section has been added for the snapshot handler with the followi
 
 ```
 [snapshot]
-bind-address = "127.0.0.1"
-port = 8087
+enabled = true # Enabled by default if not set.
 ```
 
-The bind address restricts snapshot so they can only be run from the local machine.
-
+If set to false InfluxDB will not allow snapshots. Any attempt will return a 404 error. The process must be restarted for configuration changes to take effect.
 
 ## Implementation
 
@@ -52,9 +50,11 @@ For example, if you ran:
 $ influxd backup /tmp/snapshot
 ```
 
-Then you'll see a full snapshot in `/tmp/snapshot`. If you run the same
-command again then an incremental snapshot will be created at
-`/tmp/snapshot.0`. Running it again will create `/tmp/snapshot.1`.
+Then you'll see a full snapshot in `/tmp/snapshot`. If you run the backup
+command again using the identical filename then an incremental snapshot will be created at
+`/tmp/snapshot.0`. Running it again will create `/tmp/snapshot.1`, etc. 
+
+Running the backup command with a new filename will create a new full backup with that filename, not an incremental backup.
 
 
 ## Caveats
