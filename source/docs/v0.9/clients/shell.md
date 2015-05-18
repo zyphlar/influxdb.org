@@ -10,10 +10,13 @@ There are several arguments you can pass into the shell when starting.  You can 
 $ influx --help
 Usage of default:
   -database="": database to connect to the server.
+  -dump=false: dump the contents of the given database to stdout
+  -execute="": Execute command and quit.
+  -format="column": format specifies the format of the server responses:  json, csv, or column
   -host="localhost": influxdb host to connect to
-  -output="column": format specifies the format of the server responses:  json, csv, or column
   -password="": password to connect to the server.  Leaving blank will prompt for password (--password="")
   -port=8086: influxdb port to connect to
+  -pretty=false: turns on pretty print for the json format
   -username="": username to connect to the server.
 ```
 
@@ -23,8 +26,8 @@ Once you have entered the shell, and successfully connecting to an InfluxDB node
 
 ```sh
 $ influx
-InfluxDB shell
 Connected to http://localhost:8086 version 0.9
+InfluxDB shell 0.9
 ```
 
 ### Getting Help
@@ -99,9 +102,35 @@ For a complete reference to the query language, please read the [online document
 
 ```sh
 > show databases
-name    tags    name
-----    ----    ----
-                foo
+name: databases
+---------------
+name
+foo
+```
+
+#### Setting a default database to query from
+
+You can set the `context` of all your queries in the CLI to a specific database with the `use` command.
+This will allow you to not have to specify the database for each query.  They query engine will then default
+to using the default retention policy for that database.
+
+```
+> use foo
+Using database foo
+> show tag keys
+name: cpu
+---------
+tagKey
+
+
+name: names
+-----------
+tagKey
+
+
+name: sensor
+------------
+tagKey
 ```
 
 ### format
@@ -111,9 +140,9 @@ are `column`, `csv`, and `json`.  The default is `column`.
 
 ```sh
 > format csv
-show databases
-name,tags,name
-,,foo
+> show databases
+name,name
+databases,foo
 ```
 
 ### pretty
@@ -122,6 +151,7 @@ Pretty will toggle formatting on the JSON results. This only applies when format
 is set to `json`.
 
 ```sh
+> format json
 > pretty
 Pretty print enabled
 > show databases
@@ -130,6 +160,7 @@ Pretty print enabled
         {
             "series": [
                 {
+                    "name": "databases",
                     "columns": [
                         "name"
                     ],
@@ -152,6 +183,149 @@ Exit will exit the shell
 ```sh
 exit
 ```
+
+### Executing with arguments
+
+The CLI allows you to execute a query via arguments so you can run commands without having to be in interactive mode.
+
+```
+influx -execute="select * from cpu" -database=foo
+name: cpu
+---------
+time                    value
+2015-05-01T00:00:00Z    1.1
+2015-05-01T08:00:00Z    1.2
+2015-05-01T16:00:00Z    1.3
+2015-05-02T00:00:00Z    2.1
+2015-05-02T08:00:00Z    2.2
+2015-05-02T16:00:00Z    2.3
+2015-05-03T00:00:00Z    3.1
+2015-05-03T08:00:00Z    3.2
+2015-05-03T16:00:00Z    3.3
+2015-05-04T00:00:00Z    4.1
+2015-05-04T08:00:00Z    4.2
+2015-05-04T16:00:00Z    4.3
+```
+
+You can combine this with other arguments such as `-format` as well to get different outputs:
+
+```
+$ influx -execute="select * from cpu" -database=foo -format=csv
+name,time,value
+cpu,2015-05-01T00:00:00Z,1.1
+cpu,2015-05-01T08:00:00Z,1.2
+cpu,2015-05-01T16:00:00Z,1.3
+cpu,2015-05-02T00:00:00Z,2.1
+cpu,2015-05-02T08:00:00Z,2.2
+cpu,2015-05-02T16:00:00Z,2.3
+cpu,2015-05-03T00:00:00Z,3.1
+cpu,2015-05-03T08:00:00Z,3.2
+cpu,2015-05-03T16:00:00Z,3.3
+cpu,2015-05-04T00:00:00Z,4.1
+cpu,2015-05-04T08:00:00Z,4.2
+cpu,2015-05-04T16:00:00Z,4.3
+```
+
+```
+$ influx -execute="select * from cpu" -database=foo -format=json
+{"results":[{"series":[{"name":"cpu","columns":["time","value"],"values":[["2015-05-01T00:00:00Z",1.1],["2015-05-01T08:00:00Z",1.2],["2015-05-01T16:00:00Z",1.3],["2015-05-02T00:00:00Z",2.1],["2015-05-02T08:00:00Z",2.2],["2015-05-02T16:00:00Z",2.3],["2015-05-03T00:00:00Z",3.1],["2015-05-03T08:00:00Z",3.2],["2015-05-03T16:00:00Z",3.3],["2015-05-04T00:00:00Z",4.1],["2015-05-04T08:00:00Z",4.2],["2015-05-04T16:00:00Z",4.3]]}]}]}
+```
+
+```
+$ influx -execute="select * from cpu" -database=foo -format=json -pretty=true
+{
+    "results": [
+        {
+            "series": [
+                {
+                    "name": "cpu",
+                    "columns": [
+                        "time",
+                        "value"
+                    ],
+                    "values": [
+                        [
+                            "2015-05-01T00:00:00Z",
+                            1.1
+                        ],
+                        [
+                            "2015-05-01T08:00:00Z",
+                            1.2
+                        ],
+                        [
+                            "2015-05-01T16:00:00Z",
+                            1.3
+                        ],
+                        [
+                            "2015-05-02T00:00:00Z",
+                            2.1
+                        ],
+                        [
+                            "2015-05-02T08:00:00Z",
+                            2.2
+                        ],
+                        [
+                            "2015-05-02T16:00:00Z",
+                            2.3
+                        ],
+                        [
+                            "2015-05-03T00:00:00Z",
+                            3.1
+                        ],
+                        [
+                            "2015-05-03T08:00:00Z",
+                            3.2
+                        ],
+                        [
+                            "2015-05-03T16:00:00Z",
+                            3.3
+                        ],
+                        [
+                            "2015-05-04T00:00:00Z",
+                            4.1
+                        ],
+                        [
+                            "2015-05-04T08:00:00Z",
+                            4.2
+                        ],
+                        [
+                            "2015-05-04T16:00:00Z",
+                            4.3
+                        ]
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+
+### Dumping the database
+
+The CLI allows for you to dump your existing database to the same JSON that the [HTTP API endpoint can write to data](http://influxdb.com/docs/v0.9/concepts/reading_and_writing_data.html).
+
+```
+$ influx -dump=true -database=foo
+{"database":"foo","retentionPolicy":"default","points":[{"name":"cpu","time":"2015-05-01T00:00:00Z","tags":{},"fields":{"value":1.1}}]}
+{"database":"foo","retentionPolicy":"default","points":[{"name":"cpu","time":"2015-05-01T08:00:00Z","tags":{},"fields":{"value":1.2}}]}
+{"database":"foo","retentionPolicy":"default","points":[{"name":"cpu","time":"2015-05-01T16:00:00Z","tags":{},"fields":{"value":1.3}}]}
+{"database":"foo","retentionPolicy":"default","points":[{"name":"cpu","time":"2015-05-02T00:00:00Z","tags":{},"fields":{"value":2.1}}]}
+{"database":"foo","retentionPolicy":"default","points":[{"name":"cpu","time":"2015-05-02T08:00:00Z","tags":{},"fields":{"value":2.2}}]}
+{"database":"foo","retentionPolicy":"default","points":[{"name":"cpu","time":"2015-05-02T16:00:00Z","tags":{},"fields":{"value":2.3}}]}
+{"database":"foo","retentionPolicy":"default","points":[{"name":"cpu","time":"2015-05-03T00:00:00Z","tags":{},"fields":{"value":3.1}}]}
+{"database":"foo","retentionPolicy":"default","points":[{"name":"cpu","time":"2015-05-03T08:00:00Z","tags":{},"fields":{"value":3.2}}]}
+{"database":"foo","retentionPolicy":"default","points":[{"name":"cpu","time":"2015-05-03T16:00:00Z","tags":{},"fields":{"value":3.3}}]}
+{"database":"foo","retentionPolicy":"default","points":[{"name":"cpu","time":"2015-05-04T00:00:00Z","tags":{},"fields":{"value":4.1}}]}
+{"database":"foo","retentionPolicy":"default","points":[{"name":"cpu","time":"2015-05-04T08:00:00Z","tags":{},"fields":{"value":4.2}}]}
+{"database":"foo","retentionPolicy":"default","points":[{"name":"cpu","time":"2015-05-04T16:00:00Z","tags":{},"fields":{"value":4.3}}]}
+{"database":"foo","retentionPolicy":"default","points":[{"name":"names","time":"2015-05-01T00:00:00Z","tags":{},"fields":{"first":"suzie","last":"smith"}}]}
+{"database":"foo","retentionPolicy":"default","points":[{"name":"names","time":"2015-05-01T08:00:00Z","tags":{},"fields":{"first":"frank","last":"smith"}}]}
+{"database":"foo","retentionPolicy":"default","points":[{"name":"names","time":"2015-05-01T16:00:00Z","tags":{},"fields":{"first":"jonny","last":"jones"}}]}
+{"database":"foo","retentionPolicy":"default","points":[{"name":"sensor","time":"2015-05-01T00:00:00Z","tags":{},"fields":{"off":false,"on":true}}]}
+{"database":"foo","retentionPolicy":"default","points":[{"name":"sensor","time":"2015-05-01T08:00:00Z","tags":{},"fields":{"off":true,"on":false}}]}
+{"database":"foo","retentionPolicy":"default","points":[{"name":"sensor","time":"2015-05-01T16:00:00Z","tags":{},"fields":{"off":false,"on":true}}]}
+```
+
 
 ### Command History
 
