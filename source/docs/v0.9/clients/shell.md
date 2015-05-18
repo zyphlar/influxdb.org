@@ -268,7 +268,7 @@ $ influx -execute="select * from cpu" -database=foo -format=json -pretty=true
 
 ### Dumping the database
 
-The CLI allows for you to dump your existing database to the same JSON that the [HTTP API endpoint can write to data](http://influxdb.com/docs/v0.9/concepts/reading_and_writing_data.html).
+The CLI allows you to dump your existing database to a JSON file that is valid for writing into InfluxDB via the [HTTP API endpoint](http://influxdb.com/docs/v0.9/concepts/reading_and_writing_data.html).
 
 ```
 $ influx -dump=true -database=foo
