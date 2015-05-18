@@ -196,15 +196,6 @@ time                    value
 2015-05-01T00:00:00Z    1.1
 2015-05-01T08:00:00Z    1.2
 2015-05-01T16:00:00Z    1.3
-2015-05-02T00:00:00Z    2.1
-2015-05-02T08:00:00Z    2.2
-2015-05-02T16:00:00Z    2.3
-2015-05-03T00:00:00Z    3.1
-2015-05-03T08:00:00Z    3.2
-2015-05-03T16:00:00Z    3.3
-2015-05-04T00:00:00Z    4.1
-2015-05-04T08:00:00Z    4.2
-2015-05-04T16:00:00Z    4.3
 ```
 
 You can combine this with other arguments such as `-format` as well to get different outputs:
@@ -215,15 +206,6 @@ name,time,value
 cpu,2015-05-01T00:00:00Z,1.1
 cpu,2015-05-01T08:00:00Z,1.2
 cpu,2015-05-01T16:00:00Z,1.3
-cpu,2015-05-02T00:00:00Z,2.1
-cpu,2015-05-02T08:00:00Z,2.2
-cpu,2015-05-02T16:00:00Z,2.3
-cpu,2015-05-03T00:00:00Z,3.1
-cpu,2015-05-03T08:00:00Z,3.2
-cpu,2015-05-03T16:00:00Z,3.3
-cpu,2015-05-04T00:00:00Z,4.1
-cpu,2015-05-04T08:00:00Z,4.2
-cpu,2015-05-04T16:00:00Z,4.3
 ```
 
 ```
@@ -255,42 +237,6 @@ $ influx -execute="select * from cpu" -database=foo -format=json -pretty=true
                         [
                             "2015-05-01T16:00:00Z",
                             1.3
-                        ],
-                        [
-                            "2015-05-02T00:00:00Z",
-                            2.1
-                        ],
-                        [
-                            "2015-05-02T08:00:00Z",
-                            2.2
-                        ],
-                        [
-                            "2015-05-02T16:00:00Z",
-                            2.3
-                        ],
-                        [
-                            "2015-05-03T00:00:00Z",
-                            3.1
-                        ],
-                        [
-                            "2015-05-03T08:00:00Z",
-                            3.2
-                        ],
-                        [
-                            "2015-05-03T16:00:00Z",
-                            3.3
-                        ],
-                        [
-                            "2015-05-04T00:00:00Z",
-                            4.1
-                        ],
-                        [
-                            "2015-05-04T08:00:00Z",
-                            4.2
-                        ],
-                        [
-                            "2015-05-04T16:00:00Z",
-                            4.3
                         ]
                     ]
                 }
@@ -309,21 +255,6 @@ $ influx -dump=true -database=foo
 {"database":"foo","retentionPolicy":"default","points":[{"name":"cpu","time":"2015-05-01T00:00:00Z","tags":{},"fields":{"value":1.1}}]}
 {"database":"foo","retentionPolicy":"default","points":[{"name":"cpu","time":"2015-05-01T08:00:00Z","tags":{},"fields":{"value":1.2}}]}
 {"database":"foo","retentionPolicy":"default","points":[{"name":"cpu","time":"2015-05-01T16:00:00Z","tags":{},"fields":{"value":1.3}}]}
-{"database":"foo","retentionPolicy":"default","points":[{"name":"cpu","time":"2015-05-02T00:00:00Z","tags":{},"fields":{"value":2.1}}]}
-{"database":"foo","retentionPolicy":"default","points":[{"name":"cpu","time":"2015-05-02T08:00:00Z","tags":{},"fields":{"value":2.2}}]}
-{"database":"foo","retentionPolicy":"default","points":[{"name":"cpu","time":"2015-05-02T16:00:00Z","tags":{},"fields":{"value":2.3}}]}
-{"database":"foo","retentionPolicy":"default","points":[{"name":"cpu","time":"2015-05-03T00:00:00Z","tags":{},"fields":{"value":3.1}}]}
-{"database":"foo","retentionPolicy":"default","points":[{"name":"cpu","time":"2015-05-03T08:00:00Z","tags":{},"fields":{"value":3.2}}]}
-{"database":"foo","retentionPolicy":"default","points":[{"name":"cpu","time":"2015-05-03T16:00:00Z","tags":{},"fields":{"value":3.3}}]}
-{"database":"foo","retentionPolicy":"default","points":[{"name":"cpu","time":"2015-05-04T00:00:00Z","tags":{},"fields":{"value":4.1}}]}
-{"database":"foo","retentionPolicy":"default","points":[{"name":"cpu","time":"2015-05-04T08:00:00Z","tags":{},"fields":{"value":4.2}}]}
-{"database":"foo","retentionPolicy":"default","points":[{"name":"cpu","time":"2015-05-04T16:00:00Z","tags":{},"fields":{"value":4.3}}]}
-{"database":"foo","retentionPolicy":"default","points":[{"name":"names","time":"2015-05-01T00:00:00Z","tags":{},"fields":{"first":"suzie","last":"smith"}}]}
-{"database":"foo","retentionPolicy":"default","points":[{"name":"names","time":"2015-05-01T08:00:00Z","tags":{},"fields":{"first":"frank","last":"smith"}}]}
-{"database":"foo","retentionPolicy":"default","points":[{"name":"names","time":"2015-05-01T16:00:00Z","tags":{},"fields":{"first":"jonny","last":"jones"}}]}
-{"database":"foo","retentionPolicy":"default","points":[{"name":"sensor","time":"2015-05-01T00:00:00Z","tags":{},"fields":{"off":false,"on":true}}]}
-{"database":"foo","retentionPolicy":"default","points":[{"name":"sensor","time":"2015-05-01T08:00:00Z","tags":{},"fields":{"off":true,"on":false}}]}
-{"database":"foo","retentionPolicy":"default","points":[{"name":"sensor","time":"2015-05-01T16:00:00Z","tags":{},"fields":{"off":false,"on":true}}]}
 ```
 
 
