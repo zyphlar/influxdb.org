@@ -8,16 +8,36 @@ There are several arguments you can pass into the shell when starting.  You can 
 
 ```sh
 $ influx --help
-Usage of default:
-  -database="": database to connect to the server.
-  -dump=false: dump the contents of the given database to stdout
-  -execute="": Execute command and quit.
-  -format="column": format specifies the format of the server responses:  json, csv, or column
-  -host="localhost": influxdb host to connect to
-  -password="": password to connect to the server.  Leaving blank will prompt for password (--password="")
-  -port=8086: influxdb port to connect to
-  -pretty=false: turns on pretty print for the json format
-  -username="": username to connect to the server.
+Usage of influx:
+  -host 'host name'
+       Host to connect to.
+  -port
+       Port to connect to.
+  -database 'database name'
+       Database to connect to the server.
+  -password 'password'
+             Password to connect to the server.  Leaving blank will prompt for password (--password '')
+  -username 'username'
+       Username to connect to the server.
+  -dump
+       Dump the contents of the given database to stdout.
+  -execute 'command'
+       Execute command and quit.
+  -format 'json|csv|column'
+       Format specifies the format of the server responses:  json, csv, or column.
+  -pretty 'true|false'
+       Turns on pretty print for the json format.
+
+Examples:
+
+        # Use influx in a non-interactive mode to query the database "metrics" and pretty print json
+        $ influx -database="metrics" -execute="select * from cpu" -format="json" -pretty="true"
+
+        # Dumping out your data
+        $ influx -dump=true -database="metrics"
+
+        # Connect to a specific database on startup and set database context
+        $ influx -database="metrics" -host="localhost" -port="8086
 ```
 
 ## Shell Commands
