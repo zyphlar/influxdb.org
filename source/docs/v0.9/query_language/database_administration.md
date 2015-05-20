@@ -332,7 +332,7 @@ The response returned is:
 
 ### Granting cluster administration privileges to new users
 ```sql
-CREATE <user>
+CREATE USER <user>
     WITH PASSWORD <password>
     WITH ALL PRIVILEGES
 ```
@@ -340,7 +340,7 @@ CREATE <user>
 _Example_
 
 ```sql
-CREATE someuser
+CREATE USER someuser
     WITH PASSWORD 'somepassword'
     WITH ALL PRIVILEGES
 ```
