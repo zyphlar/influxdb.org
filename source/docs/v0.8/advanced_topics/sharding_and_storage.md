@@ -115,7 +115,7 @@ As of version 0.8.2 you can update shard space definitions. However, it's import
 
 So be very careful when using this feature. If you don't fully understand shard spaces and how things work, it's best to avoid this one.
 
-The API endpoint is: `/cluster/shard_spaces/:db/:name`. Where :db is the database name and :name is the shard space name. You can post JSON that looks like this:
+The API endpoint is: `/cluster/shard_spaces/:db/:name`. Where :db is the database name and :name is the shard space name. You can post JSON in the below format; do not omit any properties or new shard creation may fail.
 
 ```json
 {
